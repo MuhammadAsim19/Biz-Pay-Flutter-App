@@ -9,3 +9,4 @@ export 'package:buysellbiz/Data/DataSource/Resources/assets.dart';
 export 'package:cached_network_image/cached_network_image.dart';
 export 'package:buysellbiz/Presentation/Common/image_widgets.dart';
 export 'package:buysellbiz/Presentation/Widgets/Dashboard/BottomNavigation/bottom_navigation.dart';
+import 'package:buysellbiz/Data/DataSource/Resources/strings.dart';

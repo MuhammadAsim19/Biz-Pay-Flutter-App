@@ -20,7 +20,6 @@ class BottomNavigationScreen extends StatelessWidget {
         backgroundColor: AppColors.primaryColor,
         onPressed: (){
           //code to execute on button press
-
           Navigate.to(context, const AddBusiness());
         },
         child: const Icon(Icons.add), //icon inside button
@@ -43,11 +42,8 @@ class BottomNavigationScreen extends StatelessWidget {
             HomeScreen(),
             SavedListing(),
             ChatScreen(),
-            ProfileScreen()
-
-
+            ProfileScreen(),
           ],
-
         ),
 
 
@@ -70,8 +66,7 @@ bottomNavigationBar:
                 mainAxisSize: MainAxisSize.min,
                 children: [
                 SvgPicture.asset(Assets.home,color: state==0?AppColors.primaryColor:null,),
-                AppText("Home", style: Styles.circularStdRegular(context,color: state==0?AppColors.primaryColor:AppColors.blackColor,fontSize: 12))
-
+                AppText("Home", style: Styles.circularStdRegular(context,color: state==0?AppColors.primaryColor:AppColors.blackColor,fontSize: 12)),
               ],) ,
 10.x,
               ///Saved

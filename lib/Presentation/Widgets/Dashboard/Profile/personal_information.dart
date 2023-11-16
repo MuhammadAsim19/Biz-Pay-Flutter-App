@@ -1,20 +1,29 @@
-import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/strings.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_list_tile.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/personal_information.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+class PersonalInformation extends StatelessWidget {
+  const PersonalInformation({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+   
+
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
+          
           children: [
+            // Spacer(), 
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SvgPicture.asset(Assets.arrowleft), 
+                Center(child: AppText(AppStrings.personalinfo, style: Styles.circularStdMedium(context, fontSize: 18.sp))), 
+            ],),
             SizedBox(
               height: 40.h,
             ),
@@ -25,19 +34,14 @@ class ProfileScreen extends StatelessWidget {
               style: Styles.circularStdBold(context, fontSize: 20.sp),
             ),
             SizedBox(height: 20.h),
-             Column(
+            const Column(
               children: [
-                GestureDetector(
-                  onTap: (){
-                    Navigate.to(context, const PersonalInformation());
-                  },
-                  child: const CustomListTile(
-                    title: AppStrings.personalinfo,
-                    leadingicon: Assets.profile,
-                    trailing: Assets.down,
-                  ),
+                CustomListTile(
+                  title: AppStrings.personalinfo,
+                  leadingicon: Assets.profile,
+                  trailing: Assets.down,
                 ),
-                const CustomListTile(
+                CustomListTile(
                   title: AppStrings.Changepass,
                   leadingicon: Assets.unlock,
                   trailing: Assets.down,

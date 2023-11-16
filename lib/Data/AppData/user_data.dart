@@ -4,5 +4,4 @@ mixin UserData {
 
   String get user => _user;
 
-
 }
