@@ -66,40 +66,92 @@ bottomNavigationBar:
             children: <Widget>[
               //5.x,
 ///Home
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                SvgPicture.asset(Assets.home,color: state==0?AppColors.primaryColor:null,),
-                AppText("Home", style: Styles.circularStdRegular(context,color: state==0?AppColors.primaryColor:AppColors.blackColor,fontSize: 12))
+              GestureDetector(
+                onTap: ()
+                {
+                  if(state != 0) {
+                    pageController.jumpToPage(0);
+                BottomNotifier.bottomNavigationNotifier.value=0;
 
-              ],) ,
+                  }
+
+
+
+                },
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                  SvgPicture.asset(state==0?Assets.homeFilled:Assets.home,),
+                  AppText("Home", style: Styles.circularStdRegular(context,color: state==0?AppColors.primaryColor:AppColors.blackColor,fontSize: 12))
+
+                ],),
+              ) ,
 10.x,
               ///Saved
-              Column(
-                mainAxisSize: MainAxisSize.min,children: [
-                SvgPicture.asset(state==1?Assets.heartBlue:Assets.heartLight),
-                AppText("Saved", style: Styles.circularStdRegular(context,color: state==1?AppColors.primaryColor:AppColors.blackColor,fontSize: 12))
+              GestureDetector(
+                onTap: ()
+                {
+                  if(state != 1) {
+                    pageController.jumpToPage(1);
+                    BottomNotifier.bottomNavigationNotifier.value=1;
 
-              ],),
+                  }
+
+
+
+                },
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,children: [
+                  SvgPicture.asset(state==1?Assets.heartBlue:Assets.heartLight),
+                  AppText("Saved", style: Styles.circularStdRegular(context,color: state==1?AppColors.primaryColor:AppColors.blackColor,fontSize: 12))
+
+                ],),
+              ),
               50.x,
               ///Chat
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                SvgPicture.asset(state==2?Assets.chatBlue:Assets.chatLight),
-                AppText("Chat", style: Styles.circularStdRegular(context,color: state==2?AppColors.primaryColor:AppColors.blackColor,fontSize: 12))
+              GestureDetector(
+                onTap: ()
+                {
+                  if(state != 2) {
+                    pageController.jumpToPage(2);
+                    BottomNotifier.bottomNavigationNotifier.value=2;
 
-              ],),
+                  }
+
+
+
+                },
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                  SvgPicture.asset(state==2?Assets.chatBlue:Assets.chatLight),
+                  AppText("Chat", style: Styles.circularStdRegular(context,color: state==2?AppColors.primaryColor:AppColors.blackColor,fontSize: 12))
+
+                ],),
+              ),
               10.x,
 
               ///Profile
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                SvgPicture.asset(Assets.profile,color: state==3?AppColors.primaryColor:null,),
-                AppText("Profile", style: Styles.circularStdRegular(context,color: state==3?AppColors.primaryColor:AppColors.blackColor,fontSize: 12))
+              GestureDetector(
+                onTap: ()
+                {
+                  if(state != 3) {
+                    pageController.jumpToPage(3);
+                    BottomNotifier.bottomNavigationNotifier.value=3;
 
-              ],)
+                  }
+
+
+
+                },
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                  SvgPicture.asset(state==3?Assets.profileFilled:Assets.profile ),
+                  AppText("Profile", style: Styles.circularStdRegular(context,color: state==3?AppColors.primaryColor:AppColors.blackColor,fontSize: 12))
+
+                ],),
+              )
 
             ],
 

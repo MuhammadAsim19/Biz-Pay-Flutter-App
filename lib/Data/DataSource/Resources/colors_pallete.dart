@@ -10,7 +10,7 @@ class AppColors{
   static const Color lightGraphColor=Color(0xffB4C7E1);
   static const Color lightInvoiceColor=Color(0xffF6F8F8);
 static const Color greyLightColor=Color(0xff8C8C8C);
-  static var lightGreyColor = Colors.grey.shade400;
+  static const Color lightGreyColor = Color(0xFF5E6165);
 
   static const Color whiteColor=Colors.white;
 

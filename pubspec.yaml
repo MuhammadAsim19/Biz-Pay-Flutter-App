@@ -57,6 +57,7 @@ dependencies:
   #bottom_picker: ^2.0.4
   flutter_linear_datepicker: ^2.0.5
   pdf: ^3.8.4
+  flutter_rating_bar: ^4.0.1
   flutter_downloader: ^1.8.0+1
   permission_handler: ^10.2.0
   path_provider: ^2.0.11

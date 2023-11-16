@@ -142,4 +142,6 @@ class WidgetFunctions {
         barrierDismissible: clickOutSideClose,
         builder: (BuildContext context) => _dialog);
   }
+
+
 }

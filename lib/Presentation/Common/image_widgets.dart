@@ -27,6 +27,7 @@ class AssetImageWidget extends StatelessWidget {
         ?
     CircleAvatar(
         radius: radius,
+        backgroundColor: color,
         backgroundImage:  AssetImage(url)
 
 
@@ -41,6 +42,7 @@ class AssetImageWidget extends StatelessWidget {
               ?
           CircleAvatar(
               radius: radius,
+
               backgroundImage: const AssetImage(Assets.appLogo)
 
 
