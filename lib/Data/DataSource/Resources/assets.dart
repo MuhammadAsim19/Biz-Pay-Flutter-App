@@ -27,11 +27,15 @@ static const String wholeSaleDistributorIcon='assets/images/Whole Sale & Distrib
 static const String travelIcon='assets/images/Travel.svg';
 static const String moreIcon='assets/images/moreIcon.svg';
 static const String heartRed='assets/images/HeartRed.svg';
-
+static const String arrowBackIcon='assets/images/arrow_back.svg';
 static const String heartWhiteLight='assets/images/heart_white_light.svg';
 
 
 static const String dummyImage="assets/images/dummyImage.png";
 static const String dummyImage2='assets/images/dummyImage2.png';
+
+  static const String dummyImage3='assets/images/dummyimage3.png';
+  static const String dummyImage4='assets/images/dummyimage4.png';
+  static const String dummyImage5='assets/images/dummyimage5.png';
 
 }

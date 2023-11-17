@@ -33,7 +33,7 @@ class BottomNavigationScreen extends StatelessWidget {
         child: PageView(
           controller: pageController,
           physics:
-               const BouncingScrollPhysics()
+               const NeverScrollableScrollPhysics()
               ,
           onPageChanged: (x) {
             print(x);

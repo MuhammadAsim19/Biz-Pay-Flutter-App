@@ -1,3 +1,4 @@
+import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/strings.dart';
@@ -8,10 +9,13 @@ import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/custom_dropdown.dart';
 import 'package:buysellbiz/Presentation/Common/custom_textfield_with_on_tap.dart';
 import 'package:buysellbiz/Presentation/Common/widget_functions.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Category/all_categories.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/BusinessBroker/Profile/business_profile_widget.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/Category/categories_list.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/for_you_buisiness.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/recently_added.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/recently_view.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/SearchListing/search_listing.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -81,11 +85,52 @@ List<BusinessProductModel>  businessProducts1 =[
 
 ];
 
+
+
 ///to be continued
 List<BusinessBrokerProfile> profileData =[
 
-  BusinessBrokerProfile(),
+  BusinessBrokerProfile(name: "Gabriel Tasse",image: Assets.dummyImage3
+  ,businessCategories: ["Business","Franchises"],rating :5),
+  BusinessBrokerProfile(name: "Gabriel Tasse",image: Assets.dummyImage3
+      ,businessCategories: ["Business","Franchises","Businesss plus","testting"],rating:
+  5),
 
+
+];
+
+List<BusinessProductModel>  businessProductsForYou =[
+  BusinessProductModel(businessImage: Assets.dummyImage4,businessName: 'Famous tutoring franchise',
+      isFav:false,
+      price: 'USD 40K',location: "San Francisco, USA"),
+  BusinessProductModel(businessImage: Assets.dummyImage2,
+      isFav: true,
+      businessName: 'Drop shipping website & E-commerce business',price: 'USD 30K',location: "San Francisco, USA"),
+  BusinessProductModel(businessImage: Assets.dummyImage2,
+      isFav: true,
+      businessName:
+
+      'Drop shipping website & E-commerce business',price: 'USD 20K',location: "San Francisco, USA"),
+  BusinessProductModel(businessImage: Assets.dummyImage2,
+      isFav: false,
+      businessName: 'Drop shipping website & E-commerce business',price: 'USD 10K',location: "San Francisco, USA"),
+
+];
+List<BusinessProductModel>  businessProductsOnline =[
+  BusinessProductModel(businessImage: Assets.dummyImage5,businessName: 'Web design & Digital marketing company',
+      isFav:false,
+      price: 'USD 40K',location: "San Francisco, USA"),
+  BusinessProductModel(businessImage: Assets.dummyImage2,
+      isFav: true,
+      businessName: 'Drop shipping website & E-commerce business',price: 'USD 30K',location: "San Francisco, USA"),
+  BusinessProductModel(businessImage: Assets.dummyImage2,
+      isFav: true,
+      businessName:
+
+      'Drop shipping website & E-commerce business',price: 'USD 20K',location: "San Francisco, USA"),
+  BusinessProductModel(businessImage: Assets.dummyImage2,
+      isFav: false,
+      businessName: 'Drop shipping website & E-commerce business',price: 'USD 10K',location: "San Francisco, USA"),
 
 ];
 class _HomeScreenState extends State<HomeScreen> {
@@ -191,7 +236,11 @@ Expanded(
   if(val.catName?.trim()=="More")
       {
         print(val.catName);
+        Navigate.to(context, AllCategory());
       }
+  else{
+    Navigate.to(context, SearchListing(title: val.catName!));
+  }
   
   },)
   ///recently view
@@ -267,11 +316,35 @@ SizedBox(
       ],),
     ),
 
-BusinessProfileWidget(profileData: profileData, getData: (BusinessBrokerProfile val) {  },)
+Expanded(child: BusinessProfileWidget(profileData: profileData, getData: (BusinessBrokerProfile val) {  },))
 
 
   ],),
-)
+),
+          /// Business For  You
+          19.y,
+          Row(
+            children: [
+              AppText("Business For You", style: Styles.circularStdMedium(context,fontSize: 20)),
+              const Spacer(),
+
+              AppText("View all", style: Styles.circularStdRegular(context,fontSize: 14))
+            ],
+          ),
+          5.y,
+          BusinessForYouWidget(businessProducts: businessProductsForYou, getData: (data){})
+/// online Business
+          ,19.y,
+          Row(
+            children: [
+              AppText("Online Business", style: Styles.circularStdMedium(context,fontSize: 20)),
+              const Spacer(),
+
+              AppText("View all", style: Styles.circularStdRegular(context,fontSize: 14))
+            ],
+          ),
+          5.y,
+          BusinessForYouWidget(businessProducts: businessProductsOnline, getData: (data){})
   
         ],
   

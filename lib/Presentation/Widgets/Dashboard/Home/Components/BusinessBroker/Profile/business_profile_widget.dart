@@ -13,7 +13,11 @@ class BusinessProfileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(itemBuilder: (context,index){
+    return ListView.separated(
+        scrollDirection: Axis.horizontal,
+        shrinkWrap: true,
+
+        itemBuilder: (context,index){
 
       return Container(
         width: 181.w,
@@ -28,12 +32,16 @@ class BusinessProfileWidget extends StatelessWidget {
         child: Column(
 
           children: [
+            5.y,
             AssetImageWidget(url: profileData[index].image.toString(),height: 120.sp,width: 120.sp,),
-AppText('Business Broker', style: Styles.circularStdRegular(context,color: AppColors.lightGreyColor,fontSize: 15.sp)),
+15.y,
+AppText('Business Broker', style: Styles.circularStdRegular(context,color: AppColors.lightGreyColor,fontSize: 12.sp)),
+          5.y,
             AppText( profileData[index].name.toString(), style: Styles.circularStdMedium(context,fontSize: 18.sp)),
+          10.y,
             RatingBar(
               ignoreGestures: true,
-              initialRating: 3,
+              initialRating: profileData[index].rating!.toDouble(),
               itemSize: 20,
               ratingWidget: RatingWidget(
                 full: const Icon(
@@ -53,12 +61,25 @@ AppText('Business Broker', style: Styles.circularStdRegular(context,color: AppCo
               tapOnlyMode: true,
               updateOnDrag: false,
             ),
-Row(children: [
+15.y,
+SingleChildScrollView(
+  scrollDirection: Axis.horizontal,
+  physics: const NeverScrollableScrollPhysics(),
+  child:   Row(children: [
+//5.x,
+    for(int i =0;i<profileData[index].businessCategories!.length;i++)
 
-  for(int i =0;i<profileData[index].businessCategories!.length;i++)
-    ChipWidget(labelText:profileData[index].businessCategories![i] ,)
+      i >1?
+      AppText("+${profileData[index].businessCategories!.length-2} more", style: Styles.circularStdRegular(context,fontSize: 12,color: AppColors.blackColor
+      ))
 
-],)
+          :
+      Align(child: ChipWidget(labelText:profileData[index].businessCategories![i] ,height: 30,style: Styles.circularStdRegular(context,fontSize: 10.sp,color: AppColors.whiteColor),)),
+3.x,
+
+
+  ],),
+)
           ],
 
         ),

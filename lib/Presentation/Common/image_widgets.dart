@@ -54,8 +54,8 @@ class AssetImageWidget extends StatelessWidget {
           );
 
       },
-      width: width! * scale!,
-      height: height! * scale!,
+      width: width==null?null : width! * scale!,
+      height:height==null?null: height! * scale!,
     );
   }
 }

@@ -72,17 +72,38 @@ class WidgetFunctions {
     if (values!.length != titles!.length) {
       throw "The length of values and titles must be same";
     }
-    return SizedBox(
-      width: width ?? 100,
-      child: DropdownButton(
-          borderRadius: const BorderRadius.all(Radius.circular(5)),
+    return Container(
+      width: width ?? 150,
+        //height: 50,
+        padding: EdgeInsets.only(left: 5.sp),
+        decoration: ShapeDecoration(
+          color: const Color(0xFFEEF1F6),
+          shape: RoundedRectangleBorder(
+            side: const BorderSide(width: 1, color: Color(0xFFEEF1F6)),
+            borderRadius: BorderRadius.circular(40),
+          ),
+        ),
+      child: DropdownButtonFormField(
+       // itemHeight: 100,
+        //menuMaxHeight: 100,
+        isExpanded: true,
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
           value: selectedValue,
-          hint: const Text('placeholder'),
+          decoration: const InputDecoration(
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.transparent),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.transparent),
+            ),
+
+          ),
+          hint:  AppText(placeholder, style: Styles.circularStdRegular(context,color: const Color(0xFFB0B0B0)),overflow: TextOverflow.ellipsis,),
           items: [
             for (var i = 0; i < titles.length; i++)
               DropdownMenuItem(
                 value: values[i],
-                child: Text(titles[i]),
+                child: AppText(titles[i], style: Styles.circularStdRegular(context),),
               ),
           ],
           onChanged: onChange),

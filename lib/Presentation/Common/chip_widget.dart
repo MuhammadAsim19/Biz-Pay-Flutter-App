@@ -14,6 +14,7 @@ class ChipWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: height?? 30.sp,
+      width: width,
       child:   Chip(
 
         backgroundColor: AppColors.primaryColor,
