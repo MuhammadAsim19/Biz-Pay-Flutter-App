@@ -2,6 +2,7 @@
 
 
 import 'Data/DataSource/Resources/imports.dart';
+import 'Presentation/Widgets/Onboarding/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
             title: 'BuySellBiz',
             theme: ThemeData(primaryColor: AppColors.primaryColor),
             //home: const LoginScreen(),
-            home:  BottomNavigationScreen(),
+            home:  const SplashScreen(),
             debugShowCheckedModeBanner: false,
           );
         });

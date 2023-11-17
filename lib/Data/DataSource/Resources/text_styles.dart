@@ -71,6 +71,7 @@ class Styles {
       fontSize: (fontSize ?? 14.0.sp) * _textScale(context),
       color: color ?? AppColors.blackColor,
       fontFamily: "CircularStd Medium",
+      fontWeight: FontWeight.w400
     );
   }
 }

@@ -37,7 +37,7 @@ class AssetImageWidget extends StatelessWidget {
       errorBuilder: (context, url, error) {
 
         return
-          isCircle!
+        isCircle == true
               ?
           CircleAvatar(
               radius: radius,
