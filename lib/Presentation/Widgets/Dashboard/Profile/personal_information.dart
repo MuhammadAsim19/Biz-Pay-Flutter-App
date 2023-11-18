@@ -1,106 +1,110 @@
+import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/strings.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
+import 'package:buysellbiz/Presentation/Common/custom_textfield_with_on_tap.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_appbar.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_list_tile.dart';
 
 class PersonalInformation extends StatelessWidget {
-  const PersonalInformation({super.key});
+  TextEditingController firstnamecontroller = TextEditingController();
+  TextEditingController lastnamecontroller = TextEditingController();
+  TextEditingController emailcontroller = TextEditingController();
+  TextEditingController calendarcontroller = TextEditingController();
+  TextEditingController countrycontroller = TextEditingController();
+
+  PersonalInformation({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-   
-
+        appBar: const CustomAppBar(title: AppStrings.personalinfo, ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Column(
-          
-          children: [
-            // Spacer(), 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SvgPicture.asset(Assets.arrowleft), 
-                Center(child: AppText(AppStrings.personalinfo, style: Styles.circularStdMedium(context, fontSize: 18.sp))), 
-            ],),
-            SizedBox(
-              height: 40.h,
-            ),
-            Image.asset(Assets.person),
-            SizedBox(height: 10.h),
-            Text(
-              AppStrings.Gabriel,
-              style: Styles.circularStdBold(context, fontSize: 20.sp),
-            ),
-            SizedBox(height: 20.h),
-            const Column(
-              children: [
-                CustomListTile(
-                  title: AppStrings.personalinfo,
-                  leadingicon: Assets.profile,
-                  trailing: Assets.down,
-                ),
-                CustomListTile(
-                  title: AppStrings.Changepass,
-                  leadingicon: Assets.unlock,
-                  trailing: Assets.down,
-                ),
-                CustomListTile(
-                  title: AppStrings.listyourbis,
-                  leadingicon: Assets.plus,
-                  trailing: Assets.down,
-                ),
-                CustomListTile(
-                  title: AppStrings.referafri,
-                  leadingicon: Assets.share,
-                  trailing: Assets.down,
-                ),
-                CustomListTile(
-                  title: AppStrings.privacypol,
-                  leadingicon: Assets.document,
-                  trailing: Assets.down,
-                ),
-                CustomListTile(
-                  title: AppStrings.termsandcon,
-                  leadingicon: Assets.paper,
-                  trailing: Assets.down,
-                ),
-                CustomListTile(
-                  title: AppStrings.helpandsupp,
-                  leadingicon: Assets.alert,
-                  trailing: Assets.down,
-                ),
-              ],
-
-            ),
-
-            SizedBox(height: 50.h),
-
-            CustomButton(
-              gapWidth: 7.w,
-              imageHeight: 20.h,
-              imageWidth: 20.w, 
-              leadingIcon: Assets.logout,
-              leadingSvgIcon: true,
-              width: 230.w,
-              borderRadius: 40.r,
-              onTap: () {},
-              text: AppStrings.Logout,
-              bgColor: AppColors.whiteColor,
-              textFontWeight: FontWeight.w700,
-              textSize: 16.sp,
-              textColor: AppColors.greyMedium,
-            ),
-
-            SizedBox(
-              height: 20.h,
-            ),
-
-AppText('Version 1.1.02', style: Styles.circularStdRegular(context, fontSize: 12.sp, color: AppColors.greyColor)),
-SizedBox(height: 30.h,),
-          ],
-          
+        physics: BouncingScrollPhysics(),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.sp),
+          child: Column(
+            children: [
+              40.y,
+            
+ 
+              Stack(
+                children: [
+                  const AssetImageWidget(
+                    url: Assets.person,
+                    radius: 60,
+                    isCircle: true,
+                  ),
+                  Positioned(
+                      top: 75.h,
+                      left: 90.w,
+                      child: SvgPicture.asset(Assets.blueElipse)),
+                  Positioned(
+                      top: 85.h,
+                      left: 100.w,
+                      child: SvgPicture.asset(Assets.edit)),
+                ],
+              ),
+              20.y,
+              Column(
+                children: [
+                  CustomTextFieldWithOnTap(
+                      borderRadius: 40.r,
+                      prefixIcon: SvgPicture.asset(Assets.profile),
+                      controller: firstnamecontroller,
+                      hintText: 'Gabriel',
+                      textInputType: TextInputType.name),
+                  CustomTextFieldWithOnTap(
+                      borderRadius: 40.r,
+                      prefixIcon: SvgPicture.asset(Assets.profile),
+                      controller: lastnamecontroller,
+                      hintText: 'Tesse',
+                      textInputType: TextInputType.name),
+                  CustomTextFieldWithOnTap(
+                      suffixIcon: SvgPicture.asset(Assets.blueCheck),
+                      borderRadius: 40.r,
+                      prefixIcon: SvgPicture.asset(Assets.message),
+                      controller: emailcontroller,
+                      hintText: 'gabriel.example@gmail.com',
+                      textInputType: TextInputType.emailAddress),
+                  CustomTextFieldWithOnTap(
+                      borderRadius: 40.r,
+                      prefixIcon: SvgPicture.asset(Assets.calender),
+                      controller: calendarcontroller,
+                      hintText: '22/09/96',
+                      textInputType: TextInputType.datetime),
+                  CustomTextFieldWithOnTap(
+                      suffixIcon: SvgPicture.asset(Assets.arrowDown),
+                      borderRadius: 40.r,
+                      prefixIcon: SvgPicture.asset(Assets.location),
+                      controller: countrycontroller,
+                      hintText: 'Country',
+                      textInputType: TextInputType.name),
+                ],
+              ),
+              50.y,
+              CustomButton(
+                gapWidth: 7.w,
+                imageHeight: 20.h,
+                imageWidth: 20.w,
+                leadingSvgIcon: true,
+                width: 320.w,
+                borderRadius: 40.r,
+                onTap: () {},
+                text: AppStrings.update,
+                bgColor: AppColors.primaryColor,
+                textFontWeight: FontWeight.w700,
+                textSize: 16.sp,
+                textColor: AppColors.whiteColor,
+              ),
+              20.y,
+              AppText('Delete my account',
+                  style: Styles.circularStdMedium(context,
+                      fontSize: 16.sp, color: AppColors.redColor)),
+              30.y,
+            ],
+          ),
         ),
       ),
     );

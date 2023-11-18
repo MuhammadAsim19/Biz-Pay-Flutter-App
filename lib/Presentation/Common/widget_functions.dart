@@ -1,15 +1,11 @@
-
-
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:flutter/cupertino.dart';
 
+
 class WidgetFunctions {
-  WidgetFunctions._private();
-
-  static final instance = WidgetFunctions._private();
-
-  ///Application SnackBar
-  Future<ScaffoldFeatureController<SnackBar, SnackBarClosedReason>> snackBar(
+WidgetFunctions._private();
+static final instance = WidgetFunctions._private();
+Future<ScaffoldFeatureController<SnackBar, SnackBarClosedReason>> snackBar(
       BuildContext context,
       {String? text,
       Color? bgColor,
@@ -32,8 +28,7 @@ class WidgetFunctions {
       BuildContext context, SnackBar snackBar) async {
     return ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
-
-  ///Application Button
+ 
   button(
     BuildContext context, {
     required Widget child,
@@ -42,6 +37,8 @@ class WidgetFunctions {
     required void Function()? onPressed,
     Color? color,
   }) =>
+
+
       Padding(
         padding: EdgeInsets.symmetric(horizontal: hPadding, vertical: vPadding),
         child: CupertinoButton(
@@ -89,10 +86,6 @@ class WidgetFunctions {
     );
   }
 
-  /// PopupMenuItem(
-  /// child: Text("First"),
-  /// value: "first",
-  /// ),
   menu(
       {required List<PopupMenuEntry> items,
       void Function(dynamic)? onSelected,

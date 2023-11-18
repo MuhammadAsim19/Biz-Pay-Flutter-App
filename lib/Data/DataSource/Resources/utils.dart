@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-///Load dummy model data or any static data perform operation here
 class Utils {
+
+static const String Dropshipping = 'Drop shipping website & E-commerece business '; 
 
 }

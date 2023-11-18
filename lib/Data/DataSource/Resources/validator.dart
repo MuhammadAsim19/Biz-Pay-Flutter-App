@@ -1,7 +1,3 @@
-
-
-
-
 import 'package:buysellbiz/Data/DataSource/Resources/strings.dart';
 
 class Validate {

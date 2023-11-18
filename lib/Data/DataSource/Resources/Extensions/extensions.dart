@@ -1,4 +1,3 @@
-
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:intl/intl.dart';
@@ -113,8 +112,8 @@ extension str on String {
     return timeString;
   }
 }
-extension StringExt2 on int {
 
+extension StringExt2 on int {
   // String getMonthName(bool isJalali){
   //   if(isJalali)
   //     return this.jalaliMonthName;

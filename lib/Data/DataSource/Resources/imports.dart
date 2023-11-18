@@ -10,3 +10,5 @@ export 'package:cached_network_image/cached_network_image.dart';
 export 'package:buysellbiz/Presentation/Common/image_widgets.dart';
 export 'package:buysellbiz/Presentation/Widgets/Dashboard/BottomNavigation/bottom_navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/strings.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:share_plus/share_plus.dart';
