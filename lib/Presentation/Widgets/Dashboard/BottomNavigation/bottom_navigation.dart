@@ -2,6 +2,7 @@ import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/add_buisness.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/Controller/add_business_conntroller.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/chat.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/home.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/profile.dart';
@@ -20,7 +21,7 @@ class BottomNavigationScreen extends StatelessWidget {
         backgroundColor: AppColors.primaryColor,
         onPressed: (){
           //code to execute on button press
-
+AddNotifier.addBusinessNotifier.value=0;
           Navigate.to(context, const AddBusiness());
         },
         child: const Icon(Icons.add), //icon inside button
@@ -39,11 +40,11 @@ class BottomNavigationScreen extends StatelessWidget {
             print(x);
             BottomNotifier.bottomNavigationNotifier.value = x;
           },
-          children: const [
-            HomeScreen(),
+          children: [
+            const HomeScreen(),
             SavedListing(),
-            ChatScreen(),
-            ProfileScreen()
+            const ChatScreen(),
+            const ProfileScreen()
 
 
           ],

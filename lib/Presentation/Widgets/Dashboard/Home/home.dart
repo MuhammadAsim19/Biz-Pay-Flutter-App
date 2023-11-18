@@ -230,9 +230,9 @@ Expanded(
           AppText("Categories", style: Styles.circularStdMedium(context,fontSize: 20)),
   10.y,
   CategoryList(categoryData: categoryData, getData: (CategoryDummy val) {
-  
-  
-  
+
+
+
   if(val.catName?.trim()=="More")
       {
         print(val.catName);
@@ -241,7 +241,7 @@ Expanded(
   else{
     Navigate.to(context, SearchListing(title: val.catName!));
   }
-  
+
   },)
   ///recently view
           ///
@@ -251,7 +251,7 @@ Expanded(
   5.y,
   RecentlyViewWidget(businessProducts: businessProducts, getData: (dto)
   {}),
-  
+
           ///Recently Added
           19.y,
           Row(
@@ -278,12 +278,18 @@ Expanded(
           ),
           5.y,
 SizedBox(
-  height: 257.h,
-  child:   Row(children: [
+  height: 257.h, 
+  //width: 1.sw,
+  child: ListView(
+    //mainAxisSize: MainAxisSize.min,
+    physics: const BouncingScrollPhysics(),
+    scrollDirection: Axis.horizontal,
+   // shrinkWrap: true,
+    children: [
 
     Container(
       width: 181.w,
-      //height: 257,
+      height: 257,
       decoration: ShapeDecoration(
         color: AppColors.primaryColor,
         shape: RoundedRectangleBorder(
@@ -312,11 +318,11 @@ SizedBox(
               bgColor: AppColors.whiteColor,textColor: AppColors.primaryColor,borderRadius: 30.sp,),
           ),
           10.y
-        
+
       ],),
     ),
-
-Expanded(child: BusinessProfileWidget(profileData: profileData, getData: (BusinessBrokerProfile val) {  },))
+10.x,
+  BusinessProfileWidget(profileData: profileData, getData: (BusinessBrokerProfile val) {  },)
 
 
   ],),
@@ -345,9 +351,9 @@ Expanded(child: BusinessProfileWidget(profileData: profileData, getData: (Busine
           ),
           5.y,
           BusinessForYouWidget(businessProducts: businessProductsOnline, getData: (data){})
-  
+
         ],
-  
+
       ),
     ),
     ),

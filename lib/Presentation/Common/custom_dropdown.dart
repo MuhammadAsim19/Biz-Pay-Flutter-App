@@ -153,11 +153,16 @@ class CustomDropDownWidget extends StatelessWidget {
 
 class GeneralizedDropDown extends StatefulWidget {
   final List<String> items;
-  final String selectedValue;
+  final String? selectedValue;
   final ValueChanged<String> onChanged;
   final double width;
   final double height;
+  final bool? isBorder;
   final EdgeInsets? padding;
+  final bool? isFit;
+  final TextStyle? style;
+  final Widget? icon;
+  final String? hint;
 
   const GeneralizedDropDown(
       {Key? key,
@@ -165,7 +170,7 @@ class GeneralizedDropDown extends StatefulWidget {
         required this.selectedValue,
         required this.onChanged,
         this.width = 20,
-        this.height = 20, this.padding})
+        this.height = 20, this.padding, this.isBorder, this.isFit, this.style, this.icon, this.hint})
       : super(key: key);
 
   @override
@@ -173,7 +178,7 @@ class GeneralizedDropDown extends StatefulWidget {
 }
 
 class _GeneralizedDropDownState extends State<GeneralizedDropDown> {
-  String _selectedValue = '';
+  String? _selectedValue;
 
   @override
   void initState() {
@@ -186,7 +191,10 @@ class _GeneralizedDropDownState extends State<GeneralizedDropDown> {
     return DropdownButtonFormField<String>(
       value: _selectedValue,
       isExpanded: true,
+      hint:AppText(widget.hint??"",style: Styles.circularStdRegular(context,fontSize: 15),),
       elevation: 0,
+     icon:widget.icon,
+     // icon: ,
       autofocus: false,
       padding: widget.padding,
       onChanged: (value) {
@@ -195,10 +203,24 @@ class _GeneralizedDropDownState extends State<GeneralizedDropDown> {
           widget.onChanged(value);
         });
       },
-    decoration: const InputDecoration(
-    enabledBorder: UnderlineInputBorder(
+    decoration:  InputDecoration(
+    enabledBorder: widget.isBorder!=null?UnderlineInputBorder(
+      borderSide: BorderSide(color: AppColors.lightGreyColor,width: 0.4.sp),
+    ):UnderlineInputBorder(
     borderSide: BorderSide(color: Colors.transparent),
     ),
+      border:  widget.isBorder!=null?UnderlineInputBorder(
+
+        borderRadius: BorderRadius.circular(40),
+        borderSide: BorderSide(color: AppColors.lightGreyColor,width: 0.4.sp),
+      ):UnderlineInputBorder(
+        borderSide: BorderSide(color: Colors.transparent),
+      ),
+      disabledBorder:  widget.isBorder!=null?UnderlineInputBorder(
+        borderSide: BorderSide(color: AppColors.lightGreyColor,width: 0.4.sp),
+      ):const UnderlineInputBorder(
+        borderSide: BorderSide(color: Colors.transparent),
+      ),
       focusedBorder: UnderlineInputBorder(
         borderSide: BorderSide(color: Colors.transparent),
       ),
@@ -207,7 +229,7 @@ class _GeneralizedDropDownState extends State<GeneralizedDropDown> {
       items: widget.items.map((item) {
         return DropdownMenuItem<String>(
           value: item,
-          child: FittedBox(child: AppText(item, style: Styles.circularStdRegular(context,fontSize: 9.sp),)),
+          child: widget.isFit!=null? AppText(item, style: widget.style ?? Styles.circularStdRegular(context,fontSize: 9.sp)): FittedBox(child: AppText(item, style: Styles.circularStdRegular(context,fontSize: 9.sp),)),
         );
       }).toList(),
     );

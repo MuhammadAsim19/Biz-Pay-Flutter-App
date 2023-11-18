@@ -93,6 +93,7 @@ print(Data().textScale);
           Container(
             decoration: BoxDecoration(
               boxShadow: isShadowRequired! ? [AppShadow.normal()] : [],
+              //border:Border.all(color: AppColors.lightGreyColor)
               // borderRadius: BorderRadius.circular(),
             ),
             child: TextFormField(
@@ -179,6 +180,7 @@ print(Data().textScale);
                         borderRadius: BorderRadius.circular(
                           borderRadius ?? 12.r,
                         ),
+                  borderSide: const BorderSide(width: 0.4,color: AppColors.lightGreyColor)
                       )
                     : outlineInputBorder(),
                 focusedBorder: isBorderRequired
@@ -196,7 +198,8 @@ print(Data().textScale);
                         borderRadius: BorderRadius.circular(
                           borderRadius ?? 12.r,
                         ),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
+                          width: 0.3,
                           color: AppColors.lightGreyColor,
                         ),
                       )

@@ -34,8 +34,8 @@ class CategoryList extends StatelessWidget {
 
               ),
               SizedBox(
-                  height: 30,
-                  width:50,
+                  //height: 5,
+                  width:62,
 
                   child: Center(child: AppText(e.catName.toString(), style: Styles.circularStdRegular(context,fontSize: 11.sp),maxLine:3,)))
 

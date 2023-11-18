@@ -16,6 +16,7 @@ class BusinessProfileWidget extends StatelessWidget {
     return ListView.separated(
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
 
         itemBuilder: (context,index){
 

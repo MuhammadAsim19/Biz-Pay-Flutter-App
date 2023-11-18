@@ -2,6 +2,7 @@ import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Common/chip_widget.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Components/chart_revenue.dart';
 
 class BusinessDetails extends StatelessWidget {
   const BusinessDetails({super.key});
@@ -74,6 +75,8 @@ const Icon(Icons.share),
    }, body: Padding(
      padding: const EdgeInsets.symmetric(horizontal: 24),
      child: SingleChildScrollView(
+
+       physics: const BouncingScrollPhysics(),
        child: Column
            (
          crossAxisAlignment: CrossAxisAlignment.start
@@ -189,6 +192,38 @@ const Spacer()
                  ],
                ),
              )
+,
+             10.y,
+             AppText('Documents', style: Styles.circularStdMedium(context,fontSize: 20)),
+
+              Row(
+               children: [
+SvgPicture.asset(Assets.pdfIcon),
+                 10.x,
+                 Column(
+                   crossAxisAlignment:
+                   CrossAxisAlignment.start,
+                   children: [
+                     AppText("business portfolio.pdf", style: Styles.circularStdMedium(context,fontSize: 16.sp)),
+                   AppText("656 kb", style: Styles.circularStdRegular(context,color: AppColors.lightGreyColor))
+                   
+                   ],
+                 ),
+                 
+                 const Spacer(),
+                 
+                 SvgPicture.asset(Assets.downloadIcon)
+                 
+
+               ],
+             ),
+             14.y,
+             AppText('Revenue history', style: Styles.circularStdMedium(context,fontSize: 20)),
+
+             FractionallySizedBox(
+               widthFactor: 1.07,
+               child: VerticalBarChart(),
+             ),
 
            ],
 

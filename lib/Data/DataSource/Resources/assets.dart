@@ -29,10 +29,18 @@ static const String moreIcon='assets/images/moreIcon.svg';
 static const String heartRed='assets/images/HeartRed.svg';
 static const String arrowBackIcon='assets/images/arrow_back.svg';
 static const String heartWhiteLight='assets/images/heart_white_light.svg';
+static const String pdfIcon='assets/images/pdfIcon.svg';
+static const  String downloadIcon='assets/images/Download.svg';
+static const String dropDownIcon='assets/images/DropDownIcon.svg';
 
+  static const String addImageIcon='assets/images/addImage.svg';
+  static const String crossDeleteIcon='assets/images/crossDeleteIcon.svg';
+
+  static const  String tickIcon='assets/images/tickIcon.svg';
 
 static const String dummyImage="assets/images/dummyImage.png";
 static const String dummyImage2='assets/images/dummyImage2.png';
+
 
   static const String dummyImage3='assets/images/dummyimage3.png';
   static const String dummyImage4='assets/images/dummyimage4.png';
