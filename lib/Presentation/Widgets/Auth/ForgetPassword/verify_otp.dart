@@ -2,6 +2,7 @@ import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/Components/pin_code.dart';
+import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/set_password.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/sign_up.dart';
 
 class VerifyOtp extends StatelessWidget {
@@ -24,12 +25,12 @@ class VerifyOtp extends StatelessWidget {
               10.y,
               const BackArrowWidget(),
               20.y,
-              AppText(AppStrings.forgetPasswordSc1,
+              AppText(AppStrings.verifyEmail,
                   style: Styles.circularStdBold(context,
                       fontSize: 20.sp, fontWeight: FontWeight.w500)),
               5.y,
               AppText(
-                AppStrings.forgetPasswordSc2,
+                AppStrings.codeSendToMail,
                 style: Styles.circularStdRegular(context,
                     fontSize: 14.sp, color: AppColors.greyTextColor),
                 maxLine: 2,
@@ -38,7 +39,9 @@ class VerifyOtp extends StatelessWidget {
               const PinCodeExample(),
               const Spacer(),
               CustomButton(
-                onTap: () {},
+                onTap: () {
+                  Navigate.to(context, SetPassword());
+                },
                 text: 'Verify',
                 borderRadius: 25.sp,
               ),

@@ -3,13 +3,12 @@ import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/custom_date_picker.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/Login/login.dart';
-import 'package:country_code_picker/country_code_picker.dart';
 
 import 'Components/country_picker.dart';
 import 'Components/terms_condition_row.dart';
 
 class SignUpScreen extends StatefulWidget {
-  SignUpScreen({super.key});
+  const SignUpScreen({super.key});
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -29,6 +28,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final calender = TextEditingController();
 
   bool checked = false;
+
+  bool onTapField = false;
+
+  // final FocusNode focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +61,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 CustomTextFieldWithOnTap(
                     isBorderRequired: true,
                     contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
-                    prefixIcon: SvgPicture.asset('assets/images/person.svg'),
+                    prefixIcon: SvgPicture.asset(Assets.person),
                     controller: firstName,
                     hintText: AppStrings.firstname,
                     textInputType: TextInputType.text,
@@ -67,7 +70,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 CustomTextFieldWithOnTap(
                     isBorderRequired: true,
                     contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
-                    prefixIcon: SvgPicture.asset('assets/images/person.svg'),
+                    prefixIcon: SvgPicture.asset(Assets.person),
                     controller: lastName,
                     hintText: AppStrings.lastName,
                     textInputType: TextInputType.text,
@@ -76,20 +79,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 CustomTextFieldWithOnTap(
                     isBorderRequired: true,
                     contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
-                    prefixIcon: SvgPicture.asset('assets/images/email.svg'),
+                    prefixIcon: SvgPicture.asset(Assets.email),
                     controller: email,
                     hintText: AppStrings.email,
                     textInputType: TextInputType.text,
                     borderRadius: 25.sp),
                 20.y,
-                CountryPicker(),
+                CountryPicker(
+                  controller: phone, onTapField: onTapField,
+                ),
                 20.y,
                 CustomDatePickerValidateWidget(
                   controller: calender,
                   validator: (p0) {},
                   isBorderRequired: true,
                   hintText: AppStrings.dob,
-                  prefixIcon: SvgPicture.asset('assets/images/calendar.svg'),
+                  prefixIcon: SvgPicture.asset(Assets.calender),
                   contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
                   // prefixIcon: ,
                 ),
@@ -104,8 +109,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 20.y,
                 CustomTextFieldWithOnTap(
                     isBorderRequired: true,
-                    prefixIcon: SvgPicture.asset('assets/images/lock.svg'),
-                    suffixIcon: SvgPicture.asset('assets/images/hide_pass.svg'),
+                    prefixIcon: SvgPicture.asset(Assets.lock),
+                    suffixIcon: SvgPicture.asset(Assets.hidePassword),
                     contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
                     controller: password,
                     hintText: AppStrings.password,
@@ -116,7 +121,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 30.y,
                 CustomButton(
                   onTap: () {},
-                  text: 'Register',
+                  text: AppStrings.register,
                   borderRadius: 25.sp,
                 ),
                 15.y,

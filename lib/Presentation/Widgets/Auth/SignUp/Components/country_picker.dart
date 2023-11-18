@@ -1,19 +1,35 @@
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 
-class CountryPicker extends StatelessWidget {
+class CountryPicker extends StatefulWidget {
+  final TextEditingController controller;
+  bool onTapField;
 
-  final FocusNode? focusNode;
-  final TextEditingController? controller;
+  CountryPicker(
+      {super.key, required this.controller, required this.onTapField});
 
-  CountryPicker({super.key, this.focusNode, this.controller});
+  @override
+  State<CountryPicker> createState() => _CountryPickerState();
+}
 
+class _CountryPickerState extends State<CountryPicker> {
+  FocusNode focusNode = FocusNode();
+
+  @override
+  void initState() {
+    focusNode.unfocus();
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    print(FocusScope
-        .of(context)
-        .hasFocus);
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   if (focusNode
+    //       .hasFocus && widget.controller.text == '') {
+    //     FocusScope.of(context).unfocus();
+    //   }
+    // });
 
     return Container(
       height: 43.h,
@@ -22,9 +38,7 @@ class CountryPicker extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(20.sp),
           border: Border.all(
-              color: FocusScope
-                  .of(context)
-                  .hasFocus
+              color: widget.onTapField
                   ? AppColors.primaryColor
                   : AppColors.greyLightColor)),
       child: Row(
@@ -36,8 +50,8 @@ class CountryPicker extends StatelessWidget {
             hideSearch: true,
             onChanged: print,
             // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-            initialSelection: 'IT',
-            favorite: ['+39', 'FR'],
+            initialSelection: 'US',
+            // favorite: ['+39', 'FR'],
             // optional. Shows only country name and flag
             showCountryOnly: false,
             // optional. Shows only country name and flag when popup is closed.
@@ -45,11 +59,36 @@ class CountryPicker extends StatelessWidget {
             // optional. aligns the flag and the Text left
             alignLeft: false,
           ),
+          Padding(
+            padding: EdgeInsets.only(right: 12.0, top: 8.sp, bottom: 8.sp),
+            child: const VerticalDivider(
+              color: AppColors.greyTextColor,
+            ),
+          ),
           Expanded(
+              flex: 3,
               child: TextFormField(
-                controller: controller,
-                focusNode: focusNode,
+                // validator: (v) {
+                //   if (v!.trim().isEmpty) {
+                //     return 'Phone Required';
+                //   }
+                //   return null;
+                // },
+
+                onTap: () {
+                  widget.onTapField = true;
+                  setState(() {});
+                },
+                onTapOutside: (val) {
+                  widget.onTapField = false;
+
+                  // focusNode.unfocus();
+                  setState(() {});
+                },
+                // focusNode: focusNode,
+                controller: widget.controller,
                 decoration: const InputDecoration(
+                  hintText: 'Phone',
                   border: InputBorder.none,
                 ),
               )),

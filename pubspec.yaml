@@ -78,6 +78,9 @@ dependencies:
   android_path_provider: ^0.3.0
   syncfusion_flutter_pdfviewer: ^22.2.12
   country_code_picker: ^3.0.0
+  dotted_border: ^2.1.0
+  image_picker: ^1.0.4
+  file_picker: ^6.1.1
 
 dev_dependencies:
   flutter_test:

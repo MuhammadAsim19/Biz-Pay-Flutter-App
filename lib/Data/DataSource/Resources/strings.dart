@@ -23,6 +23,27 @@ class AppStrings {
   static String number = 'Phone number';
   static String dob = 'Date of birth';
   static String haveAccount = 'Already have an account?';
+  static String verifyEmail = 'Verify email';
+  static String codeSendToMail =
+      'A 4 digit code sent to aqib.example@gmail.com,\nenter code to continue';
+  static String resetPassword = 'Reset password';
 
+  static String confirmToReset = 'confirm your new password to get started!';
+  static String passwordChanged = 'Password changed';
+  static String serviceOffered = 'Service offered';
+  static String industry = 'Industries serviced';
+  static String experice = 'Experience';
+  static String education = 'Education ';
+  static String certificate = 'Certificate';
+  static String passwordChangedSuccess =
+      'Password has changed successfully, login\nto your account.';
+  static String seerchChat = 'Search Chat';
+  static String ooops = 'Oooops';
+  static String addImage = '';
 
+  static String noInternetConnection =
+      " No internet connection found. Please try\nagain later";
+
+  static String brokerDescription =
+      "Looking to buy or sell a business? Trust our\nexperienced business broker, Gabriel Tasse,\nto help you navigate the complex world of mergers\nand acquisitions. With a track record of successfully closing deals across various industries\nto achieving your business goals.";
 }

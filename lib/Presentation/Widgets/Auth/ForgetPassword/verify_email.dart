@@ -1,6 +1,7 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
+import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/verify_otp.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/sign_up.dart';
 
 class VerifyEmail extends StatelessWidget {
@@ -44,7 +45,9 @@ class VerifyEmail extends StatelessWidget {
                   borderRadius: 25.sp),
               Spacer(),
               CustomButton(
-                onTap: () {},
+                onTap: () {
+                  Navigate.to(context, VerifyOtp());
+                },
                 text: 'Send',
                 borderRadius: 25.sp,
               ),

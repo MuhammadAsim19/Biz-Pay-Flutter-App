@@ -14,7 +14,6 @@ class AppColors {
   static const Color lightBlueColor = Color(0xffF8FAFC);
 
   static const Color greyTextColor = Color(0xff5E6165);
-
   static const Color whiteColor = Color(0xffFFFFFF);
   static const Color facebookColor = Color(0xff1877F2);
 
@@ -22,5 +21,7 @@ class AppColors {
 
   static var redColor = Colors.red;
   static const productTileColor = Color(0x0C4A756E);
-  static const borderColor = Color(0xffEEEEEE);
+  static const borderColor = Color(0xFFEEEEEE);
+
+  static const chatColor = Color(0xffEEF2F6);
 }

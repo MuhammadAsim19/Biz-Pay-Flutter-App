@@ -1,6 +1,3 @@
-
-
-
 import 'Data/DataSource/Resources/imports.dart';
 import 'Presentation/Widgets/Onboarding/splash_screen.dart';
 
@@ -24,12 +21,10 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             title: 'BuySellBiz',
             theme: ThemeData(primaryColor: AppColors.primaryColor),
-            //home: const LoginScreen(),
-            home:  const SplashScreen(),
+            home: const SplashScreen(),
+            // home: const SignUpScreen(),
             debugShowCheckedModeBanner: false,
           );
         });
   }
 }
-
-
