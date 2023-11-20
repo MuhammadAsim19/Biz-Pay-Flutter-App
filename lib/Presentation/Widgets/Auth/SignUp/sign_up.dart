@@ -37,6 +37,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: AppColors.whiteColor,
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 24.sp),
@@ -86,7 +87,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     borderRadius: 25.sp),
                 20.y,
                 CountryPicker(
-                  controller: phone, onTapField: onTapField,
+                  controller: phone,
+                  onTapField: onTapField,
                 ),
                 20.y,
                 CustomDatePickerValidateWidget(

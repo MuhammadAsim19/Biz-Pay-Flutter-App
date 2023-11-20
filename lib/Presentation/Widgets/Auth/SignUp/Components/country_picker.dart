@@ -3,9 +3,10 @@ import 'package:country_code_picker/country_code_picker.dart';
 
 class CountryPicker extends StatefulWidget {
   final TextEditingController controller;
-  bool onTapField;
+  final bool onTapField;
+  final bool isBorderRequired = true;
 
-  CountryPicker(
+  const CountryPicker(
       {super.key, required this.controller, required this.onTapField});
 
   @override
@@ -31,69 +32,120 @@ class _CountryPickerState extends State<CountryPicker> {
     //   }
     // });
 
-    return Container(
-      height: 43.h,
-      width: 1.sw,
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20.sp),
-          border: Border.all(
-              color: widget.onTapField
-                  ? AppColors.primaryColor
-                  : AppColors.greyLightColor)),
-      child: Row(
-        children: [
-          const CountryCodePicker(
-            hideMainText: false,
-            showFlagMain: true,
-            showFlag: true,
-            hideSearch: true,
-            onChanged: print,
-            // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-            initialSelection: 'US',
-            // favorite: ['+39', 'FR'],
-            // optional. Shows only country name and flag
-            showCountryOnly: false,
-            // optional. Shows only country name and flag when popup is closed.
-            showOnlyCountryWhenClosed: false,
-            // optional. aligns the flag and the Text left
-            alignLeft: false,
-          ),
-          Padding(
-            padding: EdgeInsets.only(right: 12.0, top: 8.sp, bottom: 8.sp),
-            child: const VerticalDivider(
-              color: AppColors.greyTextColor,
+    return TextFormField(
+      decoration: InputDecoration(
+          fillColor: AppColors.whiteColor,
+          filled: true,
+          hintText: 'Phone Number',
+          prefixIcon: SizedBox(
+            height: 40.h,
+            width: 110.w,
+            child: Row(
+              children: [
+                const Flexible(
+                  flex: 3,
+                  child: CountryCodePicker(
+                    initialSelection: '+221',
+                    favorite: ['+221', 'SN'],
+                    // dialogTextStyle: Styles.circularStdRegular(context,
+                    //     color: FocusScope.of(context).hasFocus
+                    //         ? AppColors.blackColor
+                    //         : AppColors.blackColor,
+                    //     fontSize: Data().textScale > 1.0 ? 12.sp : 14.sp,
+                    //     fontWeight: FontWeight.w400),
+                    // flagWidth: 20.sp,
+
+                    // textStyle: Styles.circularStdRegular(context,
+                    //     color: FocusScope
+                    //         .of(context)
+                    //         .hasFocus
+                    //         ? AppColors.blackColor
+                    //         : AppColors.blackColor,
+                    //     fontSize: Data().textScale > 1.0 ? 12.sp : 14.sp,
+                    //     fontWeight: FontWeight.w400),
+                    showFlag: true,
+                  ),
+                ),
+                Flexible(
+                  flex: 0,
+                  child: Container(
+                    margin: EdgeInsets.only(top: 8.sp, bottom: 8.sp),
+                    child: const VerticalDivider(
+                      thickness: 1,
+                      color: AppColors.greyLightColor,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-          Expanded(
-              flex: 3,
-              child: TextFormField(
-                // validator: (v) {
-                //   if (v!.trim().isEmpty) {
-                //     return 'Phone Required';
-                //   }
-                //   return null;
-                // },
+          hintStyle: Styles.circularStdRegular(context,
+              // color: FocusScope.of(context).hasFocus ? hintTextColor :AppColors.greyColor,
+              fontSize: Data().textScale > 1.0 ? 12.sp : 16.sp,
+              fontWeight: FontWeight.w400),
 
-                onTap: () {
-                  widget.onTapField = true;
-                  setState(() {});
-                },
-                onTapOutside: (val) {
-                  widget.onTapField = false;
+          ///changess
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: 13,
+            horizontal: 8,
+          ).r,
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(
+              25,
+            ),
+            borderSide: BorderSide(
+              color: widget.isBorderRequired ? Colors.red : Colors.transparent,
+            ),
+          ),
+          errorBorder: widget.isBorderRequired
+              ? OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(
+                    25,
+                  ),
+                  borderSide: const BorderSide(
+                    color: Colors.red,
+                  ),
+                )
+              : outlineInputBorder(),
+          border: widget.isBorderRequired
+              ? OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(
+                    25,
+                  ),
+                )
+              : outlineInputBorder(),
+          focusedBorder: widget.isBorderRequired
+              ? OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(
+                    25,
+                  ),
+                  borderSide: const BorderSide(
+                    color: AppColors.primaryColor,
+                  ),
+                )
+              : outlineInputBorder(),
+          enabledBorder: widget.isBorderRequired
+              ? OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(
+                    25,
+                  ),
+                  borderSide: BorderSide(
+                    color: AppColors.lightGreyColor,
+                  ),
+                )
+              : outlineInputBorder()),
+      controller: widget.controller,
+      // decoration: InputDecoration(
+      //   contentPadding: EdgeInsets.symmetric(vertical: 2),
+      //
+      // ));
+    );
+  }
 
-                  // focusNode.unfocus();
-                  setState(() {});
-                },
-                // focusNode: focusNode,
-                controller: widget.controller,
-                decoration: const InputDecoration(
-                  hintText: 'Phone',
-                  border: InputBorder.none,
-                ),
-              )),
-        ],
-      ),
+  outlineInputBorder() {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(25 ?? 12.r),
+      borderSide: const BorderSide(color: Colors.transparent),
     );
   }
 }
