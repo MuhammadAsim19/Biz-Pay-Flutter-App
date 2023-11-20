@@ -10,6 +10,4 @@ class Data with AppTheme, AppMedia, AppInitializer , UserData {
 
 
   static const String test = '';
-
-
 }

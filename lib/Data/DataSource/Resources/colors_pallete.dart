@@ -20,6 +20,7 @@ static const Color greyLightColor=Color(0xff8C8C8C);
   static const Color facebookColor = Color(0xff1877F2);
 
   static var greyColor = Colors.grey;
+  static const greyMedium = Color(0xff5E6165);
   static const dottedGreyColor=  Color(0xFFFAFAFA);
 
   static var redColor = Colors.red;

@@ -14,3 +14,8 @@ export 'package:buysellbiz/Data/DataSource/Resources/strings.dart';
 export 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 export 'package:buysellbiz/Presentation/Common/back_arrow.dart';
 export 'package:buysellbiz/Presentation/Common/custom_textfield_with_on_tap.dart';
+
+import 'package:buysellbiz/Data/DataSource/Resources/strings.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:share_plus/share_plus.dart';
+ import 'package:dotted_border/dotted_border.dart';
