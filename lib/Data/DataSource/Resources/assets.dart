@@ -8,7 +8,7 @@ class Assets {
   static const String profile = 'assets/images/Profile.svg';
   static const String homeFilled='assets/images/HomeFilled.svg';
   static const String profileFilled='assets/images/profileFilled.svg';
-  static  const String searchIcon='assets/images/search.svg';
+  static  const String searchIcon='assets/images/Search.svg';
   static const String  notificationIcon='assets/images/Notification.svg';
   static const String agricultureIcon = 'assets/images/Agriculture.svg';
   static const String automotiveBoatIcon = 'assets/images/Automotive & Boat.svg';
