@@ -52,15 +52,15 @@ static const String publishIconSuccess='assets/images/publishIconSucces.png';
   static const String threeDots = 'assets/images/dots.svg';
 
   static const String email = 'assets/images/email.svg';
-  static const String lock = 'assets/images/lock.svg';
+  static const String lock = 'assets/images/Lock.svg';
 
   static const String hidePassword = 'assets/images/hide_pass.svg';
 
   static const String person = 'assets/images/person.svg';
-  static const String calender = 'assets/images/calendar.svg';
+  static const String calender = 'assets/images/Calendar.svg';
 
   static const String addImage = 'assets/images/add_image.svg';
-  static const String person ='assets/images/person.png';
+  //static const String person ='assets/images/person.png';
   static const String logout ='assets/images/Logout.svg';
   static const String down = 'assets/images/Down.svg';
   static const String unlock = 'assets/images/Unlock.svg';
@@ -71,7 +71,7 @@ static const String publishIconSuccess='assets/images/publishIconSucces.png';
   static const String alert ='assets/images/Alert.svg';
   static const String arrowleft = 'assets/images/ArrowLeft.svg';
   static const String message = 'assets/images/Message.svg';
-  static const String calender = 'assets/images/Calendar.svg';
+ // static const String calender = 'assets/images/Calendar.svg';
   static const String location ='assets/images/Location.svg';
   static const String blueCheck = 'assets/images/BlueCheck.svg';
   static const String arrowDown = 'assets/images/ArrowDown.svg';
@@ -82,7 +82,7 @@ static const String publishIconSuccess='assets/images/publishIconSucces.png';
   static const String businessimage3 = 'assets/images/Business3.png';
   static const String show = 'assets/images/Show.svg';
   static const String dropdown = 'assets/images/DropDown.svg';
-  static const String lock = 'assets/images/Lock.svg';
+ // static const String lock = 'assets/images/Lock.svg';
   static const String hide = 'assets/images/Hide.svg';
   static const String roundBluetick = 'assets/images/RoundBlueTick.svg';
   static const String uploadAttachment = 'assets/images/UploadAttachment.svg';

@@ -9,12 +9,14 @@ import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/custom_dropdown.dart';
 import 'package:buysellbiz/Presentation/Common/custom_textfield_with_on_tap.dart';
 import 'package:buysellbiz/Presentation/Common/widget_functions.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/BrokerProfile/broker_profile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Category/all_categories.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/BusinessBroker/Profile/business_profile_widget.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/Category/categories_list.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/for_you_buisiness.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/recently_added.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/recently_view.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/notifications.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/SearchListing/search_listing.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -171,10 +173,16 @@ crossAxisAlignment: CrossAxisAlignment.center,
               ],),
             ),
             const Spacer(),
-            Container(
+            GestureDetector(
+              onTap: ()
+              {
+                Navigate.to(context, Notifications());
+              },
+              child: Container(
 
-                margin: EdgeInsets.only(right: 23.sp),
-                child: SvgPicture.asset(Assets.notificationIcon))
+                  margin: EdgeInsets.only(right: 23.sp),
+                  child: SvgPicture.asset(Assets.notificationIcon)),
+            )
 
           ],
 
@@ -322,7 +330,11 @@ SizedBox(
       ],),
     ),
 10.x,
-  BusinessProfileWidget(profileData: profileData, getData: (BusinessBrokerProfile val) {  },)
+  BusinessProfileWidget(profileData: profileData, getData: (BusinessBrokerProfile val) {
+    //print(val.rating);
+    Navigate.to(context, const BrokerProfile());
+
+  },)
 
 
   ],),

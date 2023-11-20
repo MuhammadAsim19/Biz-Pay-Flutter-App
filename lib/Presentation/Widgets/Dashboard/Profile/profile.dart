@@ -1,7 +1,5 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
-import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
-import 'package:buysellbiz/Data/DataSource/Resources/strings.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/dialog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_list_tile.dart';
@@ -26,7 +24,7 @@ class ProfileScreen extends StatelessWidget {
             children: [
               60.y,
               AssetImageWidget(
-                url: Assets.person,
+                url: Assets.dummyImage2,
                 radius: 60.r,
                 isCircle: true,
               ),

@@ -73,7 +73,11 @@ class LoginScreen extends StatelessWidget {
                 ),
                 50.y,
                 CustomButton(
-                  onTap: () {},
+                  onTap: () {
+
+                    Navigate.to(context, BottomNavigationScreen());
+
+                  },
                   text: 'Login',
                   borderRadius: 25.sp,
                 ),

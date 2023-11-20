@@ -23,7 +23,7 @@ class PersonalInformation extends StatelessWidget {
         appBar: const CustomAppBar(title: AppStrings.personalLinfo, ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.sp),
           child: Column(
@@ -34,7 +34,7 @@ class PersonalInformation extends StatelessWidget {
               Stack(
                 children: [
                   const AssetImageWidget(
-                    url: Assets.person,
+                    url: Assets.dummyImage2,
                     radius: 60,
                     isCircle: true,
                   ),

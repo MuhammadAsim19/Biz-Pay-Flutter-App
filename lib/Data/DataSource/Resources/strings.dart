@@ -74,7 +74,7 @@ class AppStrings {
   static const String passwordChangedsuccessfully  ='Password change successfully';
   static const String youHavesuccessfully ='you have successfully changed password';
   static const String areYousure = 'Are you sure want to logout of the app';
-    static const String login = 'Login';
+   // static const String login = 'Login';
   static const String cancel = 'Cancel';
   static const String submit = 'Submit';
 

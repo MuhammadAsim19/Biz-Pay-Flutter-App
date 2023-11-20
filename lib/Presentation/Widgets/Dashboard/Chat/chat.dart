@@ -50,7 +50,7 @@ class ChatScreen extends StatelessWidget {
                 ),
                 20.y,
                 CustomTextFieldWithOnTap(
-                    prefixIcon: SvgPicture.asset('assets/images/search.svg'),
+                    prefixIcon: SvgPicture.asset('assets/images/Search.svg'),
                     contentPadding: EdgeInsets.symmetric(
                         vertical: 15.sp, horizontal: 10.sp),
                     borderRadius: 40,

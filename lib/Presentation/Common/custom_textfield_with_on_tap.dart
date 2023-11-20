@@ -11,6 +11,7 @@ class CustomTextFieldWithOnTap extends StatelessWidget {
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final bool obscureText;
+  final Color? filledColor;
   final TextInputType textInputType;
   final String? Function(String?)? validator;
   final bool isValid;
@@ -56,7 +57,7 @@ class CustomTextFieldWithOnTap extends StatelessWidget {
       this.focusNode,
       this.hintTextColor,
       this.borderRadius,
-      this.height})
+      this.height, this.filledColor})
       : super(key: key);
 
   final double? borderRadius;
@@ -119,7 +120,7 @@ class CustomTextFieldWithOnTap extends StatelessWidget {
                   fontWeight: FontWeight.w400),
               cursorColor: AppColors.primaryColor,
               decoration: InputDecoration(
-                fillColor: AppColors.whiteColor,
+                fillColor:filledColor ?? AppColors.whiteColor,
                 filled: true,
                 hintText: hintText,
 
