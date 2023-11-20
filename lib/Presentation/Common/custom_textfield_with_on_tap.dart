@@ -1,5 +1,3 @@
-
-
 import 'package:buysellbiz/Data/AppData/data.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 
@@ -64,7 +62,7 @@ class CustomTextFieldWithOnTap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-print(Data().textScale);
+    print(Data().textScale);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8).r,
       child: Column(
@@ -115,9 +113,9 @@ print(Data().textScale);
               obscureText: obscureText,
               controller: controller,
               maxLines: maxline,
-              style: Styles.circularStdRegular(
-                context,
-              ),
+              style: Styles.circularStdRegular(context,
+                  fontSize: Data().textScale > 1.0 ? 12.sp : 16.sp,
+                  fontWeight: FontWeight.w400),
               cursorColor: AppColors.primaryColor,
               decoration: InputDecoration(
                 fillColor: AppColors.whiteColor,
@@ -142,14 +140,12 @@ print(Data().textScale);
                         ),
                       )
                     : null,
-                hintStyle: Styles.circularStdRegular(
-                  context,
-                  color: FocusScope.of(context).hasFocus ? hintTextColor :AppColors.greyColor,
-                  fontSize: Data().textScale > 1.0 ? 12.sp :16.sp,
-                  fontWeight: FontWeight.w400
-                ),
-
-
+                hintStyle: Styles.circularStdRegular(context,
+                    color: FocusScope.of(context).hasFocus
+                        ? hintTextColor
+                        : AppColors.greyColor,
+                    fontSize: Data().textScale > 1.0 ? 12.sp : 16.sp,
+                    fontWeight: FontWeight.w400),
 
                 ///changess
                 contentPadding: contentPadding ??
@@ -220,10 +216,6 @@ print(Data().textScale);
   }
 }
 
-
-
-
-
 class CustomTextFieldWithOnTap2 extends StatelessWidget {
   final TextEditingController controller;
   final String? hintText;
@@ -252,37 +244,37 @@ class CustomTextFieldWithOnTap2 extends StatelessWidget {
 
   const CustomTextFieldWithOnTap2(
       {Key? key,
-        required this.controller,
-        required this.hintText,
-        this.obscureText = false,
-        required this.textInputType,
-        this.suffixIcon,
-        this.validator,
-        this.prefixIcon,
-        this.isValid = false,
-        this.isBorderRequired = true,
-        this.titleText = "",
-        this.maxline = 1,
-        this.validateText,
-        this.isShadowRequired = false,
-        this.titleTextColor = AppColors.blackColor,
-        this.suffixWidth = 15,
-        this.suffixHeight = 15,
-        this.onChanged,
-        this.contentPadding,
-        this.onTap,
-        this.readOnly,
-        this.focusNode,
-        this.hintTextColor,
-        this.borderRadius,
-        this.height})
+      required this.controller,
+      required this.hintText,
+      this.obscureText = false,
+      required this.textInputType,
+      this.suffixIcon,
+      this.validator,
+      this.prefixIcon,
+      this.isValid = false,
+      this.isBorderRequired = true,
+      this.titleText = "",
+      this.maxline = 1,
+      this.validateText,
+      this.isShadowRequired = false,
+      this.titleTextColor = AppColors.blackColor,
+      this.suffixWidth = 15,
+      this.suffixHeight = 15,
+      this.onChanged,
+      this.contentPadding,
+      this.onTap,
+      this.readOnly,
+      this.focusNode,
+      this.hintTextColor,
+      this.borderRadius,
+      this.height})
       : super(key: key);
 
   final double? borderRadius;
 
   @override
   Widget build(BuildContext context) {
-   // print(Data().textScale);
+    // print(Data().textScale);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8).r,
       child: Column(
@@ -290,23 +282,23 @@ class CustomTextFieldWithOnTap2 extends StatelessWidget {
         children: [
           titleText!.isNotEmpty
               ? Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 3).r,
-                child: AppText(
-                  titleText!,
-                  style: Styles.circularStdMedium(
-                    context,
-                    fontSize: 16.sp,
-                    color: titleTextColor,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 8.sp,
-              )
-            ],
-          )
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 3).r,
+                      child: AppText(
+                        titleText!,
+                        style: Styles.circularStdMedium(
+                          context,
+                          fontSize: 16.sp,
+                          color: titleTextColor,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 8.sp,
+                    )
+                  ],
+                )
               : Container(),
           Expanded(
             child: Container(
@@ -322,11 +314,11 @@ class CustomTextFieldWithOnTap2 extends StatelessWidget {
                 //autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: isValid
                     ? (v) {
-                  if (v!.trim().isEmpty) {
-                    return validateText;
-                  }
-                  return null;
-                }
+                        if (v!.trim().isEmpty) {
+                          return validateText;
+                        }
+                        return null;
+                      }
                     : validator,
                 onChanged: onChanged,
                 keyboardType: textInputType,
@@ -344,30 +336,28 @@ class CustomTextFieldWithOnTap2 extends StatelessWidget {
 
                   prefixIcon: prefixIcon != null
                       ? SizedBox(
-                    width: 15.w,
-                    height: 15.w,
-                    child: Center(
-                      child: prefixIcon,
-                    ),
-                  )
+                          width: 15.w,
+                          height: 15.w,
+                          child: Center(
+                            child: prefixIcon,
+                          ),
+                        )
                       : null,
                   suffixIcon: suffixIcon != null
                       ? SizedBox(
-                    width: suffixWidth ?? 20.sp,
-                    height: suffixHeight ?? 20.sp,
-                    child: Center(
-                      child: suffixIcon,
-                    ),
-                  )
+                          width: suffixWidth ?? 20.sp,
+                          height: suffixHeight ?? 20.sp,
+                          child: Center(
+                            child: suffixIcon,
+                          ),
+                        )
                       : null,
-                  hintStyle: Styles.circularStdRegular(
-                      context,
-                      color: FocusScope.of(context).hasFocus ? hintTextColor :AppColors.greyColor,
-                      fontSize: Data().textScale > 1.0 ? 12.sp :16.sp,
-                      fontWeight: FontWeight.w400
-                  ),
-
-
+                  hintStyle: Styles.circularStdRegular(context,
+                      color: FocusScope.of(context).hasFocus
+                          ? hintTextColor
+                          : AppColors.greyColor,
+                      fontSize: Data().textScale > 1.0 ? 12.sp : 16.sp,
+                      fontWeight: FontWeight.w400),
 
                   ///changess
                   contentPadding: contentPadding ??
@@ -385,40 +375,40 @@ class CustomTextFieldWithOnTap2 extends StatelessWidget {
                   ),
                   errorBorder: isBorderRequired
                       ? OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                      borderRadius ?? 12.r,
-                    ),
-                    borderSide: const BorderSide(
-                      color: Colors.red,
-                    ),
-                  )
+                          borderRadius: BorderRadius.circular(
+                            borderRadius ?? 12.r,
+                          ),
+                          borderSide: const BorderSide(
+                            color: Colors.red,
+                          ),
+                        )
                       : outlineInputBorder(),
                   border: isBorderRequired
                       ? OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                      borderRadius ?? 12.r,
-                    ),
-                  )
+                          borderRadius: BorderRadius.circular(
+                            borderRadius ?? 12.r,
+                          ),
+                        )
                       : outlineInputBorder(),
                   focusedBorder: isBorderRequired
                       ? OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                      borderRadius ?? 12.r,
-                    ),
-                    borderSide: const BorderSide(
-                      color: AppColors.primaryColor,
-                    ),
-                  )
+                          borderRadius: BorderRadius.circular(
+                            borderRadius ?? 12.r,
+                          ),
+                          borderSide: const BorderSide(
+                            color: AppColors.primaryColor,
+                          ),
+                        )
                       : outlineInputBorder(),
                   enabledBorder: isBorderRequired
                       ? OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                      borderRadius ?? 12.r,
-                    ),
-                    borderSide: BorderSide(
-                      color: AppColors.lightGreyColor,
-                    ),
-                  )
+                          borderRadius: BorderRadius.circular(
+                            borderRadius ?? 12.r,
+                          ),
+                          borderSide: BorderSide(
+                            color: AppColors.lightGreyColor,
+                          ),
+                        )
                       : outlineInputBorder(),
                 ),
               ),

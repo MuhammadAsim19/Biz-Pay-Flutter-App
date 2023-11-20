@@ -46,4 +46,18 @@ static const String publishIconSuccess='assets/images/publishIconSucces.png';
   static const String dummyImage4='assets/images/dummyimage4.png';
   static const String dummyImage5='assets/images/dummyimage5.png';
 
+  static const String background = 'assets/images/background.png';
+  static const String logo = 'assets/images/logo.png';
+  static const String splashImage = 'assets/images/splash_image.png';
+  static const String threeDots = 'assets/images/dots.svg';
+
+  static const String email = 'assets/images/email.svg';
+  static const String lock = 'assets/images/lock.svg';
+
+  static const String hidePassword = 'assets/images/hide_pass.svg';
+
+  static const String person = 'assets/images/person.svg';
+  static const String calender = 'assets/images/calendar.svg';
+
+  static const String addImage = 'assets/images/add_image.svg';
 }
