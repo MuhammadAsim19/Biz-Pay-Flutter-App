@@ -28,27 +28,31 @@ class _TermsAndConditionTextRowState extends State<TermsAndConditionTextRow> {
             },
           ),
         ),
-        RichText(
-            text: TextSpan(
-                text: 'By signing up, to our',
-                style: Styles.circularStdRegular(context,
-                    color: AppColors.greyLightColor, fontSize: 16.sp),
-                children: [
-              TextSpan(
-                text: ' Term of\nService',
-                style: Styles.circularStdRegular(context,
-                    color: AppColors.blackColor, fontSize: 16.sp),
-              ),
-              TextSpan(
-                text: ' and',
-                style: Styles.circularStdMedium(context,
-                    color: AppColors.greyLightColor, fontSize: 16.sp),
-              ),
-              TextSpan(
-                text: ' Privacy Policy',
-                style: Styles.circularStdRegular(context, fontSize: 16.sp),
-              )
-            ]))
+        Flexible(
+          child: RichText(
+              text: TextSpan(
+                  text: 'By signing up, you’re agree to our',
+                  style: Styles.circularStdRegular(context,
+                      color: AppColors.greyLightColor,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w400),
+                  children: [
+                TextSpan(
+                  text: ' Term of Service',
+                  style: Styles.circularStdRegular(context,
+                      color: AppColors.blackColor, fontSize: 16.sp),
+                ),
+                TextSpan(
+                  text: ' and',
+                  style: Styles.circularStdMedium(context,
+                      color: AppColors.greyLightColor, fontSize: 16.sp),
+                ),
+                TextSpan(
+                  text: ' Privacy Policy',
+                  style: Styles.circularStdRegular(context, fontSize: 16.sp),
+                )
+              ])),
+        )
       ],
     );
   }

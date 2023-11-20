@@ -44,7 +44,7 @@ class LoginScreen extends StatelessWidget {
                     hintText: AppStrings.email,
                     textInputType: TextInputType.text,
                     borderRadius: 25.sp),
-                25.y,
+                20.y,
                 CustomTextFieldWithOnTap(
                     isBorderRequired: true,
                     prefixIcon: SvgPicture.asset(Assets.lock),
@@ -74,9 +74,7 @@ class LoginScreen extends StatelessWidget {
                 50.y,
                 CustomButton(
                   onTap: () {
-
                     Navigate.to(context, BottomNavigationScreen());
-
                   },
                   text: 'Login',
                   borderRadius: 25.sp,

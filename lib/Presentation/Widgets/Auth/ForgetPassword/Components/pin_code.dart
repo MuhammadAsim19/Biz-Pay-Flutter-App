@@ -46,6 +46,26 @@ class _PinCodeExampleState extends State<PinCodeExample> {
             )
           ]),
     );
+    final focusedTheme = PinTheme(
+      width: 77.w,
+      height: 60.h,
+      textStyle: const TextStyle(
+        fontSize: 22,
+        color: Color.fromRGBO(30, 60, 87, 1),
+      ),
+      decoration: BoxDecoration(
+          color: AppColors.whiteColor,
+          borderRadius: BorderRadius.circular(10.r),
+          border: Border.all(color: AppColors.primaryColor),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x0F000000),
+              blurRadius: 12,
+              offset: Offset(0, 6),
+              spreadRadius: 0,
+            )
+          ]),
+    );
 
     /// Optionally you can use form to validate the Pinput
     return Form(
@@ -63,7 +83,6 @@ class _PinCodeExampleState extends State<PinCodeExample> {
                   AndroidSmsAutofillMethod.smsUserConsentApi,
               listenForMultipleSmsOnAndroid: true,
               defaultPinTheme: defaultPinTheme,
-
               separatorBuilder: (index) => const SizedBox(width: 8),
               validator: (value) {
                 if (value!.isEmpty) {
@@ -92,7 +111,8 @@ class _PinCodeExampleState extends State<PinCodeExample> {
                   ),
                 ],
               ),
-              focusedPinTheme: defaultPinTheme,
+
+              focusedPinTheme: focusedTheme,
               submittedPinTheme: defaultPinTheme,
               errorPinTheme: defaultPinTheme.copyBorderWith(
                 border: Border.all(color: Colors.redAccent),
