@@ -1,27 +1,34 @@
 class AppStrings {
 
-  static const String Logout = 'Logout';
-  static const String Gabriel = 'Gabreiel Tasse';
-  static const String personalinfo ='Personal information';
-  static const String Changepass = 'Change Password';
-  static const String listyourbis = 'List your business'; 
-  static const String referafri = 'Refer a friend'; 
-  static const String privacypol ='Privacy policy';
-  static const String termsandcon = 'Terms and Conditions';
-  static const String helpandsupp = 'Help and suppoer';
+  static const String logout = 'Logout';
+  static const String gabriel = 'Gabreiel Tasse';
+  static const String personalLinfo ='Personal information';
+  static const String ChangePass = 'Change Password';
+  static const String listYourbis = 'List your business'; 
+  static const String referAfri = 'Refer a friend'; 
+  static const String privacyPol ='Privacy policy';
+  static const String termsAndcon = 'Terms and Conditions';
+  static const String helpAandupp = 'Help and support';
   static const String update ='Update';
-  static const String yourbusiness = 'Your business';
+  static const String yourBusiness = 'Your business';
   static const String sanfancisco = 'San Francisco, USA';
-  static const String fourtyk = '\$40k USD'; 
-  static const String viewtwentyfive = 'View: 235';
-  static const String changepassword = 'Change password'; 
-  static const String oldpassword = 'Old password';
-  static const String newpassword = 'New Password'; 
-  static const String privacypolicy ='Privacy Policy';
-  static const String termsandconditions ='Terms and Conditions';
-  static const String deleteaccount ='Delete Account';
-  static const String customersupport ='Customer Support';
-  static const String privacypolicyall = '''
+  static const String fourtyK = '\$40k USD'; 
+  static const String viewTwentyfive = 'View: 235';
+  static const String changePassword = 'Change password'; 
+  static const String oldPassword = 'Old password';
+  static const String newPassword = 'New Password'; 
+  static const String privacyPolicy ='Privacy Policy';
+  static const String termsAndconditions ='Terms and Conditions';
+  static const String deleteAccount ='Delete Account';
+  static const String customerSupport ='Customer Support';
+  static const String passwordChangedsuccessfully  ='Password change successfully'; 
+  static const String youHavesuccessfully ='you have successfully changed password'; 
+  static const String areYousure = 'Are you sure want to logout of the app'; 
+    static const String login = 'Login'; 
+  static const String cancel = 'Cancel'; 
+  static const String submit = 'Submit';
+
+  static const String privacyPolicyall = '''
 1. Overview: "BuySellBiz" is committed to safeguarding your privacy. This Privacy Policy outlines how we collect, use, disclose, and manage your personal information in connection with our mobile application.
 
 By using the "BuySellBiz" app, you agree to the terms and practices described in this Privacy Policy.
@@ -52,6 +59,37 @@ We may update this Privacy Policy to reflect changes in our practices. We will n
 If you have any questions or concerns about this Privacy Policy, please contact us at [contact@email.com].
 By using the "BuySellBiz" app, you acknowledge that you have read, understood, and agreed to the terms outlined in this Privacy Policy.
 ''';
+
+
+static const String termsAndconditionsAll  = ''' 
+Please read these terms and conditions carefully before using the "BuySellBiz" mobile application.
+1. Acceptance of Terms:
+By accessing or using the "BuySellBiz" app, you agree to be bound by these terms and conditions.
+2. Account Registration:
+To use certain features of the app, you may be required to register for an account.
+You agree to provide accurate, current, and complete information during the registration process.
+3. User Conduct:
+You are responsible for maintaining the confidentiality of your account information and for all activities that occur under your account.
+You agree not to use the app for any unlawful or prohibited purposes.
+4. Buying and Selling Businesses:
+"BuySellBiz" serves as a platform for buying and selling businesses.
+Sellers are responsible for the accuracy of their business listings, and buyers are responsible for conducting due diligence before making any purchase.
+5. Communication:
+The app includes communication features such as messaging and notifications.
+Users agree to use these features responsibly and not engage in any form of harassment, spamming, or inappropriate communication.
+6. Privacy:
+Your use of the app is also governed by our Privacy Policy.
+By using the app, you consent to the collection, use, and sharing of your information as described in the Privacy Policy.
+7. Intellectual Property:
+All content, trademarks, and intellectual property on the app are owned by "BuySellBiz" or its licensors.
+Users may not reproduce, distribute, or create derivative works without explicit permission.
+8. Termination:
+"BuySellBiz" reserves the right to terminate or suspend your account at any time for any reason, including a violation of these terms.
+9. Dispute Resolution:
+Any disputes arising from the use of the app shall be resolved through negotiation or mediation.
+If a resolution cannot be reached, disputes will be subject to binding arbitration in accordance with the laws of the jurisdiction.
+''';
+
 }
 
 

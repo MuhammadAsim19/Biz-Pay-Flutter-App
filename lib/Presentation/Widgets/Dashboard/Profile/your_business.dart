@@ -17,7 +17,7 @@ class YourBusiness extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
-        title: AppStrings.listyourbis,
+        title: AppStrings.listYourbis,
       ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -35,10 +35,7 @@ class YourBusiness extends StatelessWidget {
                       itemCount: images.length,
                       itemBuilder: (context, index) {
                         final product = images[index];
-
                         return Container(
-                          // height: 120.h,
-                          // width: 800.h,
                           margin: EdgeInsets.only(top: 10.h),
                           decoration: BoxDecoration(
                             border: Border.all(
@@ -82,8 +79,7 @@ class YourBusiness extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-
-                                    Stack(),
+                                    const Stack(),
                                     Text(
                                       Utils.Dropshipping,
                                       style: Styles.circularStdRegular(context,
@@ -94,7 +90,7 @@ class YourBusiness extends StatelessWidget {
                                     Row(
                                       children: [
                                         Text(
-                                          AppStrings.fourtyk,
+                                          AppStrings.fourtyK,
                                           style: Styles.circularStdBold(context,
                                               fontSize: 16.sp,
                                               color: AppColors.blackColor),
@@ -102,7 +98,7 @@ class YourBusiness extends StatelessWidget {
                                         40.x,
                                         SvgPicture.asset(Assets.show),
                                         5.x,
-                                        AppText(AppStrings.viewtwentyfive,
+                                        AppText(AppStrings.viewTwentyfive,
                                             style: Styles.circularStdRegular(
                                               context,
                                               fontSize: 12.sp,

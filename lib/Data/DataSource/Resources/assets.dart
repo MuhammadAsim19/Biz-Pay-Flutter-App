@@ -30,5 +30,7 @@ class Assets {
   static const String dropdown = 'assets/images/DropDown.svg';
   static const String lock = 'assets/images/Lock.svg';
   static const String hide = 'assets/images/Hide.svg';
+  static const String roundBluetick = 'assets/images/RoundBlueTick.svg';
+  static const String uploadAttachment = 'assets/images/UploadAttachment.svg';
 
 }

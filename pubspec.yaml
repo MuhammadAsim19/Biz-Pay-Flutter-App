@@ -78,6 +78,7 @@ dependencies:
   android_path_provider: ^0.3.0
   syncfusion_flutter_pdfviewer: ^22.2.12
   share_plus: ^7.2.1
+  dotted_border: ^2.1.0
 
 dev_dependencies:
   flutter_test:

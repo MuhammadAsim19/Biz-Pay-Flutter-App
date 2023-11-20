@@ -3,17 +3,14 @@ import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/strings.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/custom_textfield_with_on_tap.dart';
+import 'package:buysellbiz/Presentation/Common/dialog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_appbar.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_list_tile.dart';
-
 
 
 class ChangePassword extends StatelessWidget {
   TextEditingController oldpassword= TextEditingController();
   TextEditingController newpassword = TextEditingController();
   TextEditingController confirmpassword = TextEditingController();
- 
-  
 
 ChangePassword({super.key});
 
@@ -22,19 +19,18 @@ ChangePassword({super.key});
     return Scaffold(
       
     
-    appBar: const CustomAppBar(title: AppStrings.changepassword, ),
+    appBar: const CustomAppBar(title: AppStrings.changePassword, ),
        
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.sp),
           child: Column(
             children: [
-
               40.y,
               Column( 
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppText(AppStrings.oldpassword, style: Styles.circularStdBold(context, color: AppColors.blackColor, 
+                  AppText(AppStrings.oldPassword, style: Styles.circularStdBold(context, color: AppColors.blackColor, 
                   fontSize: 16.sp)),
 
                   CustomTextFieldWithOnTap(
@@ -44,11 +40,9 @@ ChangePassword({super.key});
                       controller: oldpassword,
                       hintText: 'Old Password',
                       textInputType: TextInputType.name),
-
 20.y, 
-                      AppText(AppStrings.newpassword, style: Styles.circularStdBold(context, color: AppColors.blackColor, 
+                      AppText(AppStrings.newPassword, style: Styles.circularStdBold(context, color: AppColors.blackColor, 
                   fontSize: 16.sp)),
-
                   CustomTextFieldWithOnTap(
                       suffixIcon: SvgPicture.asset(Assets.hide),
                       borderRadius: 40.r,
@@ -74,7 +68,37 @@ ChangePassword({super.key});
                 leadingSvgIcon: true,
                 width: 320.w,
                 borderRadius: 40.r,
-                onTap: () {},
+             onTap: () {
+
+                      CustomDialog.dialog(context, 
+                      Container(
+                     height: 255.h, width: 380.w,
+                    decoration: BoxDecoration( shape: BoxShape.rectangle, 
+                    borderRadius: BorderRadius.circular(10.r),
+                      color: AppColors.whiteColor,  ),
+                    child: Column(mainAxisSize: MainAxisSize.min,
+                      children: [
+                           Padding(
+                             padding:   EdgeInsets.all(18.sp),
+                             child: SvgPicture.asset(Assets.roundBluetick, width: 86.w, height: 86.h,),
+                           ), 
+                           Padding(
+                             padding:  EdgeInsets.only(top: 8.sp, bottom: 1 .sp),
+                             child: AppText( AppStrings.passwordChangedsuccessfully, maxLine: 2, style: Styles.circularStdRegular(context, fontSize: 24.sp, color: AppColors.primaryColor)),
+                           ),
+                           Padding(
+                             padding:   EdgeInsets.all(8.sp),
+                             child: AppText(AppStrings.youHavesuccessfully, maxLine: 2, style: Styles.circularStdRegular(context, fontSize: 16.sp, 
+                             color: AppColors.greyMedium)),
+                           ), 
+                    
+                    ],),
+                  )
+                      );
+
+                
+
+                },
                 text: AppStrings.update,
                 bgColor: AppColors.primaryColor,
                 textFontWeight: FontWeight.w700,
@@ -90,18 +114,4 @@ ChangePassword({super.key});
   }
 }
 
-class customappbar extends StatelessWidget {
-  const customappbar({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(centerTitle: true, title: AppText(AppStrings.Changepass, style: Styles.circularStdMedium(context, fontSize: 18.sp, )),
-    backgroundColor: AppColors.whiteColor, 
-    leading: SvgPicture.asset(Assets.arrowleft, width: 10.w, height: 10.h,), 
-    iconTheme: const IconThemeData(color: AppColors.blackColor), 
-    elevation: 0.sp,
-    );
-  }
-}
+ 

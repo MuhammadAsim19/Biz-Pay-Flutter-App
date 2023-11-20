@@ -10,8 +10,6 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/cus
 
 class PrivacyPolicy extends StatelessWidget {
  
-  
-
 PrivacyPolicy({super.key});
 
   @override
@@ -19,7 +17,7 @@ PrivacyPolicy({super.key});
     return Scaffold(
       
     
-    appBar: const CustomAppBar(title: AppStrings.referafri, ),
+    appBar: const CustomAppBar(title: AppStrings.referAfri, ),
        
       body:   Column(
         children: [

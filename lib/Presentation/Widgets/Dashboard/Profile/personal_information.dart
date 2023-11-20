@@ -1,3 +1,4 @@
+import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/strings.dart';
@@ -5,6 +6,7 @@ import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/custom_textfield_with_on_tap.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_appbar.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_list_tile.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/delete_account.dart';
 
 class PersonalInformation extends StatelessWidget {
   TextEditingController firstnamecontroller = TextEditingController();
@@ -18,7 +20,7 @@ class PersonalInformation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const CustomAppBar(title: AppStrings.personalinfo, ),
+        appBar: const CustomAppBar(title: AppStrings.personalLinfo, ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
@@ -99,9 +101,14 @@ class PersonalInformation extends StatelessWidget {
                 textColor: AppColors.whiteColor,
               ),
               20.y,
-              AppText('Delete my account',
-                  style: Styles.circularStdMedium(context,
-                      fontSize: 16.sp, color: AppColors.redColor)),
+              GestureDetector(
+                onTap: (){
+                  Navigate.to(context,DeleteAccont()); 
+                },
+                child: AppText('Delete my account',
+                    style: Styles.circularStdMedium(context,
+                        fontSize: 16.sp, color: AppColors.redColor)),
+              ),
               30.y,
             ],
           ),

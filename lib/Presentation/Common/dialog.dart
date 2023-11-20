@@ -4,7 +4,12 @@ import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:flutter/cupertino.dart';
 
 class CustomDialog {
-  static Future<void> dialog(BuildContext context, Widget child,{bool? barrierDismissible,bool? willPop}) async {
+
+  
+  static Future<void> dialog(BuildContext context, 
+  Widget child,{
+    bool? barrierDismissible,
+    bool? willPop}) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: barrierDismissible??false,
@@ -19,7 +24,7 @@ class CustomDialog {
             elevation: 0.0,
             backgroundColor: AppColors.whiteColor,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10).r,
+              borderRadius: BorderRadius.circular(50).r,
             ),
             child: child,
           ),
