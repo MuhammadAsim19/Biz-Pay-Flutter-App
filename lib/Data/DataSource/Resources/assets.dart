@@ -86,5 +86,9 @@ static const String publishIconSuccess='assets/images/publishIconSucces.png';
   static const String hide = 'assets/images/Hide.svg';
   static const String roundBluetick = 'assets/images/RoundBlueTick.svg';
   static const String uploadAttachment = 'assets/images/UploadAttachment.svg';
+  static const String delete  = 'assets/images/Delete.svg';
+  static const String sendbusiness = 'assets/images/sharebusiness.svg';
+  static const String editbusiness = 'assets/images/Editbusiness.svg';
+ 
 
 }
