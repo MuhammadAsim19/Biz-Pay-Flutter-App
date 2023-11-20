@@ -1,6 +1,5 @@
 class AppStrings {
-
-  static const String hello='Hello 👋';
+  static const String hello = 'Hello 👋';
 
   static String welcome = 'Welcome to Business Broker';
   static String welcome2 =
@@ -27,6 +26,7 @@ class AppStrings {
   static String dob = 'Date of birth';
   static String haveAccount = 'Already have an account?';
   static String verifyEmail = 'Verify email';
+  static String timer = '00:45';
   static String codeSendToMail =
       'A 4 digit code sent to aqib.example@gmail.com,\nenter code to continue';
   static String resetPassword = 'Reset password';
@@ -52,14 +52,14 @@ class AppStrings {
 
   static const String logout = 'Logout';
   static const String gabriel = 'Gabreiel Tasse';
-  static const String personalLinfo ='Personal information';
+  static const String personalLinfo = 'Personal information';
   static const String ChangePass = 'Change Password';
   static const String listYourbis = 'List your business';
   static const String referAfri = 'Refer a friend';
-  static const String privacyPol ='Privacy policy';
+  static const String privacyPol = 'Privacy policy';
   static const String termsAndcon = 'Terms and Conditions';
   static const String helpAandupp = 'Help and support';
-  static const String update ='Update';
+  static const String update = 'Update';
   static const String yourBusiness = 'Your business';
   static const String sanfancisco = 'San Francisco, USA';
   static const String fourtyK = '\$40k USD';
@@ -67,14 +67,17 @@ class AppStrings {
   static const String changePassword = 'Change password';
   static const String oldPassword = 'Old password';
   static const String newPassword = 'New Password';
-  static const String privacyPolicy ='Privacy Policy';
-  static const String termsAndconditions ='Terms and Conditions';
-  static const String deleteAccount ='Delete Account';
-  static const String customerSupport ='Customer Support';
-  static const String passwordChangedsuccessfully  ='Password change successfully';
-  static const String youHavesuccessfully ='you have successfully changed password';
+  static const String privacyPolicy = 'Privacy Policy';
+  static const String termsAndconditions = 'Terms and Conditions';
+  static const String deleteAccount = 'Delete Account';
+  static const String customerSupport = 'Customer Support';
+  static const String passwordChangedsuccessfully =
+      'Password change successfully';
+  static const String youHavesuccessfully =
+      'you have successfully changed password';
   static const String areYousure = 'Are you sure want to logout of the app';
-   // static const String login = 'Login';
+
+  // static const String login = 'Login';
   static const String cancel = 'Cancel';
   static const String submit = 'Submit';
 
@@ -110,8 +113,7 @@ If you have any questions or concerns about this Privacy Policy, please contact 
 By using the "BuySellBiz" app, you acknowledge that you have read, understood, and agreed to the terms outlined in this Privacy Policy.
 ''';
 
-
-static const String termsAndconditionsAll  = ''' 
+  static const String termsAndconditionsAll = ''' 
 Please read these terms and conditions carefully before using the "BuySellBiz" mobile application.
 1. Acceptance of Terms:
 By accessing or using the "BuySellBiz" app, you agree to be bound by these terms and conditions.
@@ -139,5 +141,4 @@ Users may not reproduce, distribute, or create derivative works without explicit
 Any disputes arising from the use of the app shall be resolved through negotiation or mediation.
 If a resolution cannot be reached, disputes will be subject to binding arbitration in accordance with the laws of the jurisdiction.
 ''';
-
 }

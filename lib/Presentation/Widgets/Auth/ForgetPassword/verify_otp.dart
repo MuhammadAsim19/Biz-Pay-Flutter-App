@@ -37,6 +37,16 @@ class VerifyOtp extends StatelessWidget {
               ),
               const Spacer(),
               const PinCodeExample(),
+              5.y,
+              Align(
+                alignment: Alignment.centerRight,
+                child: AppText(
+                  AppStrings.timer,
+                  style: Styles.circularStdRegular(context,
+                      fontSize: 14.sp, color: AppColors.greyLightColor),
+                  maxLine: 2,
+                ),
+              ),
               const Spacer(),
               CustomButton(
                 onTap: () {

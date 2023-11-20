@@ -33,6 +33,10 @@ class _CountryPickerState extends State<CountryPicker> {
     // });
 
     return TextFormField(
+      style: Styles.circularStdRegular(context,
+          // color: FocusScope.of(context).hasFocus ? hintTextColor :AppColors.greyColor,
+          fontSize: Data().textScale > 1.0 ? 12.sp : 16.sp,
+          fontWeight: FontWeight.w400),
       decoration: InputDecoration(
           fillColor: AppColors.whiteColor,
           filled: true,

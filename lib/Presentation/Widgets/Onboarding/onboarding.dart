@@ -40,7 +40,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      AppText('#1 Marketplace to buy \n & sell businesses',
+                      AppText('#1 Marketplace to buy \n& sell businesses',
                           style: Styles.circularStdBold(
                             context,
                             color: AppColors.whiteColor,

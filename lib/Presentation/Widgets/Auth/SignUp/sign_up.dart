@@ -53,7 +53,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         fontSize: 20.sp, fontWeight: FontWeight.w500)),
                 5.y,
                 AppText(
-                  AppStrings.welcome2,
+                  "AppStrings.signup2",
                   style: Styles.circularStdRegular(context,
                       fontSize: 14.sp, color: AppColors.greyTextColor),
                   maxLine: 2,
@@ -67,7 +67,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     hintText: AppStrings.firstname,
                     textInputType: TextInputType.text,
                     borderRadius: 25.sp),
-                20.y,
+                15.y,
                 CustomTextFieldWithOnTap(
                     isBorderRequired: true,
                     contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
@@ -76,7 +76,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     hintText: AppStrings.lastName,
                     textInputType: TextInputType.text,
                     borderRadius: 25.sp),
-                20.y,
+                15.y,
                 CustomTextFieldWithOnTap(
                     isBorderRequired: true,
                     contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
@@ -108,7 +108,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 //     hintText: AppStrings.dob,
                 //     textInputType: TextInputType.text,
                 //     borderRadius: 25.sp),
-                20.y,
+                15.y,
                 CustomTextFieldWithOnTap(
                     isBorderRequired: true,
                     prefixIcon: SvgPicture.asset(Assets.lock),
@@ -120,7 +120,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     borderRadius: 25.sp),
                 10.y,
                 const TermsAndConditionTextRow(),
-                30.y,
+                53.y,
                 CustomButton(
                   onTap: () {},
                   text: AppStrings.register,

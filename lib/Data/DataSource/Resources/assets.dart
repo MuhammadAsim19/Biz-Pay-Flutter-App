@@ -57,9 +57,10 @@ static const String publishIconSuccess='assets/images/publishIconSucces.png';
   static const String hidePassword = 'assets/images/hide_pass.svg';
 
   static const String person = 'assets/images/person.svg';
-  static const String calender = 'assets/images/Calendar.svg';
+  static const String calender = 'assets/images/calendar.svg';
 
   static const String addImage = 'assets/images/add_image.svg';
+
   //static const String person ='assets/images/person.png';
   static const String logout ='assets/images/Logout.svg';
   static const String down = 'assets/images/Down.svg';
