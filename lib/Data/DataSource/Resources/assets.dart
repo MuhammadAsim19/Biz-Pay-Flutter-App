@@ -8,7 +8,7 @@ class Assets {
   static const String profile = 'assets/images/Profile.svg';
   static const String homeFilled='assets/images/HomeFilled.svg';
   static const String profileFilled='assets/images/profileFilled.svg';
-  static  const String searchIcon='assets/images/Search.svg';
+  static  const String searchIcon='assets/images/search.svg';
   static const String  notificationIcon='assets/images/Notification.svg';
   static const String agricultureIcon = 'assets/images/Agriculture.svg';
   static const String automotiveBoatIcon = 'assets/images/Automotive & Boat.svg';
@@ -52,7 +52,7 @@ static const String publishIconSuccess='assets/images/publishIconSucces.png';
   static const String threeDots = 'assets/images/dots.svg';
 
   static const String email = 'assets/images/email.svg';
-  static const String lock = 'assets/images/Lock.svg';
+  static const String lock = 'assets/images/lock.svg';
 
   static const String hidePassword = 'assets/images/hide_pass.svg';
 

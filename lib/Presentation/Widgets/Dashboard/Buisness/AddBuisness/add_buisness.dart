@@ -14,10 +14,28 @@ class AddBusiness extends StatelessWidget {
       onWillPop: ()async
 
       {
+        print(AddNotifier.addBusinessNotifier.value);
+        if(AddNotifier.addBusinessNotifier.value==0)
+          {
+           Navigate.pop(context);
+          }
+        else if(AddNotifier.addBusinessNotifier
+        .value==1)
+          {
+            AddNotifier.addBusinessNotifier
+                .value=0;
+            AddNotifier.addPageController.jumpToPage(0);
+          }
+        else
+          {
+            AddNotifier.addBusinessNotifier
+                .value=1;
+            AddNotifier.addPageController.jumpToPage(1);
+          }
 
 
 
-        return  true;
+        return  false;
 
       },
       child: Scaffold(
@@ -58,87 +76,108 @@ body: Padding(
               mainAxisSize: MainAxisSize.min,
             //  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
-                  width: 42.sp,
-                  height: 42.sp,
-                  decoration: const ShapeDecoration(
-                    shape: OvalBorder(
-                      side: BorderSide(width: 1, color: Color(0xFFD9D9D9)),
-                    ),
-                  ),
-                  child: Center(
-                    child: Container(
-                      width: 34.w,
-                      height: 34.h,
-                      decoration: ShapeDecoration(
-                        color:  Color(pageState==0?0xFF007BC0:0xFFD9D9D9),
-                        shape: const OvalBorder(),
+                GestureDetector(
+                  onTap:(){
+
+                    AddNotifier.addPageController.jumpToPage(0);
+                    AddNotifier.addBusinessNotifier.value=0;
+                  },
+                  child: Container(
+                    width: 42.sp,
+                    height: 42.sp,
+                    decoration: const ShapeDecoration(
+                      shape: OvalBorder(
+                        side: BorderSide(width: 1, color: Color(0xFFD9D9D9)),
                       ),
-                      child: Center(child: SvgPicture.asset(Assets.tickIcon)),
+                    ),
+                    child: Center(
+                      child: Container(
+                        width: 34.w,
+                        height: 34.h,
+                        decoration: ShapeDecoration(
+                          color:  Color(pageState==0?0xFF007BC0:0xFFD9D9D9),
+                          shape: const OvalBorder(),
+                        ),
+                        child: Center(child: SvgPicture.asset(Assets.tickIcon)),
+                      ),
                     ),
                   ),
                 ),
                 Container(
                   width: 1.sw/4,
-                  decoration: ShapeDecoration(
+                  decoration: const ShapeDecoration(
                     shape: RoundedRectangleBorder(
                       side: BorderSide(
                         width: 1,
                         strokeAlign: BorderSide.strokeAlignCenter,
-                        color: Color(pageState==1?0xFF007BC0:0xFFD9D9D9),
+                        color: Color(0xFFD9D9D9),
                       ),
                     ),
                   ),
                 ),
-                Container(
-                  width: 42.sp,
-                  height: 42.sp,
-                  decoration: const ShapeDecoration(
-                    shape: OvalBorder(
-                      side: BorderSide(width: 1, color: Color(0xFFD9D9D9)),
-                    ),
-                  ),
-                  child:  Center(
-                    child: Container(
-                      width: 34.w,
-                      height: 34.h,
-                      decoration: ShapeDecoration(
-                        color:  Color(pageState==1?0xFF007BC0:0xFFD9D9D9),
-                        shape: const OvalBorder(),
+                GestureDetector(
+                  onTap:(){
+
+                    AddNotifier.addPageController.jumpToPage(1);
+                    AddNotifier.addBusinessNotifier.value=1;
+                  },
+                  child: Container(
+                    width: 42.sp,
+                    height: 42.sp,
+                    decoration: const ShapeDecoration(
+                      shape: OvalBorder(
+                        side: BorderSide(width: 1, color: Color(0xFFD9D9D9)),
                       ),
-                      child: Center(child: SvgPicture.asset(Assets.tickIcon)),
+                    ),
+                    child:  Center(
+                      child: Container(
+                        width: 34.w,
+                        height: 34.h,
+                        decoration: ShapeDecoration(
+                          color:  Color(pageState==1?0xFF007BC0:0xFFD9D9D9),
+                          shape: const OvalBorder(),
+                        ),
+                        child: Center(child: SvgPicture.asset(Assets.tickIcon)),
+                      ),
                     ),
                   ),
                 ),
                 Container(
                   width: 1.sw/4,
-                  decoration: ShapeDecoration(
+                  decoration: const ShapeDecoration(
                     shape: RoundedRectangleBorder(
                       side: BorderSide(
                         width: 1,
                         strokeAlign: BorderSide.strokeAlignCenter,
-                        color: Color(pageState==2?0xFF007BC0:0xFFD9D9D9),
+                        color: Color(0xFFD9D9D9),
                       ),
                     ),
                   ),
                 ),
-                Container(
-                  width: 42.sp,
-                  height: 42.sp,
-                  decoration: const ShapeDecoration(
-                    shape: OvalBorder(
-                      side: BorderSide(width: 1, color: Color(0xFFD9D9D9)),
-                    ),
-                  ),
-                  child:  Center(
-                    child: Container(
-                      width: 34.w,
-                      height: 34.h,
-                      decoration: ShapeDecoration(
-                        color:  Color(pageState==2?0xFF007BC0:0xFFD9D9D9),
-                        shape: const OvalBorder(),
+                GestureDetector(
+                  onTap:(){
+
+                    AddNotifier.addPageController.jumpToPage(2);
+                    AddNotifier.addBusinessNotifier.value=2;
+                  },
+                  child: Container(
+                    width: 42.sp,
+                    height: 42.sp,
+                    decoration: const ShapeDecoration(
+                      shape: OvalBorder(
+                        side: BorderSide(width: 1, color: Color(0xFFD9D9D9)),
                       ),
-                      child: Center(child: SvgPicture.asset(Assets.tickIcon)),
+                    ),
+                    child:  Center(
+                      child: Container(
+                        width: 34.w,
+                        height: 34.h,
+                        decoration: ShapeDecoration(
+                          color:  Color(pageState==2?0xFF007BC0:0xFFD9D9D9),
+                          shape: const OvalBorder(),
+                        ),
+                        child: Center(child: SvgPicture.asset(Assets.tickIcon)),
+                      ),
                     ),
                   ),
                 ),
@@ -181,7 +220,7 @@ controller: AddNotifier.addPageController,
 
 BusinessAddDetails(),
       PriceLocation()
-      ,PublishPage()
+      ,const PublishPage()
 
 
   ],
