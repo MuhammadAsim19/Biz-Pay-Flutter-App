@@ -1,3 +1,4 @@
+import 'package:buysellbiz/Application/Services/PickerServices/picker_services.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
@@ -28,6 +29,7 @@ TextEditingController businessNameController=TextEditingController();
         AddNotifier.addBusinessNotifier.value=1;
 
       },
+        textFontWeight: FontWeight.w500,
         borderRadius: 30,
         height: 56,
         text: 'Next' ,),
@@ -263,30 +265,39 @@ ClipRRect(
       strokeWidth: 3,
 
       dashPattern: const [2, 3],
-      child:   Container(
-        height: 62,
-        width: 123,
-        decoration: const BoxDecoration(
-         // color: Colors.red
+      child:   GestureDetector(
+        onTap: ()
+        async {
+        var pickedFile= await PickFile.pickFiles();
+        if(pickedFile!= null) {
+          print(pickedFile[0].name);
+        }
+        },
+        child: Container(
+          height: 62,
+          width: 123,
+          decoration: const BoxDecoration(
+           // color: Colors.red
 
-        ),//color: AppColors.lightGreyColor),
+          ),//color: AppColors.lightGreyColor),
 
     child: SizedBox(
-      width: 97,
-      height: 40,
-      child: Column(
+        width: 97,
+        height: 40,
+        child: Column(
 
-        children: [
+          children: [
 
-          SvgPicture.asset(Assets.addImageIcon),
+            SvgPicture.asset(Assets.addImageIcon),
 
-          AppText("Upload Document", style: Styles.circularStdRegular(context,fontSize: 12))
+            AppText("Upload Document", style: Styles.circularStdRegular(context,fontSize: 12))
 
-        ],
+          ],
 
 
-      ),
+        ),
     )
+        ),
       ),
     ),
   ),

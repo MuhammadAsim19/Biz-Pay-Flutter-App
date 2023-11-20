@@ -1,9 +1,17 @@
 import 'dart:io';
 
+import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
+import 'package:buysellbiz/Application/Services/PickerServices/picker_services.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
+import 'package:buysellbiz/Presentation/Common/add_image_widget.dart';
+import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
+import 'package:buysellbiz/Presentation/Common/dialog.dart';
+import 'package:buysellbiz/Presentation/Common/display_images.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Components/add_business_success_diolog.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PublishWidget extends StatefulWidget {
@@ -15,10 +23,22 @@ class PublishWidget extends StatefulWidget {
 
 class _PublishWidgetState extends State<PublishWidget> {
   var images;
-
+bool isToggle=true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: CustomButton(onTap: () async {
+
+
+CustomDialog.dialog(context, const AddSuccessDialog(),barrierDismissible: false);
+await Future.delayed(const Duration(seconds: 3));
+        Navigate.pop(context);
+        Navigate.pop(context);
+
+      },
+        borderRadius: 30,
+        height: 56,
+        text: 'Publish' ,),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -66,191 +86,31 @@ AppText('At least 8 photos to improve check for sale', style: Styles.circularStd
             ),
           )
               : const SizedBox(),
+const  Spacer(),
+          Row(children: [
+
+           const AssetImageWidget(url: Assets.whatsAppIcon,height: 20,width: 20,),
+            10.x
+,            AppText("Allow for WhatsApp contact", style: Styles.circularStdRegular(context,fontSize: 16)),
+const Spacer(),
+CupertinoSwitch(value: isToggle, onChanged: (v){
+
+  setState(() {
+    isToggle=v;
+  });
+
+},activeColor: AppColors.primaryColor,)
+
+          ],),
+          const Spacer()
+
         ],
       ),
     );
   }
 }
 
-class AddImageWidget extends StatelessWidget {
-  final VoidCallback onTap;
-  final String? addText;
 
-  const AddImageWidget({
-    super.key,
-    required this.onTap,
-    this.addText,
-  });
 
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
-        child: Container(
-          color: AppColors.whiteColor,
-          width: 1.sw,
-          //  height: 110,
-          child: DottedBorder(
-            borderType: BorderType.RRect,
-            radius: const Radius.circular(12).r,
-            padding: const EdgeInsets.symmetric(vertical: 35).r,
-            color: AppColors.greyColor,
-            strokeWidth: 3,
-            dashPattern: const [2, 3],
-            child: Center(
-              child: Column(
-                //mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(Assets.addImageIcon,height: 20,width: 20,),
-                  CustomSizedBox.height(10),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 6).r,
-                    child: AppText(
-                     "Uploads photos",
-                      style: Styles.circularStdRegular(
-                        context,
-                        fontSize: 15.sp,
-                        color: AppColors.blackColor,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
 
-class PickFile {
-  static Future pickImage() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-      // allowedExtensions: [".jpg",".png",".heic","jpeg"],
-      allowMultiple: true,
-    );
-    if (result == null) return;
-    final images = result.paths;
-    return images;
-  }
 
-  static Future pickSingleImage() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-      // allowedExtensions: [".jpg",".png",".heic","jpeg"],
-      allowMultiple: false,
-    );
-    if (result == null) return;
-    String? images = result.paths[0];
-    return images;
-  }
-
-  static Future<FilePickerResult?> pickFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.any,
-      allowMultiple: true,
-      // allowedExtensions: [
-      //   'jpg',
-      //   'png',
-      //   'jpeg',
-      //   'docx',
-      //   'doc',
-      //   'pdf',
-      //   'csv',
-      //   'xls',
-      //   'xlsx',
-      //   'txt',
-      //   'mp4',
-      // ],
-    );
-    if (result == null) return null;
-    return result;
-  }
-
-  static Future<List<PlatformFile>?> pickFiles() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.any,
-      allowMultiple: true,
-      // allowedExtensions: [
-      //   'jpg',
-      //   'png',
-      //   'jpeg',
-      //   'docx',
-      //   'doc',
-      //   'pdf',
-      //   'csv',
-      //   'xls',
-      //   'xlsx',
-      //   'txt',
-      //   'mp4',
-      // ],
-    );
-    if (result == null) return null;
-    return result.files;
-  }
-
-  static Future getImage(ImageSource source) async {
-    final image = await ImagePicker().pickImage(source: source);
-    if (image == null) return;
-    final imageTemporary = File(image.path);
-    return imageTemporary;
-  }
-}
-
-class DisplayFileImage extends StatelessWidget {
-  final String fileImage;
-  final VoidCallback onDeleteTap;
-
-  // final  int index;
-
-  const DisplayFileImage({
-    super.key,
-    required this.fileImage,
-    required this.onDeleteTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          width: 120.w,
-          height: 120.w,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            // border: Border.all(
-            //   color: AppColors.primaryColor,
-            // ),
-          ),
-          child: Center(
-            child: SizedBox(
-              width: 100.w,
-              height: 92.h,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.file(
-                  File(fileImage),
-                  fit: BoxFit.fill,
-                ),
-              ),
-            ),
-          ),
-        ),
-        Positioned(
-          top: 0,
-          right: 1,
-          child:GestureDetector(
-
-              onTap: onDeleteTap,
-              child: SvgPicture.asset(Assets.crossDeleteIcon)),
-        )
-      ],
-    );
-  }
-}

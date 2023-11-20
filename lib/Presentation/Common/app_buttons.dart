@@ -21,7 +21,7 @@ class CustomButton extends StatelessWidget {
   final double? verticalPadding;
   final double? horizontalMargin;
   final double? verticalMargin;
-
+final TextStyle? textStyleButton;
   ///must be Asset Image
   final String? trailingIcon;
 
@@ -65,7 +65,7 @@ final bool? isButtonAlignLeft;
     this.isButtonAlignLeft,
     this.borderColor = AppColors.primaryColor, this.textFontWeight, this.textSize,
     // this.borderColor = AppColors.primaryColor, this.textFontWeight, this.textSize, this.trailIconWidth,
-    this.borderThickness, this.trailIconHeight, this.gapWidth, this.trailIconWidth,
+    this.borderThickness, this.trailIconHeight, this.gapWidth, this.trailIconWidth, this.textStyleButton,
   }) : super(key: key);
 
   @override
@@ -118,11 +118,11 @@ final bool? isButtonAlignLeft;
               CustomSizedBox.width(gapWidth??0),
               AppText(
                 text,
-                style: Styles.circularStdRegular(
+                style: textStyleButton?? Styles.circularStdRegular(
                   context,
                   color: textColor,
                   fontSize: textSize?? 16.sp,
-                  fontWeight: textFontWeight?? FontWeight.bold
+                  fontWeight: textFontWeight?? FontWeight.w500
                 ),
               ),
               trailingIcon != null

@@ -40,8 +40,8 @@ static const String dropDownIcon='assets/images/DropDownIcon.svg';
 
 static const String dummyImage="assets/images/dummyImage.png";
 static const String dummyImage2='assets/images/dummyImage2.png';
-
-
+static const String whatsAppIcon='assets/images/whatsAppIcon.png';
+static const String publishIconSuccess='assets/images/publishIconSucces.png';
   static const String dummyImage3='assets/images/dummyimage3.png';
   static const String dummyImage4='assets/images/dummyimage4.png';
   static const String dummyImage5='assets/images/dummyimage5.png';
