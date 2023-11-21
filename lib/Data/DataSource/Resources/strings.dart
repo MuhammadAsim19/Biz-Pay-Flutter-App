@@ -59,6 +59,9 @@ class AppStrings {
   static const String personalLinfo = 'Personal information';
   static const String ChangePass = 'Change Password';
   static const String listYourbis = 'List your business';
+  static const String yourBussines = 'your business';
+  static const String dropShoping =
+      'Drop shipping website &\nE-commerece business';
   static const String referAfri = 'Refer a friend';
   static const String privacyPol = 'Privacy policy';
   static const String termsAndcon = 'Terms and Conditions';
