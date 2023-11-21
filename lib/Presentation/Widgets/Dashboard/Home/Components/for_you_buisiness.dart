@@ -9,8 +9,8 @@ class BusinessForYouWidget extends StatelessWidget {
   final List<BusinessProductModel>  businessProducts;
   final void Function(BusinessProductModel val) getData;
   // final void Function(BusinessProductModel val) chatTap;
-
-  const BusinessForYouWidget({super.key, required this.businessProducts, required this.getData});
+  final void Function(BusinessProductModel val) chatTap;
+  const BusinessForYouWidget({super.key, required this.businessProducts, required this.getData, required this.chatTap});
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +79,18 @@ class BusinessForYouWidget extends StatelessWidget {
                               children: [
                                 AppText(businessProducts[index].price!, style: Styles.circularStdBold(context)),
                                 const Spacer(),
+                                ///chat  chip
+                                GestureDetector(
+                                  onTap: ()
+                                  {
 
+                                    chatTap(businessProducts[index]);
+
+                                  },
+                                  child: const ChipWidget(),
+                                ),
+                                // CustomButton(onTap: onTap, text: text)
+                                5.x
                                 // CustomButton(onTap: (){}, text: 'Chat',height: 37,width: 70,textSize: 14,borderRadius: 30,)
                               ],
                             ),

@@ -18,6 +18,7 @@ class CustomTextFieldWithOnTap extends StatelessWidget {
   final bool isBorderRequired;
   final String? titleText;
   final int? maxline;
+  final TextStyle? hintStyle;
   final String? validateText;
   final bool? isShadowRequired;
   final Color? titleTextColor;
@@ -57,14 +58,14 @@ class CustomTextFieldWithOnTap extends StatelessWidget {
       this.focusNode,
       this.hintTextColor,
       this.borderRadius,
-      this.height, this.filledColor})
+      this.height, this.filledColor, this.hintStyle})
       : super(key: key);
 
   final double? borderRadius;
 
   @override
   Widget build(BuildContext context) {
-    print(Data().textScale);
+   // print(Data().textScale);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8).r,
       child: Column(
@@ -91,12 +92,14 @@ class CustomTextFieldWithOnTap extends StatelessWidget {
                 )
               : Container(),
           Container(
+            height: height?? 56,
             decoration: BoxDecoration(
               boxShadow: isShadowRequired! ? [AppShadow.normal()] : [],
               //border:Border.all(color: AppColors.lightGreyColor)
               // borderRadius: BorderRadius.circular(),
             ),
             child: TextFormField(
+
               onTap: onTap,
               readOnly: readOnly ?? false,
               focusNode: focusNode,
@@ -123,6 +126,7 @@ class CustomTextFieldWithOnTap extends StatelessWidget {
                 fillColor:filledColor ?? AppColors.whiteColor,
                 filled: true,
                 hintText: hintText,
+                helperStyle: hintStyle??Styles.circularStdRegular(context,fontSize: 16),
 
                 prefixIcon: prefixIcon != null
                     ? SizedBox(
@@ -146,8 +150,9 @@ class CustomTextFieldWithOnTap extends StatelessWidget {
                     color: FocusScope.of(context).hasFocus
                         ? hintTextColor
                         : AppColors.greyColor,
-                    fontSize: Data().textScale > 1.0 ? 12.sp : 16.sp,
-                    fontWeight: FontWeight.w400),
+                    fontSize: Data().textScale > 1.0 ? 12.sp : 15.sp,
+                    fontWeight: FontWeight.normal
+                ),
 
                 ///changess
                 contentPadding: contentPadding ??

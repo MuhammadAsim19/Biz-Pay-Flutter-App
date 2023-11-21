@@ -22,7 +22,11 @@ class MyApp extends StatelessWidget {
         builder: (context, child) {
           return MaterialApp(
             title: 'BuySellBiz',
-            theme: ThemeData(primaryColor: AppColors.primaryColor),
+            theme: ThemeData(primaryColor: AppColors.primaryColor,bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+              backgroundColor: Colors.transparent,
+              type: BottomNavigationBarType.shifting
+
+            )),
             home: const SplashScreen(),
             // home: const SignUpScreen(),
             debugShowCheckedModeBanner: false,

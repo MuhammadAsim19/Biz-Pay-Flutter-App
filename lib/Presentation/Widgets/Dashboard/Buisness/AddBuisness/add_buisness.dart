@@ -62,6 +62,8 @@ class AddBusiness extends StatelessWidget {
             ),
           ],
         ),
+
+
 body: Padding(
   padding:
   EdgeInsets.symmetric(horizontal: 24.sp),
@@ -96,7 +98,7 @@ body: Padding(
                         height: 34.h,
                         decoration: ShapeDecoration(
                           color:  Color(pageState==0?0xFF007BC0:0xFFD9D9D9),
-                          shape: const OvalBorder(),
+                          shape: const CircleBorder(),
                         ),
                         child: Center(child: SvgPicture.asset(Assets.tickIcon)),
                       ),
@@ -135,7 +137,7 @@ body: Padding(
                         height: 34.h,
                         decoration: ShapeDecoration(
                           color:  Color(pageState==1?0xFF007BC0:0xFFD9D9D9),
-                          shape: const OvalBorder(),
+                          shape: const CircleBorder(),
                         ),
                         child: Center(child: SvgPicture.asset(Assets.tickIcon)),
                       ),
@@ -174,7 +176,9 @@ body: Padding(
                         height: 34.h,
                         decoration: ShapeDecoration(
                           color:  Color(pageState==2?0xFF007BC0:0xFFD9D9D9),
-                          shape: const OvalBorder(),
+                          shape: const CircleBorder(
+
+                          ),
                         ),
                         child: Center(child: SvgPicture.asset(Assets.tickIcon)),
                       ),

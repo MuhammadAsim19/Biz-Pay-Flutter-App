@@ -9,6 +9,7 @@ import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/custom_dropdown.dart';
 import 'package:buysellbiz/Presentation/Common/custom_textfield_with_on_tap.dart';
 import 'package:buysellbiz/Presentation/Common/widget_functions.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/BottomNavigation/Controller/BottomNavigationNotifier/bottom_navigation_notifier.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/BrokerProfile/broker_profile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Category/all_categories.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/BusinessBroker/Profile/business_profile_widget.dart';
@@ -202,7 +203,7 @@ borderRadius: 24,
             prefixIcon: SvgPicture.asset(Assets.searchIcon),
             suffixIcon: Container(
               margin: const EdgeInsets.only(
-                right: 2
+                right: 5
               ),
               child: GeneralizedDropDown(items: countryList, selectedValue: countryList[0], onChanged: (v){}
               ,
@@ -254,7 +255,7 @@ Expanded(
   ///recently view
           ///
           ,
-          19.y,
+          10.y,
           AppText("Recently View", style: Styles.circularStdMedium(context,fontSize: 20)),
   5.y,
   RecentlyViewWidget(businessProducts: businessProducts, getData: (dto)
@@ -350,7 +351,7 @@ SizedBox(
             ],
           ),
           5.y,
-          BusinessForYouWidget(businessProducts: businessProductsForYou, getData: (data){})
+          BusinessForYouWidget(businessProducts: businessProductsForYou, getData: (data){}, chatTap: (BusinessProductModel val) {  },)
 /// online Business
           ,19.y,
           Row(
@@ -362,7 +363,10 @@ SizedBox(
             ],
           ),
           5.y,
-          BusinessForYouWidget(businessProducts: businessProductsOnline, getData: (data){})
+          BusinessForYouWidget(businessProducts: businessProductsOnline, getData: (data){}, chatTap: (BusinessProductModel val) {
+            // BottomNotifier.bottomNavigationNotifier.value
+
+          },)
 
         ],
 

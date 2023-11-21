@@ -72,17 +72,37 @@ AppText('Business Broker', style: Styles.circularStdRegular(context,color: AppCo
 SingleChildScrollView(
   scrollDirection: Axis.horizontal,
   physics: const NeverScrollableScrollPhysics(),
-  child:   Row(children: [
+  child:   Row(
+
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    mainAxisSize: MainAxisSize.min,
+    children: [
 //5.x,
     for(int i =0;i<profileData[index].businessCategories!.length;i++)
 
-        i >1?
-        AppText("+${profileData[index].businessCategories!.length-2} more", style: Styles.circularStdRegular(context,fontSize: 12,color: AppColors.blackColor
-        ))
+        i ==2?
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AppText("+${profileData[index].businessCategories!.length-2}", style: Styles.circularStdRegular(context,fontSize: 12,color: AppColors.blackColor
+            )),
+          ],
+        ):
 
-            :
-        Align(child: ChipWidget(labelText:profileData[index].businessCategories![i] ,height: 30,style: Styles.circularStdRegular(context,fontSize: 10.sp,color: AppColors.whiteColor),)),
-3.x,
+           i<=1?
+        Row
+          (
+          children: [
+            ChipWidget(labelText:profileData[index].businessCategories![i] ,width: null,height: 30,style: Styles.circularStdRegular(context,fontSize: 10.sp,color: AppColors.whiteColor),),
+            2.x,
+            i==1?0.x:5.x,
+          ],
+        )
+
+  :
+               const SizedBox(),
+
+
 
 
   ],),

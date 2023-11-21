@@ -20,37 +20,47 @@ class AddImageWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
-      child: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
-        child: DottedBorder(
-          borderType: BorderType.RRect,
-          radius: const Radius.circular(12).r,
-          padding: const EdgeInsets.symmetric(vertical: 35).r,
-          color: AppColors.greyColor,
-          strokeWidth: 3,
-          dashPattern: const [2, 3],
-          child: SizedBox(
-            height: height??76,
-            width:width??1.sw,
-            child: Column(
+      child: SizedBox(
+        height: height??76,
+        width:width??1.sw,
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(12)),
+          child: DottedBorder(
+            borderType: BorderType.RRect,
+            radius: const Radius.circular(12).r,
+          //  padding: const EdgeInsets.symmetric(vertical: 35).r,
+            color: AppColors.greyColor,
+            strokeWidth: 3,
+            stackFit: StackFit.expand,
+            dashPattern: const [3, 4],
+            child: ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(12)),
+              child: Container(
+                color: AppColors.dottedGreyColor,
 
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SvgPicture.asset(Assets.addImageIcon,height: 20,width: 20,),
-                CustomSizedBox.height(10),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 6).r,
-                  child: AppText(
-                    text??"Uploads photos",
-                    style:style?? Styles.circularStdRegular(
-                      context,
-                      fontSize: 15.sp,
-                      color: AppColors.blackColor,
+                child: Column(
+
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+
+                    10.y,
+                    SvgPicture.asset(Assets.addImageIcon,height: 20,width: 20,),
+                    CustomSizedBox.height(4),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 6).r,
+                      child: AppText(
+                        text??"Uploads photos",
+                        style:style?? Styles.circularStdRegular(
+                          context,
+                          fontSize: 12.sp,
+                          color: AppColors.blackColor,
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),

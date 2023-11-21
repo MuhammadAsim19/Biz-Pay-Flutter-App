@@ -107,11 +107,13 @@ const Spacer(),
 15.y,
 
              Row(
+               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
                children: [
-                 AppText("Industry", style: Styles.circularStdRegular(context,fontSize: 16.sp)),
-                 const Spacer(),
-                 AppText("Amazon Drop Shipping", style: Styles.circularStdRegular(context,fontSize: 16.sp)),
+                 Expanded(child: AppText("Industry", style: Styles.circularStdRegular(context,fontSize: 16.sp))),
+                 //const Spacer(),
+                 Expanded(
+                     child: AppText("Amazon Drop Shipping", style: Styles.circularStdRegular(context,fontSize: 14.sp))),
 
 
 
@@ -126,10 +128,10 @@ mainAxisAlignment:
 
                crossAxisAlignment: CrossAxisAlignment.start,
                children: [
-                 AppText("Year found", style: Styles.circularStdRegular(context,fontSize: 16.sp)),
-                 const Spacer(),
-                 AppText("2009", style: Styles.circularStdRegular(context,fontSize: 16.sp)),
-const Spacer()
+                 Expanded(child: AppText("Year found", style: Styles.circularStdRegular(context,fontSize: 16.sp))),
+                // const Spacer(),
+                 Expanded(child: AppText("2009", style: Styles.circularStdRegular(context,fontSize: 16.sp))),
+//const Spacer()
 
 
 
@@ -141,11 +143,11 @@ const Spacer()
                crossAxisAlignment: CrossAxisAlignment.start,
 
                children: [
-                 AppText("# of owner", style: Styles.circularStdRegular(context,fontSize: 16.sp)),
-                 const Spacer(),
-                 AppText("2", style: Styles.circularStdRegular(context,fontSize: 16.sp)),
+                 Expanded(child: AppText("# of owner", style: Styles.circularStdRegular(context,fontSize: 16.sp))),
+          
+                 Expanded(child: AppText("2", style: Styles.circularStdRegular(context,fontSize: 16.sp))),
 
- const Spacer()
+ 
 
 
                ],
@@ -155,10 +157,10 @@ const Spacer()
              Row(
 mainAxisAlignment: MainAxisAlignment.start,
                children: [
-                 AppText("# of employees", style: Styles.circularStdRegular(context,fontSize: 16.sp)),
-                 const Spacer(),
-                 AppText("19", style: Styles.circularStdRegular(context,fontSize: 16.sp)),
-const Spacer()
+                 Expanded(child: AppText("# of employees", style: Styles.circularStdRegular(context,fontSize: 16.sp))),
+               //  const Spacer(),
+                 Expanded(child: AppText("19", style: Styles.circularStdRegular(context,fontSize: 16.sp))),
+
 
 
 
@@ -166,7 +168,7 @@ const Spacer()
 
              ),
              10.y,
-             
+
              AppText('Business hour', style: Styles.circularStdMedium(context,fontSize: 20)),
 
              ChipWidget(labelText: "20hr per week",height:60.sp,style: Styles.circularStdRegular(context,color: AppColors.whiteColor),)
@@ -195,10 +197,10 @@ const Spacer()
 ,
              10.y,
              AppText('Documents', style: Styles.circularStdMedium(context,fontSize: 20)),
-
+10.y,
               Row(
                children: [
-SvgPicture.asset(Assets.pdfIcon),
+SvgPicture.asset(Assets.pdfIcon,width: 40,height: 50,),
                  10.x,
                  Column(
                    crossAxisAlignment:
@@ -206,20 +208,20 @@ SvgPicture.asset(Assets.pdfIcon),
                    children: [
                      AppText("business portfolio.pdf", style: Styles.circularStdMedium(context,fontSize: 16.sp)),
                    AppText("656 kb", style: Styles.circularStdRegular(context,color: AppColors.lightGreyColor))
-                   
+
                    ],
                  ),
-                 
+
                  const Spacer(),
-                 
+
                  SvgPicture.asset(Assets.downloadIcon)
-                 
+
 
                ],
              ),
              14.y,
              AppText('Revenue history', style: Styles.circularStdMedium(context,fontSize: 20)),
-
+10.y,
              FractionallySizedBox(
                widthFactor: 1.07,
                child: VerticalBarChart(),

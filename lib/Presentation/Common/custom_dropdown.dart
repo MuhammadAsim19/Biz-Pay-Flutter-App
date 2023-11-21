@@ -191,7 +191,7 @@ class _GeneralizedDropDownState extends State<GeneralizedDropDown> {
     return DropdownButtonFormField<String>(
       value: _selectedValue,
       isExpanded: true,
-      hint:AppText(widget.hint??"",style: Styles.circularStdRegular(context,fontSize: 15),),
+      hint:AppText(widget.hint??"",style: Styles.circularStdRegular(context,fontSize: 15,fontWeight: FontWeight.normal),),
       elevation: 0,
      icon:widget.icon,
      // icon: ,
@@ -206,14 +206,14 @@ class _GeneralizedDropDownState extends State<GeneralizedDropDown> {
     decoration:  InputDecoration(
     enabledBorder: widget.isBorder!=null?UnderlineInputBorder(
       borderSide: BorderSide(color: AppColors.lightGreyColor,width: 0.4.sp),
-    ):UnderlineInputBorder(
+    ):const UnderlineInputBorder(
     borderSide: BorderSide(color: Colors.transparent),
     ),
       border:  widget.isBorder!=null?UnderlineInputBorder(
 
         borderRadius: BorderRadius.circular(40),
         borderSide: BorderSide(color: AppColors.lightGreyColor,width: 0.4.sp),
-      ):UnderlineInputBorder(
+      ):const UnderlineInputBorder(
         borderSide: BorderSide(color: Colors.transparent),
       ),
       disabledBorder:  widget.isBorder!=null?UnderlineInputBorder(
@@ -221,7 +221,7 @@ class _GeneralizedDropDownState extends State<GeneralizedDropDown> {
       ):const UnderlineInputBorder(
         borderSide: BorderSide(color: Colors.transparent),
       ),
-      focusedBorder: UnderlineInputBorder(
+      focusedBorder: const UnderlineInputBorder(
         borderSide: BorderSide(color: Colors.transparent),
       ),
 
