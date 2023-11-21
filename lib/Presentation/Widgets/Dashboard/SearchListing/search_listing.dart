@@ -73,16 +73,17 @@ body: Padding(
 10.y,
       SingleChildScrollView(
         scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
         child: Row(children: [
              // 10.x,
-          WidgetFunctions.instance.dropDown(context, values:countryList, titles: countryList,placeholder: "USA",onChange: (c){},width:65)
+          WidgetFunctions.instance.dropDown(context, values:countryList, titles: countryList,placeholder: "USA",onChange: (c){},width:100)
 
        ,  10.x
-          ,WidgetFunctions.instance.dropDown(context, values: categoryList, titles: categoryList,placeholder: "Categories",onChange: (c){},width:100)
+          ,WidgetFunctions.instance.dropDown(context, values: categoryList, titles: categoryList,placeholder: "Categories",onChange: (c){},width:120)
           ,10.x
-          , WidgetFunctions.instance.dropDown(context, values: priceList, titles: priceList,placeholder: "Price",onChange: (c){},width:75)
+          , WidgetFunctions.instance.dropDown(context, values: priceList, titles: priceList,placeholder: "Price",onChange: (c){},width:100)
           ,10.x
-          ,      WidgetFunctions.instance.dropDown(context, values:revenueList, titles: revenueList,placeholder: "Revenue",onChange: (c){},width:90)
+          ,      WidgetFunctions.instance.dropDown(context, values:revenueList, titles: revenueList,placeholder: "Revenue",onChange: (c){},width:100)
           ,10.x
 
 

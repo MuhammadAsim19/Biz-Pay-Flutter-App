@@ -72,7 +72,7 @@ Future<ScaffoldFeatureController<SnackBar, SnackBarClosedReason>> snackBar(
     return Container(
       width: width ?? 150,
         //height: 50,
-        padding: EdgeInsets.only(left: 5.sp),
+        padding: EdgeInsets.only(left: 15.sp,right: 10.sp),
         decoration: ShapeDecoration(
           color: const Color(0xFFEEF1F6),
           shape: RoundedRectangleBorder(
@@ -135,6 +135,7 @@ Future<ScaffoldFeatureController<SnackBar, SnackBarClosedReason>> snackBar(
       bool clickOutSideClose = true,
       AlignmentGeometry? alignment,
       EdgeInsets? insetsPadding,
+
       Curve curve = Curves.decelerate,
 
       /// [insetAnimationDuration] count unit is Milli Seconds

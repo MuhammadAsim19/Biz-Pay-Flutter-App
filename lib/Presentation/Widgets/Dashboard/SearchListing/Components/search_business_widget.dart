@@ -36,86 +36,91 @@ class SearchBusinessWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Stack(
                 children: [
-
-                  Stack(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      AssetImageWidget(url: businessProducts[index].businessImage!,width: 380,height: 193.h),
-                      Positioned(
-                        // bottom: 0,
-                        // left: 0,
-                          top: 10,
-                          right: 10,
 
-                          child: SvgPicture.asset(businessProducts[index].isFav==false?Assets.heartWhiteLight:Assets.heartRed))
-
-                    ],
-                  )
-                  ,
-                  //  10.x,
-                  Expanded(
-                    child: Container(
-                      margin: EdgeInsets.only(
-                          left: 10.sp
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-
+                      Stack(
                         children: [
-                          5.y,
-                          Row(
-                            children: [
-                              AppText(businessProducts[index].location!, style: Styles.circularStdRegular(context,color: AppColors.lightGreyColor,fontSize: 12)),
+                          AssetImageWidget(url: businessProducts[index].businessImage!,width: 380,height: 193.h),
+                          Positioned(
+                            // bottom: 0,
+                            // left: 0,
+                              top: 10,
+                              right: 10,
 
-                        const Spacer(),
-                      AppText(businessProducts[index].price!, style: Styles.circularStdBold(context,fontSize: 18)),
+                              child: SvgPicture.asset(businessProducts[index].isFav==false?Assets.heartWhiteLight:Assets.heartRed))
 
-
-                      ],
+                        ],
+                      )
+                      ,
+                      //  10.x,
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.only(
+                              left: 10.sp
                           ),
-                          5.y,
-                          Stack(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+
                             children: [
-                              AppText(businessProducts[index].businessName!, style: Styles.circularStdMedium(context,fontSize: 20),maxLine: 3,overflow: TextOverflow.ellipsis,),
+                              5.y,
+                              Row(
+                                children: [
+                                  AppText(businessProducts[index].location!, style: Styles.circularStdRegular(context,color: AppColors.lightGreyColor,fontSize: 12)),
 
-                              Positioned(
-                                bottom: 0,
-                                right: 10,
-                                child: GestureDetector(
-                                  onTap: ()
-                                  {
+                            const Spacer(),
+                          AppText(businessProducts[index].price!, style: Styles.circularStdBold(context,fontSize: 18)),
 
-                                    chatTap(businessProducts[index]);
 
-                                  },
-                                  child: const ChipWidget(),
-                                ),
+                          ],
                               ),
-                            ],
-                          ),
-
-                        //  7.y,
-                          // Row(
-                          //   children: [
-                          //     const Spacer(),
-                          //     ///chat  chip
-                          //
-                          //     // CustomButton(onTap: onTap, text: text)
-                          //     5.x
-                          //     // CustomButton(onTap: (){}, text: 'Chat',height: 37,width: 70,textSize: 14,borderRadius: 30,)
-                          //   ],
-                          // ),
+                              5.y,
+                              Stack(
+                                children: [
+                                  AppText(businessProducts[index].businessName!, style: Styles.circularStdMedium(context,fontSize: 20),maxLine: 3,overflow: TextOverflow.ellipsis,),
 
 
+                                ],
+                              ),
 
-                        ],),
+                            //  7.y,
+                              // Row(
+                              //   children: [
+                              //     const Spacer(),
+                              //     ///chat  chip
+                              //
+                              //     // CustomButton(onTap: onTap, text: text)
+                              //     5.x
+                              //     // CustomButton(onTap: (){}, text: 'Chat',height: 37,width: 70,textSize: 14,borderRadius: 30,)
+                              //   ],
+                              // ),
+
+
+
+                            ],),
+                        ),
+                      )
+                    ],
+
+                  ),
+                  Positioned(
+                    bottom: 30,
+                    right: 10,
+                    child: GestureDetector(
+                      onTap: ()
+                      {
+
+                        chatTap(businessProducts[index]);
+
+                      },
+                      child: const ChipWidget(),
                     ),
                   )
                 ],
-
               ),
 
             ),
