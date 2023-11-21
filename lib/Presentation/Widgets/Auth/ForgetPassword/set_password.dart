@@ -18,6 +18,7 @@ class SetPassword extends StatelessWidget {
       child: Scaffold(
         backgroundColor: AppColors.whiteColor,
         body: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 24.sp, horizontal: 24.sp),
             child: Column(
@@ -37,7 +38,7 @@ class SetPassword extends StatelessWidget {
                       fontSize: 14.sp, color: AppColors.greyTextColor),
                   maxLine: 2,
                 ),
-                20.y,
+                110.y,
                 CustomTextFieldWithOnTap(
                     isBorderRequired: true,
                     prefixIcon: SvgPicture.asset('assets/images/lock.svg'),
@@ -47,17 +48,17 @@ class SetPassword extends StatelessWidget {
                     hintText: AppStrings.password,
                     textInputType: TextInputType.text,
                     borderRadius: 25.sp),
-                25.y,
+                20.y,
                 CustomTextFieldWithOnTap(
                     isBorderRequired: true,
                     prefixIcon: SvgPicture.asset('assets/images/lock.svg'),
                     suffixIcon: SvgPicture.asset('assets/images/hide_pass.svg'),
                     contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
                     controller: confirmPassword,
-                    hintText: AppStrings.password,
+                    hintText: AppStrings.confirmPassword,
                     textInputType: TextInputType.text,
                     borderRadius: 25.sp),
-                250.y,
+                200.y,
                 CustomButton(
                   onTap: () {
                     CustomDialog.successDialog(context,

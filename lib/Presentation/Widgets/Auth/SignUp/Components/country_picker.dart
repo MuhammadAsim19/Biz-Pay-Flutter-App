@@ -49,8 +49,8 @@ class _CountryPickerState extends State<CountryPicker> {
                 const Flexible(
                   flex: 3,
                   child: CountryCodePicker(
-                    initialSelection: '+221',
-                    favorite: ['+221', 'SN'],
+                    initialSelection: '+1',
+                    // favorite: ['+221', 'SN'],
                     // dialogTextStyle: Styles.circularStdRegular(context,
                     //     color: FocusScope.of(context).hasFocus
                     //         ? AppColors.blackColor

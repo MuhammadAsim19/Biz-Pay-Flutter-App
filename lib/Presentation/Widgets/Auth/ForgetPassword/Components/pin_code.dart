@@ -111,9 +111,9 @@ class _PinCodeExampleState extends State<PinCodeExample> {
                   ),
                 ],
               ),
-
+              enabled: true,
               focusedPinTheme: focusedTheme,
-              submittedPinTheme: defaultPinTheme,
+              submittedPinTheme: focusedTheme,
               errorPinTheme: defaultPinTheme.copyBorderWith(
                 border: Border.all(color: Colors.redAccent),
               ),

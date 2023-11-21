@@ -28,8 +28,8 @@ class CustomPopupMenu extends StatelessWidget {
         // }
       },
       child: SizedBox(
-        height: 40.sp,
-        width: 40.sp,
+        height: 30.sp,
+        width: 30.sp,
         child: SvgPicture.asset(
           Assets.threeDots,
         ),
@@ -41,9 +41,7 @@ class CustomPopupMenu extends StatelessWidget {
           height: 30.sp,
           child: Row(
             children: [
-               Expanded(
-                  flex: 1,
-                  child:  SvgPicture.asset(Assets.editbusiness)),
+              Expanded(flex: 1, child: SvgPicture.asset(Assets.editbusiness)),
               4.x,
               Expanded(
                 flex: 4,
@@ -67,11 +65,10 @@ class CustomPopupMenu extends StatelessWidget {
           height: 30.sp,
           child: Row(
             children: [
-               Expanded(
-                  flex: 1,
-                  child: 
-                  SvgPicture.asset(Assets.sendbusiness),
-                  ),
+              Expanded(
+                flex: 1,
+                child: SvgPicture.asset(Assets.sendbusiness),
+              ),
               4.x,
               Expanded(
                 flex: 4,
@@ -88,17 +85,16 @@ class CustomPopupMenu extends StatelessWidget {
           ),
         ),
 
-         PopupMenuItem(
+        PopupMenuItem(
           value: MenuItem1.delete,
           padding: EdgeInsets.only(left: 10.sp, top: 10.sp),
           height: 30.sp,
           child: Row(
             children: [
               Expanded(
-                  flex: 1,
-                  child:
-                   SvgPicture.asset(Assets.delete), 
-                  ),
+                flex: 1,
+                child: SvgPicture.asset(Assets.delete),
+              ),
               4.x,
               Expanded(
                 flex: 4,
@@ -120,8 +116,7 @@ class CustomPopupMenu extends StatelessWidget {
 }
 
 enum MenuItem1 {
-  
   edit,
-  delete, 
-  share, 
-  }
+  delete,
+  share,
+}

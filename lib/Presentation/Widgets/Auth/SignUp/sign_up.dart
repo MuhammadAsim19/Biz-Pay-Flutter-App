@@ -53,7 +53,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         fontSize: 20.sp, fontWeight: FontWeight.w500)),
                 5.y,
                 AppText(
-                  "AppStrings.signup2",
+                  AppStrings.signUpDesc,
                   style: Styles.circularStdRegular(context,
                       fontSize: 14.sp, color: AppColors.greyTextColor),
                   maxLine: 2,
@@ -126,7 +126,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   text: AppStrings.register,
                   borderRadius: 25.sp,
                 ),
-                15.y,
+                20.y,
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   AppText(AppStrings.haveAccount,
                       style: Styles.circularStdBold(context,

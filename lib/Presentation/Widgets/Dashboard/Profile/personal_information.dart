@@ -3,24 +3,41 @@ import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart'
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/strings.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
+import 'package:buysellbiz/Presentation/Common/custom_date_picker.dart';
+import 'package:buysellbiz/Presentation/Common/custom_dropdown.dart';
 import 'package:buysellbiz/Presentation/Common/custom_textfield_with_on_tap.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_appbar.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_list_tile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/delete_account.dart';
 
-class PersonalInformation extends StatelessWidget {
+class PersonalInformation extends StatefulWidget {
+  PersonalInformation({super.key});
+
+  @override
+  State<PersonalInformation> createState() => _PersonalInformationState();
+}
+
+class _PersonalInformationState extends State<PersonalInformation> {
   TextEditingController firstnamecontroller = TextEditingController();
+
   TextEditingController lastnamecontroller = TextEditingController();
+
   TextEditingController emailcontroller = TextEditingController();
+
   TextEditingController calendarcontroller = TextEditingController();
+
   TextEditingController countrycontroller = TextEditingController();
 
-  PersonalInformation({super.key});
+  List country = ['US', "Canada", 'UK'];
+
+  String? countryName;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const CustomAppBar(title: AppStrings.personalLinfo, ),
+      appBar: const CustomAppBar(
+        title: AppStrings.personalLinfo,
+      ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -29,8 +46,6 @@ class PersonalInformation extends StatelessWidget {
           child: Column(
             children: [
               40.y,
-            
- 
               Stack(
                 children: [
                   const AssetImageWidget(
@@ -39,12 +54,12 @@ class PersonalInformation extends StatelessWidget {
                     isCircle: true,
                   ),
                   Positioned(
-                      top: 75.h,
-                      left: 90.w,
+                      top: 80.sp,
+                      left: 80.sp,
                       child: SvgPicture.asset(Assets.blueElipse)),
                   Positioned(
-                      top: 85.h,
-                      left: 100.w,
+                      top: 87.sp,
+                      left: 88.sp,
                       child: SvgPicture.asset(Assets.edit)),
                 ],
               ),
@@ -70,19 +85,29 @@ class PersonalInformation extends StatelessWidget {
                       controller: emailcontroller,
                       hintText: 'gabriel.example@gmail.com',
                       textInputType: TextInputType.emailAddress),
-                  CustomTextFieldWithOnTap(
-                      borderRadius: 40.r,
-                      prefixIcon: SvgPicture.asset(Assets.calender),
-                      controller: calendarcontroller,
-                      hintText: '22/09/96',
-                      textInputType: TextInputType.datetime),
-                  CustomTextFieldWithOnTap(
-                      suffixIcon: SvgPicture.asset(Assets.arrowDown),
-                      borderRadius: 40.r,
-                      prefixIcon: SvgPicture.asset(Assets.location),
-                      controller: countrycontroller,
-                      hintText: 'Country',
-                      textInputType: TextInputType.name),
+                  CustomDatePickerValidateWidget(
+                    validator: (p0) {},
+                    prefixIcon: SvgPicture.asset(Assets.calender),
+                    controller: calendarcontroller,
+                    hintText: '22/09/96',
+                  ),
+                  10.y,
+                  CustomDropDownWidget(
+                    isBorderRequired: true,
+                    hMargin: 0,
+                    vMargin: 0,
+                    prefixIcon: SvgPicture.asset(Assets.location),
+                    itemsMap: country.map((e) {
+                      return DropdownMenuItem(value: e, child: Text(e));
+                    }).toList(),
+                    hintText: 'Country',
+                    value: countryName,
+                    validationText: '',
+                    onChanged: (value) {
+                      country = value;
+                      setState(() {});
+                    },
+                  ),
                 ],
               ),
               50.y,
@@ -102,8 +127,8 @@ class PersonalInformation extends StatelessWidget {
               ),
               20.y,
               GestureDetector(
-                onTap: (){
-                  Navigate.to(context,DeleteAccont()); 
+                onTap: () {
+                  Navigate.to(context, DeleteAccont());
                 },
                 child: AppText('Delete my account',
                     style: Styles.circularStdMedium(context,

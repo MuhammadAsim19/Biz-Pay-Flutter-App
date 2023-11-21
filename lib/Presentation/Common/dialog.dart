@@ -103,7 +103,7 @@ class CustomDialog {
                   AppText(title!,
                       style: Styles.circularStdBold(context,
                           color: AppColors.primaryColor,
-                          fontSize: 24.sp,
+                          fontSize: 22.sp,
                           fontWeight: FontWeight.w500),
                       maxLine: 2),
                   6.y,
@@ -111,7 +111,7 @@ class CustomDialog {
                     message!,
                     style: Styles.circularStdRegular(
                       context,
-                      fontSize: 16.sp,
+                      fontSize: 14.sp,
                       color: AppColors.greyTextColor,
                       fontWeight: FontWeight.w400,
                     ),
@@ -121,7 +121,7 @@ class CustomDialog {
                   15.y,
                   CustomButton(
                     width: 300.w,
-                    height: 40.h,
+                    height: 45.h,
                     onTap: () {
                       Navigate.toReplace(context, LoginScreen());
                     },
