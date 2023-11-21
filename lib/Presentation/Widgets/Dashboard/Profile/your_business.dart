@@ -2,7 +2,9 @@ import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart'
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/strings.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/utils.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/pop_munu.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_appbar.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_popup_menu.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/change_password.dart';
 
 class YourBusiness extends StatelessWidget {
@@ -69,17 +71,11 @@ class YourBusiness extends StatelessWidget {
                                               fontSize: 12.sp,
                                               color: AppColors.greyMedium),
                                         ),
-                                        75.x,
-                                        Stack(
-                                          children: [
-                                            Positioned(
-                                                child: SvgPicture.asset(
-                                                    Assets.dropdown))
-                                          ],
-                                        ),
+                                       Spacer(), 
+                                        CustomPopupMenu(), 
                                       ],
                                     ),
-                                    const Stack(),
+                               
                                     Text(
                                       Utils.Dropshipping,
                                       style: Styles.circularStdRegular(context,
