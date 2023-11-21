@@ -1,9 +1,7 @@
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/strings.dart';
 
-
- class CustomListTile extends StatelessWidget {
-
+class CustomListTile extends StatelessWidget {
   final String? leadingicon;
   final String? title;
   final String? trailing;
@@ -17,17 +15,19 @@ import 'package:buysellbiz/Data/DataSource/Resources/strings.dart';
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      
-      
-      leading: SvgPicture.asset(leadingicon!),
-      title: AppText(title!,
-          style: Styles.circularStdMedium(context, fontSize: 16.sp)),
-      trailing: SvgPicture.asset(trailing!),
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 10.sp, horizontal: 5.sp),
+      child: Row(
+        children: [
+          Expanded(child: SvgPicture.asset(leadingicon!)),
+          Expanded(
+            flex: 5,
+            child: AppText(title!,
+                style: Styles.circularStdMedium(context, fontSize: 16.sp)),
+          ),
+          Expanded(child: SvgPicture.asset(trailing!)),
+        ],
+      ),
     );
   }
 }
- 
-
-
- 

@@ -3,6 +3,7 @@ import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/dialog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_list_tile.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/logout_dialog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/change_password.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/customer_support.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/personal_information.dart';
@@ -13,6 +14,7 @@ import 'package:share_plus/share_plus.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,62 +124,7 @@ class ProfileScreen extends StatelessWidget {
                 borderRadius: 40.r,
                 onTap: () {
                   CustomDialog.dialog(
-                      context,
-                      Container(
-                        height: 255.h,
-                        width: 380.w,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(10.r),
-                          color: AppColors.whiteColor,
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(18.sp),
-                              child: SvgPicture.asset(
-                                Assets.roundBluetick,
-                                width: 86.w,
-                                height: 86.h,
-                              ),
-                            ),
-                            
-                               AppText(AppStrings.logout,
-                                  
-                                  style: Styles.circularStdRegular(context,
-                                      fontSize: 24.sp,
-                                      color: AppColors.primaryColor)), 
-                            
-                            Padding(
-                              padding: EdgeInsets.all(3.sp),
-                              child: AppText(AppStrings.areYousure,
-                                  maxLine: 2,
-                                  style: Styles.circularStdRegular(context,
-                                      fontSize: 16.sp,
-                                      color: AppColors.greyMedium)),
-                            ),
-                            2.y,
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                62.x,
-                                AppText(AppStrings.cancel,
-                                    style: Styles.circularStdRegular(context,
-                                        fontSize: 16.sp,
-                                        color: AppColors.greyMedium)),
-                                16.x,
-                                CustomButton(
-                                  onTap: () {},
-                                  text: AppStrings.login,
-                                  height: 50.h,
-                                  width: 168.w,
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                      ));
+                      barrierDismissible: true, context, const LogoutDialog());
                 },
                 text: AppStrings.logout,
                 bgColor: AppColors.whiteColor,

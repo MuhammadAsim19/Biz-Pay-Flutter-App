@@ -52,7 +52,7 @@ class VerifyOtp extends StatelessWidget {
                 onTap: () {
                   Navigate.to(context, SetPassword());
                 },
-                text: 'Verify',
+                text: 'Submit',
                 borderRadius: 25.sp,
               ),
             ],

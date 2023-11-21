@@ -33,155 +33,153 @@ class _BrokerProfileState extends State<BrokerProfile> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 24,
-            ),
-            child: NestedScrollView(
-              controller: controller,
-              headerSliverBuilder: (context, check) {
-                return [
-                  SliverAppBar(
-                    pinned: true,
-                    expandedHeight: MediaQuery.of(context).size.height * 0.33,
-                    automaticallyImplyLeading: false,
-                    backgroundColor: AppColors.whiteColor,
-                    flexibleSpace: SingleChildScrollView(
-                      child: Column(
+        body: NestedScrollView(
+          controller: controller,
+          headerSliverBuilder: (context, check) {
+            return [
+              SliverAppBar(
+                pinned: true,
+                expandedHeight: MediaQuery.of(context).size.height * 0.33,
+                automaticallyImplyLeading: false,
+                backgroundColor: AppColors.whiteColor,
+                flexibleSpace: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      16.y,
+                      BackArrowWidget(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          16.y,
-                          const Align(
-                              alignment: Alignment.centerLeft,
-                              child: BackArrowWidget()),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              AssetImageWidget(
-                                url: 'assets/images/profile.png',
-                                height: 108.h,
-                                width: 120.w,
-                              ),
-                            ],
-                          ),
-                          12.y,
-                          Align(
-                            alignment: Alignment.center,
-                            child: AppText('Gabriel Tasse',
-                                style: Styles.circularStdBold(context,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 21.sp)),
-                          ),
-                          4.y,
-                          Align(
-                            alignment: Alignment.center,
-                            child: AppText('Business Broker',
-                                style: Styles.circularStdRegular(context,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14.sp,
-                                    color: AppColors.greyTextColor)),
+                          AssetImageWidget(
+                            url: 'assets/images/profile.png',
+                            height: 108.h,
+                            width: 120.w,
                           ),
                         ],
                       ),
-                    ),
-                  )
-                ];
-              },
-              body: Stack(
-                children: [
-                  SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        24.y,
-                        // 20.y,
-                        AppText(AppStrings.brokerDescription,
-                            maxLine: 9,
-                            style: Styles.circularStdRegular(
-                              context,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 13.sp,
-                              color: AppColors.greyTextColor,
-                            )),
-                        23.y,
-                        AppText(AppStrings.serviceOffered,
-                            style: Styles.circularStdBold(
-                              context,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 20.sp,
-                              color: AppColors.blackColor,
-                            )),
-                        14.y,
-                        Wrap(
-                          spacing: 20.sp,
-                          runSpacing: 12.sp,
-                          children: serviceOffered.map((e) {
-                            return BrokerChipWidget(
-                              labelText: e,
-                            );
-                          }).toList(),
-                        ),
-                        30.y,
-                        AppText(AppStrings.industry,
-                            style: Styles.circularStdBold(
-                              context,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 20.sp,
-                              color: AppColors.blackColor,
-                            )),
-                        14.y,
-                        Wrap(
-                          spacing: 20.sp,
-                          runSpacing: 12.sp,
-                          children: industry.map((e) {
-                            return BrokerChipWidget(
-                              labelText: e,
-                            );
-                          }).toList(),
-                        ),
-                        30.y,
-                        customRow(AppStrings.experice, '10 years'),
-                        13.y,
-                        customRow(AppStrings.education, 'MBA Finance'),
-                        13.y,
-                        customRow(AppStrings.certificate, 'Digital Marketing'),
-                        30.y,
-                        AppText(AppStrings.industry,
-                            style: Styles.circularStdBold(
-                              context,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 20.sp,
-                              color: AppColors.blackColor,
-                            )),
-                        13.y,
-                        AppText('www.yourwebsite.com',
-                            style: Styles.circularStdRegular(
-                              context,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16.sp,
-                              color: AppColors.blackColor,
-                            )),
-                        63.y,
-                      ],
-                    ),
+                      12.y,
+                      Align(
+                        alignment: Alignment.center,
+                        child: AppText('Gabriel Tasse',
+                            style: Styles.circularStdBold(context,
+                                fontWeight: FontWeight.w500, fontSize: 21.sp)),
+                      ),
+                      4.y,
+                      Align(
+                        alignment: Alignment.center,
+                        child: AppText('Business Broker',
+                            style: Styles.circularStdRegular(context,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14.sp,
+                                color: AppColors.greyTextColor)),
+                      ),
+                    ],
                   ),
-                  Positioned(
-                    bottom: 8.sp,
-                    left: 10.sp,
-                    right: 10.sp,
-                    child: CustomButton(
-                        width: 300.w,
-                        height: 40.h,
-                        onTap: () {
-                          Navigate.to(context, ChatScreen());
-                        },
-                        text: 'Chat with Gabriel',
-                        borderRadius: 40.sp),
+                ),
+              )
+            ];
+          },
+          body: Stack(
+            children: [
+              SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
                   ),
-                ],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      24.y,
+                      // 20.y,
+                      AppText(AppStrings.brokerDescription,
+                          maxLine: 9,
+                          style: Styles.circularStdRegular(
+                            context,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 13.sp,
+                            color: AppColors.greyTextColor,
+                          )),
+                      23.y,
+                      AppText(AppStrings.serviceOffered,
+                          style: Styles.circularStdBold(
+                            context,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 20.sp,
+                            color: AppColors.blackColor,
+                          )),
+                      14.y,
+                      Wrap(
+                        spacing: 20.sp,
+                        runSpacing: 12.sp,
+                        children: serviceOffered.map((e) {
+                          return BrokerChipWidget(
+                            labelText: e,
+                          );
+                        }).toList(),
+                      ),
+                      30.y,
+                      AppText(AppStrings.industry,
+                          style: Styles.circularStdBold(
+                            context,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 20.sp,
+                            color: AppColors.blackColor,
+                          )),
+                      14.y,
+                      Wrap(
+                        spacing: 20.sp,
+                        runSpacing: 12.sp,
+                        children: industry.map((e) {
+                          return BrokerChipWidget(
+                            labelText: e,
+                          );
+                        }).toList(),
+                      ),
+                      30.y,
+                      customRow(AppStrings.experice, '10 years'),
+                      13.y,
+                      customRow(AppStrings.education, 'MBA Finance'),
+                      13.y,
+                      customRow(AppStrings.certificate, 'Digital Marketing'),
+                      30.y,
+                      AppText(AppStrings.industry,
+                          style: Styles.circularStdBold(
+                            context,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 20.sp,
+                            color: AppColors.blackColor,
+                          )),
+                      13.y,
+                      AppText('www.yourwebsite.com',
+                          style: Styles.circularStdRegular(
+                            context,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16.sp,
+                            color: AppColors.blackColor,
+                          )),
+                      63.y,
+                    ],
+                  ),
+                ),
               ),
-            )),
+              Positioned(
+                bottom: 16.sp,
+                left: 10.sp,
+                right: 10.sp,
+                child: CustomButton(
+                    width: 300.w,
+                    height: 40.h,
+                    onTap: () {
+                      Navigate.to(context, ChatScreen());
+                    },
+                    text: 'Chat with Gabriel',
+                    borderRadius: 40.sp),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

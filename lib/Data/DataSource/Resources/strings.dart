@@ -6,6 +6,8 @@ class AppStrings {
       'Login to sell and buy your next business,\nfranchise';
   static String loginWithEmail = 'Login with email';
   static String loginWithGoogle = ' Continue with Google';
+  static String signUpDesc =
+      'Let’s get started. Share your info to join the\nmarketplace';
 
   static String loginWithFacebook = 'Continue with Facebook';
   static String registerUS = 'Register as?';
@@ -17,6 +19,8 @@ class AppStrings {
 
   static String email = 'Email';
   static String password = 'Password';
+  static String confirmPassword = 'Confirm Password';
+
   static String forgetPassword = 'Forgot password?';
   static String noHaveAccount = 'Don’t have an account?';
   static String register = 'Register';

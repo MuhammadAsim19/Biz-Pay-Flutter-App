@@ -110,6 +110,7 @@ class ChatDetailsScreen extends StatelessWidget {
                               );
                             },
                             itemCount: chats.length),
+                        75.y,
                       ],
                     ),
                   ),

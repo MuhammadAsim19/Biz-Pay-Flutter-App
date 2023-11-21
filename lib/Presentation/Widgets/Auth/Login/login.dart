@@ -35,7 +35,7 @@ class LoginScreen extends StatelessWidget {
                       fontSize: 14.sp, color: AppColors.greyTextColor),
                   maxLine: 2,
                 ),
-                20.y,
+                25.y,
                 CustomTextFieldWithOnTap(
                     isBorderRequired: true,
                     contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
@@ -44,7 +44,7 @@ class LoginScreen extends StatelessWidget {
                     hintText: AppStrings.email,
                     textInputType: TextInputType.text,
                     borderRadius: 25.sp),
-                20.y,
+                15.y,
                 CustomTextFieldWithOnTap(
                     isBorderRequired: true,
                     prefixIcon: SvgPicture.asset(Assets.lock),
