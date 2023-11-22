@@ -5,6 +5,8 @@ import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/chip_widget.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/BottomNavigation/Controller/BottomNavigationNotifier/bottom_navigation_notifier.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Components/chart_revenue.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_details.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/chat.dart';
 
 class BusinessDetails extends StatelessWidget {
   const BusinessDetails({super.key});
@@ -50,7 +52,7 @@ child: Container(
         child:   Container(
 
           child:   SvgPicture.asset(Assets.arrowBackIcon,width: 20.sp,height:
-          35.sp,
+          30.sp,
             fit: BoxFit.fitWidth
             ,
 
@@ -245,9 +247,11 @@ SvgPicture.asset(Assets.pdfIcon,width: 40,height: 50,),
            bottom: 10,
            left: 10,
            child: CustomButton( onTap: () async {
-             BottomNotifier.bottomNavigationNotifier.value=2;
+//              BottomNotifier.bottomNavigationNotifier.value=2;
+//
+// Navigate.toReplace(context, const BottomNavigationScreen(initialPage: 2,));
 
-Navigate.toReplace(context, const BottomNavigationScreen(initialPage: 2,));
+           Navigate.to(context, ChatScreen(backButton: true,));
 
 
            },

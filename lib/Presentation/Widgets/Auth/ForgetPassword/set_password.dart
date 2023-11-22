@@ -41,48 +41,32 @@ class SetPassword extends StatelessWidget {
                   maxLine: 2,
                 ),
                 110.y,
-                ValueListenableBuilder(
-                  valueListenable: ForgetControllers.passwordShowHide,
-                  builder: (context, value, child) {
-                    return CustomTextFieldWithOnTap(
-                        isBorderRequired: true,
-                        prefixIcon: SvgPicture.asset('assets/images/lock.svg'),
-                        suffixIcon: InkWell(
-                            onTap: () {
-                              ForgetControllers.passwordShowHide.value = !value;
-                            },
-                            child: SvgPicture.asset(value == false
-                                ? Assets.hidePassword
-                                : Assets.showPass)),
-                        contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
-                        controller: password,
-                        hintText: AppStrings.password,
-                        textInputType: TextInputType.text,
-                        borderRadius: 25.sp);
-                  },
-                ),
+                CustomTextFieldWithOnTap(
+                    isBorderRequired: true,
+                    prefixIcon: SvgPicture.asset('assets/images/lock.svg'),
+                    isState: true,
+                    // suffixIcon: InkWell(
+                    //     onTap: () {
+                    //       ForgetControllers.passwordShowHide.value = !value;
+                    //     },
+                    //     child: SvgPicture.asset(value == false
+                    //         ? Assets.hidePassword
+                    //         : Assets.showPass)),
+                    contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
+                    controller: password,
+                    hintText: AppStrings.password,
+                    textInputType: TextInputType.text,
+                    borderRadius: 25.sp),
                 10.y,
-                ValueListenableBuilder(
-                  valueListenable: ForgetControllers.confirmPasswordShowHide,
-                  builder: (context, value, child) {
-                    return CustomTextFieldWithOnTap(
-                        isBorderRequired: true,
-                        prefixIcon: SvgPicture.asset('assets/images/lock.svg'),
-                        suffixIcon: InkWell(
-                            onTap: () {
-                              ForgetControllers.confirmPasswordShowHide.value =
-                                  !value;
-                            },
-                            child: SvgPicture.asset(value == false
-                                ? Assets.hidePassword
-                                : Assets.showPass)),
-                        contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
-                        controller: confirmPassword,
-                        hintText: AppStrings.confirmPassword,
-                        textInputType: TextInputType.text,
-                        borderRadius: 25.sp);
-                  },
-                ),
+                CustomTextFieldWithOnTap(
+                    isBorderRequired: true,
+                    prefixIcon: SvgPicture.asset('assets/images/lock.svg'),
+                   isState: true,
+                    contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
+                    controller: confirmPassword,
+                    hintText: AppStrings.confirmPassword,
+                    textInputType: TextInputType.text,
+                    borderRadius: 25.sp),
                 200.y,
                 CustomButton(
                   onTap: () {

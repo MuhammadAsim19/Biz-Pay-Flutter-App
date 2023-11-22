@@ -4,6 +4,7 @@ import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/custom_date_picker.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/Login/login.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/Controllers/hide_show_password.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/BottomNavigation/Controller/BottomNavigationNotifier/bottom_navigation_notifier.dart';
 
 import 'Components/country_picker.dart';
 import 'Components/terms_condition_row.dart';
@@ -135,7 +136,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const TermsAndConditionTextRow(),
                 53.y,
                 CustomButton(
-                  onTap: () {},
+                  onTap: () {
+                    BottomNotifier.bottomNavigationNotifier.value=0;
+                    Navigate.toReplace(context, const BottomNavigationScreen());
+
+                  },
                   text: AppStrings.register,
                   borderRadius: 25.sp,
                 ),

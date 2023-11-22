@@ -39,6 +39,7 @@ body: SingleChildScrollView(
         Navigate.to(context,const BusinessDetails());
 
       }),
+      30.y,
 
 
     ],),

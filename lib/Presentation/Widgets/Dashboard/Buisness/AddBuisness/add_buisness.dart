@@ -191,20 +191,22 @@ body: Padding(
           }, valueListenable: AddNotifier.addBusinessNotifier,
         ),
         2.y,
-        Row(children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
 
           AppText('Business detail', style: Styles.circularStdRegular(
-            context,fontSize: 14,fontWeight: FontWeight.w500)),
+            context,fontSize: 13,fontWeight: FontWeight.w500)),
 
           const Spacer(),
           AppText('Price and location', style: Styles.circularStdRegular(
-              context,fontSize: 14,fontWeight: FontWeight.w500)),
+              context,fontSize: 13,fontWeight: FontWeight.w500)),
           const Spacer(),
           // Container(
           //   width: 1.sw/10,
           //
           // ),
-          AppText('Publish', style: Styles.circularStdRegular(context,fontSize: 14,fontWeight: FontWeight
+          AppText('Publish', style: Styles.circularStdRegular(context,fontSize: 13,fontWeight: FontWeight
           .w500
           ))
 

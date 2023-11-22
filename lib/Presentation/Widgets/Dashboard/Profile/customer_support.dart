@@ -39,6 +39,7 @@ class _CustomerSupportState extends State<CustomerSupport> {
       backgroundColor: AppColors.whiteColor,
       appBar: const CustomAppBar(
         title: AppStrings.customerSupport,
+        leading: true,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -90,10 +91,12 @@ class _CustomerSupportState extends State<CustomerSupport> {
               ),
 
 // 189.y,
+            35.y,
 
               AddImageWidget(
                   height: 66.h,
                   width: 142.w,
+                  text: 'Upload Attachment',
                   onTap: () async {
                     images = await PickFile.pickImage();
                     setState(() {});
@@ -127,8 +130,8 @@ class _CustomerSupportState extends State<CustomerSupport> {
                       ),
                     )
                   : const SizedBox(),
-
-              20.y,
+50.y,
+            //const Spacer(),
               CustomButton(
                 gapWidth: 7.w,
                 imageHeight: 20.h,

@@ -6,6 +6,7 @@ import 'package:buysellbiz/Presentation/Common/custom_dropdown.dart';
 import 'package:buysellbiz/Presentation/Common/widget_functions.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/BottomNavigation/Controller/BottomNavigationNotifier/bottom_navigation_notifier.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/buisness_details.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/chat.dart';
 
 import 'Components/search_business_widget.dart';
 
@@ -102,9 +103,11 @@ body: Padding(
       }, chatTap: (BusinessProductModel val) {
         //BottomNotifier.bottomPageController.removeListener(() { });
         // BottomNotifier.bottomPageController=PageController(initialPage: 2);
-        BottomNotifier.bottomNavigationNotifier.value=2;
+        // BottomNotifier.bottomNavigationNotifier.value=2;
+        //
+        // Navigate.toReplace(context, const BottomNavigationScreen(initialPage: 2,));
 
-        Navigate.toReplace(context, const BottomNavigationScreen(initialPage: 2,));
+        Navigate.to(context, ChatScreen(backButton: true,));
 
 
       },))

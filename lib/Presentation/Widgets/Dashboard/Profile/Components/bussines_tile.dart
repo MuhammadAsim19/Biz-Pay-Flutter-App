@@ -1,6 +1,8 @@
+import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/buisness_details.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_popup_menu.dart';
 
 class BussinesList extends StatelessWidget {
@@ -19,7 +21,9 @@ class BussinesList extends StatelessWidget {
     return SizedBox(
       height: 110.h,
       child: GestureDetector(
-        onTap: () {},
+        onTap: () {
+          Navigate.to(context,const BusinessDetails());
+        },
         child: Container(
           width: 338.sp,
           decoration: ShapeDecoration(

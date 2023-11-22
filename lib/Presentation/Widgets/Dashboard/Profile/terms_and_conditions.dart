@@ -48,18 +48,18 @@ class TermsAndConditions extends StatelessWidget {
     PrivacyAndTermsModel(
         title: '1. Acceptance of Terms:',
         description:
-            '. By accessing or using the "BuySellBiz" app, you agree to be bound by these terms and conditions.'),
+            'By accessing or using the "BuySellBiz" app, you agree to be bound by these terms and conditions.'),
     PrivacyAndTermsModel(
       title: '2. Account Registration:',
       points: Points(list: [
         ListElement(
             title: '',
             desc:
-                '. You agree to provide accurate, current, and complete information during the registration process.'),
+                'You agree to provide accurate, current, and complete information during the registration process.'),
         ListElement(
             title: '',
             desc:
-                '. To use certain features of the app, you may be required to register for an account.'),
+                'To use certain features of the app, you may be required to register for an account.'),
       ]),
     ),
     PrivacyAndTermsModel(
@@ -68,11 +68,11 @@ class TermsAndConditions extends StatelessWidget {
         ListElement(
             title: '',
             desc:
-                '. You agree to provide accurate, current, and complete information during the registration process.'),
+                'You agree to provide accurate, current, and complete information during the registration process.'),
         ListElement(
             title: '',
             desc:
-                '. To use certain features of the app, you may be required to register for an account.'),
+                'To use certain features of the app, you may be required to register for an account.'),
       ]),
     ),
 
@@ -82,11 +82,11 @@ class TermsAndConditions extends StatelessWidget {
         ListElement(
             title: '',
             desc:
-                '. You agree to provide accurate, current, and complete information during the registration process.'),
+                'You agree to provide accurate, current, and complete information during the registration process.'),
         ListElement(
             title: '',
             desc:
-                '. To use certain features of the app, you may be required to register for an account.'),
+                'To use certain features of the app, you may be required to register for an account.'),
       ]),
     ),
     PrivacyAndTermsModel(
@@ -95,11 +95,11 @@ class TermsAndConditions extends StatelessWidget {
         ListElement(
             title: '',
             desc:
-                '. You agree to provide accurate, current, and complete information during the registration process.'),
+                'You agree to provide accurate, current, and complete information during the registration process.'),
         ListElement(
             title: '',
             desc:
-                '. To use certain features of the app, you may be required to register for an account.'),
+                'To use certain features of the app, you may be required to register for an account.'),
       ]),
     ),
     PrivacyAndTermsModel(
@@ -108,11 +108,11 @@ class TermsAndConditions extends StatelessWidget {
         ListElement(
             title: '',
             desc:
-                '. You agree to provide accurate, current, and complete information during the registration process.'),
+                'You agree to provide accurate, current, and complete information during the registration process.'),
         ListElement(
             title: '',
             desc:
-                '. To use certain features of the app, you may be required to register for an account.'),
+                'To use certain features of the app, you may be required to register for an account.'),
       ]),
     ),
 
@@ -138,6 +138,7 @@ class TermsAndConditions extends StatelessWidget {
     return Scaffold(
         appBar: const CustomAppBar(
           title: AppStrings.termsAndconditions,
+          leading: true,
         ),
         body: ListView.separated(
             separatorBuilder: (context, index) {
@@ -147,6 +148,6 @@ class TermsAndConditions extends StatelessWidget {
             },
             itemCount: data.length,
             itemBuilder: (context, index) =>
-                TermsAndPrivacyTextTile(data: data[index])));
+                TermsAndPrivacyTextTile(data: data[index],)));
   }
 }

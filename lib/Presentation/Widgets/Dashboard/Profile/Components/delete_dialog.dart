@@ -1,13 +1,13 @@
 import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 
-class AddSuccessDialog extends StatelessWidget {
-  const AddSuccessDialog({super.key});
+class DeleteDialog extends StatelessWidget {
+  const DeleteDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
     return  Container(
-      width: 380.w,
+      width: 380,
       height: 255.sp,
       decoration: ShapeDecoration(
         color: Colors.white,
@@ -25,13 +25,14 @@ class AddSuccessDialog extends StatelessWidget {
 
           AssetImageWidget(url: Assets.publishIconSuccess,width: 90.w,height: 86.h,),
           10.y,
-          AppText("Business upload successfully", style: Styles.circularStdMedium(context,fontSize: 18,color: AppColors.primaryColor))
-,10.y,
+          AppText("Account deleted", style: Styles.circularStdMedium(context,fontSize: 18,color: AppColors.primaryColor))
+          ,10.y,
 
-          AppText("You’ve successfully upload your business \n                           details.", style: Styles.circularStdRegular(context),maxLine: 2,)
+          AppText("You’ve successfully deleted your account\n  and will no longer be able to recover it.", style: Styles.circularStdRegular(context),maxLine: 2,)
         ],
 
       ),
     );
   }
 }
+

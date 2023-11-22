@@ -27,6 +27,11 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   void initState() {
 
  // BottomNotifier.bottomPageController=pageContr oller;
+  ///do not remove new keyword flutter is confused
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    // executes after build
+    BottomNotifier.bottomNavigationNotifier.value=0;
+  });
   BottomNotifier.bottomPageController= new PageController(initialPage:widget.initialPage??0);
   //BottomNotifier.bottomNavigationNotifier.value=widget.initialPage??0;
   BottomNotifier.checkExitTimes.value=2;
@@ -78,7 +83,7 @@ AddNotifier.addBusinessNotifier.value=0;
         body: SizedBox(
           height: 1.sh,
           width: 1.sw,
-          child: new PageView(
+          child: PageView(
             controller:  BottomNotifier.bottomPageController,
             physics:
                  const NeverScrollableScrollPhysics()

@@ -12,6 +12,6 @@ class BackArrowWidget extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
             },
-            child: SvgPicture.asset('assets/images/arrow_back.svg')));
+            child: SvgPicture.asset(Assets.arrowBackIcon)));
   }
 }

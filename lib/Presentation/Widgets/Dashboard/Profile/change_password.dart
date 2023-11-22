@@ -1,6 +1,7 @@
 import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/strings.dart';
+import 'package:buysellbiz/Presentation/Common/ContextWidgets/common_diaolg_widget.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/custom_textfield_with_on_tap.dart';
 import 'package:buysellbiz/Presentation/Common/dialog.dart';
@@ -19,7 +20,7 @@ ChangePassword({super.key});
     return Scaffold(
       
     
-    appBar: const CustomAppBar(title: AppStrings.changePassword, ),
+    appBar: const CustomAppBar(title: AppStrings.changePassword,leading: true, ),
        
       body: SingleChildScrollView(
         child: Padding(
@@ -36,6 +37,7 @@ ChangePassword({super.key});
                   CustomTextFieldWithOnTap(
                       suffixIcon: SvgPicture.asset(Assets.hide),
                       borderRadius: 40.r,
+                      isState: true,
                       prefixIcon: SvgPicture.asset(Assets.lock),
                       controller: oldpassword,
                       hintText: 'Old Password',
@@ -44,6 +46,7 @@ ChangePassword({super.key});
                       AppText(AppStrings.newPassword, style: Styles.circularStdBold(context, color: AppColors.blackColor, 
                   fontSize: 16.sp)),
                   CustomTextFieldWithOnTap(
+                    isState: true,
                       suffixIcon: SvgPicture.asset(Assets.hide),
                       borderRadius: 40.r,
                       prefixIcon: SvgPicture.asset(Assets.lock),
@@ -51,6 +54,7 @@ ChangePassword({super.key});
                       hintText: 'New Password',
                       textInputType: TextInputType.name),
                   CustomTextFieldWithOnTap(
+                    isState:true,
                       suffixIcon: SvgPicture.asset(Assets.hide),
                       borderRadius: 40.r,
                       prefixIcon: SvgPicture.asset(Assets.lock),
@@ -70,30 +74,10 @@ ChangePassword({super.key});
                 borderRadius: 40.r,
              onTap: () {
 
-                      CustomDialog.dialog(context, 
-                      Container(
-                     height: 255.h, width: 380.w,
-                    decoration: BoxDecoration( shape: BoxShape.rectangle, 
-                    borderRadius: BorderRadius.circular(10.r),
-                      color: AppColors.whiteColor,  ),
-                    child: Column(mainAxisSize: MainAxisSize.min,
-                      children: [
-                           Padding(
-                             padding:   EdgeInsets.all(18.sp),
-                             child: SvgPicture.asset(Assets.roundBluetick, width: 86.w, height: 86.h,),
-                           ), 
-                           Padding(
-                             padding:  EdgeInsets.only(top: 8.sp, bottom: 1 .sp),
-                             child: AppText( AppStrings.passwordChangedsuccessfully, maxLine: 2, style: Styles.circularStdRegular(context, fontSize: 24.sp, color: AppColors.primaryColor)),
-                           ),
-                           Padding(
-                             padding:   EdgeInsets.all(8.sp),
-                             child: AppText(AppStrings.youHavesuccessfully, maxLine: 2, style: Styles.circularStdRegular(context, fontSize: 16.sp, 
-                             color: AppColors.greyMedium)),
-                           ), 
-                    
-                    ],),
-                  )
+                      CustomDialog.dialog(context,
+
+               const CommonDialog(titleText: 'Password change successfully',descriptionText: 'You’ve successfully change your password!',)
+                      ,barrierDismissible: true
                       );
 
                 

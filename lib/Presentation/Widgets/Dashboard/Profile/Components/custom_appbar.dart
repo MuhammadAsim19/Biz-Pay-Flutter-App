@@ -20,7 +20,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           style: Styles.circularStdMedium(context, fontSize: 18.sp)),
       centerTitle: true,
       leadingWidth: 48.w,
-      leading: leading == null
+      leading: leading != null
           ? Padding(
               padding: EdgeInsets.only(left: 20.0.sp),
               child: const BackArrowWidget(),

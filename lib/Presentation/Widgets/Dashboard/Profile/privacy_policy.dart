@@ -18,27 +18,27 @@ class PrivacyPolicy extends StatelessWidget {
     PrivacyAndTermsModel(
         title: '1. Overview:',
         description:
-            '".BuySellBiz" is committed to safeguarding your privacy. This Privacy Policy outlines how we collect, use, disclose, and manage your personal information in connection with our mobile application.'),
+            '"BuySellBiz" is committed to safeguarding your privacy. This Privacy Policy outlines how we collect, use, disclose, and manage your personal information in connection with our mobile application.'),
     PrivacyAndTermsModel(
       title: '2. Information We Collect:',
       points: Points(list: [
         ListElement(
           title: 'a. Account Information:',
           desc:
-              "-For Sellers: Name, business details, contact information, financial information. - For Buyers: Name, contact information.",
+              "For Sellers: Name, business details, contact information, financial information. - For Buyers: Name, contact information.",
         ),
         ListElement(
             title: 'b. Device Information: ',
             desc:
-                "-Device type, operating system, and unique device identifiers."),
+                "Device type, operating system, and unique device identifiers."),
         ListElement(
             title: 'c. Usage Information: ',
             desc:
-                "-Interactions with the app, pages viewed, features used, and other analytical data."),
+                "Interactions with the app, pages viewed, features used, and other analytical data."),
         ListElement(
             title: 'd. Location Information: ',
             desc:
-                "-If enabled, we may collect your device's location to provide location-based services."),
+                "If enabled, we may collect your device's location to provide location-based services."),
       ]),
     ),
     PrivacyAndTermsModel(
@@ -47,20 +47,20 @@ class PrivacyPolicy extends StatelessWidget {
         ListElement(
           title: 'a. For Business Transactions:',
           desc:
-              "-For Sellers: Name, business details, contact information, financial information. - For Buyers: Name, contact information.",
+              "For Sellers: Name, business details, contact information, financial information. - For Buyers: Name, contact information.",
         ),
         ListElement(
             title: 'b. To Improve Our Services:',
             desc:
-                "-Device type, operating system, and unique device identifiers."),
+                "Device type, operating system, and unique device identifiers."),
         ListElement(
             title: 'c. Usage Information: ',
             desc:
-                "-Interactions with the app, pages viewed, features used, and other analytical data."),
+                "Interactions with the app, pages viewed, features used, and other analytical data."),
         ListElement(
             title: 'd. Communication: ',
             desc:
-                "-If enabled, we may collect your device's location to provide location-based services."),
+                "If enabled, we may collect your device's location to provide location-based services."),
       ]),
       // PrivacyAndTermsModel(
       //     title: '3.Buying and Selling Businesses:',
@@ -90,6 +90,7 @@ class PrivacyPolicy extends StatelessWidget {
     return Scaffold(
         appBar: const CustomAppBar(
           title: AppStrings.privacyPolicy,
+          leading: true,
         ),
         body: ListView.separated(
             separatorBuilder: (context, index) {

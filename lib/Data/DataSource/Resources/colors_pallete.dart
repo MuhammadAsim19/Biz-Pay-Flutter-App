@@ -20,7 +20,7 @@ class AppColors {
   static const greyMedium = Color(0xff5E6165);
   static const dottedGreyColor = Color(0xFFFAFAFA);
 
-  static var redColor = Colors.red;
+  static var redColor = const Color(0xFFDC0505);
   static const productTileColor = Color(0x0C4A756E);
   static const borderColor = Color(0xFFEEEEEE);
   static const searchFieldColor = Color(0xFFFAFAFA);

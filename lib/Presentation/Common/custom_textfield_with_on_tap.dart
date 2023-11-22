@@ -5,7 +5,7 @@ import 'app_text.dart';
 
 
 
-class CustomTextFieldWithOnTap extends StatelessWidget {
+class CustomTextFieldWithOnTap extends StatefulWidget {
   final TextEditingController controller;
   final String? hintText;
   final Widget? prefixIcon;
@@ -30,6 +30,7 @@ class CustomTextFieldWithOnTap extends StatelessWidget {
   final FocusNode? focusNode;
   final Color? hintTextColor;
   final double? height;
+  final bool? isState;
 
   final EdgeInsets? contentPadding;
 
@@ -58,11 +59,16 @@ class CustomTextFieldWithOnTap extends StatelessWidget {
       this.focusNode,
       this.hintTextColor,
       this.borderRadius,
-      this.height, this.filledColor, this.hintStyle})
+      this.height, this.filledColor, this.hintStyle, this.isState})
       : super(key: key);
 
   final double? borderRadius;
 
+  @override
+  State<CustomTextFieldWithOnTap> createState() => _CustomTextFieldWithOnTapState();
+}
+bool isHide=false;
+class _CustomTextFieldWithOnTapState extends State<CustomTextFieldWithOnTap> {
   @override
   Widget build(BuildContext context) {
    // print(Data().textScale);
@@ -71,17 +77,17 @@ class CustomTextFieldWithOnTap extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          titleText!.isNotEmpty
+          widget.titleText!.isNotEmpty
               ? Column(
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 3).r,
                       child: AppText(
-                        titleText!,
+                        widget.titleText!,
                         style: Styles.circularStdMedium(
                           context,
                           fontSize: 16.sp,
-                          color: titleTextColor,
+                          color: widget.titleTextColor,
                         ),
                       ),
                     ),
@@ -92,114 +98,136 @@ class CustomTextFieldWithOnTap extends StatelessWidget {
                 )
               : Container(),
           Container(
-            height: height?? 56,
+            height: widget.height?? 56,
             decoration: BoxDecoration(
-              boxShadow: isShadowRequired! ? [AppShadow.normal()] : [],
+              boxShadow: widget.isShadowRequired! ? [AppShadow.normal()] : [],
               //border:Border.all(color: AppColors.lightGreyColor)
               // borderRadius: BorderRadius.circular(),
             ),
             child: TextFormField(
 
-              onTap: onTap,
-              readOnly: readOnly ?? false,
-              focusNode: focusNode,
+              onTap: widget.onTap,
+              readOnly: widget.readOnly ?? false,
+              focusNode: widget.focusNode,
 
               //autovalidateMode: AutovalidateMode.onUserInteraction,
-              validator: isValid
+              validator: widget.isValid
                   ? (v) {
                       if (v!.trim().isEmpty) {
-                        return validateText;
+                        return widget.validateText;
                       }
                       return null;
                     }
-                  : validator,
-              onChanged: onChanged,
-              keyboardType: textInputType,
-              obscureText: obscureText,
-              controller: controller,
-              maxLines: maxline,
+                  : widget.validator,
+              onChanged: widget.onChanged,
+              keyboardType: widget.textInputType,
+              obscureText: widget.isState!=null?isHide :widget.obscureText,
+              controller: widget.controller,
+              maxLines: widget.maxline,
               style: Styles.circularStdRegular(context,
                   fontSize: Data().textScale > 1.0 ? 12.sp : 16.sp,
                   fontWeight: FontWeight.w400),
               cursorColor: AppColors.primaryColor,
               decoration: InputDecoration(
-                fillColor:filledColor ?? AppColors.whiteColor,
+                fillColor:widget.filledColor ?? AppColors.whiteColor,
                 filled: true,
-                hintText: hintText,
-                helperStyle: hintStyle??Styles.circularStdRegular(context,fontSize: 16),
+                hintText: widget.hintText,
+                helperStyle: widget.hintStyle??Styles.circularStdRegular(context,fontSize: 16),
 
-                prefixIcon: prefixIcon != null
+                prefixIcon: widget.prefixIcon != null
                     ? SizedBox(
                         width: 15.w,
                         height: 15.w,
                         child: Center(
-                          child: prefixIcon,
+                          child: widget.prefixIcon,
                         ),
                       )
                     : null,
-                suffixIcon: suffixIcon != null
+                suffixIcon:widget.isState!= null?GestureDetector(
+
+                    onTap: ()
+
+                    {
+                      //isHide=true;
+                      if(isHide==true)
+                        {
+                          isHide=false;
+                        }
+                      else{
+                        isHide=true;
+                      }
+                      setState(() {
+
+
+                      });
+
+                    },
+                    child: SizedBox(
+                        width: widget.suffixWidth ?? 20.sp,
+                        height: widget.suffixHeight ?? 20.sp,
+                        child: Center(child: SvgPicture.asset(isHide?Assets.showPass:Assets.hide)))) : widget.suffixIcon != null
                     ? SizedBox(
-                        width: suffixWidth ?? 20.sp,
-                        height: suffixHeight ?? 20.sp,
+                        width: widget.suffixWidth ?? 20.sp,
+                        height: widget.suffixHeight ?? 20.sp,
                         child: Center(
-                          child: suffixIcon,
+                          child: widget.suffixIcon,
                         ),
                       )
                     : null,
                 hintStyle: Styles.circularStdRegular(context,
                     color: FocusScope.of(context).hasFocus
-                        ? hintTextColor
+                        ? widget.hintTextColor
                         : AppColors.greyColor,
                     fontSize: Data().textScale > 1.0 ? 12.sp : 15.sp,
                     fontWeight: FontWeight.normal
                 ),
 
                 ///changess
-                contentPadding: contentPadding ??
+                contentPadding: widget.contentPadding ??
                     const EdgeInsets.symmetric(
                       vertical: 18,
-                      horizontal: 10,
+                      horizontal: 17,
                     ).r,
                 focusedErrorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(
-                    borderRadius ?? 12.r,
+                    widget.borderRadius ?? 12.r,
                   ),
                   borderSide: BorderSide(
-                    color: isBorderRequired ? Colors.red : Colors.transparent,
+                    color: widget.isBorderRequired ? Colors.red : Colors.transparent,
                   ),
                 ),
-                errorBorder: isBorderRequired
+                errorBorder: widget.isBorderRequired
                     ? OutlineInputBorder(
                         borderRadius: BorderRadius.circular(
-                          borderRadius ?? 12.r,
+                          widget.borderRadius ?? 12.r,
                         ),
                         borderSide: const BorderSide(
                           color: Colors.red,
                         ),
                       )
                     : outlineInputBorder(),
-                border: isBorderRequired
+                border: widget.isBorderRequired
                     ? OutlineInputBorder(
                         borderRadius: BorderRadius.circular(
-                          borderRadius ?? 12.r,
+                          widget.borderRadius ?? 12.r,
                         ),
                   borderSide: const BorderSide(width: 0.4,color: AppColors.lightGreyColor)
                       )
                     : outlineInputBorder(),
-                focusedBorder: isBorderRequired
+                focusedBorder: widget.isBorderRequired
                     ? OutlineInputBorder(
                         borderRadius: BorderRadius.circular(
-                          borderRadius ?? 12.r,
+                          widget.borderRadius ?? 12.r,
                         ),
                         borderSide: const BorderSide(
                           color: AppColors.primaryColor,
                         ),
                       )
                     : outlineInputBorder(),
-                enabledBorder: isBorderRequired
+                enabledBorder: widget.isBorderRequired
                     ? OutlineInputBorder(
                         borderRadius: BorderRadius.circular(
-                          borderRadius ?? 12.r,
+                          widget.borderRadius ?? 12.r,
                         ),
                         borderSide: const BorderSide(
                           width: 0.3,
@@ -217,7 +245,7 @@ class CustomTextFieldWithOnTap extends StatelessWidget {
 
   outlineInputBorder() {
     return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(borderRadius ?? 12.r),
+      borderRadius: BorderRadius.circular(widget.borderRadius ?? 12.r),
       borderSide: const BorderSide(color: Colors.transparent),
     );
   }

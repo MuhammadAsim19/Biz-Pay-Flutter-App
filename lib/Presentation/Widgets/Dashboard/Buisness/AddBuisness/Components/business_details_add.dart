@@ -72,6 +72,7 @@ crossAxisAlignment: CrossAxisAlignment.start,
 
 
 
+
                        // isBorderRequired: false,
                         textInputType: TextInputType.text),
 ///industry dropDown
@@ -172,7 +173,7 @@ crossAxisAlignment: CrossAxisAlignment.start,
                           width: 100,
                           isFit: true,
                           icon: SvgPicture.asset(Assets.dropDownIcon),
-                          hint: "# of employee",
+                          hint: "# of employees",
 
                           style: Styles.circularStdRegular(context,fontSize: 15),
                           padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
@@ -331,7 +332,7 @@ AddImageWidget(onTap:() async {
 //     ),
 //   ),
 // ),
-                60.y
+                70.y
 
 
               ],

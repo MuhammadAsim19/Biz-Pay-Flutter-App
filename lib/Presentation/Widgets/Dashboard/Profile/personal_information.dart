@@ -3,10 +3,12 @@ import 'package:buysellbiz/Application/Services/PickerServices/picker_services.d
 import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/strings.dart';
+import 'package:buysellbiz/Presentation/Common/ContextWidgets/common_diaolg_widget.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/custom_date_picker.dart';
 import 'package:buysellbiz/Presentation/Common/custom_dropdown.dart';
 import 'package:buysellbiz/Presentation/Common/custom_textfield_with_on_tap.dart';
+import 'package:buysellbiz/Presentation/Common/dialog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_appbar.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_list_tile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/delete_account.dart';
@@ -40,6 +42,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
     return Scaffold(
       appBar: const CustomAppBar(
         title: AppStrings.personalLinfo,
+        leading: true,
       ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -48,7 +51,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
           padding: EdgeInsets.symmetric(horizontal: 20.sp),
           child: Column(
             children: [
-              40.y,
+              30.y,
               Stack(
                 children: [
                   AssetImageWidget(
@@ -56,10 +59,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
                     radius: 60,
                     isCircle: true,
                   ),
-                  Positioned(
-                      top: 80.sp,
-                      left: 80.sp,
-                      child: SvgPicture.asset(Assets.blueElipse)),
+
                   Positioned(
                       top: 87.sp,
                       left: 88.sp,
@@ -68,7 +68,17 @@ class _PersonalInformationState extends State<PersonalInformation> {
                             image = await PickFile.pickSingleImage();
                             setState(() {});
                           },
-                          child: SvgPicture.asset(Assets.edit))),
+                          child: Container(
+                              width: 31,
+                              height: 31,
+                              decoration: const ShapeDecoration(
+                                color: Color(0xFF007BC0),
+                                shape: CircleBorder(
+
+                                  side: BorderSide(width: 2, color: Colors.white),
+                                ),
+                              ),
+                              child: Center(child: SvgPicture.asset(Assets.edit))))),
                 ],
               ),
               20.y,
@@ -127,7 +137,15 @@ class _PersonalInformationState extends State<PersonalInformation> {
                 leadingSvgIcon: true,
                 width: 320.w,
                 borderRadius: 40.r,
-                onTap: () {},
+                onTap: () {
+
+                  CustomDialog.dialog(context,
+
+                      const CommonDialog(titleText: 'Profile updated successfully',descriptionText: 'You’ve successfully updated your profile!',)
+                      ,barrierDismissible: true
+                  );
+
+                },
                 text: AppStrings.update,
                 bgColor: AppColors.primaryColor,
                 textFontWeight: FontWeight.w700,
@@ -137,7 +155,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
               20.y,
               GestureDetector(
                 onTap: () {
-                  Navigate.to(context, DeleteAccont());
+                  Navigate.to(context, DeleteAccount());
                 },
                 child: AppText('Delete my account',
                     style: Styles.circularStdMedium(context,

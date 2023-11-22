@@ -4,12 +4,14 @@ import 'package:buysellbiz/Data/DataSource/Resources/strings.dart';
 import 'package:buysellbiz/Domain/PrivacyAndPolicy/privacy_and_terms_model.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/custom_textfield_with_on_tap.dart';
+import 'package:buysellbiz/Presentation/Common/dialog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_appbar.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_list_tile.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/delete_dialog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/PrivacyAndTerms/Components/privacy_and_terms_tile.dart';
 
-class DeleteAccont extends StatelessWidget {
-  DeleteAccont({super.key});
+class DeleteAccount extends StatelessWidget {
+  DeleteAccount({super.key});
 
   final List<PrivacyAndTermsModel> data = [
     PrivacyAndTermsModel(
@@ -21,11 +23,11 @@ class DeleteAccont extends StatelessWidget {
         ListElement(
             title: '1. Permanent Data Deletion:',
             desc:
-                '. You agree to provide accurate, current, and complete information during the registration process.'),
+                ' You agree to provide accurate, current, and complete information during the registration process.'),
         ListElement(
             title: '',
             desc:
-                '. To use certain features of the app, you may be required to register for an account.'),
+                ' To use certain features of the app, you may be required to register for an account.'),
       ]),
     ),
     PrivacyAndTermsModel(
@@ -34,11 +36,11 @@ class DeleteAccont extends StatelessWidget {
         ListElement(
             title: '',
             desc:
-                '. You agree to provide accurate, current, and complete information during the registration process.'),
+                ' You agree to provide accurate, current, and complete information during the registration process.'),
         ListElement(
             title: '',
             desc:
-                '. To use certain features of the app, you may be required to register for an account.'),
+                ' To use certain features of the app, you may be required to register for an account.'),
       ]),
     ),
 
@@ -48,11 +50,11 @@ class DeleteAccont extends StatelessWidget {
         ListElement(
             title: '',
             desc:
-                '. You agree to provide accurate, current, and complete information during the registration process.'),
+                ' You agree to provide accurate, current, and complete information during the registration process.'),
         ListElement(
             title: '',
             desc:
-                '. To use certain features of the app, you may be required to register for an account.'),
+                ' To use certain features of the app, you may be required to register for an account.'),
       ]),
     ),
     PrivacyAndTermsModel(
@@ -61,11 +63,11 @@ class DeleteAccont extends StatelessWidget {
         ListElement(
             title: '',
             desc:
-                '. You agree to provide accurate, current, and complete information during the registration process.'),
+                ' You agree to provide accurate, current, and complete information during the registration process.'),
         ListElement(
             title: '',
             desc:
-                '. To use certain features of the app, you may be required to register for an account.'),
+                ' To use certain features of the app, you may be required to register for an account.'),
       ]),
     ),
     PrivacyAndTermsModel(
@@ -74,11 +76,11 @@ class DeleteAccont extends StatelessWidget {
         ListElement(
             title: '',
             desc:
-                '. You agree to provide accurate, current, and complete information during the registration process.'),
+                ' You agree to provide accurate, current, and complete information during the registration process.'),
         ListElement(
             title: '',
             desc:
-                '. To use certain features of the app, you may be required to register for an account.'),
+                ' To use certain features of the app, you may be required to register for an account.'),
       ]),
     ),
 
@@ -150,19 +152,32 @@ class DeleteAccont extends StatelessWidget {
     return Scaffold(
         appBar: const CustomAppBar(
           title: AppStrings.deleteAccount,
+          leading: true,
         ),
         body: Stack(
           children: [
-            ListView.builder(
-                itemCount: data.length,
-                itemBuilder: (context, index) =>
-                    TermsAndPrivacyTextTile(data: data[index])),
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                      itemCount: data.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) =>
+                          TermsAndPrivacyTextTile(data: data[index])),
+                  60.y
+                ],
+              ),
+            ),
             Positioned(
                 bottom: 15.sp,
                 left: 15.sp,
                 right: 15.sp,
                 child: CustomButton(
-                  onTap: () {},
+                  onTap: () {
+
+                    CustomDialog.dialog(context, const DeleteDialog(),barrierDismissible: true);
+                  },
                   text: 'Delete Account',
                   borderRadius: 50.r,
                   bgColor: AppColors.redColor,

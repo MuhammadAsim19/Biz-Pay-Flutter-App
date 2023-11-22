@@ -1,6 +1,8 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/ChatModel/chat_tile_model.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_details.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/chat.dart';
 
 class BrokerProfile extends StatefulWidget {
@@ -179,7 +181,12 @@ class _BrokerProfileState extends State<BrokerProfile> {
                     width: 300.w,
                     height: 40.h,
                     onTap: () {
-                      Navigate.to(context, ChatScreen());
+                      Navigate.to(context, ChatDetailsScreen(model: ChatTileModel(
+                          message: 'Thank You',
+                          messageLength: '1',
+                          name: 'Gabriel Tasse',
+                          pr0fileImage: 'assets/images/chat1.png',
+                          time: '03:30 PM'),));
                     },
                     text: 'Chat with Gabriel',
                     borderRadius: 40.sp),

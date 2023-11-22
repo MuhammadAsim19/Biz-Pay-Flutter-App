@@ -40,6 +40,7 @@ class YourBusiness extends StatelessWidget {
     return Scaffold(
       appBar: const CustomAppBar(
         title: AppStrings.yourBusiness,
+        leading: true,
       ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -49,7 +50,7 @@ class YourBusiness extends StatelessWidget {
           child: ListView.separated(
             separatorBuilder: (context, index) {
               return SizedBox(
-                height: 10.sp,
+                height: 25.sp,
               );
             },
             padding: EdgeInsets.only(
