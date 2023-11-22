@@ -107,19 +107,23 @@ class Points {
 class ListElement {
   final String? title;
   final String? icon;
+  final String? desc;
 
   ListElement({
     this.title,
     this.icon,
+    this.desc,
   });
 
   ListElement copyWith({
     String? title,
     String? icon,
+    String? desc,
   }) =>
       ListElement(
         title: title ?? this.title,
         icon: icon ?? this.icon,
+        desc: desc ?? this.desc,
       );
 
   factory ListElement.fromRawJson(String str) =>
@@ -127,13 +131,12 @@ class ListElement {
 
   String toRawJson() => json.encode(toJson());
 
-  factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
-        title: json["title"],
-        icon: json["icon"],
-      );
+  factory ListElement.fromJson(Map<String, dynamic> json) =>
+      ListElement(title: json["title"], icon: json["icon"], desc: json['desc']);
 
   Map<String, dynamic> toJson() => {
         "title": title,
         "icon": icon,
+        "desc": desc,
       };
 }

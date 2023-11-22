@@ -34,67 +34,119 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/PrivacyAndTerm
 //   }
 // }
 
-
-
- class TermsAndConditions extends StatelessWidget {
+class TermsAndConditions extends StatelessWidget {
   TermsAndConditions({super.key});
- // title: '',points: Points(title: "",  list: [ListElement(title: "Overview: ",icon: "1.")])
-   
 
-List<PrivacyAndTermsModel> data=[
-  
+  // title: '',points: Points(title: "",  list: [ListElement(title: "Overview: ",icon: "1.")])
+
+  final List<PrivacyAndTermsModel> data = [
     PrivacyAndTermsModel(
-  
-   title: '1. Overview:',    description: '"BuySellBiz" is committed to safeguarding your privacy. This Privacy Policy outlines how we collect, use, disclose, and manage your personal information in connection with our mobile application.'
+      description:
+          'Please read these terms and conditions carefully before using the "BuySellBiz" mobile application.',
+    ),
 
-  ), 
+    PrivacyAndTermsModel(
+        title: '1. Acceptance of Terms:',
+        description:
+            '. By accessing or using the "BuySellBiz" app, you agree to be bound by these terms and conditions.'),
+    PrivacyAndTermsModel(
+      title: '2. Account Registration:',
+      points: Points(list: [
+        ListElement(
+            title: '',
+            desc:
+                '. You agree to provide accurate, current, and complete information during the registration process.'),
+        ListElement(
+            title: '',
+            desc:
+                '. To use certain features of the app, you may be required to register for an account.'),
+      ]),
+    ),
+    PrivacyAndTermsModel(
+      title: '2. Account Registration:',
+      points: Points(list: [
+        ListElement(
+            title: '',
+            desc:
+                '. You agree to provide accurate, current, and complete information during the registration process.'),
+        ListElement(
+            title: '',
+            desc:
+                '. To use certain features of the app, you may be required to register for an account.'),
+      ]),
+    ),
 
- PrivacyAndTermsModel(
-  
-   title: '2. Information We Collect:',  
-    points: Points(
-      title: "a. Account Information:-  For Sellers: Name, business details, contact information, financial information. - For Buyers: Name, contact information.", list: [ListElement(
-      icon: 'b.', title: 'Device information', 
-     ), 
-    ListElement(
-       icon: 'c.', title: 'Usage Information', 
-    ), 
-    
-    ]), 
-  ), 
+    PrivacyAndTermsModel(
+      title: '3. User Conduct:',
+      points: Points(list: [
+        ListElement(
+            title: '',
+            desc:
+                '. You agree to provide accurate, current, and complete information during the registration process.'),
+        ListElement(
+            title: '',
+            desc:
+                '. To use certain features of the app, you may be required to register for an account.'),
+      ]),
+    ),
+    PrivacyAndTermsModel(
+      title: '4: Buying and Selling Businesses:',
+      points: Points(list: [
+        ListElement(
+            title: '',
+            desc:
+                '. You agree to provide accurate, current, and complete information during the registration process.'),
+        ListElement(
+            title: '',
+            desc:
+                '. To use certain features of the app, you may be required to register for an account.'),
+      ]),
+    ),
+    PrivacyAndTermsModel(
+      title: '5: Communication:',
+      points: Points(list: [
+        ListElement(
+            title: '',
+            desc:
+                '. You agree to provide accurate, current, and complete information during the registration process.'),
+        ListElement(
+            title: '',
+            desc:
+                '. To use certain features of the app, you may be required to register for an account.'),
+      ]),
+    ),
 
-
-   PrivacyAndTermsModel(
-  
-   title: '1. Overview:',    description: '"BuySellBiz" is committed to safeguarding your privacy. This Privacy Policy outlines how we collect, use, disclose, and manage your personal information in connection with our mobile application.'
-
-  ), 
-
- PrivacyAndTermsModel(
-  
-   title: '2. Information We Collect:',  
-    points: Points(
-      title: "a. Account Information:-  For Sellers: Name, business details, contact information, financial information. - For Buyers: Name, contact information.", list: [ListElement(
-      icon: 'b.', title: 'Device information', 
-     ), 
-    ListElement(
-       icon: 'c.', title: 'Usage Information', 
-    ), 
-    
-    ]), 
-  ), 
- 
+    //   title: '4. Communication:',
+    //   points: Points(
+    //       title:
+    //           "a. Account Information:-  For Sellers: Name, business details, contact information, financial information. - For Buyers: Name, contact information.",
+    //       list: [
+    //         ListElement(
+    //           icon: 'b.',
+    //           title: 'Device information',
+    //         ),
+    //         ListElement(
+    //           icon: 'c.',
+    //           title: 'Usage Information',
+    //         ),
+    //       ]),
+    // ),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: AppStrings.termsAndconditions,
-      ),
-      body:ListView.builder(
-        itemCount: data.length,
-        itemBuilder: (context,index)=>TermsAndPrivacyTextTile(data:data[index] )
-    ));
+        appBar: const CustomAppBar(
+          title: AppStrings.termsAndconditions,
+        ),
+        body: ListView.separated(
+            separatorBuilder: (context, index) {
+              return SizedBox(
+                height: 5.sp,
+              );
+            },
+            itemCount: data.length,
+            itemBuilder: (context, index) =>
+                TermsAndPrivacyTextTile(data: data[index])));
   }
 }

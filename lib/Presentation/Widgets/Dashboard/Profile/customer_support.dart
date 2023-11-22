@@ -6,21 +6,38 @@ import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/custom_dropdown.dart';
 import 'package:buysellbiz/Presentation/Common/custom_textfield_with_on_tap.dart';
 import 'package:buysellbiz/Presentation/Common/dialog.dart';
+import 'package:buysellbiz/Presentation/Common/display_images.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_appbar.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:buysellbiz/Application/Services/PickerServices/picker_services.dart';
 
-class customersupport extends StatelessWidget {
+class CustomerSupport extends StatefulWidget {
+  const CustomerSupport({super.key});
+
+  @override
+  State<CustomerSupport> createState() => _CustomerSupportState();
+}
+
+class _CustomerSupportState extends State<CustomerSupport> {
   TextEditingController helpController = TextEditingController();
+
   TextEditingController nameController = TextEditingController();
+
   TextEditingController emailController = TextEditingController();
+
   TextEditingController remarkController = TextEditingController();
 
-  customersupport({super.key});
+  List how = ['Admin', "Business Owner", 'New Seller'];
+
+  String? ho;
+
+  var images;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
+      backgroundColor: AppColors.whiteColor,
+      appBar: const CustomAppBar(
         title: AppStrings.customerSupport,
       ),
       body: SingleChildScrollView(
@@ -29,50 +46,25 @@ class customersupport extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              40.y,
+              30.y,
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
-              Container(width: 380,
-                  height: 56,
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      side: const BorderSide(width: 0.3, color: AppColors.lightGreyColor,),
-
-                      borderRadius: BorderRadius.circular(50),
-                    ),
+                  CustomDropDownWidget(
+                    hMargin: 0,
+                    vMargin: 0,
+                    value: ho,
+                    itemsMap: how.map((e) {
+                      return DropdownMenuItem(value: e, child: Text(e));
+                    }).toList(),
+                    onChanged: (onChanged) {
+                      helpController.text = onChanged.toString();
+                    },
+                    prefixIcon: SvgPicture.asset(Assets.person),
+                    hintText: 'How can we help you?',
+                    validationText: 'Text',
                   ),
-                  child: GeneralizedDropDown(
-                    height: 100,
-                    hint: 'How can we help you? ',
-                      width: 100,
-                      isFit: true,
-                      icon: SvgPicture.asset(Assets.dropDownIcon),
-                      style: Styles.circularStdRegular(context,fontSize: 15),
-                      padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
-                      //isBorder: true,
-                      items: const ["Admin","Advisor"], selectedValue: null, onChanged: (onChanged){
-                      helpController.text=onChanged.toString();
-
-                  }),
-                ),
-//  GeneralizedDropDown(
-//   hint: "How can we help you? ",
-//   isBorder: true,
-//                       height: 100.h,
-//                         width: 100.w,
-//                         isFit: true,
-//                         icon: SvgPicture.asset(Assets.dropDownIcon),
-//                         style: Styles.circularStdRegular(context,fontSize: 15),
-//                         padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
-                      
-//                         items: const ["Admin","Manager"], selectedValue: null, onChanged: (onChanged){
-//                         helpController.text=onChanged.toString();
-                  
-//                     }),
-              
+                  10.y,
                   CustomTextFieldWithOnTap(
                       borderRadius: 40.r,
                       prefixIcon: SvgPicture.asset(Assets.profile),
@@ -86,6 +78,9 @@ class customersupport extends StatelessWidget {
                       hintText: 'Email',
                       textInputType: TextInputType.emailAddress),
                   CustomTextFieldWithOnTap(
+                      height: 100.h,
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 10.sp, horizontal: 10.sp),
                       maxline: 5,
                       borderRadius: 10.r,
                       controller: remarkController,
@@ -93,18 +88,47 @@ class customersupport extends StatelessWidget {
                       textInputType: TextInputType.emailAddress),
                 ],
               ),
- 
+
 // 189.y,
 
+              AddImageWidget(
+                  height: 66.h,
+                  width: 142.w,
+                  onTap: () async {
+                    images = await PickFile.pickImage();
+                    setState(() {});
+                  }),
 
-     AddImageWidget(
-      height: 66.h, 
-      width: 142.w, 
-      onTap: (){
-      
-     }),
+              10.y,
+              images != null
+                  ? SizedBox(
+                      height: 100.h,
+                      width: 1.sw,
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: images!.length,
+                        itemBuilder: (context, index) {
+                          return DisplayFileImage(
+                            fileImage: images![index].toString(),
+                            onDeleteTap: () {
+                              setState(() {
+                                images!.removeAt(index);
+                                //image = [];
+                              });
+                            },
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return SizedBox(
+                            width: 5.sp,
+                          );
+                        },
+                      ),
+                    )
+                  : const SizedBox(),
 
-10.y, 
+              20.y,
               CustomButton(
                 gapWidth: 7.w,
                 imageHeight: 20.h,
@@ -112,9 +136,7 @@ class customersupport extends StatelessWidget {
                 leadingSvgIcon: true,
                 width: 320.w,
                 borderRadius: 40.r,
-                onTap: () {
- 
-                },
+                onTap: () {},
                 text: AppStrings.submit,
                 bgColor: AppColors.primaryColor,
                 textFontWeight: FontWeight.w700,
@@ -128,14 +150,3 @@ class customersupport extends StatelessWidget {
     );
   }
 }
-
-
-
- 
-
-
-
-
-
- 
-

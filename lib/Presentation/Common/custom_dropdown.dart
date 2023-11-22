@@ -55,23 +55,23 @@ class CustomDropDownWidget extends StatelessWidget {
             }
           },
           decoration: InputDecoration(
-            fillColor: Colors.transparent,
+            fillColor: Colors.white,
             filled: true,
             prefixIconConstraints: BoxConstraints(
-              maxHeight: 60.w,
+              maxHeight: 50.h,
               maxWidth: 50.w,
-              minHeight: 22.w,
+              minHeight: 20.h,
               minWidth: 23.w,
             ),
             prefixIcon: prefixIcon != null
                 ? Padding(
-                    padding: const EdgeInsets.only(left: 10),
+                    padding: EdgeInsets.only(left: 15.sp),
                     child: prefixIcon,
                   )
                 : null,
             errorMaxLines: 1,
             contentPadding: EdgeInsets.only(
-              top: 15,
+              top: 10,
               bottom: 15,
               left: prefixIcon != null ? 8 : 6,
               right: prefixIcon != null ? 10 : 12,
@@ -81,6 +81,11 @@ class CustomDropDownWidget extends StatelessWidget {
             //   vertical: 13,
             //   horizontal: prefixIcon != null ? 10 : 6,
             // ).r,
+            hintStyle: Styles.circularStdRegular(
+              context,
+              color: AppColors.blackColor,
+              fontSize: 14.sp,
+            ),
             errorBorder: isBorderRequired
                 ? OutlineInputBorder(
                     borderRadius: BorderRadius.circular(borderRadius).r,
@@ -118,7 +123,7 @@ class CustomDropDownWidget extends StatelessWidget {
             hintText,
             style: Styles.circularStdRegular(
               context,
-              color: AppColors.greyColor,
+              color: AppColors.blackColor,
               fontSize: 14.sp,
             ),
           ),
@@ -132,6 +137,7 @@ class CustomDropDownWidget extends StatelessWidget {
           style: Styles.circularStdRegular(
             context,
             fontSize: 14.sp,
+            color: AppColors.blackColor,
           ),
           value: value,
           onChanged: onChanged,

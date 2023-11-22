@@ -1,9 +1,12 @@
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/ChatModel/chat_tile_model.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_tile.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_appbar.dart';
 
 class ChatScreen extends StatelessWidget {
-  ChatScreen({super.key});
+  ChatScreen({super.key, this.backButton});
+
+  bool? backButton;
 
   final TextEditingController controller = TextEditingController();
 
@@ -34,6 +37,10 @@ class ChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: CustomAppBar(
+          title: 'Chat',
+          leading: backButton,
+        ),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
@@ -41,14 +48,13 @@ class ChatScreen extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 24.sp),
             child: Column(
               children: [
-                25.y,
-                Align(
-                  alignment: Alignment.center,
-                  child: AppText('Chat',
-                      style: Styles.circularStdBold(context,
-                          fontSize: 18.sp, fontWeight: FontWeight.w500)),
-                ),
-                20.y,
+                // 25.y,
+                // Align(
+                //   alignment: Alignment.center,
+                //   child: AppText('Chat',
+                //       style: Styles.circularStdBold(context,
+                //           fontSize: 18.sp, fontWeight: FontWeight.w500)),
+                // ),
                 CustomTextFieldWithOnTap(
                     filledColor: AppColors.searchFieldColor,
                     prefixIcon: SvgPicture.asset('assets/images/Search.svg'),

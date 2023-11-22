@@ -3,6 +3,7 @@ import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/custom_date_picker.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/Login/login.dart';
+import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/Controllers/hide_show_password.dart';
 
 import 'Components/country_picker.dart';
 import 'Components/terms_condition_row.dart';
@@ -109,15 +110,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 //     textInputType: TextInputType.text,
                 //     borderRadius: 25.sp),
                 15.y,
-                CustomTextFieldWithOnTap(
-                    isBorderRequired: true,
-                    prefixIcon: SvgPicture.asset(Assets.lock),
-                    suffixIcon: SvgPicture.asset(Assets.hidePassword),
-                    contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
-                    controller: password,
-                    hintText: AppStrings.password,
-                    textInputType: TextInputType.text,
-                    borderRadius: 25.sp),
+                ValueListenableBuilder(
+                  valueListenable: SignUpControllers.passwordShowHide,
+                  builder: (context, value, child) {
+                    return CustomTextFieldWithOnTap(
+                        isBorderRequired: true,
+                        prefixIcon: SvgPicture.asset(Assets.lock),
+                        obscureText: value,
+                        suffixIcon: InkWell(
+                            onTap: () {
+                              SignUpControllers.passwordShowHide.value = !value;
+                            },
+                            child: SvgPicture.asset(value == false
+                                ? Assets.hidePassword
+                                : Assets.showPass)),
+                        contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
+                        controller: password,
+                        hintText: AppStrings.password,
+                        textInputType: TextInputType.text,
+                        borderRadius: 25.sp);
+                  },
+                ),
                 10.y,
                 const TermsAndConditionTextRow(),
                 53.y,

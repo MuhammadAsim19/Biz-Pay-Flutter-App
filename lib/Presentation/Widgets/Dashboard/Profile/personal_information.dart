@@ -1,4 +1,5 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
+import 'package:buysellbiz/Application/Services/PickerServices/picker_services.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/strings.dart';
@@ -32,6 +33,8 @@ class _PersonalInformationState extends State<PersonalInformation> {
 
   String? countryName;
 
+  String? image;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,8 +51,8 @@ class _PersonalInformationState extends State<PersonalInformation> {
               40.y,
               Stack(
                 children: [
-                  const AssetImageWidget(
-                    url: Assets.dummyImage2,
+                  AssetImageWidget(
+                    url: image == null ? Assets.dummyImage2 : image!,
                     radius: 60,
                     isCircle: true,
                   ),
@@ -60,7 +63,12 @@ class _PersonalInformationState extends State<PersonalInformation> {
                   Positioned(
                       top: 87.sp,
                       left: 88.sp,
-                      child: SvgPicture.asset(Assets.edit)),
+                      child: InkWell(
+                          onTap: () async {
+                            image = await PickFile.pickSingleImage();
+                            setState(() {});
+                          },
+                          child: SvgPicture.asset(Assets.edit))),
                 ],
               ),
               20.y,
@@ -84,6 +92,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
                       prefixIcon: SvgPicture.asset(Assets.message),
                       controller: emailcontroller,
                       hintText: 'gabriel.example@gmail.com',
+                      readOnly: true,
                       textInputType: TextInputType.emailAddress),
                   CustomDatePickerValidateWidget(
                     validator: (p0) {},
