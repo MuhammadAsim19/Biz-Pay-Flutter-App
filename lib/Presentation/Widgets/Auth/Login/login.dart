@@ -3,6 +3,7 @@ import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/verify_email.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/sign_up.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/BottomNavigation/Controller/BottomNavigationNotifier/bottom_navigation_notifier.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -74,6 +75,7 @@ class LoginScreen extends StatelessWidget {
                 50.y,
                 CustomButton(
                   onTap: () {
+                    BottomNotifier.bottomNavigationNotifier.value=0;
                     Navigate.to(context, BottomNavigationScreen());
                   },
                   text: 'Login',

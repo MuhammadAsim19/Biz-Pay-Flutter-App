@@ -51,18 +51,9 @@ AppText('Business Broker', style: Styles.circularStdRegular(context,color: AppCo
                 initialRating: profileData[index].rating!.toDouble(),
                 itemSize: 20,
                 ratingWidget: RatingWidget(
-                  full: const Icon(
-                    Icons.star,
-                    color: Colors.yellow,
-                  ),
-                  half: const Icon(
-                    Icons.star,
-                    color: Colors.grey,
-                  ),
-                  empty: const Icon(
-                    Icons.star,
-                    color: Colors.grey,
-                  ),
+                  full: SvgPicture.asset(Assets.starIcon),
+                  half: SvgPicture.asset(Assets.starIcon),
+                  empty: SvgPicture.asset(Assets.starIcon,color: Colors.grey,),
                 ),
                 onRatingUpdate: (value) {},
                 tapOnlyMode: true,

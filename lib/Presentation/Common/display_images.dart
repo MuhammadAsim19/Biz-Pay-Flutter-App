@@ -23,14 +23,15 @@ class DisplayFileImage extends StatelessWidget {
           height: 120.w,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
+
             // border: Border.all(
             //   color: AppColors.primaryColor,
             // ),
           ),
           child: Center(
             child: SizedBox(
-              width: 100.w,
-              height: 92.h,
+              width: 96.w,
+              height: 95.h,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Image.file(

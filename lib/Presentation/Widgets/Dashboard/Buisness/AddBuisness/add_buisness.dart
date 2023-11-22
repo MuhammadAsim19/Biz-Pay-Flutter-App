@@ -17,6 +17,7 @@ class AddBusiness extends StatelessWidget {
         print(AddNotifier.addBusinessNotifier.value);
         if(AddNotifier.addBusinessNotifier.value==0)
           {
+            AddNotifier.addPageController.removeListener(() { });
            Navigate.pop(context);
           }
         else if(AddNotifier.addBusinessNotifier

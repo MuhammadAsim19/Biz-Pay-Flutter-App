@@ -93,7 +93,8 @@ crossAxisAlignment: CrossAxisAlignment.start,
                           style: Styles.circularStdRegular(context,fontSize: 15),
                           padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
                           //isBorder: true,
-                          items: const ["IndustryA","IndustryB"], selectedValue: "IndustryB", onChanged: (onChanged){
+                          hint: 'Industry',
+                          items: const ["IndustryA","IndustryB"], selectedValue: null, onChanged: (onChanged){
                           industryController.text=onChanged.toString();
 
                       }),

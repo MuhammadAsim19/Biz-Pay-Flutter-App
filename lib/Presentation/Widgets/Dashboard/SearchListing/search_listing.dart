@@ -4,6 +4,7 @@ import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
 import 'package:buysellbiz/Presentation/Common/custom_dropdown.dart';
 import 'package:buysellbiz/Presentation/Common/widget_functions.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/BottomNavigation/Controller/BottomNavigationNotifier/bottom_navigation_notifier.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/buisness_details.dart';
 
 import 'Components/search_business_widget.dart';
@@ -98,7 +99,15 @@ body: Padding(
 
         Navigate.to(context, const BusinessDetails());
 
-      }, chatTap: (BusinessProductModel val) {  },))
+      }, chatTap: (BusinessProductModel val) {
+        //BottomNotifier.bottomPageController.removeListener(() { });
+        // BottomNotifier.bottomPageController=PageController(initialPage: 2);
+        BottomNotifier.bottomNavigationNotifier.value=2;
+
+        Navigate.toReplace(context, const BottomNavigationScreen(initialPage: 2,));
+
+
+      },))
 
     ],
 

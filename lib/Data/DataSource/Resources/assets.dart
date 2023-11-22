@@ -82,6 +82,9 @@ static const String publishIconSuccess='assets/images/publishIconSucces.png';
   static const String businessimage2 = 'assets/images/Business2.png';
   static const String businessimage3 = 'assets/images/Business3.png';
   static const String show = 'assets/images/Show.svg';
+  static const String starIcon = 'assets/images/Star.svg';
+  static const String messageWhiteIcon='assets/images/message_white.svg';
+
   static const String dropdown = 'assets/images/DropDown.svg';
  // static const String lock = 'assets/images/Lock.svg';
   static const String hide = 'assets/images/Hide.svg';

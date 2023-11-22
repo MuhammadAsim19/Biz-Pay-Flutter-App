@@ -14,7 +14,7 @@ class RecentlyViewWidget extends StatelessWidget {
       height: 110.h,
       child: ListView.separated(
           shrinkWrap: true,
-
+physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
           itemBuilder: (context,index){
 
@@ -24,7 +24,7 @@ class RecentlyViewWidget extends StatelessWidget {
             getData(businessProducts[index]);
           },
           child: Container(
-            width: 338.sp,
+            width: 1.sw/1.27,
             height: 100.h,
             decoration: ShapeDecoration(
               color: Colors.white,
@@ -42,15 +42,15 @@ class RecentlyViewWidget extends StatelessWidget {
                 10.x,
                 Expanded(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
 
                     children: [
 AppText(businessProducts[index].location!, style: Styles.circularStdRegular(context,color: AppColors.lightGreyColor)),
-                    10.y,
+                    5.y,
                     Align(child: AppText(businessProducts[index].businessName!, style: Styles.circularStdRegular(context,fontSize: 14),maxLine: 3,)),
 
-                      10.y,
+                      5.y,
                       AppText(businessProducts[index].price!, style: Styles.circularStdBold(context)),
 
 

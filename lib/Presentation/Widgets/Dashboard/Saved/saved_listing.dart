@@ -1,6 +1,8 @@
+import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/buisness_details.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/recently_view.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Saved/Components/saved_business.dart';
 class SavedListing extends StatelessWidget {
@@ -32,7 +34,11 @@ body: SingleChildScrollView(
     child: Column(children: [
     10.y,
       SavedListBusiness(businessProducts: businessProducts, getData: (dto)
-      {}),
+      {
+
+        Navigate.to(context,const BusinessDetails());
+
+      }),
 
 
     ],),

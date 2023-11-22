@@ -11,6 +11,7 @@ import 'package:buysellbiz/Presentation/Common/custom_textfield_with_on_tap.dart
 import 'package:buysellbiz/Presentation/Common/widget_functions.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/BottomNavigation/Controller/BottomNavigationNotifier/bottom_navigation_notifier.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/BrokerProfile/broker_profile.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/buisness_details.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Category/all_categories.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/BusinessBroker/Profile/business_profile_widget.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/Category/categories_list.dart';
@@ -197,7 +198,7 @@ crossAxisAlignment: CrossAxisAlignment.center,
           bottom: 0,
 
           child: CustomTextFieldWithOnTap(controller: searchController,
-borderRadius: 24,
+borderRadius: 40,
             isBorderRequired: false,
             isShadowRequired: true,
             prefixIcon: SvgPicture.asset(Assets.searchIcon),
@@ -236,7 +237,7 @@ Expanded(
         children: [
           ///Category
             5.y,
-          AppText("Categories", style: Styles.circularStdMedium(context,fontSize: 20)),
+          AppText("Categories", style: Styles.circularStdMedium(context,fontSize: 18)),
   10.y,
   CategoryList(categoryData: categoryData, getData: (CategoryDummy val) {
 
@@ -256,16 +257,20 @@ Expanded(
           ///
           ,
           10.y,
-          AppText("Recently View", style: Styles.circularStdMedium(context,fontSize: 20)),
+          AppText("Recently View", style: Styles.circularStdMedium(context,fontSize: 18)),
   5.y,
   RecentlyViewWidget(businessProducts: businessProducts, getData: (dto)
-  {}),
+  {
+
+    Navigate.to(context, const BusinessDetails());
+
+  }),
 
           ///Recently Added
           19.y,
           Row(
             children: [
-              AppText("Recently Added", style: Styles.circularStdMedium(context,fontSize: 20)),
+              AppText("Recently Added", style: Styles.circularStdMedium(context,fontSize: 18)),
               const Spacer(),
 
               AppText("View all", style: Styles.circularStdRegular(context,fontSize: 14))
@@ -273,13 +278,22 @@ Expanded(
           ),
           5.y,
           RecentlyAdded(businessProducts: businessProducts1, getData: (v)
-          {}, chatTap: (BusinessProductModel val) { print(val.businessName); },),
+          {
+
+
+            Navigate.to(context, const BusinessDetails());
+
+          }, chatTap: (BusinessProductModel val) { print(val.businessName);
+
+          BottomNotifier.bottomPageController!.jumpToPage(2);
+          BottomNotifier.bottomNavigationNotifier.value=2;
+            },),
 
           ///  Business Broker
           19.y,
           Row(
             children: [
-              AppText("Business Broker", style: Styles.circularStdMedium(context,fontSize: 20)),
+              AppText("Business Broker", style: Styles.circularStdMedium(context,fontSize: 18)),
               const Spacer(),
 
               AppText("View all", style: Styles.circularStdRegular(context,fontSize: 14))
@@ -344,27 +358,41 @@ SizedBox(
           19.y,
           Row(
             children: [
-              AppText("Business For You", style: Styles.circularStdMedium(context,fontSize: 20)),
+              AppText("Business For You", style: Styles.circularStdMedium(context,fontSize: 18)),
               const Spacer(),
 
               AppText("View all", style: Styles.circularStdRegular(context,fontSize: 14))
             ],
           ),
           5.y,
-          BusinessForYouWidget(businessProducts: businessProductsForYou, getData: (data){}, chatTap: (BusinessProductModel val) {  },)
+          BusinessForYouWidget(businessProducts: businessProductsForYou, getData: (data){
+            Navigate.to(context, const BusinessDetails());
+
+          }, chatTap: (BusinessProductModel val) {
+            BottomNotifier.bottomPageController!.jumpToPage(2);
+            BottomNotifier.bottomNavigationNotifier.value=2;
+          },)
+
+
+
 /// online Business
           ,19.y,
           Row(
             children: [
-              AppText("Online Business", style: Styles.circularStdMedium(context,fontSize: 20)),
+              AppText("Online Business", style: Styles.circularStdMedium(context,fontSize: 18)),
               const Spacer(),
 
               AppText("View all", style: Styles.circularStdRegular(context,fontSize: 14))
             ],
           ),
           5.y,
-          BusinessForYouWidget(businessProducts: businessProductsOnline, getData: (data){}, chatTap: (BusinessProductModel val) {
-            // BottomNotifier.bottomNavigationNotifier.value
+          BusinessForYouWidget(businessProducts: businessProductsOnline, getData: (data){
+            Navigate.to(context, const BusinessDetails());
+
+          }, chatTap: (BusinessProductModel val) {
+            BottomNotifier.bottomPageController!.jumpToPage(2);
+            BottomNotifier.bottomNavigationNotifier.value=2;
+
 
           },)
 
