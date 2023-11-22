@@ -41,10 +41,10 @@ class PopMenu extends StatelessWidget {
           height: 30.sp,
           child: Row(
             children: [
-              const Expanded(
+              Expanded(
                   flex: 1,
-                  child: AssetImageWidget(
-                    url: 'assets/images/report.png',
+                  child: SvgPicture.asset(
+                    'assets/images/report.svg',
                   )),
               4.x,
               Expanded(
@@ -69,10 +69,10 @@ class PopMenu extends StatelessWidget {
           height: 30.sp,
           child: Row(
             children: [
-              const Expanded(
+              Expanded(
                   flex: 1,
-                  child: AssetImageWidget(
-                    url: 'assets/images/block.png',
+                  child: SvgPicture.asset(
+                    'assets/images/block.svg',
                   )),
               4.x,
               Expanded(

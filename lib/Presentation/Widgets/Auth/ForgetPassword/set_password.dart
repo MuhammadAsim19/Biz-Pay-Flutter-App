@@ -1,7 +1,9 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
+import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/Controllers/password_controller.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/verify_email.dart';
+import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/Controllers/hide_show_password.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/sign_up.dart';
 
 import '../../../Common/dialog.dart';
@@ -39,25 +41,48 @@ class SetPassword extends StatelessWidget {
                   maxLine: 2,
                 ),
                 110.y,
-                CustomTextFieldWithOnTap(
-                    isBorderRequired: true,
-                    prefixIcon: SvgPicture.asset('assets/images/lock.svg'),
-                    suffixIcon: SvgPicture.asset('assets/images/hide_pass.svg'),
-                    contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
-                    controller: password,
-                    hintText: AppStrings.password,
-                    textInputType: TextInputType.text,
-                    borderRadius: 25.sp),
-                20.y,
-                CustomTextFieldWithOnTap(
-                    isBorderRequired: true,
-                    prefixIcon: SvgPicture.asset('assets/images/lock.svg'),
-                    suffixIcon: SvgPicture.asset('assets/images/hide_pass.svg'),
-                    contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
-                    controller: confirmPassword,
-                    hintText: AppStrings.confirmPassword,
-                    textInputType: TextInputType.text,
-                    borderRadius: 25.sp),
+                ValueListenableBuilder(
+                  valueListenable: ForgetControllers.passwordShowHide,
+                  builder: (context, value, child) {
+                    return CustomTextFieldWithOnTap(
+                        isBorderRequired: true,
+                        prefixIcon: SvgPicture.asset('assets/images/lock.svg'),
+                        suffixIcon: InkWell(
+                            onTap: () {
+                              ForgetControllers.passwordShowHide.value = !value;
+                            },
+                            child: SvgPicture.asset(value == false
+                                ? Assets.hidePassword
+                                : Assets.showPass)),
+                        contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
+                        controller: password,
+                        hintText: AppStrings.password,
+                        textInputType: TextInputType.text,
+                        borderRadius: 25.sp);
+                  },
+                ),
+                10.y,
+                ValueListenableBuilder(
+                  valueListenable: ForgetControllers.confirmPasswordShowHide,
+                  builder: (context, value, child) {
+                    return CustomTextFieldWithOnTap(
+                        isBorderRequired: true,
+                        prefixIcon: SvgPicture.asset('assets/images/lock.svg'),
+                        suffixIcon: InkWell(
+                            onTap: () {
+                              ForgetControllers.confirmPasswordShowHide.value =
+                                  !value;
+                            },
+                            child: SvgPicture.asset(value == false
+                                ? Assets.hidePassword
+                                : Assets.showPass)),
+                        contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
+                        controller: confirmPassword,
+                        hintText: AppStrings.confirmPassword,
+                        textInputType: TextInputType.text,
+                        borderRadius: 25.sp);
+                  },
+                ),
                 200.y,
                 CustomButton(
                   onTap: () {

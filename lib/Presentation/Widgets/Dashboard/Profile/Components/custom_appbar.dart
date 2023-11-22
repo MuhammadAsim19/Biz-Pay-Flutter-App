@@ -3,7 +3,7 @@ import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
-  final String? leading;
+  final bool? leading;
 
   const CustomAppBar({
     super.key,
@@ -16,20 +16,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       elevation: 0,
       backgroundColor: AppColors.whiteColor,
-
-      
-      title: AppText('$title', style: Styles.circularStdMedium(context, fontSize: 18.sp)
-      
-      ),
+      title: AppText('$title',
+          style: Styles.circularStdMedium(context, fontSize: 18.sp)),
       centerTitle: true,
-      leading: Padding(
-        padding:  EdgeInsets.all(15.sp),
-        child: GestureDetector(
-          onTap: (){
-Navigator.pop(context); 
-          },
-          child: SvgPicture.asset(leading??Assets.arrowleft)),
-      ),
+      leadingWidth: 48.w,
+      leading: leading == null
+          ? Padding(
+              padding: EdgeInsets.only(left: 20.0.sp),
+              child: const BackArrowWidget(),
+            )
+          : const SizedBox(),
     );
   }
 

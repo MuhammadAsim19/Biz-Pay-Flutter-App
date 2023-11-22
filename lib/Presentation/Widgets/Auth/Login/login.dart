@@ -10,6 +10,8 @@ class LoginScreen extends StatelessWidget {
   final email = TextEditingController();
   final password = TextEditingController();
 
+  ValueNotifier<bool> showHidePassword = ValueNotifier(false);
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -45,15 +47,27 @@ class LoginScreen extends StatelessWidget {
                     textInputType: TextInputType.text,
                     borderRadius: 25.sp),
                 15.y,
-                CustomTextFieldWithOnTap(
-                    isBorderRequired: true,
-                    prefixIcon: SvgPicture.asset(Assets.lock),
-                    suffixIcon: SvgPicture.asset(Assets.hidePassword),
-                    contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
-                    controller: password,
-                    hintText: AppStrings.password,
-                    textInputType: TextInputType.text,
-                    borderRadius: 25.sp),
+                ValueListenableBuilder(
+                  valueListenable: showHidePassword,
+                  builder: (context, value, child) {
+                    return CustomTextFieldWithOnTap(
+                        isBorderRequired: true,
+                        prefixIcon: SvgPicture.asset(Assets.lock),
+                        suffixIcon: InkWell(
+                            onTap: () {
+                              showHidePassword.value = !value;
+                            },
+                            child: SvgPicture.asset(value == false
+                                ? Assets.hidePassword
+                                : Assets.showPass)),
+                        obscureText: value,
+                        contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
+                        controller: password,
+                        hintText: AppStrings.password,
+                        textInputType: TextInputType.text,
+                        borderRadius: 25.sp);
+                  },
+                ),
                 10.y,
                 Align(
                   alignment: Alignment.centerRight,

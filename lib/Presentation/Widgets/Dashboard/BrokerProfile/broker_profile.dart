@@ -46,7 +46,14 @@ class _BrokerProfileState extends State<BrokerProfile> {
                   child: Column(
                     children: [
                       16.y,
-                      BackArrowWidget(),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20.sp,
+                        ),
+                        child: const Align(
+                            alignment: Alignment.centerLeft,
+                            child: BackArrowWidget()),
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
