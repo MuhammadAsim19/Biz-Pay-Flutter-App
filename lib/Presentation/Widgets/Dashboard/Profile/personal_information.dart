@@ -1,33 +1,29 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Application/Services/PickerServices/picker_services.dart';
-import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
-import 'package:buysellbiz/Data/DataSource/Resources/strings.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/custom_date_picker.dart';
 import 'package:buysellbiz/Presentation/Common/custom_dropdown.dart';
-import 'package:buysellbiz/Presentation/Common/custom_textfield_with_on_tap.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_appbar.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_list_tile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/delete_account.dart';
 
 class PersonalInformation extends StatefulWidget {
-  PersonalInformation({super.key});
+  const PersonalInformation({super.key});
 
   @override
   State<PersonalInformation> createState() => _PersonalInformationState();
 }
 
 class _PersonalInformationState extends State<PersonalInformation> {
-  TextEditingController firstnamecontroller = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
 
-  TextEditingController lastnamecontroller = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
 
-  TextEditingController emailcontroller = TextEditingController();
+  TextEditingController emailController = TextEditingController();
 
-  TextEditingController calendarcontroller = TextEditingController();
+  TextEditingController calendarController = TextEditingController();
 
-  TextEditingController countrycontroller = TextEditingController();
+  TextEditingController countryController = TextEditingController();
 
   List country = ['US', "Canada", 'UK'];
 
@@ -77,27 +73,27 @@ class _PersonalInformationState extends State<PersonalInformation> {
                   CustomTextFieldWithOnTap(
                       borderRadius: 40.r,
                       prefixIcon: SvgPicture.asset(Assets.profile),
-                      controller: firstnamecontroller,
+                      controller: firstNameController,
                       hintText: 'Gabriel',
                       textInputType: TextInputType.name),
                   CustomTextFieldWithOnTap(
                       borderRadius: 40.r,
                       prefixIcon: SvgPicture.asset(Assets.profile),
-                      controller: lastnamecontroller,
+                      controller: lastNameController,
                       hintText: 'Tesse',
                       textInputType: TextInputType.name),
                   CustomTextFieldWithOnTap(
                       suffixIcon: SvgPicture.asset(Assets.blueCheck),
                       borderRadius: 40.r,
                       prefixIcon: SvgPicture.asset(Assets.message),
-                      controller: emailcontroller,
+                      controller: emailController,
                       hintText: 'gabriel.example@gmail.com',
                       readOnly: true,
                       textInputType: TextInputType.emailAddress),
                   CustomDatePickerValidateWidget(
                     validator: (p0) {},
                     prefixIcon: SvgPicture.asset(Assets.calender),
-                    controller: calendarcontroller,
+                    controller: calendarController,
                     hintText: '22/09/96',
                   ),
                   10.y,

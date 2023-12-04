@@ -19,7 +19,12 @@ class CustomListTile extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 15.sp, horizontal: 5.sp),
       child: Row(
         children: [
-          Expanded(child: SvgPicture.asset(leadingicon!)),
+          Expanded(
+              child: SvgPicture.asset(
+            leadingicon!,
+            height: 20.sp,
+            width: 20.sp,
+          )),
           Expanded(
             flex: 5,
             child: AppText(title!,

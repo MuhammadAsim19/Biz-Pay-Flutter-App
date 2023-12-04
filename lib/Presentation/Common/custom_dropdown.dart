@@ -22,7 +22,7 @@ class CustomDropDownWidget extends StatelessWidget {
     this.hMargin = 8,
     this.vMargin = 0,
     this.dropDownHeight,
-    required this.prefixIcon,
+    this.prefixIcon,
     required this.hintText,
     required this.value,
     required this.validationText,

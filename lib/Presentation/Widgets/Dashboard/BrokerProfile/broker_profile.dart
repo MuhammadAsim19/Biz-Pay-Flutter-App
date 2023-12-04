@@ -243,11 +243,11 @@ class BrokerChipWidget extends StatelessWidget {
       height: height ?? 30.sp,
       width: width,
       child: Chip(
-        backgroundColor: AppColors.primaryColor,
+        backgroundColor: AppColors.lightBlueColor,
         label: AppText(
           labelText ?? 'Chat',
           style: style ??
-              Styles.circularStdRegular(context, color: AppColors.whiteColor),
+              Styles.circularStdRegular(context, color: AppColors.blackColor),
         ),
       ),
     );

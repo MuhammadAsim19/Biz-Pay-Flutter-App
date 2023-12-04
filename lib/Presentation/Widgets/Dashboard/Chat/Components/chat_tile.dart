@@ -29,21 +29,26 @@ class ChatTile extends StatelessWidget {
             AssetImageWidget(
                 height: 50.h, width: 50.w, url: data!.pr0fileImage),
             15.x,
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AppText(data?.name ?? "",
-                    style: Styles.circularStdBold(context,
-                        fontSize: 18.sp, fontWeight: FontWeight.w500)),
-                5.y,
-                AppText(data!.message,
-                    style: Styles.circularStdRegular(context,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.greyTextColor)),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AppText(data?.name ?? "",
+                      style: Styles.circularStdBold(context,
+                          fontSize: 18.sp, fontWeight: FontWeight.w500)),
+                  AppText(data?.title ?? "",
+                      style: Styles.circularStdRegular(context,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.primaryColor)),
+                  AppText(data!.message,
+                      style: Styles.circularStdRegular(context,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.greyTextColor)),
+                ],
+              ),
             ),
-            const Spacer(),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -53,7 +58,7 @@ class ChatTile extends StatelessWidget {
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w400,
                         color: AppColors.greyTextColor)),
-                5.y,
+                20.y,
                 data!.messageLength.isNotEmpty
                     ? CircleAvatar(
                         radius: 10.sp,

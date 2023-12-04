@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Application/Services/PickerServices/picker_services.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
@@ -23,7 +22,8 @@ class PublishWidget extends StatefulWidget {
 
 class _PublishWidgetState extends State<PublishWidget> {
   var images;
-bool isToggle=true;
+  bool isToggle = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,9 +46,10 @@ bool isToggle=true;
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-            //  30.y,
+              //  30.y,
               20.y,
-              AppText('Upload image', style: Styles.circularStdMedium(context,fontSize: 20)),
+              AppText('Upload image',
+                  style: Styles.circularStdMedium(context, fontSize: 20)),
               10.y,
               AddImageWidget(
                 addText: "Uploads photos",
@@ -58,10 +59,14 @@ bool isToggle=true;
                 },
               ),
               10.y,
-AppText('At least 8 photos to improve check for sale', style: Styles.circularStdRegular(context,color: const Color(0xFFB0B0B0),fontSize: 14
-)),
-              AppText('Should be jpg, png, git format only', style: Styles.circularStdRegular(context,color: const Color(0xFFB0B0B0),fontSize: 14
-              )),
+              AppText('At least 8 photos to improve check for sale',
+                  style: Styles.circularStdRegular(
+                      context, color: const Color(0xFFB0B0B0), fontSize: 14
+                  )),
+              AppText('Should be jpg, png, git format only',
+                  style: Styles.circularStdRegular(
+                      context, color: const Color(0xFFB0B0B0), fontSize: 14
+                  )),
 
               images != null
                   ? SizedBox(
@@ -90,7 +95,7 @@ AppText('At least 8 photos to improve check for sale', style: Styles.circularStd
                 ),
               )
                   : const SizedBox(),
-const  Spacer(),
+              const Spacer(),
 //           Row(children: [
 //
 //            const AssetImageWidget(url: Assets.whatsAppIcon,height: 20,width: 20,),
@@ -114,20 +119,19 @@ const  Spacer(),
 
             bottom: 10,
             left: 10,
-            child: CustomButton( onTap: () async {
-
-
-              CustomDialog.dialog(context, const AddSuccessDialog(),barrierDismissible: false);
-              await Future.delayed(const Duration(seconds: 3));
-              Navigate.pop(context);
-              Navigate.pop(context);
-
-            },
+            child: CustomButton(
+              onTap: () async {
+                CustomDialog.dialog(context, const AddSuccessDialog(),
+                    barrierDismissible: false);
+                await Future.delayed(const Duration(seconds: 3));
+                Navigate.pop(context);
+                Navigate.pop(context);
+              },
               textFontWeight: FontWeight.w500,
               borderRadius: 30,
               height: 56,
-              width: 1.sw/1.25,
-              text: 'Publish' ,),)
+              width: 1.sw / 1.25,
+              text: 'Publish',),)
         ],
       ),
     );
