@@ -181,12 +181,17 @@ class _BrokerProfileState extends State<BrokerProfile> {
                     width: 300.w,
                     height: 40.h,
                     onTap: () {
-                      Navigate.to(context, ChatDetailsScreen(model: ChatTileModel(
-                          message: 'Thank You',
-                          messageLength: '1',
-                          name: 'Gabriel Tasse',
-                          pr0fileImage: 'assets/images/chat1.png',
-                          time: '03:30 PM'),));
+                      Navigate.to(
+                          context,
+                          ChatDetailsScreen(
+                            model: ChatTileModel(
+                                message: 'Thank You',
+                                messageLength: '1',
+                                name: 'Gabriel Tasse',
+                                pr0fileImage: 'assets/images/chat1.png',
+                                time: '03:30 PM',
+                                title: ';dlas;jdaskdj'),
+                          ));
                     },
                     text: 'Chat with Gabriel',
                     borderRadius: 40.sp),
