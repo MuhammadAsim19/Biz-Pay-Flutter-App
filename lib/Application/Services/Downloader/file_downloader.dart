@@ -83,7 +83,7 @@ class FileDownloader {
       await AppPermissions.hasStoragePermission(onSuccess: () async {
         List<Directory>? directory = await getExternalStorageDirectories(
             type: StorageDirectory.downloads);
-        final myFilePath = '${directory![0].path}/HbkApp';
+        final myFilePath = '${directory![0].path}/buysell';
         final dire = await AppPermissions.prepareSaveDir();
 
         final myImgDir = await Directory(myFilePath).create();
