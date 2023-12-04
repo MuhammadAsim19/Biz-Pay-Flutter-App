@@ -285,7 +285,7 @@ class _ExportProfileState extends State<ExportProfile> {
                 text: 'Publish profile',
                 borderRadius: 25.sp,
               ),
-              20.y,
+              10.y,
             ],
           ),
         ),
