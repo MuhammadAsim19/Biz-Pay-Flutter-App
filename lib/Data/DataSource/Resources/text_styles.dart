@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -13,7 +11,7 @@ class Styles {
   static double _textScale(
     BuildContext context,
   ) {
-     //print(MediaQuery.of(context).textScaleFactor);
+    //print(MediaQuery.of(context).textScaleFactor);
     return MediaQuery.of(context).textScaleFactor > 1.0
         ? 0.9
         : MediaQuery.of(context).textScaleFactor;
@@ -54,24 +52,23 @@ class Styles {
       {double? fontSize,
       Color? color,
       double height = 1.4,
-      FontWeight fontWeight = FontWeight.normal,
+      FontWeight? fontWeight,
       double? letterSpacing}) {
     return TextStyle(
         letterSpacing: letterSpacing ?? 0,
-        fontSize: (fontSize ?? 14.0.sp) * _textScale(context),
+        fontSize: (fontSize ?? 12.0.sp) * _textScale(context),
         color: color ?? AppColors.blackColor,
         fontFamily: "CircularStd Regular",
         height: height,
-        fontWeight: fontWeight);
+        fontWeight: fontWeight ?? FontWeight.normal);
   }
 
   static TextStyle circularStdMedium(BuildContext context,
       {double? fontSize, Color? color}) {
     return TextStyle(
-      fontSize: (fontSize ?? 14.0.sp) * _textScale(context),
-      color: color ?? AppColors.blackColor,
-      fontFamily: "CircularStd Medium",
-      fontWeight: FontWeight.w400
-    );
+        fontSize: (fontSize ?? 14.0.sp) * _textScale(context),
+        color: color ?? AppColors.blackColor,
+        fontFamily: "CircularStd Medium",
+        fontWeight: FontWeight.w400);
   }
 }

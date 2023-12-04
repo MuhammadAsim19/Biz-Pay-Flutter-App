@@ -97,11 +97,11 @@ class _ExportProfileState extends State<ExportProfile> {
                   ),
                   Positioned(
                       top: 80.sp,
-                      left: 80.sp,
+                      left: 75.sp,
                       child: SvgPicture.asset(Assets.blueElipse)),
                   Positioned(
                       top: 87.sp,
-                      left: 88.sp,
+                      left: 83.sp,
                       child: InkWell(
                           onTap: () async {
                             image = await PickFile.pickSingleImage();
