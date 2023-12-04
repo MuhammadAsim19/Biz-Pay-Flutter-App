@@ -152,7 +152,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
                 textSize: 16.sp,
                 textColor: AppColors.whiteColor,
               ),
-              20.y,
+              10.y,
               GestureDetector(
                 onTap: () {
                   Navigate.to(context, DeleteAccount());

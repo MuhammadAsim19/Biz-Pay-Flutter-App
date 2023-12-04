@@ -212,7 +212,7 @@ class _BrokerProfileState extends State<BrokerProfile> {
           decoration:
               const BoxDecoration(shape: BoxShape.circle, color: Colors.black),
         ),
-        10.x,
+        15.x,
         AppText(title,
             style: Styles.circularStdRegular(
               context,
