@@ -5,6 +5,8 @@ import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/verify_email
 import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/sign_up.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/BottomNavigation/Controller/BottomNavigationNotifier/bottom_navigation_notifier.dart';
 
+import 'dottedContainer.dart';
+
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
@@ -103,13 +105,17 @@ class LoginScreen extends StatelessWidget {
                   5.x,
                   InkWell(
                     onTap: () {
-                      Navigate.to(context, SignUpScreen());
+                      Navigate.to(context, const SignUpScreen());
                     },
                     child: AppText(AppStrings.register,
                         style: Styles.circularStdBold(context,
                             color: AppColors.blackColor)),
                   )
                 ]),
+
+                // CustomButton(onTap: (){
+                //   Navigate.to(context, ServiceScreen());
+                // }, text: "test")
               ],
             ),
           ),

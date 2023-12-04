@@ -20,7 +20,7 @@ class SetPassword extends StatelessWidget {
       child: Scaffold(
         backgroundColor: AppColors.whiteColor,
         body: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 24.sp, horizontal: 24.sp),
             child: Column(

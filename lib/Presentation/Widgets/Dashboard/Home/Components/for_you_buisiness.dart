@@ -74,7 +74,7 @@ class BusinessForYouWidget extends StatelessWidget {
                             AppText(businessProducts[index].businessName!, style: Styles.circularStdRegular(context,fontSize: 14,fontWeight: FontWeight.w500
                             ),maxLine: 3,),
 
-                            7.y,
+                            4.y,
                             Row(
                               children: [
                                 AppText(businessProducts[index].price!, style: Styles.circularStdBold(context)),

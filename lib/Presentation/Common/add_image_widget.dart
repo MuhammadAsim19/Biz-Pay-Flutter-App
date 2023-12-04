@@ -21,7 +21,7 @@ class AddImageWidget extends StatelessWidget {
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: SizedBox(
-        height: height??76,
+        height: height?? (1.sw>500?100:76),
         width:width??1.sw,
         child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(12)),

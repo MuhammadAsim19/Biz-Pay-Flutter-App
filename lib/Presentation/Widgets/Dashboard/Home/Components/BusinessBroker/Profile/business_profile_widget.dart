@@ -28,7 +28,7 @@ class BusinessProfileWidget extends StatelessWidget {
         },
         child: Container(
           width: 181.w,
-          height: 257.h,
+          height:257.sp,
           decoration: ShapeDecoration(
             color: Colors.white,
             shape: RoundedRectangleBorder(

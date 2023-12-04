@@ -74,7 +74,7 @@ final bool? isButtonAlignLeft;
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: AnimatedContainer(
-         height: height??50,
+         height: height?? (1.sw>500?100:50),
         width: width,
         duration: const Duration(milliseconds: 300),
         curve: Curves.fastOutSlowIn,

@@ -98,7 +98,7 @@ class _CustomTextFieldWithOnTapState extends State<CustomTextFieldWithOnTap> {
                 )
               : Container(),
           Container(
-            height: widget.height?? 56,
+            height: widget.height?? (1.sw>500?100:56),
             decoration: BoxDecoration(
               boxShadow: widget.isShadowRequired! ? [AppShadow.normal()] : [],
               //border:Border.all(color: AppColors.lightGreyColor)
@@ -440,7 +440,7 @@ class CustomTextFieldWithOnTap2 extends StatelessWidget {
                           borderRadius: BorderRadius.circular(
                             borderRadius ?? 12.r,
                           ),
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: AppColors.lightGreyColor,
                           ),
                         )
