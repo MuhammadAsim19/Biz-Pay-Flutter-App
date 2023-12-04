@@ -26,4 +26,7 @@ class AppColors {
   static const searchFieldColor = Color(0xFFFAFAFA);
 
   static const chatColor = Color(0xffEEF2F6);
+  static const lightBlue = Color(0xffF6F6F6);
+
+
 }

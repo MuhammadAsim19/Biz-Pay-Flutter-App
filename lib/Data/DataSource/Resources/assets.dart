@@ -6,10 +6,12 @@ class Assets {
   static const String chatLight = 'assets/images/chat_light.svg';
   static const String chatBlue = 'assets/images/chat_blue.svg';
   static const String profile = 'assets/images/Profile.svg';
-  static const String homeFilled='assets/images/HomeFilled.svg';
-  static const String profileFilled='assets/images/profileFilled.svg';
-  static  const String searchIcon='assets/images/Search.svg';
-  static const String  notificationIcon='assets/images/Notification.svg';
+  static const String addUser = 'assets/images/add_user.svg';
+
+  static const String homeFilled = 'assets/images/HomeFilled.svg';
+  static const String profileFilled = 'assets/images/profileFilled.svg';
+  static const String searchIcon = 'assets/images/Search.svg';
+  static const String notificationIcon = 'assets/images/Notification.svg';
   static const String agricultureIcon = 'assets/images/Agriculture.svg';
   static const String automotiveBoatIcon = 'assets/images/Automotive & Boat.svg';
   static const String educationIcon = 'assets/images/Education.svg';
@@ -66,6 +68,8 @@ static const String publishIconSuccess='assets/images/publishIconSucces.png';
   static const String down = 'assets/images/Down.svg';
   static const String unlock = 'assets/images/Unlock.svg';
   static const String plus = 'assets/images/Plus.svg';
+  static const String add = 'assets/images/add.svg';
+
   static const String share = 'assets/images/Share.svg';
   static const String document = 'assets/images/Document.svg';
   static const String paper ='assets/images/Paper.svg';
@@ -95,6 +99,6 @@ static const String publishIconSuccess='assets/images/publishIconSucces.png';
   static const String delete  = 'assets/images/Delete.svg';
   static const String sendbusiness = 'assets/images/sharebusiness.svg';
   static const String editbusiness = 'assets/images/Editbusiness.svg';
- 
+
 
 }

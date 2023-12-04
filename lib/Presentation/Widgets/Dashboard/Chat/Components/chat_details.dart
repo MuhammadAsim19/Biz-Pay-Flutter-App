@@ -62,10 +62,17 @@ class ChatDetailsScreen extends StatelessWidget {
                               style: Styles.circularStdBold(context,
                                   fontSize: 18.sp,
                                   fontWeight: FontWeight.w500)),
+                          AppText(
+                            model!.title,
+                            style: Styles.circularStdMedium(
+                              context,
+                              fontSize: 12.sp,
+                              color: AppColors.greyTextColor,
+                            ),
+                          ),
                           AppText('Online',
-                              style: Styles.circularStdRegular(context,
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
+                              style: Styles.circularStdMedium(context,
+                                  fontSize: 12.sp,
                                   color: AppColors.greyTextColor)),
                         ],
                       ),
@@ -74,7 +81,7 @@ class ChatDetailsScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                13.y,
+                5.y,
                 const Divider(
                   color: AppColors.borderColor,
                   thickness: 2,
@@ -82,10 +89,10 @@ class ChatDetailsScreen extends StatelessWidget {
                 Expanded(
                   flex: 7,
                   child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        10.y,
                         Chip(
                             labelPadding: EdgeInsets.symmetric(
                                 horizontal: 5.sp, vertical: 2.sp),

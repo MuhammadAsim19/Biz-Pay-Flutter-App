@@ -4,6 +4,7 @@ import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/dialog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_list_tile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/logout_dialog.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/export_profile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/change_password.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/customer_support.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/personal_information.dart';
@@ -48,6 +49,16 @@ class ProfileScreen extends StatelessWidget {
                         child: const CustomListTile(
                           title: AppStrings.personalLinfo,
                           leadingicon: Assets.profile,
+                          trailing: Assets.down,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigate.to(context, const ExportProfile());
+                        },
+                        child: const CustomListTile(
+                          title: AppStrings.becomeExpert,
+                          leadingicon: Assets.addUser,
                           trailing: Assets.down,
                         ),
                       ),

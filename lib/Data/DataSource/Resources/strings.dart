@@ -9,7 +9,7 @@ class AppStrings {
   static String signUpDesc =
       'Let’s get started. Share your info to join the\nmarketplace';
 
-  static String loginWithFacebook = 'Continue with Facebook';
+  static String continueWithApple = 'Continue with Apple';
   static String registerUS = 'Register as?';
   static String appName = 'Business broker';
   static String login = 'Login';
@@ -41,6 +41,8 @@ class AppStrings {
   static String industry = 'Industries serviced';
   static String experice = 'Experience';
   static String education = 'Education ';
+  static String website = 'WebSite';
+
   static String certificate = 'Certificate';
   static String passwordChangedSuccess =
       'Password has changed successfully, login\nto your account.';
@@ -57,8 +59,17 @@ class AppStrings {
   static const String logout = 'Logout';
   static const String gabriel = 'Gabreiel Tasse';
   static const String personalLinfo = 'Personal information';
+  static const String exportProfile = 'Expert profile';
+
   static const String ChangePass = 'Change Password';
   static const String listYourbis = 'List your business';
+  static const String becomeExpert = 'Become Expert';
+  static const String expertes = 'Expertise';
+  static const String industries = 'Industries';
+  static const String eduction = 'Education';
+
+  static const String serviceArea = 'Main service area';
+
   static const String yourBussines = 'your business';
   static const String dropShoping =
       'Drop shipping website &\nE-commerece business';
@@ -86,6 +97,9 @@ class AppStrings {
 
   // static const String login = 'Login';
   static const String cancel = 'Cancel';
+  static const String addNewSer = 'Add new service';
+  static const String addNewIndus = 'Add new Industry';
+
   static const String submit = 'Submit';
 
   static const String privacyPolicyall = '''
