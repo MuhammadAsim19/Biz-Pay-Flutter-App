@@ -1,10 +1,8 @@
 import 'package:buysellbiz/Application/Services/PickerServices/picker_services.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
-import 'package:buysellbiz/Presentation/Common/custom_date_picker.dart';
 import 'package:buysellbiz/Presentation/Common/custom_dropdown.dart';
 import 'package:buysellbiz/Presentation/Common/multi_item_picker.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_appbar.dart';
 
 class ExportProfile extends StatefulWidget {
   const ExportProfile({super.key});
@@ -36,7 +34,7 @@ class _ExportProfileState extends State<ExportProfile> {
 
   List city = ['Peshawar', "Islamabad", 'Karachi'];
 
-  List privance = ['Peshawar', "Islamabad", 'Karachi'];
+  List privance = ['KPK', "US Kingdom", 'New City'];
 
   List education = [
     'Master in Business',
@@ -236,7 +234,7 @@ class _ExportProfileState extends State<ExportProfile> {
                     value: privanceName,
                     validationText: '',
                     onChanged: (value) {
-                      cityName = value;
+                      privanceName = value;
                       setState(() {});
                     },
                   ),
