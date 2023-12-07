@@ -1,12 +1,30 @@
 class Validate {
   ///Password Validation
-  static String? password(val) {
-    if (val!.trim().isEmpty) {
-      return "Please provide Password";
+  static String? password(String? val) {
+    if (val == null || val.trim().isEmpty) {
+      return "Please provide a password";
     } else if (val.length < 6) {
-      return 'Password must be at least 6 digits';
+      return 'Password must be at least 6 characters';
+    } else if (!_containsUpperCase(val)) {
+      return 'Password must contain at least one uppercase letter';
+    } else if (!_containsNumber(val)) {
+      return 'Password must contain at least one number';
+    } else if (!_containsSpecialCharacter(val)) {
+      return 'Password must contain at least one special character';
     }
     return null;
+  }
+
+  static bool _containsUpperCase(String val) {
+    return val.contains(RegExp(r'[A-Z]'));
+  }
+
+  static bool _containsNumber(String val) {
+    return val.contains(RegExp(r'[0-9]'));
+  }
+
+  static bool _containsSpecialCharacter(String val) {
+    return val.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
   }
 
   ///Confirm Password Validation
@@ -24,7 +42,7 @@ class Validate {
   ///Email Validation
   static String? email(val) {
     bool emailValid = RegExp(
-        r"^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+            r"^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(val);
     if (val.isEmpty) {
       return "Please provide email";
@@ -76,18 +94,15 @@ class Validate {
     // bool isValidName =
     //     RegExp(r"^[a-zA-Z][a-zA-Z\s]{0,20}[a-zA-Z]$").hasMatch(val!);
     if (val!.isEmpty) {
-      return 'Please add a title';
+      return 'Please add a name';
     }
     return null;
   }
 
   ///Phone Number Validation
   static String? phone(String? val) {
-    bool isValidPhone = RegExp(r"^(?:[+0][0-9])?[0-9]{10,14}$").hasMatch(val!);
-    if (val.isEmpty) {
+    if (val!.isEmpty) {
       return 'Provide a phone number';
-    } else if (!isValidPhone) {
-      return 'Phone number invalid';
     }
     return null;
   }

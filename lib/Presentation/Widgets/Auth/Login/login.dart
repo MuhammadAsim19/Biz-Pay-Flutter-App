@@ -1,9 +1,14 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
+import 'package:buysellbiz/Data/DataSource/Resources/validator.dart';
+import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
+import 'package:buysellbiz/Presentation/Common/widget_functions.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/verify_email.dart';
+import 'package:buysellbiz/Presentation/Widgets/Auth/Login/Controllers/login_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/sign_up.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/BottomNavigation/Controller/BottomNavigationNotifier/bottom_navigation_notifier.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'dottedContainer.dart';
 
@@ -15,19 +20,30 @@ class LoginScreen extends StatelessWidget {
 
   ValueNotifier<bool> showHidePassword = ValueNotifier(false);
 
+  final formKey = GlobalKey<FormState>();
+
+  void _login(BuildContext context) {
+    if (formKey.currentState!.validate()) {
+      var body = {"email": email.text, "password": password.text};
+
+      context.read<LoginCubit>().loginUser(body: body);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColors.whiteColor,
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 24.sp, horizontal: 24.sp),
+    return Scaffold(
+      backgroundColor: AppColors.whiteColor,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 24.sp, horizontal: 24.sp),
+          child: Form(
+            key: formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                10.y,
+                20.y,
                 const BackArrowWidget(),
                 20.y,
                 AppText(AppStrings.logintoApp,
@@ -46,6 +62,7 @@ class LoginScreen extends StatelessWidget {
                     contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
                     prefixIcon: SvgPicture.asset(Assets.email),
                     controller: email,
+                    validator: Validate.email,
                     hintText: AppStrings.email,
                     textInputType: TextInputType.text,
                     borderRadius: 25.sp),
@@ -66,6 +83,7 @@ class LoginScreen extends StatelessWidget {
                         obscureText: value,
                         contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
                         controller: password,
+                        validator: Validate.password,
                         hintText: AppStrings.password,
                         textInputType: TextInputType.text,
                         borderRadius: 25.sp);
@@ -89,13 +107,31 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 50.y,
-                CustomButton(
-                  onTap: () {
+                BlocConsumer<LoginCubit, LoginState>(
 
-                    Navigate.to(context, const BottomNavigationScreen());
+                  listener: (context, state) {
+                    if (state is LoginLoading) {
+                      LoadingDialog.showLoadingDialog(context);
+                    }
+                    if (state is LoginError) {
+                      Navigator.pop(context);
+                      WidgetFunctions.instance.snackBar(context,
+                          bgColor: AppColors.primaryColor, text: state.error);
+                    }
+                    if (state is LoginLoaded) {
+                      Navigator.pop(context);
+                      BottomNotifier.bottomNavigationNotifier.value = 0;
+                      Navigate.toReplace(
+                          context, const BottomNavigationScreen());
+                    }
                   },
-                  text: 'Login',
-                  borderRadius: 25.sp,
+                  builder: (context, state) {
+                    return CustomButton(
+                      onTap: () => _login(context),
+                      text: state is LoginLoading ? 'Loading....' : 'Login',
+                      borderRadius: 25.sp,
+                    );
+                  },
                 ),
                 160.y,
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
