@@ -55,28 +55,35 @@ class ChatDetailsScreen extends StatelessWidget {
                       AssetImageWidget(
                           height: 50.h, width: 50.w, url: model!.pr0fileImage),
                       10.x,
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          AppText(model!.name,
-                              style: Styles.circularStdBold(context,
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w500)),
-                          AppText(
-                            model!.title,
-                            style: Styles.circularStdMedium(
-                              context,
-                              fontSize: 12.sp,
-                              color: AppColors.greyTextColor,
+                      Expanded(
+                        flex: 3,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            AppText(model!.name,
+                                style: Styles.circularStdBold(context,
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.w500)),
+                            AppText(
+                              model!.title,
+                              maxLine: 1,
+                              overflow:
+                              TextOverflow.ellipsis,
+                              style: Styles.circularStdMedium(
+                                context,
+                                fontSize: 12.sp,
+                                color: AppColors.greyTextColor,
+                              ),
                             ),
-                          ),
-                          AppText('Online',
-                              style: Styles.circularStdMedium(context,
-                                  fontSize: 12.sp,
-                                  color: AppColors.greyTextColor)),
-                        ],
+                            AppText('Online',
+                                style: Styles.circularStdMedium(context,
+                                    fontSize: 12.sp,
+                                    color: AppColors.greyTextColor)),
+                          ],
+                        ),
                       ),
-                      const Spacer(),
+                      //const Spacer(),
                       const PopMenu(),
                     ],
                   ),

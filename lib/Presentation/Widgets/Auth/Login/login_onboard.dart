@@ -1,9 +1,13 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
+import 'package:buysellbiz/Data/DataSource/Repository/AppleRepo/apple_repo.dart';
+import 'package:buysellbiz/Data/DataSource/Repository/GoogleRepo/google_repo.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/strings.dart';
 import 'package:buysellbiz/Presentation/Common/auth_buttons.dart';
+import 'package:buysellbiz/Presentation/Common/widget_functions.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/Login/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginOnboard extends StatefulWidget {
   const LoginOnboard({super.key});
@@ -75,6 +79,10 @@ class _LoginOnboardState extends State<LoginOnboard> {
                 30.y,
                 AuthButtons(
                   color: AppColors.lightBlueColor,
+                  onTap: ()
+                  {
+                    _onGoogle();
+                  },
                   height: 45.h,
                   width: 330.w,
                   text: AppStrings.loginWithGoogle,
@@ -86,6 +94,20 @@ class _LoginOnboardState extends State<LoginOnboard> {
                   color: AppColors.blackColor,
                   height: 45.h,
                   width: 330.w,
+                  onTap: ()
+                  async {
+                    var userData= await  AppleRepo.getAppleLoginData(context);
+                    if(userData!=null)
+                    {
+                      var email=userData!.user?.email;
+                      var name =userData!.user?.displayName;
+                      var photoUrl=userData!.user?.photoURL;
+                      print("${"email"+email.toString()+"name"+name}photo url:"+photoUrl);
+                     // sendToSocial(email,name,photoUrl,"apple");
+
+                    }
+
+                  },
                   text: AppStrings.continueWithApple,
                   isBorderRequired: false,
                   image: 'assets/images/apple.svg',
@@ -110,5 +132,20 @@ class _LoginOnboardState extends State<LoginOnboard> {
         ),
       ),
     );
+  }
+  void _onGoogle() async {
+    //FirebaseAuth auth = FirebaseAuth.instance;
+
+    User? user = await GoogleRepo.signInWithGoogle(context: context);
+    if (mounted) {
+      if (user?.email != null) {
+        print(user?.email.toString());
+        print(user?.displayName.toString());
+        print(user?.uid.toString());
+      } else {
+        WidgetFunctions.instance
+            .snackBar(context, text: 'Login Cancelled', bgColor: Colors.orange);
+      }
+    }
   }
 }

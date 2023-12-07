@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>79825396245-9uuf1dp187g1tm89qcnl5tkhadsb9skf.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.79825396245-9uuf1dp187g1tm89qcnl5tkhadsb9skf</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>79825396245-e8f7aspg621e53kivs2hbrqekj1qt6c1.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBL-9W6qvJM4DNtVjWH43vSYyVyjXTVhoA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>79825396245</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.buysellbiz.application.buysellbiz</string>
+	<key>PROJECT_ID</key>
+	<string>buysellbiz-d49f2</string>
+	<key>STORAGE_BUCKET</key>
+	<string>buysellbiz-d49f2.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:79825396245:ios:b036a0984133604534e41c</string>
+</dict>
+</plist>
