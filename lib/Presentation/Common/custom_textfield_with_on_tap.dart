@@ -3,8 +3,6 @@ import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'app_shadow.dart';
 import 'app_text.dart';
 
-
-
 class CustomTextFieldWithOnTap extends StatefulWidget {
   final TextEditingController controller;
   final String? hintText;
@@ -59,19 +57,25 @@ class CustomTextFieldWithOnTap extends StatefulWidget {
       this.focusNode,
       this.hintTextColor,
       this.borderRadius,
-      this.height, this.filledColor, this.hintStyle, this.isState})
+      this.height,
+      this.filledColor,
+      this.hintStyle,
+      this.isState})
       : super(key: key);
 
   final double? borderRadius;
 
   @override
-  State<CustomTextFieldWithOnTap> createState() => _CustomTextFieldWithOnTapState();
+  State<CustomTextFieldWithOnTap> createState() =>
+      _CustomTextFieldWithOnTapState();
 }
-bool isHide=false;
+
+bool isHide = false;
+
 class _CustomTextFieldWithOnTapState extends State<CustomTextFieldWithOnTap> {
   @override
   Widget build(BuildContext context) {
-   // print(Data().textScale);
+    // print(Data().textScale);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8).r,
       child: Column(
@@ -98,14 +102,13 @@ class _CustomTextFieldWithOnTapState extends State<CustomTextFieldWithOnTap> {
                 )
               : Container(),
           Container(
-            height: widget.height?? (1.sw>500?100:56),
+            height: null,
             decoration: BoxDecoration(
               boxShadow: widget.isShadowRequired! ? [AppShadow.normal()] : [],
               //border:Border.all(color: AppColors.lightGreyColor)
               // borderRadius: BorderRadius.circular(),
             ),
             child: TextFormField(
-
               onTap: widget.onTap,
               readOnly: widget.readOnly ?? false,
               focusNode: widget.focusNode,
@@ -121,7 +124,7 @@ class _CustomTextFieldWithOnTapState extends State<CustomTextFieldWithOnTap> {
                   : widget.validator,
               onChanged: widget.onChanged,
               keyboardType: widget.textInputType,
-              obscureText: widget.isState!=null?isHide :widget.obscureText,
+              obscureText: widget.isState != null ? isHide : widget.obscureText,
               controller: widget.controller,
               maxLines: widget.maxline,
               style: Styles.circularStdRegular(context,
@@ -129,10 +132,11 @@ class _CustomTextFieldWithOnTapState extends State<CustomTextFieldWithOnTap> {
                   fontWeight: FontWeight.w400),
               cursorColor: AppColors.primaryColor,
               decoration: InputDecoration(
-                fillColor:widget.filledColor ?? AppColors.whiteColor,
+                fillColor: widget.filledColor ?? AppColors.whiteColor,
                 filled: true,
                 hintText: widget.hintText,
-                helperStyle: widget.hintStyle??Styles.circularStdRegular(context,fontSize: 16),
+                helperStyle: widget.hintStyle ??
+                    Styles.circularStdRegular(context, fontSize: 16),
 
                 prefixIcon: widget.prefixIcon != null
                     ? SizedBox(
@@ -143,44 +147,38 @@ class _CustomTextFieldWithOnTapState extends State<CustomTextFieldWithOnTap> {
                         ),
                       )
                     : null,
-                suffixIcon:widget.isState!= null?GestureDetector(
-
-                    onTap: ()
-
-                    {
-                      //isHide=true;
-                      if(isHide==true)
-                        {
-                          isHide=false;
-                        }
-                      else{
-                        isHide=true;
-                      }
-                      setState(() {
-
-
-                      });
-
-                    },
-                    child: SizedBox(
-                        width: widget.suffixWidth ?? 20.sp,
-                        height: widget.suffixHeight ?? 20.sp,
-                        child: Center(child: SvgPicture.asset(isHide?Assets.showPass:Assets.hide)))) : widget.suffixIcon != null
-                    ? SizedBox(
-                        width: widget.suffixWidth ?? 20.sp,
-                        height: widget.suffixHeight ?? 20.sp,
-                        child: Center(
-                          child: widget.suffixIcon,
-                        ),
-                      )
-                    : null,
+                suffixIcon: widget.isState != null
+                    ? GestureDetector(
+                        onTap: () {
+                          //isHide=true;
+                          if (isHide == true) {
+                            isHide = false;
+                          } else {
+                            isHide = true;
+                          }
+                          setState(() {});
+                        },
+                        child: SizedBox(
+                            width: widget.suffixWidth ?? 20.sp,
+                            height: widget.suffixHeight ?? 20.sp,
+                            child: Center(
+                                child: SvgPicture.asset(
+                                    isHide ? Assets.showPass : Assets.hide))))
+                    : widget.suffixIcon != null
+                        ? SizedBox(
+                            width: widget.suffixWidth ?? 20.sp,
+                            height: widget.suffixHeight ?? 20.sp,
+                            child: Center(
+                              child: widget.suffixIcon,
+                            ),
+                          )
+                        : null,
                 hintStyle: Styles.circularStdRegular(context,
                     color: FocusScope.of(context).hasFocus
                         ? widget.hintTextColor
                         : AppColors.greyColor,
                     fontSize: Data().textScale > 1.0 ? 12.sp : 15.sp,
-                    fontWeight: FontWeight.normal
-                ),
+                    fontWeight: FontWeight.normal),
 
                 ///changess
                 contentPadding: widget.contentPadding ??
@@ -193,7 +191,9 @@ class _CustomTextFieldWithOnTapState extends State<CustomTextFieldWithOnTap> {
                     widget.borderRadius ?? 12.r,
                   ),
                   borderSide: BorderSide(
-                    color: widget.isBorderRequired ? Colors.red : Colors.transparent,
+                    color: widget.isBorderRequired
+                        ? Colors.red
+                        : Colors.transparent,
                   ),
                 ),
                 errorBorder: widget.isBorderRequired
@@ -211,8 +211,8 @@ class _CustomTextFieldWithOnTapState extends State<CustomTextFieldWithOnTap> {
                         borderRadius: BorderRadius.circular(
                           widget.borderRadius ?? 12.r,
                         ),
-                  borderSide: const BorderSide(width: 0.4,color: AppColors.lightGreyColor)
-                      )
+                        borderSide: const BorderSide(
+                            width: 0.4, color: AppColors.lightGreyColor))
                     : outlineInputBorder(),
                 focusedBorder: widget.isBorderRequired
                     ? OutlineInputBorder(

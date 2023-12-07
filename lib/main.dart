@@ -1,13 +1,14 @@
+import 'package:buysellbiz/Data/AppData/app_providers.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'Data/DataSource/Resources/imports.dart';
 import 'Presentation/Widgets/Onboarding/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ScreenUtil.ensureScreenSize();
-  runApp(const MyApp());
+  runApp(MultiBlocProvider(providers: appProviders, child: const MyApp()));
 }
-
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -22,11 +23,11 @@ class MyApp extends StatelessWidget {
         builder: (context, child) {
           return MaterialApp(
             title: 'BuySellBiz',
-            theme: ThemeData(primaryColor: AppColors.primaryColor,bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-              backgroundColor: Colors.transparent,
-              type: BottomNavigationBarType.shifting
-
-            )),
+            theme: ThemeData(
+                primaryColor: AppColors.primaryColor,
+                bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+                    backgroundColor: Colors.transparent,
+                    type: BottomNavigationBarType.shifting)),
             home: const SplashScreen(),
             // home: const SignUpScreen(),
             debugShowCheckedModeBanner: false,

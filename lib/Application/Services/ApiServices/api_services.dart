@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 //import 'dart:ffi';
@@ -7,7 +8,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
-class Api {
+class ApiService {
   static Map<String, String> _authMiddleWare() {
     // String? us = SharedPrefs.getUserToken();
     return {};
@@ -73,7 +74,7 @@ class Api {
       return {
         "success": false,
         "error":
-            "Oops! We're experiencing technical difficulties at the moment. Our servers are currently not responding. Please try again later.",
+        "Oops! We're experiencing technical difficulties at the moment. Our servers are currently not responding. Please try again later.",
         "status": 31
       };
     } on HttpException catch (e) {
@@ -81,7 +82,7 @@ class Api {
       return {
         "success": false,
         "error":
-            "Oops! We're experiencing technical difficulties at the moment. Our servers are currently not responding. Please try again later.",
+        "Oops! We're experiencing technical difficulties at the moment. Our servers are currently not responding. Please try again later.",
         "status": 32
       };
     } catch (e) {
@@ -89,9 +90,11 @@ class Api {
     }
   }
 
-  static Future<Map<String, dynamic>> post(
-      String url, Map<String, dynamic> body,
+  static Future<Map<String, dynamic>> post(String url,
+      Map<String, dynamic> body,
       {Map<String, String>? header}) async {
+    log(url);
+
     try {
       // final headers = {'Content-Type': 'application/json'};
 
@@ -128,7 +131,7 @@ class Api {
       return {
         "success": false,
         "error":
-            "Oops! We're experiencing technical difficulties at the moment. Our servers are currently not responding. Please try again later.",
+        "Oops! We're experiencing technical difficulties at the moment. Our servers are currently not responding. Please try again later.",
         "status": 31
       };
     } on HttpException catch (e) {
@@ -136,7 +139,7 @@ class Api {
       return {
         "success": false,
         "error":
-            "Oops! We're experiencing technical difficulties at the moment. Our servers are currently not responding. Please try again later.",
+        "Oops! We're experiencing technical difficulties at the moment. Our servers are currently not responding. Please try again later.",
         "status": 32
       };
     } catch (e) {
@@ -144,11 +147,11 @@ class Api {
     }
   }
 
-  static Future<Map<String, dynamic>> postMultipart(
-      String url, Map<String, dynamic> body, List<String?> filesPath,
+  static Future<Map<String, dynamic>> postMultipart(String url,
+      Map<String, dynamic> body, List<String?> filesPath,
       {Map<String, String>? header,
-      String? requestMethod,
-      String? imagePathName}) async {
+        String? requestMethod,
+        String? imagePathName}) async {
     try {
       print("here2");
       // //  UserData? us = SharedPrefs.getUserLoginData();
@@ -156,7 +159,7 @@ class Api {
       //   print(us?.user.id);
       // final headers = {'authorization': 'Bearer ${us!.token}'};
       var request =
-          http.MultipartRequest(requestMethod ?? 'POST', Uri.parse(url));
+      http.MultipartRequest(requestMethod ?? 'POST', Uri.parse(url));
       //request.fields.addAll(body);
 
       for (var str in body.entries) {
@@ -183,7 +186,7 @@ class Api {
       // print(res.statusCode.toString() +"status code");
       if (res.statusCode == 200 || res.statusCode == 201) {
         Map<String, dynamic> decode =
-            jsonDecode(await res.stream.bytesToString());
+        jsonDecode(await res.stream.bytesToString());
         return decode;
       }
 
@@ -197,14 +200,13 @@ class Api {
     }
   }
 
-  static Future<Map<String, dynamic>> postMultipartFeedback(
-      String url,
+  static Future<Map<String, dynamic>> postMultipartFeedback(String url,
       Map<String, dynamic> body,
       List<String?> filesPath,
       List<String?> thumbnailImages,
       {Map<String, String>? header,
-      String? requestMethod,
-      String? imagePathName}) async {
+        String? requestMethod,
+        String? imagePathName}) async {
     try {
       // print("here2");
       // UserData? us = SharedPrefs.getUserLoginData();
@@ -212,7 +214,7 @@ class Api {
       // print(us?.user.id);
       //     final headers = {'authorization': 'Bearer ${us!.token}'};
       var request =
-          http.MultipartRequest(requestMethod ?? 'POST', Uri.parse(url));
+      http.MultipartRequest(requestMethod ?? 'POST', Uri.parse(url));
       //request.fields.addAll(body);
 
       for (var str in body.entries) {
@@ -248,7 +250,7 @@ class Api {
       // print(res.statusCode.toString() +"status code");
       if (res.statusCode == 200 || res.statusCode == 201) {
         Map<String, dynamic> decode =
-            jsonDecode(await res.stream.bytesToString());
+        jsonDecode(await res.stream.bytesToString());
         return decode;
       }
 
@@ -262,11 +264,11 @@ class Api {
     }
   }
 
-  static Future<Map<String, dynamic>> postMultipart2(
-      String url, Map<String, dynamic> body, List<String?> filesPath,
+  static Future<Map<String, dynamic>> postMultipart2(String url,
+      Map<String, dynamic> body, List<String?> filesPath,
       {Map<String, String>? header,
-      String? requestMethod,
-      String? imagePathName}) async {
+        String? requestMethod,
+        String? imagePathName}) async {
     try {
       print("here2");
       // UserData? us = SharedPrefs.getUserLoginData();
@@ -274,7 +276,7 @@ class Api {
       // print(us?.user.id);
       // final headers = {'authorization': 'Bearer ${us!.token}'};
       var request =
-          http.MultipartRequest(requestMethod ?? 'POST', Uri.parse(url));
+      http.MultipartRequest(requestMethod ?? 'POST', Uri.parse(url));
       //request.fields.addAll(body);
       print(body);
       for (var str in body.entries) {
@@ -301,7 +303,7 @@ class Api {
       // print(res.statusCode.toString() +"status code");
       if (res.statusCode == 200 || res.statusCode == 201) {
         Map<String, dynamic> decode =
-            jsonDecode(await res.stream.bytesToString());
+        jsonDecode(await res.stream.bytesToString());
         return decode;
       }
 
@@ -315,8 +317,7 @@ class Api {
     }
   }
 
-  static Future post1(
-    Map<String, dynamic> body, {
+  static Future post1(Map<String, dynamic> body, {
     required String url,
   }) async {
     try {
@@ -336,19 +337,18 @@ class Api {
     }
   }
 
-  static Future postOrder(
-    Map<String, dynamic> body, {
+  static Future postOrder(Map<String, dynamic> body, {
     required String url,
   }) async {
     try {
-    //  String? us = SharedPrefs.getUserToken();
+      //  String? us = SharedPrefs.getUserToken();
       final head = {
         "Authorization": "Bearer ",
         'Content-Type': 'application/x-www-form-urlencoded',
         //'Content-Type': 'application/json'
       };
       final response =
-          await http.post(Uri.parse(url), headers: head, body: (body));
+      await http.post(Uri.parse(url), headers: head, body: (body));
 
       print("Response status ${response.statusCode}");
 
@@ -369,8 +369,8 @@ class Api {
     }
   }
 
-  static Future<Map<String, dynamic>> put(
-      String url, Map<String, dynamic>? body,
+  static Future<Map<String, dynamic>> put(String url,
+      Map<String, dynamic>? body,
       {Map<String, String>? headers}) async {
     try {
       //print(body);

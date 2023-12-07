@@ -1,10 +1,15 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
+import 'package:buysellbiz/Data/DataSource/Resources/validator.dart';
+import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/custom_date_picker.dart';
+import 'package:buysellbiz/Presentation/Common/widget_functions.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/Login/login.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/Controllers/hide_show_password.dart';
+import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/Controllers/sign_up_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/BottomNavigation/Controller/BottomNavigationNotifier/bottom_navigation_notifier.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'Components/country_picker.dart';
 import 'Components/terms_condition_row.dart';
@@ -29,25 +34,48 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   final calender = TextEditingController();
 
+  String countryCode = '+1';
+
   bool checked = false;
 
   bool onTapField = false;
+
+  final formKey = GlobalKey<FormState>();
+
+  void _signUp() {
+    print(phone.text);
+
+    if (formKey.currentState!.validate()) {
+      var body = {
+        "firstName": firstName.text.trim(),
+        "lastName": lastName.text.trim(),
+        "email": email.text.trim(),
+        "phone": "$countryCode${phone.text.trim()}",
+        "password": password.text.trim(),
+        "dob": calender.text.trim(),
+      };
+
+      context.read<SignUpCubit>().createUser(body: body);
+    }
+  }
 
   // final FocusNode focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColors.whiteColor,
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.sp),
+    return Scaffold(
+      backgroundColor: AppColors.whiteColor,
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24.sp),
+          child: Form(
+            key: formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                20.y,
+                30.y,
                 const BackArrowWidget(),
                 20.y,
                 AppText(AppStrings.welcome,
@@ -68,6 +96,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     controller: firstName,
                     hintText: AppStrings.firstname,
                     textInputType: TextInputType.text,
+                    validator: Validate.name,
                     borderRadius: 25.sp),
                 15.y,
                 CustomTextFieldWithOnTap(
@@ -77,29 +106,38 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     controller: lastName,
                     hintText: AppStrings.lastName,
                     textInputType: TextInputType.text,
+                    validator: Validate.name,
                     borderRadius: 25.sp),
                 15.y,
                 CustomTextFieldWithOnTap(
                     isBorderRequired: true,
                     contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
                     prefixIcon: SvgPicture.asset(Assets.email),
+                    validator: Validate.email,
                     controller: email,
                     hintText: AppStrings.email,
                     textInputType: TextInputType.text,
                     borderRadius: 25.sp),
                 20.y,
                 CountryPicker(
+                  countrySelect: (value) {
+                    countryCode = value!;
+                    print(value);
+                    setState(() {});
+                  },
                   controller: phone,
+                  validator: Validate.phone,
                   onTapField: onTapField,
                 ),
                 20.y,
                 CustomDatePickerValidateWidget(
                   controller: calender,
-                  validator: (p0) {},
+                  validator: Validate.dob,
                   isBorderRequired: true,
                   hintText: AppStrings.dob,
                   prefixIcon: SvgPicture.asset(Assets.calender),
                   contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
+
                   // prefixIcon: ,
                 ),
                 // CustomTextFieldWithOnTap(
@@ -127,6 +165,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 : Assets.showPass)),
                         contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
                         controller: password,
+                        validator: Validate.password,
                         hintText: AppStrings.password,
                         textInputType: TextInputType.text,
                         borderRadius: 25.sp);
@@ -135,14 +174,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 10.y,
                 const TermsAndConditionTextRow(),
                 53.y,
-                CustomButton(
-                  onTap: () {
-                    BottomNotifier.bottomNavigationNotifier.value=0;
-                    Navigate.toReplace(context, const BottomNavigationScreen());
-
+                BlocConsumer<SignUpCubit, SignUpState>(
+                  listener: (context, state) {
+                    if (state is SignUpLoading) {
+                      LoadingDialog.showLoadingDialog(context);
+                    }
+                    if (state is SignUpError) {
+                      Navigator.of(context).pop(true);
+                      WidgetFunctions.instance.snackBar(context,
+                          text: state.error,
+                          bgColor: AppColors.primaryColor,
+                          textStyle: Styles.circularStdRegular(context,
+                              color: AppColors.whiteColor));
+                    }
+                    if (state is SignUpLoaded) {
+                      Navigator.pop(context);
+                      BottomNotifier.bottomNavigationNotifier.value = 0;
+                      Navigate.toReplace(
+                          context, const BottomNavigationScreen());
+                    }
+                    // TODO: implement listener
                   },
-                  text: AppStrings.register,
-                  borderRadius: 25.sp,
+                  builder: (context, state) {
+                    return CustomButton(
+                      onTap: () => _signUp(),
+                      text: state is SignUpLoading
+                          ? "Loading..."
+                          : AppStrings.register,
+                      borderRadius: 25.sp,
+                    );
+                  },
                 ),
                 20.y,
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [

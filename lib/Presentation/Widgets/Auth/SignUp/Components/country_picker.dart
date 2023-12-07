@@ -5,9 +5,15 @@ class CountryPicker extends StatefulWidget {
   final TextEditingController controller;
   final bool onTapField;
   final bool isBorderRequired = true;
+  final String? Function(String?) countrySelect;
+  final String? Function(String?)? validator;
 
   const CountryPicker(
-      {super.key, required this.controller, required this.onTapField});
+      {super.key,
+      required this.controller,
+      required this.onTapField,
+      required this.countrySelect,
+      this.validator});
 
   @override
   State<CountryPicker> createState() => _CountryPickerState();
@@ -15,6 +21,8 @@ class CountryPicker extends StatefulWidget {
 
 class _CountryPickerState extends State<CountryPicker> {
   FocusNode focusNode = FocusNode();
+
+  String code = '+1';
 
   @override
   void initState() {
@@ -33,10 +41,16 @@ class _CountryPickerState extends State<CountryPicker> {
     // });
 
     return TextFormField(
+      keyboardType: TextInputType.phone,
+      onFieldSubmitted: (value) {},
+      // onTap: () {
+      //   // widget.controller.text = code;
+      // },
       style: Styles.circularStdRegular(context,
           // color: FocusScope.of(context).hasFocus ? hintTextColor :AppColors.greyColor,
           fontSize: Data().textScale > 1.0 ? 12.sp : 16.sp,
           fontWeight: FontWeight.w400),
+      validator: widget.validator,
       decoration: InputDecoration(
           fillColor: AppColors.whiteColor,
           filled: true,
@@ -46,10 +60,20 @@ class _CountryPickerState extends State<CountryPicker> {
             width: 110.w,
             child: Row(
               children: [
-                const Flexible(
+                Flexible(
                   flex: 3,
                   child: CountryCodePicker(
                     initialSelection: '+1',
+                    onChanged: (value) {
+                      code = value.dialCode ?? "";
+                      widget.countrySelect(value.dialCode);
+                      print(code);
+                    },
+                    // onInit: (value) {
+                    //   code = value!.dialCode ?? "";
+                    //   setState(() {});
+                    // },
+
                     // favorite: ['+221', 'SN'],
                     // dialogTextStyle: Styles.circularStdRegular(context,
                     //     color: FocusScope.of(context).hasFocus
