@@ -14,7 +14,7 @@ static  Future<Map<String, dynamic>> socialLogin(Map<String, dynamic> data) asyn
       //   "type": type
       // };
       final headers = {'Content-Type': 'application/json'};
-      return await Api.post(ApiConstant.socialLoginUrl, data, header: headers)
+      return await ApiService.post(ApiConstant.socialLoginUrl, data, header: headers)
           .then((value) {
         log('value $value');
         return value;
@@ -24,7 +24,7 @@ static  Future<Map<String, dynamic>> socialLogin(Map<String, dynamic> data) asyn
       });
     } catch (e) {
       //   print(e);
-      throw e.toString();
+     rethrow;
     }
   }
 

@@ -5,9 +5,9 @@ import 'package:page_transition/page_transition.dart';
 class Navigate {
   Navigate._();
 
-  static to(BuildContext context, Widget child) {
+  static to(BuildContext context, Widget child,{Duration? duration}) {
     Navigator.push(context,
-        PageTransition(type: PageTransitionType.topToBottom, child: child));
+        PageTransition(type: PageTransitionType.topToBottom, child: child,duration: duration??const Duration(milliseconds: 200)));
   }
 
   static toReplace(BuildContext context, Widget child) {

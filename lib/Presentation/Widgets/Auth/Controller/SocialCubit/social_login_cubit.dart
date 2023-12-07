@@ -12,26 +12,34 @@ part '../../State/social_login_state.dart';
 class SocialLoginCubit extends Cubit<SocialLoginState> {
   SocialLoginCubit() : super(SocialLoginInitial());
   setDataOfSocialToServer(data) async {
-    emit(SocialLoginLoading());
-    await SocialRepo
-        .socialLogin(data)
-        .then((value) async {
-      log('value ${value["success"]}');
-      if (value["success"] != null && value["success"] == true) {
-        //    print("here");
-        // var  check= null;
-        //print(jsonDecode(jsonEncode(value)));
-        UserModel userData = UserModel.fromJson((value));
+    try {
+      await Future.delayed(Duration.zero);
+      emit(SocialLoginLoading());
+      await SocialRepo
+          .socialLogin(data)
+          .then((value) async {
+        log('value ${value["Success"]}');
+        if (value["Success"] != null && value["Success"] == true) {
+          //    print("here");
+          // var  check= null;
+          //print(jsonDecode(jsonEncode(value)));
+          UserModel userData = UserModel.fromJson((value));
 
-        await  SharedPrefs.setUserLoginData(userRawData: value);
-        //print("here3");
-        emit(SocialLoginSuccess(data: userData));
-      } else {
-        emit(SocialLoginError(message: "Something Went Wrong"));
-      }
-    }).catchError((error) {
-      emit(SocialLoginError(message: error.toString()));
-    });
+          await SharedPrefs.setUserLoginData(userRawData: value);
+          //print("here3");
+          emit(SocialLoginSuccess(data: userData));
+        } else {
+          emit(SocialLoginError(message: value['error']));
+        }
+      }).catchError((error) {
+        //throw error;
+        emit(SocialLoginError(message: error.toString()));
+      });
 
+    }
+    catch(e)
+    {
+      //rethrow;
+    }
   }
 }

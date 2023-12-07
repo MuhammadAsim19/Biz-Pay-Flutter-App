@@ -4,10 +4,14 @@ import 'package:buysellbiz/Data/DataSource/Repository/GoogleRepo/google_repo.dar
 import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/strings.dart';
+import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/auth_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/widget_functions.dart';
+import 'package:buysellbiz/Presentation/Widgets/Auth/Controller/SocialCubit/social_login_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/Components/pin_code.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/Login/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginOnboard extends StatefulWidget {
   const LoginOnboard({super.key});
@@ -19,11 +23,26 @@ class LoginOnboard extends StatefulWidget {
 class _LoginOnboardState extends State<LoginOnboard> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColors.whiteColor,
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 20.sp),
+    return Scaffold(
+      backgroundColor: AppColors.whiteColor,
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 20.sp),
+        child: BlocListener<SocialLoginCubit, SocialLoginState>(
+          listener: (context, state) {
+            // TODO: implement listener
+
+            if(state is SocialLoginLoading)
+              {
+
+                LoadingDialog.showLoadingDialog(context);
+              }
+            if(state is SocialLoginSuccess)
+              {
+                Navigate.pop(context);
+                WidgetFunctions.instance.snackBar(context,bgColor: AppColors.primaryColor,text: "Login Successfully");
+                Navigate.to(context, const BottomNavigationScreen(),duration: const Duration(milliseconds: 400));
+              }
+          },
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -79,8 +98,7 @@ class _LoginOnboardState extends State<LoginOnboard> {
                 30.y,
                 AuthButtons(
                   color: AppColors.lightBlueColor,
-                  onTap: ()
-                  {
+                  onTap: () {
                     _onGoogle();
                   },
                   height: 45.h,
@@ -94,19 +112,17 @@ class _LoginOnboardState extends State<LoginOnboard> {
                   color: AppColors.blackColor,
                   height: 45.h,
                   width: 330.w,
-                  onTap: ()
-                  async {
-                    var userData= await  AppleRepo.getAppleLoginData(context);
-                    if(userData!=null)
-                    {
-                      var email=userData!.user?.email;
-                      var name =userData!.user?.displayName;
-                      var photoUrl=userData!.user?.photoURL;
-                      print("${"email"+email.toString()+"name"+name}photo url:"+photoUrl);
-                     // sendToSocial(email,name,photoUrl,"apple");
+                  onTap: () async {
+                    var userData = await AppleRepo.getAppleLoginData(context);
+                    if (userData != null) {
+                      var email = userData!.user?.email;
+                      var name = userData!.user?.displayName;
+                      var photoUrl = userData!.user?.photoURL;
+                      print("${"email" + email.toString() + "name" +
+                          name}photo url:" + photoUrl);
+                      // sendToSocial(email,name,photoUrl,"apple");
 
                     }
-
                   },
                   text: AppStrings.continueWithApple,
                   isBorderRequired: false,
@@ -133,6 +149,7 @@ class _LoginOnboardState extends State<LoginOnboard> {
       ),
     );
   }
+
   void _onGoogle() async {
     //FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -142,6 +159,14 @@ class _LoginOnboardState extends State<LoginOnboard> {
         print(user?.email.toString());
         print(user?.displayName.toString());
         print(user?.uid.toString());
+        final data = {
+
+          "email": user?.email.toString(),
+          "fullname": user?.displayName.toString(),
+          "photoURL": user?.photoURL.toString(),
+          "phoneNumber": user?.phoneNumber.toString()
+        };
+        context.read<SocialLoginCubit>().setDataOfSocialToServer(data);
       } else {
         WidgetFunctions.instance
             .snackBar(context, text: 'Login Cancelled', bgColor: Colors.orange);

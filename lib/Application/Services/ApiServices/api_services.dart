@@ -5,13 +5,17 @@ import 'dart:io';
 
 //import 'dart:ffi';
 
+import 'package:buysellbiz/Data/AppData/app_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
 class ApiService {
   static Map<String, String> _authMiddleWare() {
-    // String? us = SharedPrefs.getUserToken();
-    return {};
+
+    return {
+      'Content-Type': 'application/json'
+
+    };
     // print(us);
     //
     // return us != null
@@ -101,7 +105,7 @@ class ApiService {
       http.Response res = await http.post(
         Uri.parse(url),
         headers: header ?? _authMiddleWare(),
-        body: (body),
+        body: jsonEncode(body),
       );
       print("Response ${res.body}");
       if (res.statusCode == 200 || res.statusCode == 201) {

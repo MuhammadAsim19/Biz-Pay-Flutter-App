@@ -67,28 +67,23 @@ class LoginScreen extends StatelessWidget {
                     textInputType: TextInputType.text,
                     borderRadius: 25.sp),
                 15.y,
-                ValueListenableBuilder(
-                  valueListenable: showHidePassword,
-                  builder: (context, value, child) {
-                    return CustomTextFieldWithOnTap(
-                        isBorderRequired: true,
-                        prefixIcon: SvgPicture.asset(Assets.lock),
-                        suffixIcon: InkWell(
-                            onTap: () {
-                              showHidePassword.value = !value;
-                            },
-                            child: SvgPicture.asset(value == false
-                                ? Assets.hidePassword
-                                : Assets.showPass)),
-                        obscureText: value,
-                        contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
-                        controller: password,
-                        validator: Validate.password,
-                        hintText: AppStrings.password,
-                        textInputType: TextInputType.text,
-                        borderRadius: 25.sp);
-                  },
-                ),
+                CustomTextFieldWithOnTap(
+                    isBorderRequired: true,
+                    prefixIcon: SvgPicture.asset(Assets.lock),isState: true,
+                    // suffixIcon: InkWell(
+                    //     onTap: () {
+                    //       showHidePassword.value = !value;
+                    //     },
+                    //     child: SvgPicture.asset(value == false
+                    //         ? Assets.hidePassword
+                    //         : Assets.showPass)),
+                    //obscureText: value,
+                    contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
+                    controller: password,
+                    validator: Validate.password,
+                    hintText: AppStrings.password,
+                    textInputType: TextInputType.text,
+                    borderRadius: 25.sp),
                 10.y,
                 Align(
                   alignment: Alignment.centerRight,
