@@ -3,7 +3,6 @@ import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/ChatModel/chat_tile_model.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_details.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/chat.dart';
 
 class BrokerProfile extends StatefulWidget {
   const BrokerProfile({super.key});

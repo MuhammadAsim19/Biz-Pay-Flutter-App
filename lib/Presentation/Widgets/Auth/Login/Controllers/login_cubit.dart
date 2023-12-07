@@ -1,4 +1,4 @@
-import 'package:buysellbiz/Data/Repository/Auth/login_repo.dart';
+import 'package:buysellbiz/Data/DataSource/Repository/Auth/login_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 

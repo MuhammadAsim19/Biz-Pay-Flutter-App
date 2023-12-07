@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:buysellbiz/Data/Repository/Auth/sign_up_repo.dart';
+import 'package:buysellbiz/Data/DataSource/Repository/Auth/sign_up_repo.dart';
 import 'package:meta/meta.dart';
 
 part '../State/sign_up_state.dart';
