@@ -1,11 +1,10 @@
 import 'dart:developer';
-
 import 'package:buysellbiz/Application/Services/ApiServices/api_services.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 
-class SocialRepo{
-
-static  Future<Map<String, dynamic>> socialLogin(Map<String, dynamic> data) async {
+class SocialRepo {
+  static Future<Map<String, dynamic>> socialLogin(
+      Map<String, dynamic> data) async {
     try {
       // Map<String, dynamic> data = {
       //   "email": email,
@@ -14,7 +13,8 @@ static  Future<Map<String, dynamic>> socialLogin(Map<String, dynamic> data) asyn
       //   "type": type
       // };
       final headers = {'Content-Type': 'application/json'};
-      return await ApiService.post(ApiConstant.socialLoginUrl, data, header: headers)
+      return await ApiService.post(ApiConstant.socialLoginUrl, data,
+              header: headers)
           .then((value) {
         log('value $value');
         return value;
@@ -24,8 +24,7 @@ static  Future<Map<String, dynamic>> socialLogin(Map<String, dynamic> data) asyn
       });
     } catch (e) {
       //   print(e);
-     rethrow;
+      rethrow;
     }
   }
-
 }

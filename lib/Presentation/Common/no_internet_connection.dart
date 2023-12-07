@@ -4,6 +4,7 @@ import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 class NoInternetConnection extends StatelessWidget {
   const NoInternetConnection({super.key});
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +35,9 @@ class NoInternetConnection extends StatelessWidget {
             CustomButton(
               height: 46.h,
               horizontalMargin: 40.sp,
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pop(true);
+              },
               text: 'Try Again',
               borderRadius: 40.sp,
             )

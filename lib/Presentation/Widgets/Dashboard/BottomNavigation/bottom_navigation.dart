@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:buysellbiz/Application/Services/Connectivity/connectivity_service.dart';
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
+import 'package:buysellbiz/Presentation/Common/no_internet_connection.dart';
 import 'package:buysellbiz/Presentation/Common/widget_functions.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/add_buisness.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/Controller/add_business_conntroller.dart';
@@ -24,8 +26,21 @@ class BottomNavigationScreen extends StatefulWidget {
 
 class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   //final PageController pageController = PageController(initialPage: 0);
+
+  connection() async {
+    AppConnectivity.connectionChanged(
+      onConnected: () {
+        // Navigator.of(context).pop();
+      },
+      onDisconnected: () {
+        Navigate.to(context, const NoInternetConnection());
+      },
+    );
+  }
+
   @override
   void initState() {
+    connection();
     // BottomNotifier.bottomPageController=pageContr oller;
     ///do not remove new keyword flutter is confused
     WidgetsBinding.instance.addPostFrameCallback((_) {
