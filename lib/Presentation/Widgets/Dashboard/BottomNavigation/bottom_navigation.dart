@@ -88,12 +88,13 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
           floatingActionButton: FloatingActionButton(
             //Floating action button on Scaffold
             backgroundColor: AppColors.primaryColor,
+            shape: const CircleBorder(),
             onPressed: () {
               //code to execute on button press
               AddNotifier.addBusinessNotifier.value = 0;
               Navigate.to(context, const AddBusiness());
             },
-            child: const Icon(Icons.add), //icon inside button
+            child: const Icon(Icons.add,color: AppColors.whiteColor,), //icon inside button
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
@@ -116,11 +117,12 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
             ),
           ),
           bottomNavigationBar: BottomAppBar(
-            height: 60,
-            color: AppColors.whiteColor,
+            height: 70,
+            color: Colors.transparent,
+
             shape: const CircularNotchedRectangle(),
             //shape of notch
-            notchMargin: 5,
+           // notchMargin: 5,
             //notche margin between floating button and bottom appbar
             child: ValueListenableBuilder(
               builder: (context, state, ss) {

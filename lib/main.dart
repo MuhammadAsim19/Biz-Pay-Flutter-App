@@ -48,14 +48,14 @@ class MyApp extends StatelessWidget {
         splitScreenMode: true,
         useInheritedMediaQuery: true,
         builder: (context, child) {
-          return MaterialApp(
+          return const MaterialApp(
             title: 'BuySellBiz',
-            theme: ThemeData(primaryColor: AppColors.primaryColor,bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-              backgroundColor: Colors.transparent,
-              type: BottomNavigationBarType.shifting
-
-            )),
-            home: const SplashScreen(),
+            // theme: ThemeData(primaryColor: AppColors.primaryColor,bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+            //   backgroundColor: Colors.transparent,
+            //  // type: BottomNavigationBarType.shifting
+            //
+            // )),
+            home: SplashScreen(),
             // home: const SignUpScreen(),
             debugShowCheckedModeBanner: false,
           );
