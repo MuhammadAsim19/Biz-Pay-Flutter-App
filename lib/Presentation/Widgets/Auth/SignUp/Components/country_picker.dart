@@ -157,7 +157,8 @@ class _CountryPickerState extends State<CountryPicker> {
                   borderRadius: BorderRadius.circular(
                     25,
                   ),
-                  borderSide: BorderSide(
+                  borderSide: const BorderSide(
+                    width: 0.3,
                     color: AppColors.lightGreyColor,
                   ),
                 )

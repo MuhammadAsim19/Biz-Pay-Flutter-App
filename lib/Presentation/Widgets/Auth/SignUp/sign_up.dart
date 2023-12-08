@@ -98,7 +98,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     textInputType: TextInputType.text,
                     validator: Validate.name,
                     borderRadius: 25.sp),
-                15.y,
+                20.y,
                 CustomTextFieldWithOnTap(
                     isBorderRequired: true,
                     contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
@@ -108,7 +108,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     textInputType: TextInputType.text,
                     validator: Validate.name,
                     borderRadius: 25.sp),
-                15.y,
+                20.y,
                 CustomTextFieldWithOnTap(
                     isBorderRequired: true,
                     contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
@@ -118,7 +118,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     hintText: AppStrings.email,
                     textInputType: TextInputType.text,
                     borderRadius: 25.sp),
-                20.y,
+                25.y,
                 CountryPicker(
                   countrySelect: (value) {
                     countryCode = value!;
@@ -129,7 +129,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   validator: Validate.phone,
                   onTapField: onTapField,
                 ),
-                20.y,
+                25.y,
                 CustomDatePickerValidateWidget(
                   controller: calender,
                   validator: Validate.dob,
@@ -148,29 +148,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 //     hintText: AppStrings.dob,
                 //     textInputType: TextInputType.text,
                 //     borderRadius: 25.sp),
-                15.y,
-                ValueListenableBuilder(
-                  valueListenable: SignUpControllers.passwordShowHide,
-                  builder: (context, value, child) {
-                    return CustomTextFieldWithOnTap(
-                        isBorderRequired: true,
-                        prefixIcon: SvgPicture.asset(Assets.lock),
-                        obscureText: value,
-                        suffixIcon: InkWell(
-                            onTap: () {
-                              SignUpControllers.passwordShowHide.value = !value;
-                            },
-                            child: SvgPicture.asset(value == false
-                                ? Assets.hidePassword
-                                : Assets.showPass)),
-                        contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
-                        controller: password,
-                        validator: Validate.password,
-                        hintText: AppStrings.password,
-                        textInputType: TextInputType.text,
-                        borderRadius: 25.sp);
-                  },
-                ),
+                20.y,
+                CustomTextFieldWithOnTap(
+                    isBorderRequired: true,
+                    prefixIcon: SvgPicture.asset(Assets.lock),
+                    isState: true,
+                    // suffixIcon: InkWell(
+                    //     onTap: () {
+                    //       SignUpControllers.passwordShowHide.value = !value;
+                    //     },
+                    //     child: SvgPicture.asset(value == false
+                    //         ? Assets.hidePassword
+                    //         : Assets.showPass)),
+                    contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
+                    controller: password,
+                    validator: Validate.password,
+                    hintText: AppStrings.password,
+                    textInputType: TextInputType.text,
+                    borderRadius: 25.sp),
                 10.y,
                 const TermsAndConditionTextRow(),
                 53.y,

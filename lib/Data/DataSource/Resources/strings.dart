@@ -30,7 +30,7 @@ class AppStrings {
   static String dob = 'Date of birth';
   static String haveAccount = 'Already have an account?';
   static String verifyEmail = 'Verify email';
-  static String timer = '00:45';
+  static String resendOtp = 'Resend Otp';
   static String codeSendToMail =
       'A 4 digit code sent to aqib.example@gmail.com,\nenter code to continue';
   static String resetPassword = 'Reset password';

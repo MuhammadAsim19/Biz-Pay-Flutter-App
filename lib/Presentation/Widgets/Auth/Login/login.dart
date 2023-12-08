@@ -69,7 +69,8 @@ class LoginScreen extends StatelessWidget {
                 15.y,
                 CustomTextFieldWithOnTap(
                     isBorderRequired: true,
-                    prefixIcon: SvgPicture.asset(Assets.lock),isState: true,
+                    prefixIcon: SvgPicture.asset(Assets.lock),
+                    isState: true,
                     // suffixIcon: InkWell(
                     //     onTap: () {
                     //       showHidePassword.value = !value;
@@ -80,7 +81,7 @@ class LoginScreen extends StatelessWidget {
                     //obscureText: value,
                     contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
                     controller: password,
-                    validator: Validate.password,
+                    validator: Validate.loginPassword,
                     hintText: AppStrings.password,
                     textInputType: TextInputType.text,
                     borderRadius: 25.sp),
@@ -103,7 +104,6 @@ class LoginScreen extends StatelessWidget {
                 ),
                 50.y,
                 BlocConsumer<LoginCubit, LoginState>(
-
                   listener: (context, state) {
                     if (state is LoginLoading) {
                       LoadingDialog.showLoadingDialog(context);

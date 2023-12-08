@@ -15,6 +15,15 @@ class Validate {
     return null;
   }
 
+  static String? loginPassword(String? val) {
+    if (val == null || val.trim().isEmpty) {
+      return "Please provide a password";
+    } else if (val.length < 6) {
+      return 'Password must be at least 6 characters';
+    }
+    return null;
+  }
+
   static bool _containsUpperCase(String val) {
     return val.contains(RegExp(r'[A-Z]'));
   }

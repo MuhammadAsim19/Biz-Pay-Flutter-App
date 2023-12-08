@@ -1,5 +1,3 @@
-
-
 import 'package:buysellbiz/Data/DataSource/Resources/colors_pallete.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/sized_box.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/text_styles.dart';
@@ -8,8 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'app_text.dart';
 import 'image_widgets.dart';
-
-
 
 class CustomButton extends StatelessWidget {
   final VoidCallback onTap;
@@ -21,7 +17,8 @@ class CustomButton extends StatelessWidget {
   final double? verticalPadding;
   final double? horizontalMargin;
   final double? verticalMargin;
-final TextStyle? textStyleButton;
+  final TextStyle? textStyleButton;
+
   ///must be Asset Image
   final String? trailingIcon;
 
@@ -31,17 +28,18 @@ final TextStyle? textStyleButton;
   final double? imageHeight;
   final bool isBorder;
   final Color? borderColor;
-final FontWeight? textFontWeight;
-final double? textSize;
+  final FontWeight? textFontWeight;
+  final double? textSize;
   final bool? leadingSvgIcon;
-final double? trailIconWidth;
-final double? borderThickness;
-final double? trailIconHeight;
-final double? gapWidth;
-final double? width;
-final double? height;
-final double? borderRadius;
-final bool? isButtonAlignLeft;
+  final double? trailIconWidth;
+  final double? borderThickness;
+  final double? trailIconHeight;
+  final double? gapWidth;
+  final double? width;
+  final double? height;
+  final double? borderRadius;
+  final bool? isButtonAlignLeft;
+
   const CustomButton({
     Key? key,
     required this.onTap,
@@ -63,9 +61,15 @@ final bool? isButtonAlignLeft;
     this.height,
     this.borderRadius,
     this.isButtonAlignLeft,
-    this.borderColor = AppColors.primaryColor, this.textFontWeight, this.textSize,
+    this.borderColor = AppColors.primaryColor,
+    this.textFontWeight,
+    this.textSize,
     // this.borderColor = AppColors.primaryColor, this.textFontWeight, this.textSize, this.trailIconWidth,
-    this.borderThickness, this.trailIconHeight, this.gapWidth, this.trailIconWidth, this.textStyleButton,
+    this.borderThickness,
+    this.trailIconHeight,
+    this.gapWidth,
+    this.trailIconWidth,
+    this.textStyleButton,
   }) : super(key: key);
 
   @override
@@ -74,7 +78,7 @@ final bool? isButtonAlignLeft;
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: AnimatedContainer(
-         height: height?? (1.sw>500?100:50),
+        height: height ?? (1.sw > 500 ? 100 : 50),
         width: width,
         duration: const Duration(milliseconds: 300),
         curve: Curves.fastOutSlowIn,
@@ -88,50 +92,55 @@ final bool? isButtonAlignLeft;
         ).r,
         decoration: BoxDecoration(
           color: bgColor,
-          borderRadius: BorderRadius.circular(
-              borderRadius?? 10).r,
+          borderRadius: BorderRadius.circular(borderRadius ?? 10).r,
           border: isBorder
               ? Border.all(
                   color: borderColor!,
-                  width: borderThickness?? 1.w,
+                  width: borderThickness ?? 1.w,
                 )
               : null,
         ),
         child: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize:isButtonAlignLeft==true? MainAxisSize.max : MainAxisSize.min,
+            mainAxisSize:
+                isButtonAlignLeft == true ? MainAxisSize.max : MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               leadingIcon != null
-                  ? leadingSvgIcon !=null? SvgPicture.asset(leadingIcon!,color: iconColor, width: imageWidth,
-                height: imageHeight, ): Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
-                      child: AssetImageWidget(
-                        url: leadingIcon!,
-                        color: iconColor,
-                        width: imageWidth,
-                        height: imageHeight,
-                      ),
-                    )
+                  ? leadingSvgIcon != null
+                      ? SvgPicture.asset(
+                          leadingIcon!,
+                          color: iconColor,
+                          width: imageWidth,
+                          height: imageHeight,
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(right: 10.0),
+                          child: AssetImageWidget(
+                            url: leadingIcon!,
+                            color: iconColor,
+                            width: imageWidth,
+                            height: imageHeight,
+                          ),
+                        )
                   : Container(),
-              CustomSizedBox.width(gapWidth??0),
+              CustomSizedBox.width(gapWidth ?? 0),
               AppText(
                 text,
-                style: textStyleButton?? Styles.circularStdRegular(
-                  context,
-                  color: textColor,
-                  fontSize: textSize?? 16.sp,
-                  fontWeight: textFontWeight?? FontWeight.w500
-                ),
+                style: textStyleButton ??
+                    Styles.circularStdRegular(context,
+                        color: textColor,
+                        fontSize: textSize ?? 16.sp,
+                        fontWeight: textFontWeight ?? FontWeight.w500),
               ),
               trailingIcon != null
                   ? Padding(
                       padding: const EdgeInsets.only(left: 10.0),
                       child: AssetImageWidget(
                         url: trailingIcon!,
-                        width: trailIconWidth??22,
-                        height: trailIconHeight??22,
+                        width: trailIconWidth ?? 22,
+                        height: trailIconHeight ?? 22,
                         color: iconColor,
                       ),
                     )
@@ -143,5 +152,3 @@ final bool? isButtonAlignLeft;
     );
   }
 }
-
-

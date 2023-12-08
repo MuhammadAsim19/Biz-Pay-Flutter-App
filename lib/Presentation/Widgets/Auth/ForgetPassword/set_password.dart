@@ -9,7 +9,9 @@ import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/sign_up.dart';
 import '../../../Common/dialog.dart';
 
 class SetPassword extends StatelessWidget {
-  SetPassword({super.key});
+  SetPassword({super.key, this.resetToken});
+
+  final String? resetToken;
 
   final password = TextEditingController();
   final confirmPassword = TextEditingController();
@@ -61,7 +63,7 @@ class SetPassword extends StatelessWidget {
                 CustomTextFieldWithOnTap(
                     isBorderRequired: true,
                     prefixIcon: SvgPicture.asset('assets/images/lock.svg'),
-                   isState: true,
+                    isState: true,
                     contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
                     controller: confirmPassword,
                     hintText: AppStrings.confirmPassword,

@@ -80,14 +80,15 @@ class _PinCodeExampleState extends State<PinCodeExample> {
               controller: widget.controller,
               focusNode: focusNode,
               androidSmsAutofillMethod:
-                  AndroidSmsAutofillMethod.smsUserConsentApi,
+              AndroidSmsAutofillMethod.smsUserConsentApi,
               listenForMultipleSmsOnAndroid: true,
               defaultPinTheme: defaultPinTheme,
               separatorBuilder: (index) => const SizedBox(width: 8),
               validator: (value) {
                 if (value!.isEmpty) {
-                  return '';
+                  return 'Please Provide Otp';
                 }
+                return null;
               },
               // onClipboardFound: (value) {
               //   debugPrint('onClipboardFound: $value');
@@ -112,6 +113,8 @@ class _PinCodeExampleState extends State<PinCodeExample> {
                 ],
               ),
               enabled: true,
+              errorTextStyle: Styles.circularStdRegular(context,
+                  fontSize: 12.sp, color: AppColors.redColor),
               focusedPinTheme: focusedTheme,
               submittedPinTheme: focusedTheme,
               errorPinTheme: defaultPinTheme.copyBorderWith(

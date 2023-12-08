@@ -398,7 +398,7 @@ class CustomTextFieldWithOnTap2 extends StatelessWidget {
                   contentPadding: contentPadding ??
                       const EdgeInsets.symmetric(
                         vertical: 18,
-                        horizontal: 10,
+                        horizontal: 5,
                       ).r,
                   focusedErrorBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(

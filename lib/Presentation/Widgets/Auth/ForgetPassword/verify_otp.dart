@@ -1,15 +1,36 @@
+import 'dart:async';
+
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
+import 'package:buysellbiz/Data/DataSource/Repository/Auth/forget_email.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
+import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/Components/pin_code.dart';
+import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/Components/show_timer_seconds.dart';
+import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/Controllers/verify_email_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/Controllers/verify_otp_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/set_password.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/sign_up.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class VerifyOtp extends StatelessWidget {
-  VerifyOtp({super.key});
+class VerifyOtp extends StatefulWidget {
+  VerifyOtp({super.key, this.userID, this.email});
 
-  final email = TextEditingController();
-  final password = TextEditingController();
+  String? userID;
+  String? email;
+
+  @override
+  State<VerifyOtp> createState() => _VerifyOtpState();
+}
+
+class _VerifyOtpState extends State<VerifyOtp> {
+  TextEditingController otpController = TextEditingController();
+
+  final formKey = GlobalKey<FormState>();
+
+  Timer? timer1;
+
+  int? time1;
 
   @override
   Widget build(BuildContext context) {
@@ -30,30 +51,81 @@ class VerifyOtp extends StatelessWidget {
                       fontSize: 20.sp, fontWeight: FontWeight.w500)),
               5.y,
               AppText(
-                AppStrings.codeSendToMail,
+                'A 4 digit code sent to ${widget.email} enter code\nto continue',
                 style: Styles.circularStdRegular(context,
                     fontSize: 14.sp, color: AppColors.greyTextColor),
-                maxLine: 2,
+                maxLine: 3,
               ),
               const Spacer(),
-              const PinCodeExample(),
-              5.y,
-              Align(
-                alignment: Alignment.centerRight,
-                child: AppText(
-                  AppStrings.timer,
-                  style: Styles.circularStdRegular(context,
-                      fontSize: 14.sp, color: AppColors.greyLightColor),
-                  maxLine: 2,
-                ),
+              PinCodeExample(
+                controller: otpController,
+                formKey: formKey,
               ),
+              6.y,
+              time1 == null
+                  ? ShowTimerText(
+                      onComplate: (time, timer) {
+                        timer1 = timer;
+                        time1 = time;
+                        setState(() {});
+                      },
+                    )
+                  : Align(
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector(
+                        onTap: () {
+                          time1 = null;
+                          context.read<VerifyEmailCubit>().verifyEmail(
+                              email: widget.email!, loading: false);
+                          setState(() {});
+                        },
+                        child: AppText(
+                          AppStrings.resendOtp,
+                          style: Styles.circularStdRegular(context,
+                              fontSize: 16.sp, color: AppColors.primaryColor),
+                          maxLine: 2,
+                        ),
+                      ),
+                    ),
               const Spacer(),
-              CustomButton(
-                onTap: () {
-                  Navigate.to(context, SetPassword());
+              BlocConsumer<VerifyOtpCubit, VerifyOtpState>(
+                listener: (context, state) {
+                  if (state is VerifyOtpLoading) {
+                    LoadingDialog.showLoadingDialog(context);
+                  }
+                  if (state is VerifyOtpError) {
+                    Navigator.of(context).pop(true);
+                    WidgetFunctions.instance.snackBar(context,
+                        text: state.error, bgColor: AppColors.primaryColor);
+                  }
+                  if (state is VerifyOtpLoaded) {
+                    Navigate.toReplace(
+                        context,
+                        SetPassword(
+                          resetToken: state.otpToken,
+                        ));
+                  }
+                  // TODO: implement listener
                 },
-                text: 'Submit',
-                borderRadius: 25.sp,
+                builder: (context, state) {
+                  return CustomButton(
+                    onTap: () {
+                      if (formKey.currentState!.validate()) {
+                        if (time1 == null) {
+                          context.read<VerifyOtpCubit>().verify(
+                              otpController.text.trim(), widget.userID!,
+                              loading: false);
+                        } else {
+                          WidgetFunctions.instance.snackBar(context,
+                              bgColor: AppColors.primaryColor,
+                              text: 'Resend Otp');
+                        }
+                      }
+                    },
+                    text: 'Submit',
+                    borderRadius: 25.sp,
+                  );
+                },
               ),
             ],
           ),
