@@ -10,6 +10,8 @@ import 'Data/DataSource/Resources/imports.dart';
 import 'Presentation/Widgets/Onboarding/splash_screen.dart';
 
 void main() {
+
+
   //WidgetsFlutterBinding.ensureInitialized();
   init();
 
@@ -28,6 +30,8 @@ Future<void> init() async {
   await SharedPrefs.init();
 }
 
+
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -39,7 +43,7 @@ class MyApp extends StatelessWidget {
         splitScreenMode: true,
         useInheritedMediaQuery: true,
         builder: (context, child) {
-          return MaterialApp(
+          return const MaterialApp(
             title: 'BuySellBiz',
             theme: ThemeData(
                 primaryColor: AppColors.primaryColor,
