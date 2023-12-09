@@ -51,10 +51,12 @@ class _CountryPickerState extends State<CountryPicker> {
           fontSize: Data().textScale > 1.0 ? 12.sp : 16.sp,
           fontWeight: FontWeight.w400),
       validator: widget.validator,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
           fillColor: AppColors.whiteColor,
           filled: true,
           hintText: 'Phone Number',
+
           prefixIcon: SizedBox(
             height: 40.h,
             width: 110.w,
@@ -115,7 +117,7 @@ class _CountryPickerState extends State<CountryPicker> {
           ///changess
           contentPadding: const EdgeInsets.symmetric(
             vertical: 13,
-            horizontal: 8,
+            horizontal: 12,
           ).r,
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(

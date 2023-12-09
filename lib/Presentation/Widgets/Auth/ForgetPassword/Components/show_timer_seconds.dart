@@ -46,7 +46,7 @@ class _ShowTimerTextState extends State<ShowTimerText> {
     return Align(
       alignment: Alignment.centerRight,
       child: AppText(
-        "00:${time.toString()}",
+        "Resend OTP in 00:${time.toString()}",
         style: Styles.circularStdRegular(context,
             fontSize: 14.sp, color: AppColors.greyLightColor),
         maxLine: 2,

@@ -83,11 +83,16 @@ class _PinCodeExampleState extends State<PinCodeExample> {
               AndroidSmsAutofillMethod.smsUserConsentApi,
               listenForMultipleSmsOnAndroid: true,
               defaultPinTheme: defaultPinTheme,
+              pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
               separatorBuilder: (index) => const SizedBox(width: 8),
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Please Provide Otp';
                 }
+                if(value.length<4)
+                  {
+                    return  'Please Provide Otp';
+                  }
                 return null;
               },
               // onClipboardFound: (value) {

@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         splitScreenMode: true,
         useInheritedMediaQuery: true,
         builder: (context, child) {
-          return const MaterialApp(
+          return  MaterialApp(
             title: 'BuySellBiz',
             theme: ThemeData(
                 primaryColor: AppColors.primaryColor,

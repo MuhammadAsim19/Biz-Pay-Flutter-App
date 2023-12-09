@@ -2,9 +2,11 @@ import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Repository/AppleRepo/apple_repo.dart';
 import 'package:buysellbiz/Data/DataSource/Repository/GoogleRepo/google_repo.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
+import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/strings.dart';
 import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
+import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/auth_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/widget_functions.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/Controller/SocialCubit/social_login_cubit.dart';
@@ -19,8 +21,16 @@ class LoginOnboard extends StatefulWidget {
   @override
   State<LoginOnboard> createState() => _LoginOnboardState();
 }
+TextEditingController changeBaseUrl=TextEditingController();
+
 
 class _LoginOnboardState extends State<LoginOnboard> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    changeBaseUrl.text=ApiConstant.baseUrl;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +40,7 @@ class _LoginOnboardState extends State<LoginOnboard> {
         child: BlocListener<SocialLoginCubit, SocialLoginState>(
           listener: (context, state) {
             // TODO: implement listener
-
+print(state);
             if(state is SocialLoginLoading)
               {
 
@@ -42,6 +52,15 @@ class _LoginOnboardState extends State<LoginOnboard> {
                 WidgetFunctions.instance.snackBar(context,bgColor: AppColors.primaryColor,text: "Login Successfully");
                 Navigate.to(context, const BottomNavigationScreen(),duration: const Duration(milliseconds: 400));
               }
+            if(state is SocialLoginError
+            )
+
+{
+  WidgetFunctions.instance.snackBar(context,bgColor: AppColors.primaryColor,text: state.message
+  );
+
+
+}
           },
           child: SingleChildScrollView(
             child: Column(
@@ -141,7 +160,22 @@ class _LoginOnboardState extends State<LoginOnboard> {
                         style: Styles.circularStdBold(context,
                             color: AppColors.blackColor))
                   ],
-                )
+                ),
+                10.y,
+                CustomTextFieldWithOnTap(controller: changeBaseUrl, hintText: ApiConstant.baseUrl, textInputType: TextInputType.text),
+                CustomButton(onTap: (){
+                  //LoadingDialog.showLoadingDialog(context);
+                  print(changeBaseUrl.text);
+                  setState(() {
+                    ApiConstant.baseUrl=changeBaseUrl.text;
+
+
+
+                  });
+                  WidgetFunctions.instance.snackBar(context,bgColor: Colors.amber,text: 'Changed Base Url to ${ApiConstant.baseUrl}');
+
+
+                }, text: "Change BaseUrl")
               ],
             ),
           ),

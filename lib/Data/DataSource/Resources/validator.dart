@@ -103,7 +103,7 @@ class Validate {
     // bool isValidName =
     //     RegExp(r"^[a-zA-Z][a-zA-Z\s]{0,20}[a-zA-Z]$").hasMatch(val!);
     if (val!.isEmpty) {
-      return 'Please add a name';
+      return 'Please add a $val';
     }
     return null;
   }
@@ -113,6 +113,10 @@ class Validate {
     if (val!.isEmpty) {
       return 'Provide a phone number';
     }
+    else if(val.length < 8)
+      {
+        return 'Length must be greater than 8';
+      }
     return null;
   }
 

@@ -114,9 +114,13 @@ class LoginScreen extends StatelessWidget {
                           bgColor: AppColors.primaryColor, text: state.error);
                     }
                     if (state is LoginLoaded) {
+
                       Navigator.pop(context);
+                      WidgetFunctions.instance.snackBar(context,bgColor: AppColors.primaryColor,text: "Login Successfully");
+
                       BottomNotifier.bottomNavigationNotifier.value = 0;
-                      Navigate.toReplace(
+
+                      Navigate.toReplaceAll(
                           context, const BottomNavigationScreen());
                     }
                   },

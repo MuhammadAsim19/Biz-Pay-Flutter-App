@@ -46,7 +46,7 @@ class LogoutDialog extends StatelessWidget {
               const Spacer(),
               CustomButton(
                 onTap: () {
-                  Navigate.toReplace(context, const LoginOnboard());
+                  Navigate.toReplaceAll(context, const LoginOnboard());
                 },
                 text: AppStrings.logout,
                 height: 45.h,

@@ -1,5 +1,6 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
+import 'package:buysellbiz/Data/DataSource/Resources/validator.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/Controllers/password_controller.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/verify_email.dart';
@@ -47,6 +48,7 @@ class SetPassword extends StatelessWidget {
                     isBorderRequired: true,
                     prefixIcon: SvgPicture.asset('assets/images/lock.svg'),
                     isState: true,
+                    validator: Validate.password,
                     // suffixIcon: InkWell(
                     //     onTap: () {
                     //       ForgetControllers.passwordShowHide.value = !value;
@@ -64,6 +66,18 @@ class SetPassword extends StatelessWidget {
                     isBorderRequired: true,
                     prefixIcon: SvgPicture.asset('assets/images/lock.svg'),
                     isState: true,
+                    validator: (val){
+                      if (val!.trim().isEmpty) {
+                        return "Please provide Password";}
+                      // } else if (val.toString().length != password.text.length) {
+                      //   return 'Password length does not match';
+                      // }
+                      else if (val.toString() != password.text) {
+                        return 'Password does not match';
+                      }
+                      return null;
+
+                    },
                     contentPadding: EdgeInsets.symmetric(vertical: 13.sp),
                     controller: confirmPassword,
                     hintText: AppStrings.confirmPassword,

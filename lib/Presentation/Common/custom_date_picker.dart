@@ -59,6 +59,7 @@ class _CustomDatePickerValidateWidgetState
     return CustomTextFieldWithOnTap(
         borderRadius: 25.sp,
         contentPadding: widget.contentPadding,
+
         validateText: widget.validationText ?? "Date Required",
 
         // isValid: false,

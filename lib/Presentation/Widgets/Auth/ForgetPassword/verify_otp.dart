@@ -51,7 +51,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                       fontSize: 20.sp, fontWeight: FontWeight.w500)),
               5.y,
               AppText(
-                'A 4 digit code sent to ${widget.email} enter code\nto continue',
+                'A 4 digit code sent to ${widget.email} enter code to continue',
                 style: Styles.circularStdRegular(context,
                     fontSize: 14.sp, color: AppColors.greyTextColor),
                 maxLine: 3,

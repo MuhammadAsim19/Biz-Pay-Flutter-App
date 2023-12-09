@@ -70,7 +70,7 @@ class CustomTextFieldWithOnTap extends StatefulWidget {
       _CustomTextFieldWithOnTapState();
 }
 
-bool isHide = false;
+bool isHide = true;
 
 class _CustomTextFieldWithOnTapState extends State<CustomTextFieldWithOnTap> {
   @override
@@ -111,6 +111,8 @@ class _CustomTextFieldWithOnTapState extends State<CustomTextFieldWithOnTap> {
             child: TextFormField(
               onTap: widget.onTap,
               readOnly: widget.readOnly ?? false,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              //scribbleEnabled: true,
               focusNode: widget.focusNode,
 
               //autovalidateMode: AutovalidateMode.onUserInteraction,

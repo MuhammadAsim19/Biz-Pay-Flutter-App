@@ -23,6 +23,7 @@ class ChipWidget extends StatelessWidget {
       width: width,
       child: Chip(
         backgroundColor: AppColors.primaryColor,
+        side: const BorderSide(color: Colors.transparent),
         label: AppText(
           labelText ?? 'Chat',
           style: style ??
