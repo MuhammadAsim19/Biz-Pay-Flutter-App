@@ -6,4 +6,6 @@ class ApiConstant {
   static String socialLoginUrl = '$baseUrl/api/user/continue_with_google';
   static String forgetEmail = '$baseUrl/api/user/forget_password/check_user';
   static String verifyOtp = '$baseUrl/api/user/forget_password/validate_otp';
+  static String setPassword =
+      '$baseUrl/api/user/forget_password/request_change_password';
 }

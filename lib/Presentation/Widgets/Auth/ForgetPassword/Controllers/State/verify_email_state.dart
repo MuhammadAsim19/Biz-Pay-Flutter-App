@@ -10,8 +10,9 @@ class VerifyEmailLoading extends VerifyEmailState {}
 class VerifyEmailLoaded extends VerifyEmailState {
 
   final String? userId;
+  final bool? loading;
 
-  VerifyEmailLoaded({this.userId});
+  VerifyEmailLoaded({this.userId, this.loading});
 }
 
 class VerifyEmailError extends VerifyEmailState {

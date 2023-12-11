@@ -22,7 +22,8 @@ class VerifyEmailCubit extends Cubit<VerifyEmailState> {
 
         if (value['Success'] == true) {
           print(value['body']['id']);
-          emit(VerifyEmailLoaded(userId: value['body']['id']));
+          emit(
+              VerifyEmailLoaded(userId: value['body']['id'], loading: loading));
         } else {
           emit(VerifyEmailError(error: value['error']));
         }

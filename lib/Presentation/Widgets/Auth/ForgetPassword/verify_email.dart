@@ -59,12 +59,15 @@ class VerifyEmail extends StatelessWidget {
                     }
                     if (state is VerifyEmailLoaded) {
                       Navigator.of(context).pop(true);
-                      Navigate.to(
-                          context,
-                          VerifyOtp(
-                            userID: state.userId,
-                            email: email.text.trim(),
-                          ));
+                      if (state.loading == null) {
+                        email.clear();
+                        Navigate.to(
+                            context,
+                            VerifyOtp(
+                              userID: state.userId,
+                              email: email.text.trim(),
+                            ));
+                      }
                     }
                     if (state is VerifyEmailError) {
                       Navigator.of(context).pop(true);

@@ -9,7 +9,7 @@ class SetPassword {
       "newPassword": password,
     };
     try {
-      return await ApiService.post(ApiConstant.verifyOtp, body).then((value) {
+      return await ApiService.post(ApiConstant.setPassword, body).then((value) {
         return value;
       }).catchError((e) {
         throw e;
