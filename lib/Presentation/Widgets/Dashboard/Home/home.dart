@@ -18,7 +18,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/Catego
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/for_you_buisiness.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/recently_added.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/recently_view.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/notifications.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/notifications.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/SearchListing/search_listing.dart';
 
 class HomeScreen extends StatefulWidget {

@@ -3,7 +3,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/ChatMo
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/ChatModel/chat_tile_model.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Components/notification_model.dart';
 
-import 'Components/notification_tile.dart';
+import '../Components/notification_tile.dart';
 
 class Notifications extends StatelessWidget {
   Notifications({super.key});
