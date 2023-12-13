@@ -1,16 +1,12 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Application/Services/PickerServices/picker_services.dart';
-import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
-import 'package:buysellbiz/Data/DataSource/Resources/strings.dart';
 import 'package:buysellbiz/Presentation/Common/ContextWidgets/common_diaolg_widget.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/custom_date_picker.dart';
 import 'package:buysellbiz/Presentation/Common/custom_dropdown.dart';
-import 'package:buysellbiz/Presentation/Common/custom_textfield_with_on_tap.dart';
 import 'package:buysellbiz/Presentation/Common/dialog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_appbar.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_list_tile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/delete_account.dart';
 
 class PersonalInformation extends StatefulWidget {
@@ -104,7 +100,10 @@ class _PersonalInformationState extends State<PersonalInformation> {
                       readOnly: true,
                       textInputType: TextInputType.emailAddress),
                   CustomDatePickerValidateWidget(
-                    validator: (p0) {},
+                    validator: (p0) {
+                      setState(() {});
+                      return null;
+                    },
                     prefixIcon: SvgPicture.asset(Assets.calender),
                     controller: calendarController,
                     hintText: '22/09/96',
