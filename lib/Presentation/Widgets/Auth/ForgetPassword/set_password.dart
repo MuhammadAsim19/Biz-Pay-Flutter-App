@@ -2,12 +2,9 @@ import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/validator.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
-import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/Controllers/password_controller.dart';
-import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/verify_email.dart';
-import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/Controllers/hide_show_password.dart';
-import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/sign_up.dart';
+import 'package:buysellbiz/Presentation/Common/dialog.dart';
 
-import '../../../Common/dialog.dart';
+
 
 class SetPassword extends StatelessWidget {
   SetPassword({super.key, this.resetToken});
