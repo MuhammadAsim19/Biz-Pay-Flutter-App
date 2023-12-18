@@ -4,6 +4,10 @@ import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/Controllers/
 import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/Controllers/verify_otp_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/Login/Controllers/login_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/Controllers/sign_up_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Business/all_business_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/RecentlyAdded/recently_added_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Categories/category_cubit.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 List<BlocProvider> appProviders = [
@@ -13,6 +17,7 @@ List<BlocProvider> appProviders = [
   BlocProvider<VerifyEmailCubit>(create: (context) => VerifyEmailCubit()),
   BlocProvider<VerifyOtpCubit>(create: (context) => VerifyOtpCubit()),
   BlocProvider<SetPasswordCubit>(create: (context) => SetPasswordCubit()),
-
-
+  BlocProvider<AllBusinessCubit>(create: (context) => AllBusinessCubit()),
+  BlocProvider<RecentlyAddedCubit>(create: (context) => RecentlyAddedCubit()),
+  BlocProvider<CategoryCubit>(create: (context) => CategoryCubit()),
 ];
