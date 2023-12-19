@@ -1,37 +1,35 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:buysellbiz/Data/DataSource/Repository/Business/all_business.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
 import 'package:meta/meta.dart';
 
-part 'all_business_state.dart';
+part 'online_business_state.dart';
 
-class AllBusinessCubit extends Cubit<AllBusinessState> {
-  AllBusinessCubit() : super(AllBusinessInitial());
+class OnlineBusinessCubit extends Cubit<OnlineBusinessState> {
+  OnlineBusinessCubit() : super(OnlineBusinessInitial());
 
   getBusiness() async {
     await Future.delayed(Duration.zero);
 
-    emit(AllBusinessLoading());
+    emit(OnlineBusinessLoading());
 
     print('cubit call');
 
     try {
       await AllBusiness.getBusiness().then((value) {
-        if (value['Success']) {
+        if (value['Success'] == true) {
           List<BusinessModel> business =
               List.from(value["body"].map((e) => BusinessModel.fromJson(e)));
-          emit(AllBusinessLoaded(business: business));
+          emit(OnlineBusinessLoaded(data: business));
         } else {
-          emit(AllBusinessError(error: value['error']));
+          emit(OnlineBusinessError(error: value['error']));
         }
       }).catchError((e) {
-        emit(AllBusinessError(error: 'Some Thing Wrong'));
+        emit(OnlineBusinessError(error: e.toString()));
         throw e;
       });
     } catch (e) {
-      emit(AllBusinessError(error: e.toString()));
+      emit(OnlineBusinessError(error: e.toString()));
       rethrow;
     }
   }

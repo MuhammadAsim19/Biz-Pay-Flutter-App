@@ -19,17 +19,15 @@ class RecentlyAddedCubit extends Cubit<RecentlyAddedState> {
 
     try {
       await AllBusiness.recentlyAdded().then((value) {
-        log(value.toString());
-        if (value['Success'] == true) {
+        if (value['Success']) {
           List<BusinessModel> business =
-          List.from(value["body"].map((e) => BusinessModel.fromJson(e)));
+              List.from(value["body"].map((e) => BusinessModel.fromJson(e)));
           emit(RecentlyAddedLoaded(data: business));
         } else {
           emit(RecentlyAddedError(error: value['error']));
         }
       }).catchError((e) {
-        emit(RecentlyAddedError(error: 'Some Thing Wrong'));
-        throw e;
+        emit(RecentlyAddedError(error: e.toString()));
       });
     } catch (e) {
       emit(RecentlyAddedError(error: e.toString()));

@@ -7,6 +7,7 @@ import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/Controllers/sign_up_
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Business/all_business_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/RecentlyAdded/recently_added_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Categories/category_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/RecentlyView/recently_viewed_cubit.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,4 +21,5 @@ List<BlocProvider> appProviders = [
   BlocProvider<AllBusinessCubit>(create: (context) => AllBusinessCubit()),
   BlocProvider<RecentlyAddedCubit>(create: (context) => RecentlyAddedCubit()),
   BlocProvider<CategoryCubit>(create: (context) => CategoryCubit()),
+  BlocProvider<RecentlyViewedCubit>(create: (context) => RecentlyViewedCubit()),
 ];

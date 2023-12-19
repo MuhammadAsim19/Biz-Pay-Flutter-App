@@ -20,7 +20,7 @@ class CategoryCubit extends Cubit<CategoryState> {
     try {
       await CategoryRepo.getCategory().then((value) {
         log(value.toString());
-        if (value['Success'] == true) {
+        if (value['Success']) {
           List<Category> cate =
               List.from(value["body"].map((e) => Category.fromJson(e)));
           emit(CategoryLoaded(model: cate));
@@ -28,8 +28,7 @@ class CategoryCubit extends Cubit<CategoryState> {
           emit(CategoryError(error: value['error']));
         }
       }).catchError((e) {
-        emit(CategoryError(error: 'Some Thing Wrong'));
-        throw e;
+        emit(CategoryError(error: e.toString()));
       });
     } catch (e) {
       emit(CategoryError(error: e.toString()));

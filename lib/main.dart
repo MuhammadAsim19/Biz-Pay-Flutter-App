@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
                 bottomNavigationBarTheme: const BottomNavigationBarThemeData(
                     backgroundColor: Colors.transparent,
                     type: BottomNavigationBarType.shifting)),
-            home: const HomeScreen(),
+            home: const SplashScreen(),
             // home: const SignUpScreen(),
             debugShowCheckedModeBanner: false,
           );

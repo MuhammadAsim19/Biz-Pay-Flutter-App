@@ -1,23 +1,26 @@
 import 'package:buysellbiz/Application/Services/ApiServices/api_services.dart';
+import 'package:buysellbiz/Data/AppData/app_preferences.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
+import 'package:buysellbiz/Domain/User/user_model.dart';
 
 class AllBusiness {
   static Future<Map<String, dynamic>> getBusiness() async {
-    try {
-      return await ApiService.get(ApiConstant.getAllBusiness).then((value) {
-        return value;
-      }).catchError((e) {
-        throw e;
-      });
-    } catch (e) {
-      rethrow;
-    }
+    return await ApiService.get(ApiConstant.getAllBusiness);
+  }
+
+  static Future<Map<String, dynamic>> onlineBusiness() async {
+    return await ApiService.get(ApiConstant.getAllBusiness);
   }
 
   static Future<Map<String, dynamic>> recentlyAdded() async {
+    return await ApiService.get(ApiConstant.recentlyAddedBusiness);
+  }
+
+  static Future<Map<String, dynamic>> recentlyView() async {
     try {
-      return await ApiService.get(ApiConstant.recentlyAddedBusiness)
-          .then((value) {
+      return await ApiService.get(
+        ApiConstant.recentlyViewBusiness,
+      ).then((value) {
         return value;
       }).catchError((e) {
         throw e;

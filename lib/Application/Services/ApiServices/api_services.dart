@@ -6,15 +6,16 @@ import 'dart:io';
 //import 'dart:ffi';
 
 import 'package:buysellbiz/Data/AppData/app_preferences.dart';
+import 'package:buysellbiz/Data/AppData/data.dart';
+import 'package:buysellbiz/Domain/User/user_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
 class ApiService {
   static Map<String, String> _authMiddleWare() {
-
     return {
-      'Content-Type': 'application/json'
-
+      'Content-Type': 'application/json',
+      "Authorization": "Bearer ${Data.app.user!.token}"
     };
     // print(us);
     //
@@ -31,6 +32,8 @@ class ApiService {
 
   static Future<Map<String, dynamic>> get(String url,
       {Map<String, String>? headers}) async {
+    print(headers.toString());
+
     try {
       http.Response res = await http.get(
         Uri.parse(url),
@@ -41,13 +44,12 @@ class ApiService {
         return decode;
       }
       return {"success": false, "error": res.body, "body": null};
-    }
-    on SocketException catch (e) {
+    } on SocketException catch (e) {
       print('in socet');
       // Handle SocketException here.
       return {
         "success": false,
-        "error": 'No Internet Please Connect To Internet',
+        "error": 'No Internet Connection',
         "status": 30
       };
 
@@ -56,23 +58,11 @@ class ApiService {
     } on TimeoutException catch (e) {
       print('in timeout');
       // Handle SocketException here.
-      return {
-        "success": false,
-        "error":
-        "Oops! We're experiencing technical difficulties at the moment. Our servers are currently not responding. Please try again later.",
-        "status": 31
-      };
+      return {"success": false, "error": "Request Time Out", "status": 31};
     } on HttpException catch (e) {
       // Handle HttpException (e.g., invalid URL) here.
-      return {
-        "success": false,
-        "error":
-        "Oops! We're experiencing technical difficulties at the moment. Our servers are currently not responding. Please try again later.",
-        "status": 32
-      };
-    }
-
-    catch (e) {
+      return {"success": false, "error": "Invalid Request", "status": 32};
+    } catch (e) {
       rethrow;
     }
   }
@@ -97,7 +87,7 @@ class ApiService {
       // Handle SocketException here.
       return {
         "success": false,
-        "error": 'No Internet Please Connect To Internet',
+        "error": 'No Internet Connection',
         "status": 30
       };
 
@@ -106,39 +96,30 @@ class ApiService {
     } on TimeoutException catch (e) {
       print('in timeout');
       // Handle SocketException here.
-      return {
-        "success": false,
-        "error":
-        "Oops! We're experiencing technical difficulties at the moment. Our servers are currently not responding. Please try again later.",
-        "status": 31
-      };
+      return {"success": false, "error": "Time Out", "status": 31};
     } on HttpException catch (e) {
       // Handle HttpException (e.g., invalid URL) here.
-      return {
-        "success": false,
-        "error":
-        "Oops! We're experiencing technical difficulties at the moment. Our servers are currently not responding. Please try again later.",
-        "status": 32
-      };
+      return {"success": false, "error": 'Invalid Request', "status": 32};
     } catch (e) {
       return Future.error(e);
     }
   }
 
-  static Future<Map<String, dynamic>> post(String url,
-      Map<String, dynamic> body,
+  static Future<Map<String, dynamic>> post(
+      String url, Map<String, dynamic> body,
       {Map<String, String>? header}) async {
     log(url);
 
     try {
       // final headers = {'Content-Type': 'application/json'};
 
-      http.Response res = await http.post(
-        Uri.parse(url),
-        headers: header ?? _authMiddleWare(),
-        body: jsonEncode(body),
-        
-      ).timeout(const Duration(seconds:30));
+      http.Response res = await http
+          .post(
+            Uri.parse(url),
+            headers: header ?? _authMiddleWare(),
+            body: jsonEncode(body),
+          )
+          .timeout(const Duration(seconds: 30));
       print("Response ${res.body}");
       if (res.statusCode == 200 || res.statusCode == 201) {
         Map<String, dynamic> decode = jsonDecode(res.body);
@@ -155,7 +136,7 @@ class ApiService {
       // Handle SocketException here.
       return {
         "success": false,
-        "error": 'No Internet Please Connect To Internet',
+        "error": 'No Internet Connection',
         "status": 30
       };
 
@@ -164,30 +145,20 @@ class ApiService {
     } on TimeoutException catch (e) {
       print('in timeout');
       // Handle SocketException here.
-      return {
-        "success": false,
-        "error":
-        "Oops! We're experiencing technical difficulties at the moment. Our servers are currently not responding. Please try again later.",
-        "status": 31
-      };
+      return {"success": false, "error": "Time Out", "status": 31};
     } on HttpException catch (e) {
       // Handle HttpException (e.g., invalid URL) here.
-      return {
-        "success": false,
-        "error":
-        "Oops! We're experiencing technical difficulties at the moment. Our servers are currently not responding. Please try again later.",
-        "status": 32
-      };
+      return {"success": false, "error": "Invalid", "status": 32};
     } catch (e) {
       return Future.error(e);
     }
   }
 
-  static Future<Map<String, dynamic>> postMultipart(String url,
-      Map<String, dynamic> body, List<String?> filesPath,
+  static Future<Map<String, dynamic>> postMultipart(
+      String url, Map<String, dynamic> body, List<String?> filesPath,
       {Map<String, String>? header,
-        String? requestMethod,
-        String? imagePathName}) async {
+      String? requestMethod,
+      String? imagePathName}) async {
     try {
       print("here2");
       // //  UserData? us = SharedPrefs.getUserLoginData();
@@ -195,7 +166,7 @@ class ApiService {
       //   print(us?.user.id);
       // final headers = {'authorization': 'Bearer ${us!.token}'};
       var request =
-      http.MultipartRequest(requestMethod ?? 'POST', Uri.parse(url));
+          http.MultipartRequest(requestMethod ?? 'POST', Uri.parse(url));
       //request.fields.addAll(body);
 
       for (var str in body.entries) {
@@ -222,7 +193,7 @@ class ApiService {
       // print(res.statusCode.toString() +"status code");
       if (res.statusCode == 200 || res.statusCode == 201) {
         Map<String, dynamic> decode =
-        jsonDecode(await res.stream.bytesToString());
+            jsonDecode(await res.stream.bytesToString());
         return decode;
       }
 
@@ -236,13 +207,14 @@ class ApiService {
     }
   }
 
-  static Future<Map<String, dynamic>> postMultipartFeedback(String url,
+  static Future<Map<String, dynamic>> postMultipartFeedback(
+      String url,
       Map<String, dynamic> body,
       List<String?> filesPath,
       List<String?> thumbnailImages,
       {Map<String, String>? header,
-        String? requestMethod,
-        String? imagePathName}) async {
+      String? requestMethod,
+      String? imagePathName}) async {
     try {
       // print("here2");
       // UserData? us = SharedPrefs.getUserLoginData();
@@ -250,7 +222,7 @@ class ApiService {
       // print(us?.user.id);
       //     final headers = {'authorization': 'Bearer ${us!.token}'};
       var request =
-      http.MultipartRequest(requestMethod ?? 'POST', Uri.parse(url));
+          http.MultipartRequest(requestMethod ?? 'POST', Uri.parse(url));
       //request.fields.addAll(body);
 
       for (var str in body.entries) {
@@ -286,7 +258,7 @@ class ApiService {
       // print(res.statusCode.toString() +"status code");
       if (res.statusCode == 200 || res.statusCode == 201) {
         Map<String, dynamic> decode =
-        jsonDecode(await res.stream.bytesToString());
+            jsonDecode(await res.stream.bytesToString());
         return decode;
       }
 
@@ -300,113 +272,8 @@ class ApiService {
     }
   }
 
-  static Future<Map<String, dynamic>> postMultipart2(String url,
-      Map<String, dynamic> body, List<String?> filesPath,
-      {Map<String, String>? header,
-        String? requestMethod,
-        String? imagePathName}) async {
-    try {
-      print("here2");
-      // UserData? us = SharedPrefs.getUserLoginData();
-      // print(us?.token);
-      // print(us?.user.id);
-      // final headers = {'authorization': 'Bearer ${us!.token}'};
-      var request =
-      http.MultipartRequest(requestMethod ?? 'POST', Uri.parse(url));
-      //request.fields.addAll(body);
-      print(body);
-      for (var str in body.entries) {
-        if (str.value != null) {
-          if (str.value.runtimeType is bool || str.key.runtimeType is bool) {
-            // print("herewe");
-            request.fields[str.key.toString()] = str.value.toString();
-          } else {
-            request.fields[str.key] = str.value;
-          }
-          print(str.key);
-        }
-      }
-      // request.fields.addEntries(body.entries);
-
-      //  request.headers.addAll(headers);
-      for (String? e in filesPath) {
-        //print(e);
-        request.files.add(
-            await http.MultipartFile.fromPath(imagePathName ?? 'files', e!));
-      }
-
-      http.StreamedResponse res = await request.send();
-      // print(res.statusCode.toString() +"status code");
-      if (res.statusCode == 200 || res.statusCode == 201) {
-        Map<String, dynamic> decode =
-        jsonDecode(await res.stream.bytesToString());
-        return decode;
-      }
-
-      return {
-        "success": false,
-        "error": "${res.statusCode} ${res.reasonPhrase}",
-        "body": null
-      };
-    } catch (e) {
-      return Future.error(e);
-    }
-  }
-
-  static Future post1(Map<String, dynamic> body, {
-    required String url,
-  }) async {
-    try {
-      final response = await http.post(Uri.parse(url),
-          headers: _authMiddleWare(), body: jsonEncode(body));
-
-      print("Response status ${response.statusCode}");
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        return 200;
-      } else {
-        throw Exception('Failed to sign up user');
-      }
-    } catch (e) {
-      return Future.error(e.toString());
-    }
-  }
-
-  static Future postOrder(Map<String, dynamic> body, {
-    required String url,
-  }) async {
-    try {
-      //  String? us = SharedPrefs.getUserToken();
-      final head = {
-        "Authorization": "Bearer ",
-        'Content-Type': 'application/x-www-form-urlencoded',
-        //'Content-Type': 'application/json'
-      };
-      final response =
-      await http.post(Uri.parse(url), headers: head, body: (body));
-
-      print("Response status ${response.statusCode}");
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        print("api response");
-        print(data);
-        if (data['UserDetails'] == null) {
-          return 200;
-        } else {
-          return 240;
-        }
-      } else {
-        throw Exception('Failed to sign up user');
-      }
-    } catch (e) {
-      return Future.error(e.toString());
-    }
-  }
-
-  static Future<Map<String, dynamic>> put(String url,
-      Map<String, dynamic>? body,
+  static Future<Map<String, dynamic>> put(
+      String url, Map<String, dynamic>? body,
       {Map<String, String>? headers}) async {
     try {
       //print(body);

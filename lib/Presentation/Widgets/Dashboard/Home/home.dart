@@ -1,10 +1,12 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
+import 'package:buysellbiz/Data/AppData/app_preferences.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisness_profile.dart';
 import 'package:buysellbiz/Domain/Category/categroy.dart';
 import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/business_shimmer.dart';
 import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/category_loading.dart';
+import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/recently_viewd_bussines_loading.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/custom_dropdown.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/BottomNavigation/Controller/BottomNavigationNotifier/bottom_navigation_notifier.dart';
@@ -16,6 +18,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/Catego
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/for_you_buisiness.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/recently_added.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/recently_view.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/RecentlyView/recently_viewed_cubit.dart';
 
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/notifications.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/SearchListing/search_listing.dart';
@@ -250,9 +253,13 @@ List<BusinessProductModel> businessProductsOnline = [
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
+// get the user data for accessing in app
+    SharedPrefs.getUserLoginData();
+
     context.read<AllBusinessCubit>().getBusiness();
     context.read<RecentlyAddedCubit>().getRecentBusiness();
     context.read<CategoryCubit>().getCategory();
+    context.read<RecentlyViewedCubit>().getRecentBusiness();
 
     // TODO: implement initState
     super.initState();
@@ -387,11 +394,29 @@ class _HomeScreenState extends State<HomeScreen> {
                           style:
                               Styles.circularStdMedium(context, fontSize: 18)),
                       5.y,
-                      RecentlyViewWidget(
-                          businessProducts: businessProducts,
-                          getData: (dto) {
-                            Navigate.to(context, const BusinessDetails());
-                          }),
+                      BlocConsumer<RecentlyViewedCubit, RecentlyViewedState>(
+                        listener: (context, state) {},
+                        builder: (context, state) {
+                          return state is RecentlyViewedLoaded
+                              ? RecentlyViewWidget(
+                                  businessProducts: state.business,
+                                  getData: (dto) {
+                                    Navigate.to(
+                                        context, const BusinessDetails());
+                                  })
+                              : state is RecentlyViewedLoading
+                                  ? const RecentViewedBusinessLoading()
+                                  : state is RecentlyViewedError
+                                      ? Center(
+                                          child: AppText(
+                                            state.error!,
+                                            style: Styles.circularStdRegular(
+                                                context),
+                                          ),
+                                        )
+                                      : const SizedBox.shrink();
+                        },
+                      ),
 
                       ///Recently Added
                       19.y,
