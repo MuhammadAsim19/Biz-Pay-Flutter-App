@@ -5,30 +5,31 @@ import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/chip_widget.dart';
 
 class SearchBusinessWidget extends StatelessWidget {
+  final List<BusinessModel>? businessProducts;
+  final void Function(BusinessModel val) getData;
+  final void Function(BusinessModel val) chatTap;
 
-  final List<BusinessProductModel>  businessProducts;
-  final void Function(BusinessProductModel val) getData;
-  final void Function(BusinessProductModel val) chatTap;
-
-  const SearchBusinessWidget({super.key, required this.businessProducts, required this.getData, required this.chatTap});
+  const SearchBusinessWidget(
+      {super.key,
+      required this.businessProducts,
+      required this.getData,
+      required this.chatTap});
 
   @override
   Widget build(BuildContext context) {
-    return   ListView.separated(
+    return ListView.separated(
+        padding: EdgeInsets.zero,
         shrinkWrap: true,
-
         scrollDirection: Axis.vertical,
         physics: const BouncingScrollPhysics(),
-        itemBuilder: (context,index){
-
+        itemBuilder: (context, index) {
           return GestureDetector(
-            onTap: ()
-            {
-              getData(businessProducts[index]);
+            onTap: () {
+              getData(businessProducts![index]);
             },
             child: Container(
-             // width: 245.w,
-               height: 300.h,
+              // width: 245.w,
+              height: 300.h,
               decoration: ShapeDecoration(
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
@@ -41,53 +42,57 @@ class SearchBusinessWidget extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
                       Stack(
                         children: [
-                          AssetImageWidget(url: businessProducts[index].businessImage!,width: 380,height: 193.h),
-                          Positioned(
-                            // bottom: 0,
-                            // left: 0,
-                              top: 10,
-                              right: 10,
-
-                              child: SvgPicture.asset(businessProducts[index].isFav==false?Assets.heartWhiteLight:Assets.heartRed))
-
+                          AssetImageWidget(
+                              url: businessProducts![index].images!.first,
+                              width: 380,
+                              height: 193.h),
+                          // Positioned(
+                          //   // bottom: 0,
+                          //   // left: 0,
+                          //     top: 10,
+                          //     right: 10,
+                          //
+                          //     child: SvgPicture.asset(businessProducts[index].isFav==false?Assets.heartWhiteLight:Assets.heartRed))
                         ],
-                      )
-                      ,
+                      ),
                       //  10.x,
                       Expanded(
                         child: Container(
-                          margin: EdgeInsets.only(
-                              left: 10.sp
-                          ),
+                          margin: EdgeInsets.only(left: 10.sp),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
-
                             children: [
                               5.y,
                               Row(
                                 children: [
-                                  AppText(businessProducts[index].location!, style: Styles.circularStdRegular(context,color: AppColors.lightGreyColor,fontSize: 12)),
-
-                            const Spacer(),
-                          AppText(businessProducts[index].price!, style: Styles.circularStdBold(context,fontSize: 18)),
-
-
-                          ],
+                                  AppText(businessProducts![index].address!,
+                                      style: Styles.circularStdRegular(context,
+                                          color: AppColors.lightGreyColor,
+                                          fontSize: 12)),
+                                  const Spacer(),
+                                  AppText(
+                                      "\$${businessProducts![index].salePrice!}",
+                                      style: Styles.circularStdBold(context,
+                                          fontSize: 18)),
+                                ],
                               ),
                               5.y,
                               Stack(
                                 children: [
-                                  AppText(businessProducts[index].businessName!, style: Styles.circularStdMedium(context,fontSize: 20),maxLine: 3,overflow: TextOverflow.ellipsis,),
-
-
+                                  AppText(
+                                    businessProducts![index].name!,
+                                    style: Styles.circularStdMedium(context,
+                                        fontSize: 20),
+                                    maxLine: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ],
                               ),
 
-                            //  7.y,
+                              //  7.y,
                               // Row(
                               //   children: [
                               //     const Spacer(),
@@ -98,40 +103,30 @@ class SearchBusinessWidget extends StatelessWidget {
                               //     // CustomButton(onTap: (){}, text: 'Chat',height: 37,width: 70,textSize: 14,borderRadius: 30,)
                               //   ],
                               // ),
-
-
-
-                            ],),
+                            ],
+                          ),
                         ),
                       )
                     ],
-
                   ),
                   Positioned(
                     bottom: 30,
                     right: 10,
                     child: GestureDetector(
-                      onTap: ()
-                      {
-
-                        chatTap(businessProducts[index]);
-
+                      onTap: () {
+                        chatTap(businessProducts![index]);
                       },
                       child: const ChipWidget(),
                     ),
                   )
                 ],
               ),
-
             ),
           );
-
-        }, separatorBuilder:(context,index)
-    {
-      return 5.x;
-
-    }, itemCount: businessProducts.length);
+        },
+        separatorBuilder: (context, index) {
+          return 10.y;
+        },
+        itemCount: businessProducts!.length);
   }
 }
-
-

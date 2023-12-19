@@ -16,7 +16,7 @@ class OnlineBusinessCubit extends Cubit<OnlineBusinessState> {
     print('cubit call');
 
     try {
-      await AllBusiness.getBusiness().then((value) {
+      await AllBusiness.onlineBusiness().then((value) {
         if (value['Success'] == true) {
           List<BusinessModel> business =
               List.from(value["body"].map((e) => BusinessModel.fromJson(e)));

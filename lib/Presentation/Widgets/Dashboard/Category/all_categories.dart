@@ -120,8 +120,6 @@ class AllCategory extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final category = categoryData![index];
                   final color = int.parse("0xff${category.backgroundcolor!}");
-                  print("${ApiConstant.baseUrl}/${category.icon}");
-
                   return GestureDetector(
                     onTap: () {
                       // getData(category, index);

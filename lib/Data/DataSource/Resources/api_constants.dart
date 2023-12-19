@@ -17,6 +17,7 @@ class ApiConstant {
   static String getAllBusinessDetails = "$baseUrl/api/business/details/";
   static String recentlyAddedBusiness = "$baseUrl/api/business/recently_added";
   static String category = "$baseUrl/api/category";
+  static String brokerList = "$baseUrl/api/broker";
 
   static String recentlyViewBusiness = "$baseUrl/api/user/get_recentlyViewed";
 }

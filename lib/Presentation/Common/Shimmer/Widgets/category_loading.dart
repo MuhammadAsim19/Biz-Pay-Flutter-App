@@ -26,7 +26,7 @@ class CategoryLoadingShimmer extends StatelessWidget {
                       width: 70.w,
                       height: 50.h,
                       decoration: const BoxDecoration(
-                        color: AppColors.primaryColor,
+                        color: AppColors.greyTextColor,
                         shape: BoxShape.circle,
                       ),
                     ),

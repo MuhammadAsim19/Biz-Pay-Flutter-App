@@ -1,9 +1,12 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
+import 'package:buysellbiz/Data/AppData/app_initializer.dart';
 import 'package:buysellbiz/Data/AppData/app_preferences.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
+import 'package:buysellbiz/Domain/Brokers/broker_list_model.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisness_profile.dart';
 import 'package:buysellbiz/Domain/Category/categroy.dart';
+import 'package:buysellbiz/Domain/User/user_model.dart';
 import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/business_shimmer.dart';
 import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/category_loading.dart';
 import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/recently_viewd_bussines_loading.dart';
@@ -18,7 +21,10 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/Catego
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/for_you_buisiness.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/recently_added.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/recently_view.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Brokers/brokers_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/OnlineBusiness/online_business_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/RecentlyView/recently_viewed_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/search_busniess.dart';
 
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/notifications.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/SearchListing/search_listing.dart';
@@ -129,27 +135,27 @@ String? selectedListItem;
 //       backgroundColor: 0xFFE6F6F6),
 // ];
 
-List<BusinessProductModel> businessProducts = [
-  BusinessProductModel(
-      businessImage: Assets.dummyImage,
-      businessName: 'Drop shipping website & E-commerce business',
-      price: 'USD 40K',
-      location: "San Francisco, USA"),
-  BusinessProductModel(
-      businessImage: Assets.dummyImage,
-      businessName: 'Drop shipping website & E-commerce business',
-      price: 'USD 30K',
-      location: "San Francisco, USA"),
-  BusinessProductModel(
-      businessImage: Assets.dummyImage,
-      businessName: 'Drop shipping website & E-commerce business',
-      price: 'USD 20K',
-      location: "San Francisco, USA"),
-  BusinessProductModel(
-      businessImage: Assets.dummyImage,
-      businessName: 'Drop shipping website & E-commerce business',
-      price: 'USD 10K',
-      location: "San Francisco, USA"),
+List<BusinessModel> businessProducts = [
+  BusinessModel(
+      images: [Assets.dummyImage],
+      name: 'Drop shipping website & E-commerce business',
+      salePrice: 40,
+      address: "San Francisco, USA"),
+  BusinessModel(
+      images: [Assets.dummyImage],
+      name: 'Drop shipping website & E-commerce business',
+      salePrice: 40,
+      address: "San Francisco, USA"),
+  BusinessModel(
+      images: [Assets.dummyImage],
+      name: 'Drop shipping website & E-commerce business',
+      salePrice: 40,
+      address: "San Francisco, USA"),
+  BusinessModel(
+      images: [Assets.dummyImage],
+      name: 'Drop shipping website & E-commerce business',
+      salePrice: 40,
+      address: "San Francisco, USA"),
 ];
 List<BusinessProductModel> businessProducts1 = [
   BusinessProductModel(
@@ -250,16 +256,20 @@ List<BusinessProductModel> businessProductsOnline = [
       location: "San Francisco, USA"),
 ];
 
+List<BusinessModel>? allData;
+List<BusinessModel>? searchData;
+
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
 // get the user data for accessing in app
-    SharedPrefs.getUserLoginData();
-
+    AppInitializer.init();
     context.read<AllBusinessCubit>().getBusiness();
     context.read<RecentlyAddedCubit>().getRecentBusiness();
     context.read<CategoryCubit>().getCategory();
     context.read<RecentlyViewedCubit>().getRecentBusiness();
+    context.read<OnlineBusinessCubit>().getBusiness();
+    context.read<BrokersCubit>().getBrokers();
 
     // TODO: implement initState
     super.initState();
@@ -294,7 +304,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             AppText(AppStrings.hello,
                                 style: Styles.circularStdRegular(context,
                                     fontSize: 14, color: AppColors.whiteColor)),
-                            AppText('Aqib Javid',
+                            AppText("Adib Javid",
                                 style: Styles.circularStdMedium(context,
                                     fontSize: 20, color: AppColors.whiteColor))
                           ],
@@ -318,10 +328,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     right: 24,
                     bottom: 0,
                     child: CustomTextFieldWithOnTap(
+                      readOnly: true,
                       controller: searchController,
                       borderRadius: 40,
                       isBorderRequired: false,
                       isShadowRequired: true,
+                      onTap: () {
+                        Navigate.to(
+                            context,
+                            BusniessSearch(
+                              model: businessProducts,
+                            ));
+                      },
                       prefixIcon: SvgPicture.asset(Assets.searchIcon),
                       suffixIcon: Container(
                         margin: const EdgeInsets.only(right: 5),
@@ -535,11 +553,34 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                             10.x,
-                            BusinessProfileWidget(
-                              profileData: profileData,
-                              getData: (BusinessBrokerProfile val) {
-                                //print(val.rating);
-                                Navigate.to(context, const BrokerProfile());
+                            BlocConsumer<BrokersCubit, BrokersState>(
+                              listener: (context, state) {
+                                // TODO: implement listener
+                              },
+                              builder: (context, state) {
+                                return state is BrokersLaoding
+                                    ? const CircularProgressIndicator()
+                                    : state is BrokersLoaded
+                                        ? BusinessProfileWidget(
+                                            profileData: state.brokers,
+                                            getData: (BrokersListModel val) {
+                                              //print(val.rating);
+                                              Navigate.to(
+                                                  context,
+                                                  BrokerProfile(
+                                                    model: val,
+                                                  ));
+                                            },
+                                          )
+                                        : state is BrokersError
+                                            ? Center(
+                                                child: AppText(
+                                                state.error!,
+                                                style:
+                                                    Styles.circularStdRegular(
+                                                        context),
+                                              ))
+                                            : const SizedBox.shrink();
                               },
                             )
                           ],
@@ -562,7 +603,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       5.y,
                       BlocConsumer<AllBusinessCubit, AllBusinessState>(
                         listener: (context, state) {
-                          if (state is AllBusinessError) {}
+                          if (state is AllBusinessLoaded) {
+                            allData = state.business;
+                            searchData = state.business;
+                          }
+                          if (state is AllBusinessError) {
+                            WidgetFunctions.instance.snackBar(context,
+                                text: state.error,
+                                bgColor: AppColors.primaryColor,
+                                textStyle: Styles.circularStdRegular(context,
+                                    color: AppColors.whiteColor));
+                          }
                           // TODO: implement listener
                         },
                         builder: (context, state) {
@@ -607,16 +658,38 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                       5.y,
-                      // BusinessForYouWidget(
-                      //   businessProducts: businessProductsOnline,
-                      //   getData: (data) {
-                      //     Navigate.to(context, const BusinessDetails());
-                      //   },
-                      //   chatTap: (BusinessProductModel val) {
-                      //     BottomNotifier.bottomPageController!.jumpToPage(2);
-                      //     BottomNotifier.bottomNavigationNotifier.value = 2;
-                      //   },
-                      // )
+                      BlocConsumer<OnlineBusinessCubit, OnlineBusinessState>(
+                        listener: (context, state) {
+                          // TODO: implement listener
+                        },
+                        builder: (context, state) {
+                          return state is OnlineBusinessLoaded
+                              ? BusinessForYouWidget(
+                                  businessProducts: state.data,
+                                  getData: (data) {
+                                    Navigate.to(
+                                        context, const BusinessDetails());
+                                  },
+                                  chatTap: (BusinessModel val) {
+                                    BottomNotifier.bottomPageController!
+                                        .jumpToPage(2);
+                                    BottomNotifier
+                                        .bottomNavigationNotifier.value = 2;
+                                  },
+                                )
+                              : state is OnlineBusinessLoading
+                                  ? const BusinessLoading()
+                                  : state is OnlineBusinessError
+                                      ? Center(
+                                          child: AppText(
+                                            state.error!,
+                                            style: Styles.circularStdRegular(
+                                                context),
+                                          ),
+                                        )
+                                      : const SizedBox();
+                        },
+                      )
                     ],
                   ),
                 ),

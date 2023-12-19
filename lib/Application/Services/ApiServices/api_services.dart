@@ -15,7 +15,6 @@ class ApiService {
   static Map<String, String> _authMiddleWare() {
     return {
       'Content-Type': 'application/json',
-      "Authorization": "Bearer ${Data.app.user!.token}"
     };
     // print(us);
     //
@@ -67,43 +66,43 @@ class ApiService {
     }
   }
 
-  static getCat(String url, {Map<String, String>? header}) async {
-    try {
-      var request = http.Request('GET', Uri.parse(url));
-
-      request.headers.addAll(header ?? _authMiddleWare());
-
-      var response = await request.send().timeout(const Duration(seconds: 30));
-
-      if (response.statusCode == 200) {
-        // print();
-        return await response.stream.bytesToString();
-      } else if (response.statusCode == 401) {
-        print(response.reasonPhrase);
-        return 401;
-      }
-    } on SocketException catch (e) {
-      print('in socet');
-      // Handle SocketException here.
-      return {
-        "success": false,
-        "error": 'No Internet Connection',
-        "status": 30
-      };
-
-      print('SocketException: $e');
-      // You can display an error message to the user or perform other actions.
-    } on TimeoutException catch (e) {
-      print('in timeout');
-      // Handle SocketException here.
-      return {"success": false, "error": "Time Out", "status": 31};
-    } on HttpException catch (e) {
-      // Handle HttpException (e.g., invalid URL) here.
-      return {"success": false, "error": 'Invalid Request', "status": 32};
-    } catch (e) {
-      return Future.error(e);
-    }
-  }
+  // static getCat(String url, {Map<String, String>? header}) async {
+  //   try {
+  //     var request = http.Request('GET', Uri.parse(url));
+  //
+  //     request.headers.addAll(header ?? _authMiddleWare());
+  //
+  //     var response = await request.send().timeout(const Duration(seconds: 30));
+  //
+  //     if (response.statusCode == 200) {
+  //       // print();
+  //       return await response.stream.bytesToString();
+  //     } else if (response.statusCode == 401) {
+  //       print(response.reasonPhrase);
+  //       return 401;
+  //     }
+  //   } on SocketException catch (e) {
+  //     print('in socet');
+  //     // Handle SocketException here.
+  //     return {
+  //       "success": false,
+  //       "error": 'No Internet Connection',
+  //       "status": 30
+  //     };
+  //
+  //     print('SocketException: $e');
+  //     // You can display an error message to the user or perform other actions.
+  //   } on TimeoutException catch (e) {
+  //     print('in timeout');
+  //     // Handle SocketException here.
+  //     return {"success": false, "error": "Time Out", "status": 31};
+  //   } on HttpException catch (e) {
+  //     // Handle HttpException (e.g., invalid URL) here.
+  //     return {"success": false, "error": 'Invalid Request', "status": 32};
+  //   } catch (e) {
+  //     return Future.error(e);
+  //   }
+  // }
 
   static Future<Map<String, dynamic>> post(
       String url, Map<String, dynamic> body,
@@ -202,71 +201,23 @@ class ApiService {
         "error": "${res.statusCode} ${res.reasonPhrase}",
         "body": null
       };
-    } catch (e) {
-      return Future.error(e);
-    }
-  }
-
-  static Future<Map<String, dynamic>> postMultipartFeedback(
-      String url,
-      Map<String, dynamic> body,
-      List<String?> filesPath,
-      List<String?> thumbnailImages,
-      {Map<String, String>? header,
-      String? requestMethod,
-      String? imagePathName}) async {
-    try {
-      // print("here2");
-      // UserData? us = SharedPrefs.getUserLoginData();
-      // print(us?.token);
-      // print(us?.user.id);
-      //     final headers = {'authorization': 'Bearer ${us!.token}'};
-      var request =
-          http.MultipartRequest(requestMethod ?? 'POST', Uri.parse(url));
-      //request.fields.addAll(body);
-
-      for (var str in body.entries) {
-        if (str.value != null) {
-          if (str.value.runtimeType is bool || str.key.runtimeType is bool) {
-            // print("herewe");
-            request.fields[str.key.toString()] = str.value.toString();
-          } else {
-            request.fields[str.key] = str.value;
-          }
-          //  print(str.key);
-        }
-      }
-      // request.fields.addEntries(body.entries);
-
-      //  request.headers.addAll(headers);
-
-      if (filesPath.isNotEmpty) {
-        for (String? e in filesPath) {
-          //print(e);
-          request.files.add(
-              await http.MultipartFile.fromPath(imagePathName ?? 'files', e!));
-        }
-      }
-      if (thumbnailImages.isNotEmpty) {
-        for (String? e in thumbnailImages) {
-          //print(e);
-          request.files.add(await http.MultipartFile.fromPath('thumbnail', e!));
-        }
-      }
-
-      http.StreamedResponse res = await request.send();
-      // print(res.statusCode.toString() +"status code");
-      if (res.statusCode == 200 || res.statusCode == 201) {
-        Map<String, dynamic> decode =
-            jsonDecode(await res.stream.bytesToString());
-        return decode;
-      }
-
+    } on SocketException catch (e) {
+      print('in socet');
+      // Handle SocketException here.
       return {
         "success": false,
-        "error": "${res.statusCode} ${res.reasonPhrase}",
-        "body": jsonDecode(await res.stream.bytesToString())
+        "error": 'No Internet Connection',
+        "status": 30
       };
+
+      // You can display an error message to the user or perform other actions.
+    } on TimeoutException catch (e) {
+      print('in timeout');
+      // Handle SocketException here.
+      return {"success": false, "error": "Time Out", "status": 31};
+    } on HttpException catch (e) {
+      // Handle HttpException (e.g., invalid URL) here.
+      return {"success": false, "error": "Invalid", "status": 32};
     } catch (e) {
       return Future.error(e);
     }

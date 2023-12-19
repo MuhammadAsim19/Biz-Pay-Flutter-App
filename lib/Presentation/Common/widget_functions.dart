@@ -1,11 +1,20 @@
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:flutter/cupertino.dart';
 
-
 class WidgetFunctions {
-WidgetFunctions._private();
-static final instance = WidgetFunctions._private();
-Future<ScaffoldFeatureController<SnackBar, SnackBarClosedReason>> snackBar(
+  WidgetFunctions._private();
+
+  static final instance = WidgetFunctions._private();
+
+  showErrorSnackBar({String? error, required BuildContext context}) {
+    WidgetFunctions.instance.snackBar(context,
+        text: error,
+        bgColor: AppColors.primaryColor,
+        textStyle:
+            Styles.circularStdRegular(context, color: AppColors.whiteColor));
+  }
+
+  Future<ScaffoldFeatureController<SnackBar, SnackBarClosedReason>> snackBar(
       BuildContext context,
       {String? text,
       Color? bgColor,
@@ -28,7 +37,7 @@ Future<ScaffoldFeatureController<SnackBar, SnackBarClosedReason>> snackBar(
       BuildContext context, SnackBar snackBar) async {
     return ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
- 
+
   button(
     BuildContext context, {
     required Widget child,
@@ -37,8 +46,6 @@ Future<ScaffoldFeatureController<SnackBar, SnackBarClosedReason>> snackBar(
     required void Function()? onPressed,
     Color? color,
   }) =>
-
-
       Padding(
         padding: EdgeInsets.symmetric(horizontal: hPadding, vertical: vPadding),
         child: CupertinoButton(
@@ -71,19 +78,19 @@ Future<ScaffoldFeatureController<SnackBar, SnackBarClosedReason>> snackBar(
     }
     return Container(
       width: width ?? 150,
-        //height: 50,
-        padding: EdgeInsets.only(left: 15.sp,right: 10.sp),
-        decoration: ShapeDecoration(
-          color: const Color(0xFFEEF1F6),
-          shape: RoundedRectangleBorder(
-            side: const BorderSide(width: 1, color: Color(0xFFEEF1F6)),
-            borderRadius: BorderRadius.circular(40),
-          ),
+      //height: 50,
+      padding: EdgeInsets.only(left: 15.sp, right: 10.sp),
+      decoration: ShapeDecoration(
+        color: const Color(0xFFEEF1F6),
+        shape: RoundedRectangleBorder(
+          side: const BorderSide(width: 1, color: Color(0xFFEEF1F6)),
+          borderRadius: BorderRadius.circular(40),
         ),
+      ),
       child: DropdownButtonFormField(
-       // itemHeight: 100,
-        //menuMaxHeight: 100,
-        isExpanded: true,
+          // itemHeight: 100,
+          //menuMaxHeight: 100,
+          isExpanded: true,
           borderRadius: const BorderRadius.all(Radius.circular(20)),
           value: selectedValue,
           decoration: const InputDecoration(
@@ -93,14 +100,21 @@ Future<ScaffoldFeatureController<SnackBar, SnackBarClosedReason>> snackBar(
             focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.transparent),
             ),
-
           ),
-          hint:  AppText(placeholder, style: Styles.circularStdRegular(context,color: const Color(0xFFB0B0B0)),overflow: TextOverflow.ellipsis,),
+          hint: AppText(
+            placeholder,
+            style: Styles.circularStdRegular(context,
+                color: const Color(0xFFB0B0B0)),
+            overflow: TextOverflow.ellipsis,
+          ),
           items: [
             for (var i = 0; i < titles.length; i++)
               DropdownMenuItem(
                 value: values[i],
-                child: AppText(titles[i], style: Styles.circularStdRegular(context),),
+                child: AppText(
+                  titles[i],
+                  style: Styles.circularStdRegular(context),
+                ),
               ),
           ],
           onChanged: onChange),
@@ -135,7 +149,6 @@ Future<ScaffoldFeatureController<SnackBar, SnackBarClosedReason>> snackBar(
       bool clickOutSideClose = true,
       AlignmentGeometry? alignment,
       EdgeInsets? insetsPadding,
-
       Curve curve = Curves.decelerate,
 
       /// [insetAnimationDuration] count unit is Milli Seconds
@@ -157,6 +170,4 @@ Future<ScaffoldFeatureController<SnackBar, SnackBarClosedReason>> snackBar(
         barrierDismissible: clickOutSideClose,
         builder: (BuildContext context) => _dialog);
   }
-
-
 }

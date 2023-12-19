@@ -1,6 +1,7 @@
 import 'package:buysellbiz/Application/Services/ApiServices/api_services.dart';
 import 'package:buysellbiz/Data/AppData/app_preferences.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
+import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/User/user_model.dart';
 
 class AllBusiness {
@@ -17,8 +18,11 @@ class AllBusiness {
   }
 
   static Future<Map<String, dynamic>> recentlyView() async {
+    var headers = {"Authorization": " ${Data.app.user!.token}"};
+
     try {
       return await ApiService.get(
+        headers: headers,
         ApiConstant.recentlyViewBusiness,
       ).then((value) {
         return value;
