@@ -5,6 +5,7 @@ import 'package:buysellbiz/Domain/Brokers/broker_list_model.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/ChatModel/chat_tile_model.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_details.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/home.dart';
 
 class BrokerProfile extends StatefulWidget {
   BrokerProfile({super.key, this.model});
@@ -201,7 +202,7 @@ class _BrokerProfileState extends State<BrokerProfile> {
                                 title: ';dlas;jdaskdj'),
                           ));
                     },
-                    text: 'Chat with Gabriel',
+                    text: 'Chat with ${widget.model!.firstName}',
                     borderRadius: 40.sp),
               ),
             ],

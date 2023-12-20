@@ -1,12 +1,11 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/AppData/app_initializer.dart';
-import 'package:buysellbiz/Data/AppData/app_preferences.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/Brokers/broker_list_model.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisness_profile.dart';
 import 'package:buysellbiz/Domain/Category/categroy.dart';
-import 'package:buysellbiz/Domain/User/user_model.dart';
+import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/broker_loading.dart';
 import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/business_shimmer.dart';
 import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/category_loading.dart';
 import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/recently_viewd_bussines_loading.dart';
@@ -386,7 +385,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   categoryData: state.model,
                                   getData: (Category val, int index) {
                                     if (index == 7) {
-                                      print(val.title);
                                       Navigate.to(
                                           context,
                                           AllCategory(
@@ -463,8 +461,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                             context, const BusinessDetails());
                                       },
                                       chatTap: (BusinessModel val) {
-                                        print(val.name);
-
                                         BottomNotifier.bottomPageController!
                                             .jumpToPage(2);
                                         BottomNotifier
@@ -559,7 +555,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               },
                               builder: (context, state) {
                                 return state is BrokersLaoding
-                                    ? const CircularProgressIndicator()
+                                    ? const BrokerLoading()
                                     : state is BrokersLoaded
                                         ? BusinessProfileWidget(
                                             profileData: state.brokers,

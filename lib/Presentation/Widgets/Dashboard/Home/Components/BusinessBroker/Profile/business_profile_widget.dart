@@ -48,11 +48,13 @@ class BusinessProfileWidget extends StatelessWidget {
                     width: 120.sp,
                   ),
                   15.y,
-                  AppText('Business Broker',
+                  AppText(profileData![index].designation!,
+                      maxLine: 2,
                       style: Styles.circularStdRegular(context,
                           color: AppColors.lightGreyColor, fontSize: 12.sp)),
                   5.y,
-                  AppText(profileData![index].firstName.toString(),
+                  AppText(
+                      "${profileData![index].firstName} ${profileData![index].lastName}",
                       style:
                           Styles.circularStdMedium(context, fontSize: 18.sp)),
                   10.y,
