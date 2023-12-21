@@ -11,21 +11,20 @@ part '../../State/social_login_state.dart';
 
 class SocialLoginCubit extends Cubit<SocialLoginState> {
   SocialLoginCubit() : super(SocialLoginInitial());
+
   setDataOfSocialToServer(data) async {
     try {
       await Future.delayed(Duration.zero);
       emit(SocialLoginLoading());
-      await SocialRepo
-          .socialLogin(data)
-          .then((value) async {
+      await SocialRepo.socialLogin(data).then((value) async {
         log('value ${value["Success"]}');
         if (value["Success"] != null && value["Success"] == true) {
           //    print("here");
           // var  check= null;
           //print(jsonDecode(jsonEncode(value)));
           UserModel userData = UserModel.fromJson((value));
-
           await SharedPrefs.setUserLoginData(userRawData: value);
+          SharedPrefs.getUserLoginData();
           //print("here3");
           emit(SocialLoginSuccess(data: userData));
         } else {
@@ -35,10 +34,7 @@ class SocialLoginCubit extends Cubit<SocialLoginState> {
         //throw error;
         emit(SocialLoginError(message: error.toString()));
       });
-
-    }
-    catch(e)
-    {
+    } catch (e) {
       //rethrow;
     }
   }

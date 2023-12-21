@@ -48,10 +48,10 @@ class PickFile {
     return result;
   }
 
-  static Future<List<PlatformFile>?> pickFiles() async {
+  static Future<PlatformFile?> pickFiles() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.any,
-      allowMultiple: true,
+      allowMultiple: false,
       // allowedExtensions: [
       //   'jpg',
       //   'png',
@@ -67,7 +67,7 @@ class PickFile {
       // ],
     );
     if (result == null) return null;
-    return result.files;
+    return result.files.first;
   }
 
   static Future getImage(ImageSource source) async {

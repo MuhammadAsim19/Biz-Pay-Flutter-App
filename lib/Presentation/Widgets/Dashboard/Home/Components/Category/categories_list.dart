@@ -1,10 +1,11 @@
+import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
-import 'package:buysellbiz/Domain/Category/categroy_dummy.dart';
+import 'package:buysellbiz/Domain/Category/categroy.dart';
 
 class CategoryList extends StatelessWidget {
-  final List<CategoryDummy> categoryData;
+  final List<Category>? categoryData;
 
-  final void Function(CategoryDummy val) getData;
+  final void Function(Category val, int index) getData;
 
   const CategoryList(
       {super.key, required this.categoryData, required this.getData});
@@ -24,27 +25,40 @@ class CategoryList extends StatelessWidget {
             mainAxisSpacing: 0.sp,
             childAspectRatio: 0.8 // spacing between rows
             ),
-        itemCount: categoryData.length,
+        itemCount: categoryData!.length >= 8 ? 8 : categoryData!.length,
         itemBuilder: (context, index) {
-          final category = categoryData[index];
+          final category = categoryData![index];
+          final color = int.parse("0xff${category.backgroundcolor!}");
+
           return GestureDetector(
             onTap: () {
-              getData(category);
+              getData(category, index);
             },
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 CircleAvatar(
                   radius: 30,
-                  backgroundColor: Color(category.backgroundColor!),
-                  child: Center(child: SvgPicture.asset(category.catPic!)),
+                  backgroundColor:
+                      index == 7 ? const Color(0xffD58750) : Color(color),
+                  child: Center(
+                      child: index == 7
+                          ? SvgPicture.asset(
+                              Assets.moreIcon,
+                              width: 30.sp,
+                              height: 30.sp,
+                            )
+                          : CachedImage(
+                              url: category.icon!,
+                              radius: 20.sp,
+                            )),
                 ),
                 const SizedBox(
                   height: 5,
                 ),
                 Expanded(
                   child: AppText(
-                    category.catName.toString(),
+                    index == 7 ? "Show More" : category.title!,
                     textAlign: TextAlign.center,
                     style: Styles.circularStdRegular(context, fontSize: 13.sp),
                     maxLine: 2,

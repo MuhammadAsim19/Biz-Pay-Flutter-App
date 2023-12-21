@@ -21,16 +21,17 @@ class LoginOnboard extends StatefulWidget {
   @override
   State<LoginOnboard> createState() => _LoginOnboardState();
 }
-TextEditingController changeBaseUrl=TextEditingController();
 
+TextEditingController changeBaseUrl = TextEditingController();
 
 class _LoginOnboardState extends State<LoginOnboard> {
   @override
   void initState() {
     // TODO: implement initState
-    changeBaseUrl.text=ApiConstant.baseUrl;
+    changeBaseUrl.text = ApiConstant.baseUrl;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,27 +41,21 @@ class _LoginOnboardState extends State<LoginOnboard> {
         child: BlocListener<SocialLoginCubit, SocialLoginState>(
           listener: (context, state) {
             // TODO: implement listener
-print(state);
-            if(state is SocialLoginLoading)
-              {
-
-                LoadingDialog.showLoadingDialog(context);
-              }
-            if(state is SocialLoginSuccess)
-              {
-                Navigate.pop(context);
-                WidgetFunctions.instance.snackBar(context,bgColor: AppColors.primaryColor,text: "Login Successfully");
-                Navigate.to(context, const BottomNavigationScreen(),duration: const Duration(milliseconds: 400));
-              }
-            if(state is SocialLoginError
-            )
-
-{
-  WidgetFunctions.instance.snackBar(context,bgColor: AppColors.primaryColor,text: state.message
-  );
-
-
-}
+            print(state);
+            if (state is SocialLoginLoading) {
+              LoadingDialog.showLoadingDialog(context);
+            }
+            if (state is SocialLoginSuccess) {
+              Navigate.pop(context);
+              WidgetFunctions.instance.snackBar(context,
+                  bgColor: AppColors.primaryColor, text: "Login Successfully");
+              Navigate.to(context, const BottomNavigationScreen(),
+                  duration: const Duration(milliseconds: 400));
+            }
+            if (state is SocialLoginError) {
+              WidgetFunctions.instance.snackBar(context,
+                  bgColor: AppColors.primaryColor, text: state.message);
+            }
           },
           child: SingleChildScrollView(
             child: Column(
@@ -137,10 +132,10 @@ print(state);
                       var email = userData!.user?.email;
                       var name = userData!.user?.displayName;
                       var photoUrl = userData!.user?.photoURL;
-                      print("${"email" + email.toString() + "name" +
-                          name}photo url:" + photoUrl);
+                      print(
+                          "${"email" + email.toString() + "name" + name}photo url:" +
+                              photoUrl);
                       // sendToSocial(email,name,photoUrl,"apple");
-
                     }
                   },
                   text: AppStrings.continueWithApple,
@@ -162,20 +157,22 @@ print(state);
                   ],
                 ),
                 10.y,
-                CustomTextFieldWithOnTap(controller: changeBaseUrl, hintText: ApiConstant.baseUrl, textInputType: TextInputType.text),
-                CustomButton(onTap: (){
-                  //LoadingDialog.showLoadingDialog(context);
-                  print(changeBaseUrl.text);
-                  setState(() {
-                    ApiConstant.baseUrl=changeBaseUrl.text;
-
-
-
-                  });
-                  WidgetFunctions.instance.snackBar(context,bgColor: Colors.amber,text: 'Changed Base Url to ${ApiConstant.baseUrl}');
-
-
-                }, text: "Change BaseUrl")
+                CustomTextFieldWithOnTap(
+                    controller: changeBaseUrl,
+                    hintText: ApiConstant.baseUrl,
+                    textInputType: TextInputType.text),
+                CustomButton(
+                    onTap: () {
+                      //LoadingDialog.showLoadingDialog(context);
+                      print(changeBaseUrl.text);
+                      setState(() {
+                        ApiConstant.baseUrl = changeBaseUrl.text;
+                      });
+                      WidgetFunctions.instance.snackBar(context,
+                          bgColor: Colors.amber,
+                          text: 'Changed Base Url to ${ApiConstant.baseUrl}');
+                    },
+                    text: "Change BaseUrl")
               ],
             ),
           ),
@@ -194,7 +191,6 @@ print(state);
         print(user?.displayName.toString());
         print(user?.uid.toString());
         final data = {
-
           "email": user?.email.toString(),
           "fullname": user?.displayName.toString(),
           "photoURL": user?.photoURL.toString(),

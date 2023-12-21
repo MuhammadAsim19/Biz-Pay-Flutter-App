@@ -1,14 +1,16 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
-import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
+import 'package:buysellbiz/Data/AppData/app_initializer.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
-import 'package:buysellbiz/Data/DataSource/Resources/strings.dart';
+import 'package:buysellbiz/Domain/Brokers/broker_list_model.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisness_profile.dart';
-import 'package:buysellbiz/Domain/Category/categroy_dummy.dart';
+import 'package:buysellbiz/Domain/Category/categroy.dart';
+import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/broker_loading.dart';
+import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/business_shimmer.dart';
+import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/category_loading.dart';
+import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/recently_viewd_bussines_loading.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/custom_dropdown.dart';
-import 'package:buysellbiz/Presentation/Common/custom_textfield_with_on_tap.dart';
-import 'package:buysellbiz/Presentation/Common/widget_functions.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/BottomNavigation/Controller/BottomNavigationNotifier/bottom_navigation_notifier.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/BrokerProfile/broker_profile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/buisness_details.dart';
@@ -18,8 +20,16 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/Catego
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/for_you_buisiness.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/recently_added.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/recently_view.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Brokers/brokers_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/OnlineBusiness/online_business_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/RecentlyView/recently_viewed_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/search_busniess.dart';
+
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/notifications.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/SearchListing/search_listing.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'Controller/Categories/category_cubit.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -33,118 +43,118 @@ TextEditingController searchController = TextEditingController();
 List<String> countryList = ['USA', 'China', 'PAK'];
 String? selectedListItem;
 
-List<CategoryDummy> categoryData = [
-  CategoryDummy(
-      catPic: Assets.foodBeverageIcon,
-      catName: "Food & Beverage",
-      backgroundColor: 0xFFEAF1FD),
-  CategoryDummy(
-      catPic: Assets.fashionIcon,
-      catName: "Fashion",
-      backgroundColor: 0xFFEDF5ED),
-  CategoryDummy(
-      catPic: Assets.retailIcon,
-      catName: "Retail",
-      backgroundColor: 0xFFFCEDE9),
-  CategoryDummy(
-      catPic: Assets.serviceIcon,
-      catName: "Service",
-      backgroundColor: 0xFFF0F6F4),
-  CategoryDummy(
-      catPic: Assets.educationIcon,
-      catName: "Education",
-      backgroundColor: 0xFFE5F2F9),
-  CategoryDummy(
-      catPic: Assets.entertainmentIcon,
-      catName: "Entertainment",
-      backgroundColor: 0xFFFAF0EE),
-  CategoryDummy(
-      catPic: Assets.informationTech,
-      catName: "Information Technology",
-      backgroundColor: 0xFFFBF3ED),
-  CategoryDummy(
-      catPic: Assets.moreIcon, catName: "More", backgroundColor: 0xFFFEF3E8)
-];
-List<CategoryDummy> categoryFullData = [
-  CategoryDummy(
-      catPic: Assets.foodBeverageIcon,
-      catName: "Food & Beverage",
-      backgroundColor: 0xFFEAF1FD),
-  CategoryDummy(
-      catPic: Assets.fashionIcon,
-      catName: "Fashion",
-      backgroundColor: 0xFFEDF5ED),
-  CategoryDummy(
-      catPic: Assets.retailIcon,
-      catName: "Retail",
-      backgroundColor: 0xFFFCEDE9),
-  CategoryDummy(
-      catPic: Assets.serviceIcon,
-      catName: "Service",
-      backgroundColor: 0xFFF0F6F4),
-  CategoryDummy(
-      catPic: Assets.educationIcon,
-      catName: "Education",
-      backgroundColor: 0xFFE5F2F9),
-  CategoryDummy(
-      catPic: Assets.entertainmentIcon,
-      catName: "Entertainment",
-      backgroundColor: 0xFFFAF0EE),
-  CategoryDummy(
-      catPic: Assets.agricultureIcon,
-      catName: "Agriculture",
-      backgroundColor: 0xFFE5F2E6),
-  CategoryDummy(
-      catPic: Assets.informationTech,
-      catName: "Travel",
-      backgroundColor: 0xFFFEF3E8),
-  CategoryDummy(
-      catPic: Assets.automotiveBoatIcon,
-      catName: "Automotive\n& Boat",
-      backgroundColor: 0xFFEDEDF5),
-  CategoryDummy(
-      catPic: Assets.healthCareAndFitnessIcon,
-      catName: "Health Care & Fitness",
-      backgroundColor: 0xFFEBF8F7),
-  CategoryDummy(
-      catPic: Assets.transportationIcon,
-      catName: "Transportation\n& Storage",
-      backgroundColor: 0xFFF2EBE5),
-  CategoryDummy(
-      catPic: Assets.manufactureIcon,
-      catName: "Manufacturing",
-      backgroundColor: 0xFFF3F9EC),
-  CategoryDummy(
-      catPic: Assets.petServiceIcon,
-      catName: "Pet Services",
-      backgroundColor: 0xFFE8F5FC),
-  CategoryDummy(
-      catPic: Assets.wholeSaleDistributorIcon,
-      catName: "Whole Sale & Distributor",
-      backgroundColor: 0xFFE6F6F6),
-];
+// List<Category> categoryData = [
+//   Category(
+//       icon: Assets.foodBeverageIcon,
+//       title: "Food & Beverage",
+//       backgroundcolor: "0xFFEAF1FD"),
+//   Category(
+//       icon: Assets.fashionIcon,
+//       : "Fashion",
+//       backgroundColor: 0xFFEDF5ED),
+//   CategoryDummy(
+//       catPic: Assets.retailIcon,
+//       catName: "Retail",
+//       backgroundColor: 0xFFFCEDE9),
+//   CategoryDummy(
+//       catPic: Assets.serviceIcon,
+//       catName: "Service",
+//       backgroundColor: 0xFFF0F6F4),
+//   CategoryDummy(
+//       catPic: Assets.educationIcon,
+//       catName: "Education",
+//       backgroundColor: 0xFFE5F2F9),
+//   CategoryDummy(
+//       catPic: Assets.entertainmentIcon,
+//       catName: "Entertainment",
+//       backgroundColor: 0xFFFAF0EE),
+//   CategoryDummy(
+//       catPic: Assets.informationTech,
+//       catName: "Information Technology",
+//       backgroundColor: 0xFFFBF3ED),
+//   CategoryDummy(
+//       catPic: Assets.moreIcon, catName: "More", backgroundColor: 0xFFFEF3E8)
+// ];
+// List<CategoryDummy> categoryFullData = [
+//   CategoryDummy(
+//       catPic: Assets.foodBeverageIcon,
+//       catName: "Food & Beverage",
+//       backgroundColor: 0xFFEAF1FD),
+//   CategoryDummy(
+//       catPic: Assets.fashionIcon,
+//       catName: "Fashion",
+//       backgroundColor: 0xFFEDF5ED),
+//   CategoryDummy(
+//       catPic: Assets.retailIcon,
+//       catName: "Retail",
+//       backgroundColor: 0xFFFCEDE9),
+//   CategoryDummy(
+//       catPic: Assets.serviceIcon,
+//       catName: "Service",
+//       backgroundColor: 0xFFF0F6F4),
+//   CategoryDummy(
+//       catPic: Assets.educationIcon,
+//       catName: "Education",
+//       backgroundColor: 0xFFE5F2F9),
+//   CategoryDummy(
+//       catPic: Assets.entertainmentIcon,
+//       catName: "Entertainment",
+//       backgroundColor: 0xFFFAF0EE),
+//   CategoryDummy(
+//       catPic: Assets.agricultureIcon,
+//       catName: "Agriculture",
+//       backgroundColor: 0xFFE5F2E6),
+//   CategoryDummy(
+//       catPic: Assets.informationTech,
+//       catName: "Travel",
+//       backgroundColor: 0xFFFEF3E8),
+//   CategoryDummy(
+//       catPic: Assets.automotiveBoatIcon,
+//       catName: "Automotive\n& Boat",
+//       backgroundColor: 0xFFEDEDF5),
+//   CategoryDummy(
+//       catPic: Assets.healthCareAndFitnessIcon,
+//       catName: "Health Care & Fitness",
+//       backgroundColor: 0xFFEBF8F7),
+//   CategoryDummy(
+//       catPic: Assets.transportationIcon,
+//       catName: "Transportation\n& Storage",
+//       backgroundColor: 0xFFF2EBE5),
+//   CategoryDummy(
+//       catPic: Assets.manufactureIcon,
+//       catName: "Manufacturing",
+//       backgroundColor: 0xFFF3F9EC),
+//   CategoryDummy(
+//       catPic: Assets.petServiceIcon,
+//       catName: "Pet Services",
+//       backgroundColor: 0xFFE8F5FC),
+//   CategoryDummy(
+//       catPic: Assets.wholeSaleDistributorIcon,
+//       catName: "Whole Sale & Distributor",
+//       backgroundColor: 0xFFE6F6F6),
+// ];
 
-List<BusinessProductModel> businessProducts = [
-  BusinessProductModel(
-      businessImage: Assets.dummyImage,
-      businessName: 'Drop shipping website & E-commerce business',
-      price: 'USD 40K',
-      location: "San Francisco, USA"),
-  BusinessProductModel(
-      businessImage: Assets.dummyImage,
-      businessName: 'Drop shipping website & E-commerce business',
-      price: 'USD 30K',
-      location: "San Francisco, USA"),
-  BusinessProductModel(
-      businessImage: Assets.dummyImage,
-      businessName: 'Drop shipping website & E-commerce business',
-      price: 'USD 20K',
-      location: "San Francisco, USA"),
-  BusinessProductModel(
-      businessImage: Assets.dummyImage,
-      businessName: 'Drop shipping website & E-commerce business',
-      price: 'USD 10K',
-      location: "San Francisco, USA"),
+List<BusinessModel> businessProducts = [
+  BusinessModel(
+      images: [Assets.dummyImage],
+      name: 'Drop shipping website & E-commerce business',
+      salePrice: 40,
+      address: "San Francisco, USA"),
+  BusinessModel(
+      images: [Assets.dummyImage],
+      name: 'Drop shipping website & E-commerce business',
+      salePrice: 40,
+      address: "San Francisco, USA"),
+  BusinessModel(
+      images: [Assets.dummyImage],
+      name: 'Drop shipping website & E-commerce business',
+      salePrice: 40,
+      address: "San Francisco, USA"),
+  BusinessModel(
+      images: [Assets.dummyImage],
+      name: 'Drop shipping website & E-commerce business',
+      salePrice: 40,
+      address: "San Francisco, USA"),
 ];
 List<BusinessProductModel> businessProducts1 = [
   BusinessProductModel(
@@ -245,9 +255,29 @@ List<BusinessProductModel> businessProductsOnline = [
       location: "San Francisco, USA"),
 ];
 
+List<BusinessModel>? allData;
+List<BusinessModel>? searchData;
+
 class _HomeScreenState extends State<HomeScreen> {
   @override
+  void initState() {
+// get the user data for accessing in app
+    AppInitializer.init();
+    context.read<AllBusinessCubit>().getBusiness();
+    context.read<RecentlyAddedCubit>().getRecentBusiness();
+    context.read<CategoryCubit>().getCategory();
+    context.read<RecentlyViewedCubit>().getRecentBusiness();
+    context.read<OnlineBusinessCubit>().getBusiness();
+    context.read<BrokersCubit>().getBrokers();
+
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print("User token here ${Data.app.user!.token}");
+
     return Scaffold(
       body: Column(
         children: [
@@ -275,7 +305,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             AppText(AppStrings.hello,
                                 style: Styles.circularStdRegular(context,
                                     fontSize: 14, color: AppColors.whiteColor)),
-                            AppText('Aqib Javid',
+                            AppText("Adib Javid",
                                 style: Styles.circularStdMedium(context,
                                     fontSize: 20, color: AppColors.whiteColor))
                           ],
@@ -299,10 +329,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     right: 24,
                     bottom: 0,
                     child: CustomTextFieldWithOnTap(
+                      readOnly: true,
                       controller: searchController,
                       borderRadius: 40,
                       isBorderRequired: false,
                       isShadowRequired: true,
+                      onTap: () {
+                        Navigate.to(
+                            context,
+                            BusniessSearch(
+                              model: businessProducts,
+                            ));
+                      },
                       prefixIcon: SvgPicture.asset(Assets.searchIcon),
                       suffixIcon: Container(
                         margin: const EdgeInsets.only(right: 5),
@@ -339,16 +377,30 @@ class _HomeScreenState extends State<HomeScreen> {
                           style:
                               Styles.circularStdMedium(context, fontSize: 18)),
                       10.y,
-                      CategoryList(
-                        categoryData: categoryData,
-                        getData: (CategoryDummy val) {
-                          if (val.catName?.trim() == "More") {
-                            print(val.catName);
-                            Navigate.to(context, AllCategory());
-                          } else {
-                            Navigate.to(
-                                context, SearchListing(title: val.catName!));
-                          }
+                      BlocConsumer<CategoryCubit, CategoryState>(
+                        listener: (context, state) {
+                          // TODO: implement listener
+                        },
+                        builder: (context, state) {
+                          return state is CategoryLoaded
+                              ? CategoryList(
+                                  categoryData: state.model,
+                                  getData: (Category val, int index) {
+                                    if (index == 7) {
+                                      Navigate.to(
+                                          context,
+                                          AllCategory(
+                                            categoryData: state.model,
+                                          ));
+                                    } else {
+                                      Navigate.to(context,
+                                          SearchListing(title: val.title!));
+                                    }
+                                  },
+                                )
+                              : state is CategoryLoading
+                                  ? const CategoryLoadingShimmer()
+                                  : const SizedBox();
                         },
                       )
 
@@ -360,11 +412,29 @@ class _HomeScreenState extends State<HomeScreen> {
                           style:
                               Styles.circularStdMedium(context, fontSize: 18)),
                       5.y,
-                      RecentlyViewWidget(
-                          businessProducts: businessProducts,
-                          getData: (dto) {
-                            Navigate.to(context, const BusinessDetails());
-                          }),
+                      BlocConsumer<RecentlyViewedCubit, RecentlyViewedState>(
+                        listener: (context, state) {},
+                        builder: (context, state) {
+                          return state is RecentlyViewedLoaded
+                              ? RecentlyViewWidget(
+                                  businessProducts: state.business,
+                                  getData: (dto) {
+                                    Navigate.to(
+                                        context, const BusinessDetails());
+                                  })
+                              : state is RecentlyViewedLoading
+                                  ? const RecentViewedBusinessLoading()
+                                  : state is RecentlyViewedError
+                                      ? Center(
+                                          child: AppText(
+                                            state.error!,
+                                            style: Styles.circularStdRegular(
+                                                context),
+                                          ),
+                                        )
+                                      : const SizedBox.shrink();
+                        },
+                      ),
 
                       ///Recently Added
                       19.y,
@@ -380,16 +450,35 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                       5.y,
-                      RecentlyAdded(
-                        businessProducts: businessProducts1,
-                        getData: (v) {
-                          Navigate.to(context, const BusinessDetails());
-                        },
-                        chatTap: (BusinessProductModel val) {
-                          print(val.businessName);
-
-                          BottomNotifier.bottomPageController!.jumpToPage(2);
-                          BottomNotifier.bottomNavigationNotifier.value = 2;
+                      BlocConsumer<RecentlyAddedCubit, RecentlyAddedState>(
+                        listener: (context, state) {},
+                        builder: (context, state) {
+                          return state is RecentlyAddedLoading
+                              ? const BusinessLoading()
+                              : state is RecentlyAddedLoaded
+                                  ? RecentlyAdded(
+                                      businessProducts: state.data,
+                                      getData: (v) {
+                                        Navigate.to(
+                                            context,
+                                            BusinessDetails(
+                                              model: v,
+                                            ));
+                                      },
+                                      chatTap: (BusinessModel val) {
+                                        BottomNotifier.bottomPageController!
+                                            .jumpToPage(2);
+                                        BottomNotifier
+                                            .bottomNavigationNotifier.value = 2;
+                                      },
+                                    )
+                                  : state is RecentlyAddedError
+                                      ? AppText(
+                                          state.error!,
+                                          style: Styles.circularStdRegular(
+                                              context),
+                                        )
+                                      : const SizedBox.shrink();
                         },
                       ),
 
@@ -465,11 +554,34 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                             10.x,
-                            BusinessProfileWidget(
-                              profileData: profileData,
-                              getData: (BusinessBrokerProfile val) {
-                                //print(val.rating);
-                                Navigate.to(context, const BrokerProfile());
+                            BlocConsumer<BrokersCubit, BrokersState>(
+                              listener: (context, state) {
+                                // TODO: implement listener
+                              },
+                              builder: (context, state) {
+                                return state is BrokersLaoding
+                                    ? const BrokerLoading()
+                                    : state is BrokersLoaded
+                                        ? BusinessProfileWidget(
+                                            profileData: state.brokers,
+                                            getData: (BrokersListModel val) {
+                                              //print(val.rating);
+                                              Navigate.to(
+                                                  context,
+                                                  BrokerProfile(
+                                                    model: val,
+                                                  ));
+                                            },
+                                          )
+                                        : state is BrokersError
+                                            ? Center(
+                                                child: AppText(
+                                                state.error!,
+                                                style:
+                                                    Styles.circularStdRegular(
+                                                        context),
+                                              ))
+                                            : const SizedBox.shrink();
                               },
                             )
                           ],
@@ -490,14 +602,48 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                       5.y,
-                      BusinessForYouWidget(
-                        businessProducts: businessProductsForYou,
-                        getData: (data) {
-                          Navigate.to(context, const BusinessDetails());
+                      BlocConsumer<AllBusinessCubit, AllBusinessState>(
+                        listener: (context, state) {
+                          if (state is AllBusinessLoaded) {
+                            allData = state.business;
+                            searchData = state.business;
+                          }
+                          if (state is AllBusinessError) {
+                            WidgetFunctions.instance.snackBar(context,
+                                text: state.error,
+                                bgColor: AppColors.primaryColor,
+                                textStyle: Styles.circularStdRegular(context,
+                                    color: AppColors.whiteColor));
+                          }
+                          // TODO: implement listener
                         },
-                        chatTap: (BusinessProductModel val) {
-                          BottomNotifier.bottomPageController!.jumpToPage(2);
-                          BottomNotifier.bottomNavigationNotifier.value = 2;
+                        builder: (context, state) {
+                          return state is AllBusinessLoading
+                              ? const BusinessLoading()
+                              : state is AllBusinessLoaded
+                                  ? BusinessForYouWidget(
+                                      businessProducts: state.business!,
+                                      getData: (data) {
+                                        Navigate.to(
+                                            context,
+                                            BusinessDetails(
+                                              model: data,
+                                            ));
+                                      },
+                                      chatTap: (BusinessModel val) {
+                                        BottomNotifier.bottomPageController!
+                                            .jumpToPage(2);
+                                        BottomNotifier
+                                            .bottomNavigationNotifier.value = 2;
+                                      },
+                                    )
+                                  : state is AllBusinessError
+                                      ? Center(
+                                          child: AppText(state.error!,
+                                              style: Styles.circularStdMedium(
+                                                  context)),
+                                        )
+                                      : const SizedBox.shrink();
                         },
                       )
 
@@ -516,14 +662,36 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                       5.y,
-                      BusinessForYouWidget(
-                        businessProducts: businessProductsOnline,
-                        getData: (data) {
-                          Navigate.to(context, const BusinessDetails());
+                      BlocConsumer<OnlineBusinessCubit, OnlineBusinessState>(
+                        listener: (context, state) {
+                          // TODO: implement listener
                         },
-                        chatTap: (BusinessProductModel val) {
-                          BottomNotifier.bottomPageController!.jumpToPage(2);
-                          BottomNotifier.bottomNavigationNotifier.value = 2;
+                        builder: (context, state) {
+                          return state is OnlineBusinessLoaded
+                              ? BusinessForYouWidget(
+                                  businessProducts: state.data,
+                                  getData: (data) {
+                                    Navigate.to(
+                                        context, const BusinessDetails());
+                                  },
+                                  chatTap: (BusinessModel val) {
+                                    BottomNotifier.bottomPageController!
+                                        .jumpToPage(2);
+                                    BottomNotifier
+                                        .bottomNavigationNotifier.value = 2;
+                                  },
+                                )
+                              : state is OnlineBusinessLoading
+                                  ? const BusinessLoading()
+                                  : state is OnlineBusinessError
+                                      ? Center(
+                                          child: AppText(
+                                            state.error!,
+                                            style: Styles.circularStdRegular(
+                                                context),
+                                          ),
+                                        )
+                                      : const SizedBox();
                         },
                       )
                     ],

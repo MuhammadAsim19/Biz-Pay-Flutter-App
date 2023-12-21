@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:buysellbiz/Data/AppData/app_providers.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,8 +11,6 @@ import 'Data/DataSource/Resources/imports.dart';
 import 'Presentation/Widgets/Onboarding/splash_screen.dart';
 
 void main() {
-
-
   //WidgetsFlutterBinding.ensureInitialized();
   init();
 
@@ -30,8 +29,6 @@ Future<void> init() async {
   await SharedPrefs.init();
 }
 
-
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -43,7 +40,7 @@ class MyApp extends StatelessWidget {
         splitScreenMode: true,
         useInheritedMediaQuery: true,
         builder: (context, child) {
-          return  MaterialApp(
+          return MaterialApp(
             title: 'BuySellBiz',
             theme: ThemeData(
                 primaryColor: AppColors.primaryColor,

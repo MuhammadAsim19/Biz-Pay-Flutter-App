@@ -1,10 +1,6 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
-import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
-import 'package:buysellbiz/Presentation/Common/custom_dropdown.dart';
-import 'package:buysellbiz/Presentation/Common/widget_functions.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/BottomNavigation/Controller/BottomNavigationNotifier/bottom_navigation_notifier.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/buisness_details.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/chat.dart';
 
@@ -28,31 +24,22 @@ class SearchListing extends StatelessWidget {
     "Online"
   ];
   final List<String> revenueList = ["10k", "20k", "30k"];
-  List<BusinessProductModel> businessProducts1 = [
-    BusinessProductModel(
-        businessImage: Assets.dummyImage2,
-        businessName: 'Drop shipping website & E-commerce business',
-        isFav: false,
-        price: 'USD 40K',
-        location: "San Francisco, USA"),
-    BusinessProductModel(
-        businessImage: Assets.dummyImage2,
-        isFav: true,
-        businessName: 'Drop shipping website & E-commerce business ',
-        price: 'USD 30K',
-        location: "San Francisco, USA"),
-    BusinessProductModel(
-        businessImage: Assets.dummyImage2,
-        isFav: true,
-        businessName: 'Drop shipping website & E-commerce business',
-        price: 'USD 20K',
-        location: "San Francisco, USA"),
-    BusinessProductModel(
-        businessImage: Assets.dummyImage2,
-        isFav: false,
-        businessName: 'Drop shipping website & E-commerce business',
-        price: 'USD 10K',
-        location: "San Francisco, USA"),
+  List<BusinessModel> businessProducts1 = [
+    BusinessModel(
+        images: [Assets.dummyImage2],
+        name: 'Drop shipping website & E-commerce business',
+        salePrice: 30,
+        address: "San Francisco, USA"),
+    BusinessModel(
+        images: [Assets.dummyImage2],
+        name: 'Drop shipping website & E-commerce business',
+        salePrice: 30,
+        address: "San Francisco, USA"),
+    BusinessModel(
+        images: [Assets.dummyImage2],
+        name: 'Drop shipping website & E-commerce business',
+        salePrice: 30,
+        address: "San Francisco, USA"),
   ];
 
   @override
@@ -137,12 +124,12 @@ class SearchListing extends StatelessWidget {
             Expanded(
                 child: SearchBusinessWidget(
               businessProducts: businessProducts1,
-              getData: (BusinessProductModel val) {
-                print(val.businessName);
+              getData: (BusinessModel val) {
+                print(val.name);
 
                 Navigate.to(context, const BusinessDetails());
               },
-              chatTap: (BusinessProductModel val) {
+              chatTap: (BusinessModel val) {
                 //BottomNotifier.bottomPageController.removeListener(() { });
                 // BottomNotifier.bottomPageController=PageController(initialPage: 2);
                 // BottomNotifier.bottomNavigationNotifier.value=2;

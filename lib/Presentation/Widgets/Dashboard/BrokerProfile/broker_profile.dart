@@ -1,11 +1,16 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
+import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
+import 'package:buysellbiz/Domain/Brokers/broker_list_model.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/ChatModel/chat_tile_model.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_details.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/home.dart';
 
 class BrokerProfile extends StatefulWidget {
-  const BrokerProfile({super.key});
+  BrokerProfile({super.key, this.model});
+
+  BrokersListModel? model;
 
   @override
   State<BrokerProfile> createState() => _BrokerProfileState();
@@ -58,8 +63,10 @@ class _BrokerProfileState extends State<BrokerProfile> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          AssetImageWidget(
-                            url: 'assets/images/profile.png',
+                          CachedImage(
+                            isCircle: true,
+                            url:
+                                "${ApiConstant.baseUrl}${widget.model!.userInfo!.profilePic}"!,
                             height: 108.h,
                             width: 120.w,
                           ),
@@ -68,14 +75,15 @@ class _BrokerProfileState extends State<BrokerProfile> {
                       12.y,
                       Align(
                         alignment: Alignment.center,
-                        child: AppText('Gabriel Tasse',
+                        child: AppText(
+                            "${widget.model!.firstName}${widget.model!.lastName}",
                             style: Styles.circularStdBold(context,
                                 fontWeight: FontWeight.w500, fontSize: 21.sp)),
                       ),
                       4.y,
                       Align(
                         alignment: Alignment.center,
-                        child: AppText('Business Broker',
+                        child: AppText(widget.model!.designation!,
                             style: Styles.circularStdRegular(context,
                                 fontWeight: FontWeight.w400,
                                 fontSize: 14.sp,
@@ -101,7 +109,7 @@ class _BrokerProfileState extends State<BrokerProfile> {
                     children: [
                       24.y,
                       // 20.y,
-                      AppText(AppStrings.brokerDescription,
+                      AppText("${widget.model!.description}",
                           maxLine: 9,
                           style: Styles.circularStdRegular(
                             context,
@@ -121,7 +129,8 @@ class _BrokerProfileState extends State<BrokerProfile> {
                       Wrap(
                         spacing: 20.sp,
                         runSpacing: 12.sp,
-                        children: serviceOffered.map((e) {
+                        children:
+                            widget.model!.experties!.servicesOffered!.map((e) {
                           return BrokerChipWidget(
                             labelText: e,
                           );
@@ -139,18 +148,19 @@ class _BrokerProfileState extends State<BrokerProfile> {
                       Wrap(
                         spacing: 20.sp,
                         runSpacing: 12.sp,
-                        children: industry.map((e) {
+                        children: widget.model!.industriesServed!.map((e) {
                           return BrokerChipWidget(
-                            labelText: e,
+                            labelText: e.title,
                           );
                         }).toList(),
                       ),
                       30.y,
-                      customRow(AppStrings.experice, '10 years'),
+                      customRow(AppStrings.experice, widget.model!.experience!),
                       13.y,
-                      customRow(AppStrings.education, 'MBA Finance'),
+                      customRow(AppStrings.education, widget.model!.education!),
                       13.y,
-                      customRow(AppStrings.certificate, 'Digital Marketing'),
+                      customRow(AppStrings.certificate,
+                          widget.model!.certificates!.first),
                       30.y,
                       AppText(AppStrings.industry,
                           style: Styles.circularStdBold(
@@ -160,7 +170,7 @@ class _BrokerProfileState extends State<BrokerProfile> {
                             color: AppColors.blackColor,
                           )),
                       13.y,
-                      AppText('www.yourwebsite.com',
+                      AppText(widget.model!.website!,
                           style: Styles.circularStdRegular(
                             context,
                             fontWeight: FontWeight.w400,
@@ -192,7 +202,7 @@ class _BrokerProfileState extends State<BrokerProfile> {
                                 title: ';dlas;jdaskdj'),
                           ));
                     },
-                    text: 'Chat with Gabriel',
+                    text: 'Chat with ${widget.model!.firstName}',
                     borderRadius: 40.sp),
               ),
             ],

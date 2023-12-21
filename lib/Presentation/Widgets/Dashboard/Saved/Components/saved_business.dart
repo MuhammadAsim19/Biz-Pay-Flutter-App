@@ -1,87 +1,128 @@
-import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
+import 'package:buysellbiz/Data/AppData/app_initializer.dart';
+import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
-import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
+import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/recently_viewd_bussines_loading.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Saved/Controller/saved_listing_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Saved/saved_loading.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SavedListBusiness extends StatelessWidget {
-  final List<BusinessProductModel>  businessProducts;
-  final void Function(BusinessProductModel val) getData;
-  const SavedListBusiness({super.key, required this.businessProducts, required this.getData});
+class SavedListBusiness extends StatefulWidget {
+  const SavedListBusiness({
+    super.key,
+  });
+
+  @override
+  State<SavedListBusiness> createState() => _SavedListBusinessState();
+}
+
+class _SavedListBusinessState extends State<SavedListBusiness> {
+  @override
+  void initState() {
+    AppInitializer.init();
+    context.read<SavedListingCubit>().getWishlistData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
+      child: BlocConsumer<SavedListingCubit, SavedListingState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          return state is SavedListingLoaded
+              ? ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (context, index) {
+                    final data = state.wishList![index];
 
-      //height: 110.h,
-      child: ListView.separated(
-          shrinkWrap: true,
-
-          physics: const NeverScrollableScrollPhysics(),
-          scrollDirection: Axis.vertical
-          ,
-          itemBuilder: (context,index){
-
-            return GestureDetector(
-              onTap: ()
-              {
-                getData(businessProducts[index]);
-              },
-              child: Stack(
-                children: [
-                  Container(
-                   // width: 338.sp,
-                    height: 120.h,
-                    decoration: ShapeDecoration(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        side: const BorderSide(width: 1, color: Color(0xFFEEF1F6)),
-                        borderRadius: BorderRadius.circular(10),
+                    return GestureDetector(
+                      onTap: () {
+                        // widget.getData(widget.businessProducts[index]);
+                      },
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: 120.h,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(
+                                    width: 1, color: Color(0xFFEEF1F6)),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(10.0),
+                                    bottomLeft: Radius.circular(10.0),
+                                  ),
+                                  child: CachedImage(
+                                    isCircle: false,
+                                    url:
+                                        "${ApiConstant.baseUrl}${data.images!.first}",
+                                    width: 119.sp,
+                                    height: 120.h,
+                                  ),
+                                ),
+                                10.x,
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      15.y,
+                                      AppText("${data.city!},${data.country!}",
+                                          style: Styles.circularStdRegular(
+                                              context,
+                                              color: AppColors.lightGreyColor)),
+                                      10.y,
+                                      AppText(
+                                        data.name!,
+                                        style: Styles.circularStdRegular(
+                                            context,
+                                            fontSize: 14),
+                                        maxLine: 3,
+                                      ),
+                                      10.y,
+                                      AppText("\$${data.salePrice!} USD",
+                                          style:
+                                              Styles.circularStdBold(context)),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                              top: 5,
+                              right: 10,
+                              child: SvgPicture.asset(Assets.heartRed))
+                        ],
                       ),
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-
-                        AssetImageWidget(url: businessProducts[index].businessImage!,width: 119.sp,height: 120.h,)
-                        ,
-                        10.x,
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-
-                            children: [
-                              AppText(businessProducts[index].location!, style: Styles.circularStdRegular(context,color: AppColors.lightGreyColor)),
-                              10.y,
-                              Align(child: AppText(businessProducts[index].businessName!, style: Styles.circularStdRegular(context,fontSize: 14),maxLine: 3,)),
-
-                              10.y,
-                              AppText(businessProducts[index].price!, style: Styles.circularStdBold(context)),
-
-
-
-                            ],),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return 15.y;
+                  },
+                  itemCount: state.wishList!.length)
+              : state is SavedListingLoading
+                  ? const SavedLoading()
+                  : state is SavedListingError
+                      ? Center(
+                          child: AppText(
+                            state.error!,
+                            style: Styles.circularStdRegular(context),
+                          ),
                         )
-                      ],
-
-                    ),
-
-                  ),
-                  Positioned(
-                    // bottom: 0,
-                    // left: 0,
-                      top: 5,
-                      right: 10,
-
-                      child: SvgPicture.asset(businessProducts[index].isFav==false?Assets.heartLight:Assets.heartRed))
-                ],
-              ),
-            );
-
-          }, separatorBuilder:(context,index)
-      {
-        return 15.y;
-
-      }, itemCount: businessProducts.length),
+                      : const SizedBox.shrink();
+        },
+      ),
     );
   }
 }
