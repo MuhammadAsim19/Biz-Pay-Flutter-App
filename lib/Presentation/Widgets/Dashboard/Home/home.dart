@@ -276,9 +276,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("User token here ${Data.app.user!.token}");
+
     return Scaffold(
       body: Column(
         children: [
+
           ///Upper Container with Search Bar
           SizedBox(
             height: 200.h,
@@ -289,7 +292,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   // width: 428,
                   height: 165.h,
                   decoration:
-                      const BoxDecoration(color: AppColors.primaryColor),
+                  const BoxDecoration(color: AppColors.primaryColor),
 
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -322,7 +325,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Positioned(
-                    //top: 0,
+                  //top: 0,
                     left: 24,
                     right: 24,
                     bottom: 0,
@@ -369,11 +372,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+
                       ///Category
                       5.y,
                       AppText("Categories",
                           style:
-                              Styles.circularStdMedium(context, fontSize: 18)),
+                          Styles.circularStdMedium(context, fontSize: 18)),
                       10.y,
                       BlocConsumer<CategoryCubit, CategoryState>(
                         listener: (context, state) {
@@ -382,23 +386,23 @@ class _HomeScreenState extends State<HomeScreen> {
                         builder: (context, state) {
                           return state is CategoryLoaded
                               ? CategoryList(
-                                  categoryData: state.model,
-                                  getData: (Category val, int index) {
-                                    if (index == 7) {
-                                      Navigate.to(
-                                          context,
-                                          AllCategory(
-                                            categoryData: state.model,
-                                          ));
-                                    } else {
-                                      Navigate.to(context,
-                                          SearchListing(title: val.title!));
-                                    }
-                                  },
-                                )
+                            categoryData: state.model,
+                            getData: (Category val, int index) {
+                              if (index == 7) {
+                                Navigate.to(
+                                    context,
+                                    AllCategory(
+                                      categoryData: state.model,
+                                    ));
+                              } else {
+                                Navigate.to(context,
+                                    SearchListing(title: val.title!));
+                              }
+                            },
+                          )
                               : state is CategoryLoading
-                                  ? const CategoryLoadingShimmer()
-                                  : const SizedBox();
+                              ? const CategoryLoadingShimmer()
+                              : const SizedBox();
                         },
                       )
 
@@ -408,29 +412,29 @@ class _HomeScreenState extends State<HomeScreen> {
                       10.y,
                       AppText("Recently View",
                           style:
-                              Styles.circularStdMedium(context, fontSize: 18)),
+                          Styles.circularStdMedium(context, fontSize: 18)),
                       5.y,
                       BlocConsumer<RecentlyViewedCubit, RecentlyViewedState>(
                         listener: (context, state) {},
                         builder: (context, state) {
                           return state is RecentlyViewedLoaded
                               ? RecentlyViewWidget(
-                                  businessProducts: state.business,
-                                  getData: (dto) {
-                                    Navigate.to(
-                                        context, const BusinessDetails());
-                                  })
+                              businessProducts: state.business,
+                              getData: (dto) {
+                                Navigate.to(
+                                    context, const BusinessDetails());
+                              })
                               : state is RecentlyViewedLoading
-                                  ? const RecentViewedBusinessLoading()
-                                  : state is RecentlyViewedError
-                                      ? Center(
-                                          child: AppText(
-                                            state.error!,
-                                            style: Styles.circularStdRegular(
-                                                context),
-                                          ),
-                                        )
-                                      : const SizedBox.shrink();
+                              ? const RecentViewedBusinessLoading()
+                              : state is RecentlyViewedError
+                              ? Center(
+                            child: AppText(
+                              state.error!,
+                              style: Styles.circularStdRegular(
+                                  context),
+                            ),
+                          )
+                              : const SizedBox.shrink();
                         },
                       ),
 
@@ -454,26 +458,26 @@ class _HomeScreenState extends State<HomeScreen> {
                           return state is RecentlyAddedLoading
                               ? const BusinessLoading()
                               : state is RecentlyAddedLoaded
-                                  ? RecentlyAdded(
-                                      businessProducts: state.data,
-                                      getData: (v) {
-                                        Navigate.to(
-                                            context, const BusinessDetails());
-                                      },
-                                      chatTap: (BusinessModel val) {
-                                        BottomNotifier.bottomPageController!
-                                            .jumpToPage(2);
-                                        BottomNotifier
-                                            .bottomNavigationNotifier.value = 2;
-                                      },
-                                    )
-                                  : state is RecentlyAddedError
-                                      ? AppText(
-                                          state.error!,
-                                          style: Styles.circularStdRegular(
-                                              context),
-                                        )
-                                      : const SizedBox.shrink();
+                              ? RecentlyAdded(
+                            businessProducts: state.data,
+                            getData: (v) {
+                              Navigate.to(
+                                  context, const BusinessDetails());
+                            },
+                            chatTap: (BusinessModel val) {
+                              BottomNotifier.bottomPageController!
+                                  .jumpToPage(2);
+                              BottomNotifier
+                                  .bottomNavigationNotifier.value = 2;
+                            },
+                          )
+                              : state is RecentlyAddedError
+                              ? AppText(
+                            state.error!,
+                            style: Styles.circularStdRegular(
+                                context),
+                          )
+                              : const SizedBox.shrink();
                         },
                       ),
 
@@ -557,26 +561,26 @@ class _HomeScreenState extends State<HomeScreen> {
                                 return state is BrokersLaoding
                                     ? const BrokerLoading()
                                     : state is BrokersLoaded
-                                        ? BusinessProfileWidget(
-                                            profileData: state.brokers,
-                                            getData: (BrokersListModel val) {
-                                              //print(val.rating);
-                                              Navigate.to(
-                                                  context,
-                                                  BrokerProfile(
-                                                    model: val,
-                                                  ));
-                                            },
-                                          )
-                                        : state is BrokersError
-                                            ? Center(
-                                                child: AppText(
-                                                state.error!,
-                                                style:
-                                                    Styles.circularStdRegular(
-                                                        context),
-                                              ))
-                                            : const SizedBox.shrink();
+                                    ? BusinessProfileWidget(
+                                  profileData: state.brokers,
+                                  getData: (BrokersListModel val) {
+                                    //print(val.rating);
+                                    Navigate.to(
+                                        context,
+                                        BrokerProfile(
+                                          model: val,
+                                        ));
+                                  },
+                                )
+                                    : state is BrokersError
+                                    ? Center(
+                                    child: AppText(
+                                      state.error!,
+                                      style:
+                                      Styles.circularStdRegular(
+                                          context),
+                                    ))
+                                    : const SizedBox.shrink();
                               },
                             )
                           ],
@@ -616,26 +620,26 @@ class _HomeScreenState extends State<HomeScreen> {
                           return state is AllBusinessLoading
                               ? const BusinessLoading()
                               : state is AllBusinessLoaded
-                                  ? BusinessForYouWidget(
-                                      businessProducts: state.business!,
-                                      getData: (data) {
-                                        Navigate.to(
-                                            context, const BusinessDetails());
-                                      },
-                                      chatTap: (BusinessModel val) {
-                                        BottomNotifier.bottomPageController!
-                                            .jumpToPage(2);
-                                        BottomNotifier
-                                            .bottomNavigationNotifier.value = 2;
-                                      },
-                                    )
-                                  : state is AllBusinessError
-                                      ? Center(
-                                          child: AppText(state.error!,
-                                              style: Styles.circularStdMedium(
-                                                  context)),
-                                        )
-                                      : const SizedBox.shrink();
+                              ? BusinessForYouWidget(
+                            businessProducts: state.business!,
+                            getData: (data) {
+                              Navigate.to(
+                                  context, BusinessDetails(model: data,));
+                            },
+                            chatTap: (BusinessModel val) {
+                              BottomNotifier.bottomPageController!
+                                  .jumpToPage(2);
+                              BottomNotifier
+                                  .bottomNavigationNotifier.value = 2;
+                            },
+                          )
+                              : state is AllBusinessError
+                              ? Center(
+                            child: AppText(state.error!,
+                                style: Styles.circularStdMedium(
+                                    context)),
+                          )
+                              : const SizedBox.shrink();
                         },
                       )
 
@@ -661,29 +665,29 @@ class _HomeScreenState extends State<HomeScreen> {
                         builder: (context, state) {
                           return state is OnlineBusinessLoaded
                               ? BusinessForYouWidget(
-                                  businessProducts: state.data,
-                                  getData: (data) {
-                                    Navigate.to(
-                                        context, const BusinessDetails());
-                                  },
-                                  chatTap: (BusinessModel val) {
-                                    BottomNotifier.bottomPageController!
-                                        .jumpToPage(2);
-                                    BottomNotifier
-                                        .bottomNavigationNotifier.value = 2;
-                                  },
-                                )
+                            businessProducts: state.data,
+                            getData: (data) {
+                              Navigate.to(
+                                  context, const BusinessDetails());
+                            },
+                            chatTap: (BusinessModel val) {
+                              BottomNotifier.bottomPageController!
+                                  .jumpToPage(2);
+                              BottomNotifier
+                                  .bottomNavigationNotifier.value = 2;
+                            },
+                          )
                               : state is OnlineBusinessLoading
-                                  ? const BusinessLoading()
-                                  : state is OnlineBusinessError
-                                      ? Center(
-                                          child: AppText(
-                                            state.error!,
-                                            style: Styles.circularStdRegular(
-                                                context),
-                                          ),
-                                        )
-                                      : const SizedBox();
+                              ? const BusinessLoading()
+                              : state is OnlineBusinessError
+                              ? Center(
+                            child: AppText(
+                              state.error!,
+                              style: Styles.circularStdRegular(
+                                  context),
+                            ),
+                          )
+                              : const SizedBox();
                         },
                       )
                     ],

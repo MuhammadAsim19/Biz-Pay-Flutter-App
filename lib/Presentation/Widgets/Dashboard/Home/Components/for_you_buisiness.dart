@@ -28,8 +28,7 @@ class BusinessForYouWidget extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
-                print(
-                    "${ApiConstant.baseUrl}${businessProducts![index].images!.first}");
+                print("${businessProducts![index].id}");
                 return GestureDetector(
                   onTap: () {
                     getData(businessProducts![index]);

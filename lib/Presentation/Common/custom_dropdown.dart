@@ -158,6 +158,7 @@ class CustomDropDownWidget extends StatelessWidget {
 class GeneralizedDropDown extends StatefulWidget {
   final List<String> items;
   final String? selectedValue;
+  final String? validatorText;
   final ValueChanged<String> onChanged;
   final double width;
   final double height;
@@ -166,6 +167,7 @@ class GeneralizedDropDown extends StatefulWidget {
   final bool? isFit;
   final TextStyle? style;
   final Widget? icon;
+  final String? Function(String?)? validator;
   final String? hint;
 
   const GeneralizedDropDown(
@@ -178,6 +180,8 @@ class GeneralizedDropDown extends StatefulWidget {
       this.padding,
       this.isBorder,
       this.isFit,
+      this.validatorText,
+      this.validator,
       this.style,
       this.icon,
       this.hint})
@@ -196,70 +200,86 @@ class _GeneralizedDropDownState extends State<GeneralizedDropDown> {
     _selectedValue = widget.selectedValue;
   }
 
+  bool validate = false;
+
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField<String>(
-      value: _selectedValue,
-      isExpanded: true,
-      hint: AppText(
-        widget.hint ?? "",
-        style: Styles.circularStdRegular(context, fontSize: 15),
+    return SizedBox(
+      child: Column(
+        children: [
+          DropdownButtonFormField<String>(
+            value: _selectedValue,
+            isExpanded: true,
+            hint: AppText(
+              widget.hint ?? "",
+              style: Styles.circularStdRegular(context, fontSize: 15),
+            ),
+            elevation: 0,
+            icon: widget.icon,
+            // icon: ,
+            autofocus: false,
+            padding: widget.padding,
+            onChanged: (value) {
+              setState(() {
+                _selectedValue = value!;
+                widget.onChanged(value);
+              });
+            },
+            decoration: InputDecoration(
+              enabledBorder: widget.isBorder != null
+                  ? UnderlineInputBorder(
+                      borderSide: BorderSide(
+                          color: AppColors.lightGreyColor, width: 0.4.sp),
+                    )
+                  : const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.transparent),
+                    ),
+              border: widget.isBorder != null
+                  ? UnderlineInputBorder(
+                      borderRadius: BorderRadius.circular(40),
+                      borderSide: BorderSide(
+                          color: AppColors.lightGreyColor, width: 0.4.sp),
+                    )
+                  : const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.transparent),
+                    ),
+              disabledBorder: widget.isBorder != null
+                  ? UnderlineInputBorder(
+                      borderSide: BorderSide(
+                          color: AppColors.lightGreyColor, width: 0.4.sp),
+                    )
+                  : const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.transparent),
+                    ),
+              focusedBorder: const UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.transparent),
+              ),
+            ),
+            items: widget.items.map((item) {
+              return DropdownMenuItem<String>(
+                value: item,
+                child: widget.isFit != null
+                    ? AppText(item,
+                        style: widget.style ??
+                            Styles.circularStdRegular(context, fontSize: 9.sp))
+                    : FittedBox(
+                        child: AppText(
+                        item,
+                        style:
+                            Styles.circularStdRegular(context, fontSize: 9.sp),
+                      )),
+              );
+            }).toList(),
+          ),
+          validate
+              ? AppText(
+                  widget.validatorText ?? "",
+                  style: Styles.circularStdRegular(context,
+                      fontWeight: FontWeight.w400, color: AppColors.redColor),
+                )
+              : 10.x,
+        ],
       ),
-      elevation: 0,
-      icon: widget.icon,
-      // icon: ,
-      autofocus: false,
-      padding: widget.padding,
-      onChanged: (value) {
-        setState(() {
-          _selectedValue = value!;
-          widget.onChanged(value);
-        });
-      },
-      decoration: InputDecoration(
-        enabledBorder: widget.isBorder != null
-            ? UnderlineInputBorder(
-                borderSide:
-                    BorderSide(color: AppColors.lightGreyColor, width: 0.4.sp),
-              )
-            : UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.transparent),
-              ),
-        border: widget.isBorder != null
-            ? UnderlineInputBorder(
-                borderRadius: BorderRadius.circular(40),
-                borderSide:
-                    BorderSide(color: AppColors.lightGreyColor, width: 0.4.sp),
-              )
-            : UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.transparent),
-              ),
-        disabledBorder: widget.isBorder != null
-            ? UnderlineInputBorder(
-                borderSide:
-                    BorderSide(color: AppColors.lightGreyColor, width: 0.4.sp),
-              )
-            : const UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.transparent),
-              ),
-        focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.transparent),
-        ),
-      ),
-      items: widget.items.map((item) {
-        return DropdownMenuItem<String>(
-          value: item,
-          child: widget.isFit != null
-              ? AppText(item,
-                  style: widget.style ??
-                      Styles.circularStdRegular(context, fontSize: 9.sp))
-              : FittedBox(
-                  child: AppText(
-                  item,
-                  style: Styles.circularStdRegular(context, fontSize: 9.sp),
-                )),
-        );
-      }).toList(),
     );
   }
 }
