@@ -10,6 +10,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Online
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/RecentlyAdded/recently_added_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Categories/category_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/RecentlyView/recently_viewed_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Saved/Controller/saved_listing_cubit.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,4 +27,5 @@ List<BlocProvider> appProviders = [
   BlocProvider<RecentlyViewedCubit>(create: (context) => RecentlyViewedCubit()),
   BlocProvider<OnlineBusinessCubit>(create: (context) => OnlineBusinessCubit()),
   BlocProvider<BrokersCubit>(create: (context) => BrokersCubit()),
+  BlocProvider<SavedListingCubit>(create: (context) => SavedListingCubit()),
 ];

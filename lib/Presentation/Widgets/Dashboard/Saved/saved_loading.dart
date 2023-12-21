@@ -1,21 +1,21 @@
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Common/Shimmer/app_shimmer.dart';
 
-class RecentViewedBusinessLoading extends StatelessWidget {
-  const RecentViewedBusinessLoading({super.key});
+class SavedLoading extends StatelessWidget {
+  const SavedLoading({super.key});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 110.h,
+      height: 1.sh,
       child: ListView.separated(
           shrinkWrap: true,
           physics: const BouncingScrollPhysics(),
-          scrollDirection: Axis.horizontal,
+          scrollDirection: Axis.vertical,
           itemBuilder: (context, index) {
             return Container(
               width: 1.sw / 1.27,
-              height: 1.sh,
+              height: 100.h,
               decoration: ShapeDecoration(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -50,7 +50,7 @@ class RecentViewedBusinessLoading extends StatelessWidget {
                             ),
                           ),
                         ),
-                        15.y,
+                        10.y,
                         AppShimmer(
                           child: Container(
                             height: 10.h,
@@ -61,22 +61,11 @@ class RecentViewedBusinessLoading extends StatelessWidget {
                             ),
                           ),
                         ),
-                        5.y,
+                        10.y,
                         AppShimmer(
                           child: Container(
                             height: 10.h,
                             width: 140.w,
-                            decoration: BoxDecoration(
-                              color: AppColors.greyColor,
-                              borderRadius: BorderRadius.circular(5.sp),
-                            ),
-                          ),
-                        ),
-                        15.y,
-                        AppShimmer(
-                          child: Container(
-                            height: 12.h,
-                            width: 100.w,
                             decoration: BoxDecoration(
                               color: AppColors.greyColor,
                               borderRadius: BorderRadius.circular(5.sp),
@@ -91,9 +80,9 @@ class RecentViewedBusinessLoading extends StatelessWidget {
             );
           },
           separatorBuilder: (context, index) {
-            return 5.x;
+            return 15.y;
           },
-          itemCount: 5),
+          itemCount: 3),
     );
   }
 }

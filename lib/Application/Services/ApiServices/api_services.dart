@@ -31,6 +31,7 @@ class ApiService {
 
   static Future<Map<String, dynamic>> get(String url,
       {Map<String, String>? headers}) async {
+    print("object");
     print(headers.toString());
 
     try {
@@ -51,15 +52,9 @@ class ApiService {
         "error": 'No Internet Connection',
         "status": 30
       };
-
-      print('SocketException: $e');
-      // You can display an error message to the user or perform other actions.
     } on TimeoutException catch (e) {
-      print('in timeout');
-      // Handle SocketException here.
       return {"success": false, "error": "Request Time Out", "status": 31};
     } on HttpException catch (e) {
-      // Handle HttpException (e.g., invalid URL) here.
       return {"success": false, "error": "Invalid Request", "status": 32};
     } catch (e) {
       rethrow;
