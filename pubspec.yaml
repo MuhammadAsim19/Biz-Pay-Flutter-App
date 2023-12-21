@@ -88,6 +88,12 @@ dependencies:
   firebase_messaging: ^14.1.0
   firebase_core: ^2.2.0
   share_plus: ^7.2.1
+  socket_io_client: ^2.0.3+1
+  video_thumbnail:
+  video_player: 2.7.2
+  chewie: 1.7.4
+#  cached_video_player: 2.0.4
+
 
 
 dev_dependencies:

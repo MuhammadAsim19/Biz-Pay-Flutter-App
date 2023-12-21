@@ -275,7 +275,8 @@ crossAxisAlignment: CrossAxisAlignment.start,
                     // isBorderRequired: false,
                     textInputType: TextInputType.text),
 10.y,
-AddImageWidget(onTap:() async {
+AddImageWidget(
+  onTap:() async {
     var pickedFile= await PickFile.pickFiles();
     if(pickedFile!= null) {
     print(pickedFile[0].name);

@@ -1,7 +1,24 @@
-import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/ChatModel/chat_tile_model.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_tile.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_appbar.dart';
+
+
+import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+
+
+import '../../../../Data/DataSource/Resources/imports.dart';
+import 'Components/ChatModel/chat_tile_model.dart';
+import 'Components/chat_tile.dart';
+
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+
+import 'Controllers/Repo/inboox_repo.dart';
+import 'Controllers/inboxControllers.dart';
+import 'Controllers/inboxmodel.dart';
+
 
 class ChatScreen extends StatefulWidget {
   ChatScreen({super.key, this.backButton});
@@ -85,14 +102,44 @@ class _ChatScreenState extends State<ChatScreen> {
         pr0fileImage: 'assets/images/chat2.png',
         time: '05:30 AM'),
   ];
+@override
+  void initState() {
+  InboxRepo().initSocket(context, "6579ea61d76f7a30f94f5c80");
 
+  // var data={
+  //   "userId" : "6579ea61d76f7a30f94f5c80"
+  // };
+  InboxRepo.socket.on("allBusinessConversations", (data) {
+    print("chatTileData");
+    print((data));
+    InboxControllers.tileInboxData.value=List<ChatTileApiModel>.from(
+        data.map((x) => ChatTileApiModel.fromJson(x)));
+
+
+  });
+
+  //InboxRepo.socket.emit("getAllBusinessConversations", jsonEncode(data));
+
+    // TODO: implement initState
+
+
+    super.initState();
+  }
+  @override
+  void dispose() {
+  print("called");
+  // InboxRepo.socket.disconnect();
+  // InboxRepo.socket.dispose();
+  // TODO: implement dispose
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: CustomAppBar(
-          title: 'Chat',
-          leading: widget.backButton,
+        appBar: AppBar(
+          title: const Text('Chat'),
+          leading: const Icon(Icons.arrow_back),
         ),
         backgroundColor: Colors.white,
         body: Padding(
@@ -175,20 +222,25 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
               25.y,
               Expanded(
-                child: ListView.separated(
-                  physics: const BouncingScrollPhysics(),
-                  separatorBuilder: (context, index) {
-                    return SizedBox(
-                      height: 15.h,
+                child: ValueListenableBuilder(
+                  builder: (context,chatState,ss) {
+                    return ListView.separated(
+                      physics: const BouncingScrollPhysics(),
+                      separatorBuilder: (context, index) {
+                        return SizedBox(
+                          height: 15.h,
+                        );
+                      },
+                      shrinkWrap: true,
+                      itemCount: chip == 0 ? chatState.length : brokers.length,
+                      itemBuilder: (context, index) {
+                        return ChatTile(
+                          data: chip == 0 ? chatData[index] : brokers[index],
+                          tileData:  chatState[index],
+                        );
+                      },
                     );
-                  },
-                  shrinkWrap: true,
-                  itemCount: chip == 0 ? chatData.length : brokers.length,
-                  itemBuilder: (context, index) {
-                    return ChatTile(
-                      data: chip == 0 ? chatData[index] : brokers[index],
-                    );
-                  },
+                  }, valueListenable:   InboxControllers.tileInboxData,
                 ),
               )
             ],
