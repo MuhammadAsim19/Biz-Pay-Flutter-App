@@ -28,9 +28,6 @@ List<BlocProvider> appProviders = [
   BlocProvider<RecentlyViewedCubit>(create: (context) => RecentlyViewedCubit()),
   BlocProvider<OnlineBusinessCubit>(create: (context) => OnlineBusinessCubit()),
   BlocProvider<BrokersCubit>(create: (context) => BrokersCubit()),
-<<<<<<< HEAD
   BlocProvider<SavedListingCubit>(create: (context) => SavedListingCubit()),
-=======
   BlocProvider<AddBusinessCubit>(create: (context) => AddBusinessCubit()),
->>>>>>> 377d8896ffc968011c9ff645d4c069a5ce558f75
 ];
