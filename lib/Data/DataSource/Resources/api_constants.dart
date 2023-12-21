@@ -1,7 +1,8 @@
-class ApiConstant {
-  //static String baseUrl = 'http://34.203.136.253';
+import 'package:buysellbiz/Data/AppData/data.dart';
+import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
 
-  static String baseUrl = 'http://192.168.1.12:9000';
+class ApiConstant {
+  static String baseUrl = 'http://192.168.1.7:9000';
   static String login = "$baseUrl/api/user/login";
   static String signUp = "$baseUrl/api/user/register";
   static String socialLoginUrl = '$baseUrl/api/user/continue_with_google';
@@ -22,4 +23,6 @@ class ApiConstant {
   static String recentlyViewBusiness = "$baseUrl/api/user/get_recentlyViewed";
   static String wishList = "$baseUrl/api/user/businesses_wishlist";
   static String addBusiness = "$baseUrl/api/business/create";
+  static String checkBusinessesWishlist =
+      "$baseUrl/api/user/check_businesses_wishlist";
 }

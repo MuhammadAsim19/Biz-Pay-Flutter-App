@@ -5,6 +5,7 @@ import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/Controllers/
 import 'package:buysellbiz/Presentation/Widgets/Auth/Login/Controllers/login_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/Controllers/sign_up_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/add_business_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/bussiness_wishlist_api_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Brokers/brokers_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Business/all_business_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/OnlineBusiness/online_business_cubit.dart';
@@ -30,4 +31,6 @@ List<BlocProvider> appProviders = [
   BlocProvider<BrokersCubit>(create: (context) => BrokersCubit()),
   BlocProvider<SavedListingCubit>(create: (context) => SavedListingCubit()),
   BlocProvider<AddBusinessCubit>(create: (context) => AddBusinessCubit()),
+  BlocProvider<BussinessWishlistApiCubit>(
+      create: (context) => BussinessWishlistApiCubit()),
 ];

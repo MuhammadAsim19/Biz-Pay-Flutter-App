@@ -24,7 +24,7 @@ class LoginCubit extends Cubit<LoginState> {
           UserModel userData = UserModel.fromJson((value));
           await SharedPrefs.setUserLoginData(userRawData: value);
           emit(LoginLoaded());
-          SharedPrefs.getUserLoginData();
+          // SharedPrefs.getUserLoginData();
         } else {
           print(value['error']);
 

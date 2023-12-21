@@ -74,7 +74,21 @@ class SavedLoading extends StatelessWidget {
                         ),
                       ],
                     ),
-                  )
+                  ),
+                  10.x,
+                  AppShimmer(
+                    child: Align(
+                      alignment: AlignmentDirectional.topEnd,
+                      child: Container(
+                        height: 20.h,
+                        width: 20.w,
+                        decoration: BoxDecoration(
+                          color: AppColors.greyColor,
+                          borderRadius: BorderRadius.circular(5.sp),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             );

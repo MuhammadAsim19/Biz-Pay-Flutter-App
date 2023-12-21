@@ -26,7 +26,7 @@ class RecentlyAdded extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
-                print("${businessProducts![index]!.id}");
+                print("${businessProducts![index].id}");
 
                 return GestureDetector(
                   onTap: () {
