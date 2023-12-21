@@ -20,5 +20,9 @@ class ApiConstant {
   static String brokerList = "$baseUrl/api/broker";
 
   static String recentlyViewBusiness = "$baseUrl/api/user/get_recentlyViewed";
+<<<<<<< HEAD
   static String wishList = "$baseUrl/api/user/businesses_wishlist";
+=======
+  static String addBusiness = "$baseUrl/api/business/create";
+>>>>>>> 377d8896ffc968011c9ff645d4c069a5ce558f75
 }

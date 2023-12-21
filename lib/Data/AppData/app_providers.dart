@@ -4,6 +4,7 @@ import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/Controllers/
 import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/Controllers/verify_otp_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/Login/Controllers/login_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/Controllers/sign_up_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/add_business_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Brokers/brokers_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Business/all_business_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/OnlineBusiness/online_business_cubit.dart';
@@ -27,5 +28,9 @@ List<BlocProvider> appProviders = [
   BlocProvider<RecentlyViewedCubit>(create: (context) => RecentlyViewedCubit()),
   BlocProvider<OnlineBusinessCubit>(create: (context) => OnlineBusinessCubit()),
   BlocProvider<BrokersCubit>(create: (context) => BrokersCubit()),
+<<<<<<< HEAD
   BlocProvider<SavedListingCubit>(create: (context) => SavedListingCubit()),
+=======
+  BlocProvider<AddBusinessCubit>(create: (context) => AddBusinessCubit()),
+>>>>>>> 377d8896ffc968011c9ff645d4c069a5ce558f75
 ];

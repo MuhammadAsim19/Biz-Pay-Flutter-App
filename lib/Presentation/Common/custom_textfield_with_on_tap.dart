@@ -116,14 +116,13 @@ class _CustomTextFieldWithOnTapState extends State<CustomTextFieldWithOnTap> {
               focusNode: widget.focusNode,
 
               //autovalidateMode: AutovalidateMode.onUserInteraction,
-              validator: widget.isValid
-                  ? (v) {
-                      if (v!.trim().isEmpty) {
-                        return widget.validateText;
-                      }
-                      return null;
+              validator: widget.validator ??
+                  (v) {
+                    if (v!.isEmpty) {
+                      return widget.validateText;
                     }
-                  : widget.validator,
+                    return null;
+                  },
               onChanged: widget.onChanged,
               keyboardType: widget.textInputType,
               obscureText: widget.isState != null ? isHide : widget.obscureText,
@@ -185,8 +184,8 @@ class _CustomTextFieldWithOnTapState extends State<CustomTextFieldWithOnTap> {
                 ///changess
                 contentPadding: widget.contentPadding ??
                     const EdgeInsets.symmetric(
-                      vertical: 18,
-                      horizontal: 17,
+                      vertical: 15,
+                      horizontal: 12,
                     ).r,
                 focusedErrorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(
@@ -203,8 +202,9 @@ class _CustomTextFieldWithOnTapState extends State<CustomTextFieldWithOnTap> {
                         borderRadius: BorderRadius.circular(
                           widget.borderRadius ?? 12.r,
                         ),
-                        borderSide: const BorderSide(
+                        borderSide: BorderSide(
                           color: Colors.red,
+                          width: 0.4.sp,
                         ),
                       )
                     : outlineInputBorder(),
@@ -221,8 +221,9 @@ class _CustomTextFieldWithOnTapState extends State<CustomTextFieldWithOnTap> {
                         borderRadius: BorderRadius.circular(
                           widget.borderRadius ?? 12.r,
                         ),
-                        borderSide: const BorderSide(
+                        borderSide: BorderSide(
                           color: AppColors.primaryColor,
+                          width: 0.4.sp,
                         ),
                       )
                     : outlineInputBorder(),
@@ -231,8 +232,8 @@ class _CustomTextFieldWithOnTapState extends State<CustomTextFieldWithOnTap> {
                         borderRadius: BorderRadius.circular(
                           widget.borderRadius ?? 12.r,
                         ),
-                        borderSide: const BorderSide(
-                          width: 0.3,
+                        borderSide: BorderSide(
+                          width: 0.4.sp,
                           color: AppColors.lightGreyColor,
                         ),
                       )
