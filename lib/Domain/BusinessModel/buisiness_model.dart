@@ -45,6 +45,7 @@ class BusinessProductModel {
 class BusinessModel {
   final String? id;
   final String? name;
+  final String? viewsCount;
   final String? foundationYear;
   final String? numberOfOwners;
   final String? numberOfEmployes;
@@ -61,7 +62,6 @@ class BusinessModel {
   final dynamic industry;
   final List<dynamic>? subIndustry;
   final String? status;
-  final CreatedBy? createdBy;
 
   BusinessModel({
     this.id,
@@ -78,11 +78,11 @@ class BusinessModel {
     this.country,
     this.city,
     this.address,
+    this.viewsCount,
     this.zipcode,
     this.industry,
     this.subIndustry,
     this.status,
-    this.createdBy,
   });
 
   factory BusinessModel.fromRawJson(String str) =>
@@ -120,9 +120,7 @@ class BusinessModel {
             ? []
             : List<dynamic>.from(json["subIndustry"]!.map((x) => x)),
         status: json["status"],
-        createdBy: json["createdBy"] == null
-            ? null
-            : CreatedBy.fromJson(json["createdBy"]),
+        viewsCount: json['viewsCount'].toString(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -153,36 +151,7 @@ class BusinessModel {
             ? []
             : List<dynamic>.from(subIndustry!.map((x) => x)),
         "status": status,
-        "createdBy": createdBy?.toJson(),
-      };
-}
-
-class CreatedBy {
-  final String? id;
-  final String? fullName;
-  final String? email;
-
-  CreatedBy({
-    this.id,
-    this.fullName,
-    this.email,
-  });
-
-  factory CreatedBy.fromRawJson(String str) =>
-      CreatedBy.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
-  factory CreatedBy.fromJson(Map<String, dynamic> json) => CreatedBy(
-        id: json["_id"],
-        fullName: json["fullName"],
-        email: json["email"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "_id": id,
-        "fullName": fullName,
-        "email": email,
+        'viewsCount': viewsCount,
       };
 }
 

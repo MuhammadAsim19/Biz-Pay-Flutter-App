@@ -1,4 +1,5 @@
 import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
+import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
 
@@ -37,9 +38,11 @@ class RecentlyViewWidget extends StatelessWidget {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        AssetImageWidget(
+                        CachedImage(
+                          isCircle: false,
+                          containerRadius: 10.sp,
                           url: businessProducts![index].images!.isNotEmpty
-                              ? businessProducts![index].images!.first
+                              ? "${ApiConstant.baseUrl}/${businessProducts![index].images!.first}"
                               : '',
                           width: 119.sp,
                           height: 120.h,
@@ -55,16 +58,16 @@ class RecentlyViewWidget extends StatelessWidget {
                                       color: AppColors.lightGreyColor,
                                       fontSize: 14)),
                               1.y,
-                              Align(
-                                  child: AppText(
+                              AppText(
                                 businessProducts![index].name!,
                                 style: Styles.circularStdRegular(context,
                                     fontSize: 15.sp,
                                     fontWeight: FontWeight.w600),
                                 maxLine: 3,
-                              )),
+                              ),
                               5.y,
-                              AppText("\$${businessProducts![index].salePrice}",
+                              AppText(
+                                  "\$ ${businessProducts![index].salePrice}",
                                   style: Styles.circularStdBold(context)),
                             ],
                           ),

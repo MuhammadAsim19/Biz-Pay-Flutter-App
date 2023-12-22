@@ -7,7 +7,12 @@ class GetCountry {
   }
 
   static Future<Map<String, dynamic>> getCountryStates(
-      String countryName) async {
-    return await ApiService.get("${ApiConstant.allCountry}/$countryName");
+      String countryName, bool city) async {
+    String apiUrl =
+        city != true ? ApiConstant.stateOfCountry : ApiConstant.stateCity;
+
+    print(apiUrl);
+
+    return await ApiService.get("$apiUrl/$countryName");
   }
 }
