@@ -67,8 +67,6 @@ class _BusinessDetailsState extends State<BusinessDetails> {
               physics: const NeverScrollableScrollPhysics(),
               headerSliverBuilder:
                   (BuildContext context, bool innerBoxIsScrolled) {
-                print(widget.model!.id);
-
                 return [
                   SliverAppBar(
                     elevation: 0,
@@ -148,6 +146,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
               },
               body: Builder(builder: (context) {
                 final value = widget.model!;
+                log(value.attachedFiles!.toString());
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Stack(
@@ -161,10 +160,14 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                             Row(
                               children: [
                                 //24.x,
-                                AppText(value.city.toString(),
-                                    style: Styles.circularStdRegular(context,
-                                        color: AppColors.lightGreyColor,
-                                        fontSize: 12)),
+                                AppText(
+                                  "${value.city}, ${value.country}",
+                                  style: Styles.circularStdRegular(
+                                    context,
+                                    color: AppColors.lightGreyColor,
+                                    fontSize: 12,
+                                  ),
+                                ),
 
                                 const Spacer(),
                                 const Icon(
@@ -176,7 +179,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                         color: AppColors.lightGreyColor,
                                         fontSize: 12)),
                                 5.x,
-                                AppText('321',
+                                AppText(value.status!,
                                     style: Styles.circularStdRegular(context,
                                         color: AppColors.lightGreyColor,
                                         fontSize: 12)),
@@ -185,20 +188,20 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                             ),
                             5.y,
                             AppText(
-                              "Drop shipping website & E-commerce business",
+                              value.name!,
                               style: Styles.circularStdMedium(context,
                                   fontSize: 22),
                               maxLine: 3,
                               overflow: TextOverflow.ellipsis,
                             ),
                             10.y,
-                            AppText("\$40k USD",
+                            AppText("\$ ${value.salePrice!} USD",
                                 style: Styles.circularStdMedium(context,
                                     fontSize: 16.sp,
                                     color: AppColors.primaryColor)),
                             10.y,
                             AppText(
-                              "Are you looking to start your own e-commerce venture without the hassle of managing inventory? Consider buying a drop shipping website and e-commerce business. With this turnkey solution, you can leverage existing supplier relationships and a ready-made online storefront to jumpstart your online sales. It's an efficient way to enter the world of e-commerce and start selling products to a global audience.",
+                              value.businessDescription!,
                               style: Styles.circularStdRegular(context,
                                   fontSize: 12,
                                   color: AppColors.lightGreyColor),
@@ -216,7 +219,11 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                             fontSize: 16.sp))),
                                 //const Spacer(),
                                 Expanded(
-                                    child: AppText("Amazon Drop Shipping",
+                                    child: AppText(
+                                        value.industry != null
+                                            ? value.industry!['industry'] ??
+                                                'Unknown Industry'
+                                            : 'Unknown Industry',
                                         style: Styles.circularStdRegular(
                                             context,
                                             fontSize: 14.sp))),
@@ -234,7 +241,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                             fontSize: 16.sp))),
                                 // const Spacer(),
                                 Expanded(
-                                    child: AppText("2009",
+                                    child: AppText(value.foundationYear!,
                                         style: Styles.circularStdRegular(
                                             context,
                                             fontSize: 16.sp))),
@@ -251,7 +258,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                             context,
                                             fontSize: 16.sp))),
                                 Expanded(
-                                    child: AppText("2",
+                                    child: AppText(value.numberOfOwners!,
                                         style: Styles.circularStdRegular(
                                             context,
                                             fontSize: 16.sp))),
@@ -268,7 +275,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                             fontSize: 16.sp))),
                                 //  const Spacer(),
                                 Expanded(
-                                    child: AppText("19",
+                                    child: AppText(value.numberOfEmployes!,
                                         style: Styles.circularStdRegular(
                                             context,
                                             fontSize: 16.sp))),
@@ -293,41 +300,16 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                               physics: const BouncingScrollPhysics(),
                               child: Row(
                                 children: [
-                                  ChipWidget(
-                                    labelText: "Building property",
-                                    height: 60.sp,
-                                    style: Styles.circularStdRegular(context,
-                                        color: AppColors.whiteColor),
-                                  ),
-                                  5.x,
-                                  ChipWidget(
-                                    labelText: "Equipment",
-                                    height: 60.sp,
-                                    style: Styles.circularStdRegular(context,
-                                        color: AppColors.whiteColor),
-                                  ),
-                                  5.x,
-                                  ChipWidget(
-                                    labelText: "Contracts",
-                                    height: 60.sp,
-                                    style: Styles.circularStdRegular(context,
-                                        color: AppColors.whiteColor),
-                                  ),
-                                  5.x,
-                                  ChipWidget(
-                                    labelText: "Access",
-                                    height: 60.sp,
-                                    style: Styles.circularStdRegular(context,
-                                        color: AppColors.whiteColor),
-                                  ),
-                                  5.x,
-                                  ChipWidget(
-                                    labelText: "Availability",
-                                    height: 60.sp,
-                                    style: Styles.circularStdRegular(context,
-                                        color: AppColors.whiteColor),
-                                  ),
-                                  5.x
+                                  for (String advantage
+                                      in value.advantages ?? [])
+                                    ChipWidget(
+                                      labelText: advantage,
+                                      height: 60.sp,
+                                      style: Styles.circularStdRegular(
+                                        context,
+                                        color: AppColors.whiteColor,
+                                      ),
+                                    ),
                                 ],
                               ),
                             ),
@@ -344,17 +326,22 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                   height: 50,
                                 ),
                                 10.x,
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    AppText("business portfolio.pdf",
-                                        style: Styles.circularStdMedium(context,
-                                            fontSize: 16.sp)),
-                                    AppText("656 kb",
-                                        style: Styles.circularStdRegular(
-                                            context,
-                                            color: AppColors.lightGreyColor))
-                                  ],
+                                Expanded(
+                                  flex: 3,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      AppText(
+                                          value.attachedFiles!.last
+                                              .split('/')
+                                              .last,
+                                          maxLine: 2,
+                                          style: Styles.circularStdMedium(
+                                              context,
+                                              fontSize: 16.sp)),
+                                    ],
+                                  ),
                                 ),
                                 const Spacer(),
                                 SvgPicture.asset(Assets.downloadIcon)
@@ -367,7 +354,9 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                             10.y,
                             FractionallySizedBox(
                               widthFactor: 1.07,
-                              child: VerticalBarChart(),
+                              child: VerticalBarChart(
+                                business: value,
+                              ),
                             ),
                             60.y,
                           ],

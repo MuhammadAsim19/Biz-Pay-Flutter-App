@@ -1,6 +1,8 @@
+import 'dart:developer';
+
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
+
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -9,46 +11,46 @@ class BarChartData {
 
   final int revenueValue;
 
-
-  BarChartData(this.year,  this.revenueValue);
+  BarChartData(this.year, this.revenueValue);
 }
-class VerticalBarChart extends StatelessWidget {
-  final List<BarChartData> chartData = [
-    BarChartData('2018', 5000,),
-    BarChartData('2019', 18000,),
-    BarChartData('2020', 10000,),
-    BarChartData('2021', 4000,),
-    BarChartData('2022',40000, ),
-    BarChartData('2023', 20000,),
-    BarChartData('2024', 15000,),
-    // Add more data as needed
-  ];
 
-  VerticalBarChart({super.key});
+class VerticalBarChart extends StatelessWidget {
+  final BusinessModel? business;
+
+  const VerticalBarChart({
+    super.key,
+    this.business,
+  });
+
   @override
   Widget build(BuildContext context) {
+    List<BarChartData> chartData = [];
+
+    if (business != null && business!.financialDetails != null) {
+      chartData = business!.financialDetails!.map((detail) {
+        log(' ${detail.financialYear},  ${detail.revenue}');
+        return BarChartData(detail.financialYear!, detail.revenue!);
+      }).toList();
+    }
+
     return SfCartesianChart(
-    borderWidth: 0,
+      borderWidth: 0,
       borderColor: Colors.transparent,
       backgroundColor: Colors.transparent,
       plotAreaBackgroundColor: Colors.transparent,
       primaryXAxis: CategoryAxis(
-          majorGridLines: const MajorGridLines(color:
-          Colors.transparent),
-          labelStyle: Styles.circularStdRegular(context,fontWeight: FontWeight.w500,color: AppColors.greyLightColor,fontSize: 13.sp)),
-      primaryYAxis: NumericAxis(isVisible: true,
-
-
-numberFormat: NumberFormat.compact(),
-          // Number of ticks on Y-axis
-          majorGridLines: const MajorGridLines(color:
-
-          Colors.transparent),
-          majorTickLines: const MajorTickLines(size: 0)
-      ),
+          majorGridLines: const MajorGridLines(color: Colors.transparent),
+          labelStyle: Styles.circularStdRegular(context,
+              fontWeight: FontWeight.w500,
+              color: AppColors.greyLightColor,
+              fontSize: 13.sp)),
+      primaryYAxis: NumericAxis(
+          isVisible: true,
+          numberFormat: NumberFormat.compact(),
+          majorGridLines: const MajorGridLines(color: Colors.transparent),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: <ColumnSeries<BarChartData, String>>[
         ColumnSeries<BarChartData, String>(
-         // trackColor: Colors.transparent,
           isTrackVisible: false,
           dataSource: chartData,
           xValueMapper: (BarChartData data, _) => data.year,
@@ -56,14 +58,11 @@ numberFormat: NumberFormat.compact(),
           name: '',
           color: AppColors.primaryColor,
           width: 0.4,
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(10.sp),topRight: Radius.circular(10.sp)), // Dark blue color for completed
-// Light blue color for pending
-
-
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10.sp),
+              topRight: Radius.circular(10.sp)),
         ),
-
       ],
     );
   }
 }
-

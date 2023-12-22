@@ -18,18 +18,24 @@ class ChipWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: height ?? 30.sp,
-      width: width,
-      child: Chip(
-        backgroundColor: AppColors.primaryColor,
-        side: const BorderSide(color: Colors.transparent),
-        label: AppText(
-          labelText ?? 'Chat',
-          style: style ??
-              Styles.circularStdRegular(context, color: AppColors.whiteColor),
+    return Row(
+      children: [
+        SizedBox(
+          height: height ?? 30.sp,
+          width: width,
+          child: Chip(
+            backgroundColor: AppColors.primaryColor,
+            side: const BorderSide(color: Colors.transparent),
+            label: AppText(
+              labelText ?? 'Chat',
+              style: style ??
+                  Styles.circularStdRegular(context,
+                      color: AppColors.whiteColor),
+            ),
+          ),
         ),
-      ),
+        5.x,
+      ],
     );
   }
 }
