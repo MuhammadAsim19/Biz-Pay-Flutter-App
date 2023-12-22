@@ -9,7 +9,6 @@ class BrokersListModel {
   final String? email;
   final String? accountStatus;
   final String? experience;
-  final String? education;
   final List<String>? certificates;
   final String? description;
   final String? website;
@@ -29,7 +28,6 @@ class BrokersListModel {
     this.email,
     this.accountStatus,
     this.experience,
-    this.education,
     this.certificates,
     this.description,
     this.website,
@@ -60,10 +58,10 @@ class BrokersListModel {
         email: json["email"],
         accountStatus: json["accountStatus"],
         experience: json["experience"],
-        education: json["education"],
-        certificates: json["certificates"] == null
+        certificates: json["educationAndCertification"] == null
             ? []
-            : List<String>.from(json["certificates"]!.map((x) => x)),
+            : List<String>.from(
+                json["educationAndCertification"]!.map((x) => x)),
         description: json["description"],
         website: json["website"],
         designation: json["designation"],
@@ -92,8 +90,7 @@ class BrokersListModel {
         "email": email,
         "accountStatus": accountStatus,
         "experience": experience,
-        "education": education,
-        "certificates": certificates == null
+        "educationAndCertification": certificates == null
             ? []
             : List<dynamic>.from(certificates!.map((x) => x)),
         "description": description,

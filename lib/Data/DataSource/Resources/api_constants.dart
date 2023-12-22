@@ -8,6 +8,10 @@ class ApiConstant {
   static String setPassword =
       '$baseUrl/api/user/forget_password/request_change_password';
 
+  static String allCountry = '$baseUrl/countries';
+
+  static String stateOfCountry = 'http://localhost:9000/countries';
+
   /// Business Apis
   static String getAllBusiness = "$baseUrl/api/business";
   static String getAllCateg = "$baseUrl/api/category/get_titles";

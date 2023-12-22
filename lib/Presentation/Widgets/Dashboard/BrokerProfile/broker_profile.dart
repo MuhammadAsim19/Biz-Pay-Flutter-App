@@ -36,6 +36,8 @@ class _BrokerProfileState extends State<BrokerProfile> {
 
   @override
   Widget build(BuildContext context) {
+    print("${ApiConstant.baseUrl}/${widget.model!.userInfo!.profilePic}");
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -66,7 +68,7 @@ class _BrokerProfileState extends State<BrokerProfile> {
                           CachedImage(
                             isCircle: true,
                             url:
-                                "${ApiConstant.baseUrl}${widget.model!.userInfo!.profilePic}"!,
+                                "${ApiConstant.baseUrl}/${widget.model!.userInfo!.profilePic}",
                             height: 108.h,
                             width: 120.w,
                           ),
@@ -83,7 +85,8 @@ class _BrokerProfileState extends State<BrokerProfile> {
                       4.y,
                       Align(
                         alignment: Alignment.center,
-                        child: AppText(widget.model!.designation!,
+                        child: AppText(
+                            widget.model!.experties!.profession ?? "",
                             style: Styles.circularStdRegular(context,
                                 fontWeight: FontWeight.w400,
                                 fontSize: 14.sp,
@@ -126,16 +129,17 @@ class _BrokerProfileState extends State<BrokerProfile> {
                             color: AppColors.blackColor,
                           )),
                       14.y,
-                      Wrap(
-                        spacing: 20.sp,
-                        runSpacing: 12.sp,
-                        children:
-                            widget.model!.experties!.servicesOffered!.map((e) {
-                          return BrokerChipWidget(
-                            labelText: e,
-                          );
-                        }).toList(),
-                      ),
+                      if (widget.model!.experties!.servicesOffered != null)
+                        Wrap(
+                          spacing: 20.sp,
+                          runSpacing: 12.sp,
+                          children: widget.model!.experties!.servicesOffered!
+                              .map((e) {
+                            return BrokerChipWidget(
+                              labelText: e,
+                            );
+                          }).toList(),
+                        ),
                       30.y,
                       AppText(AppStrings.industry,
                           style: Styles.circularStdBold(
@@ -145,22 +149,40 @@ class _BrokerProfileState extends State<BrokerProfile> {
                             color: AppColors.blackColor,
                           )),
                       14.y,
-                      Wrap(
-                        spacing: 20.sp,
-                        runSpacing: 12.sp,
-                        children: widget.model!.industriesServed!.map((e) {
-                          return BrokerChipWidget(
-                            labelText: e.title,
-                          );
-                        }).toList(),
-                      ),
+                      if (widget.model!.industriesServed != null)
+                        Wrap(
+                          spacing: 20.sp,
+                          runSpacing: 12.sp,
+                          children: widget.model!.industriesServed!.map((e) {
+                            return BrokerChipWidget(
+                              labelText: e.title,
+                            );
+                          }).toList(),
+                        ),
                       30.y,
-                      customRow(AppStrings.experice, widget.model!.experience!),
+                      customRow(AppStrings.experice,
+                          "${widget.model!.experties!.yearOfExperience} years"),
                       13.y,
-                      customRow(AppStrings.education, widget.model!.education!),
+                      AppText(AppStrings.certificate,
+                          style: Styles.circularStdRegular(
+                            context,
+                            fontSize: 16.sp,
+                            color: AppColors.blackColor,
+                          )),
+                      10.y,
+                      if (widget.model?.certificates != null)
+                        Wrap(
+                          spacing: 20.sp,
+                          runSpacing: 12.sp,
+                          children: widget.model!.certificates!.map((e) {
+                            return BrokerChipWidget(
+                              labelText: e,
+                            );
+                          }).toList(),
+                        ),
                       13.y,
-                      customRow(AppStrings.certificate,
-                          widget.model!.certificates!.first),
+                      // customRow(AppStrings.certificate,
+                      //     widget.model!.certificates!.first),
                       30.y,
                       AppText(AppStrings.industry,
                           style: Styles.circularStdBold(

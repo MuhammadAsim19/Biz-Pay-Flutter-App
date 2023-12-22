@@ -89,7 +89,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
 
       print("${InboxControllers.connectivityStatus.value}valueeeeeeee");
       InboxControllers.connectivityStatus.notifyListeners();
-      // log(data);
+      print(data);
     });
 
     InboxRepo.socket.emit('getBusinessChatDetails', dataGet);
@@ -358,44 +358,48 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                         isBorderRequired: allFiles.isNotEmpty ? false : true,
                         prefixIcon: GestureDetector(
                             onTap: () async {
-                              // final List<PlatformFile>? filesPicked =
-                              // await PickFile.pickFiles();
-                              // final List<PlatformFile> actualFiles = [];
-                              // if (filesPicked != null) {
-                              //   print("in filepickeddd");
-                              //   for (PlatformFile pf in filesPicked) {
-                              //     print(pf.extension);
-                              //     if (validImageExt.contains(pf.extension)) {
-                              //       print("here");
-                              //       images?.add(pf);
-                              //       print(images?.length);
-                              //       actualFiles.add(pf);
-                              //     }
-                              //     if (validVideExt.contains(pf.extension)) {
-                              //       videos?.add(pf);
-                              //       print("inpicled videoss");
-                              //       print(videos?.length);
-                              //       var path = await getThumbnailFromVideo(
-                              //           pf.path.toString());
-                              //       PlatformFile? pff = PlatformFile(
-                              //           name:
-                              //               "thumbnail ${DateTime.now().microsecondsSinceEpoch}",
-                              //           size: 10 * 1024 * 3,
-                              //           path: path);
-                              //       print("actual  path${pff.path}");
-                              //       actualFiles.add(pff);
-                              //     }
-                              //     if (validDocExt.contains(pf.extension)) {
-                              //       docs?.add(pf);
-                              //       print("docs selected");
-                              //       print(docs?.length);
-                              //       actualFiles.add(pf);
-                              //     }
-                              //   }
-                              //   allFiles = actualFiles;
-                              // }
-
-                              // setState(() {});
+//                               final  PlatformFile?  filesPicked = await PickFile.pickFiles();
+//                                 final  List<PlatformFile> actualFiles =[];
+//                                 if(filesPicked!=null)
+//                                 {
+// print("in filepickeddd");
+//                                   for(PlatformFile pf in filesPicked )
+//                                     {
+//                                       print(pf.extension);
+//                                       if(validImageExt.contains(pf.extension))
+//                                         {
+//                                           print("here");
+//                                           images?.add(pf);
+//                                           print(images?.length);
+//                                           actualFiles.add(pf);
+//
+//                                         }
+//                                       if(validVideExt.contains(pf.extension))
+//                                       {
+//
+//                                         videos?.add(pf);
+//                                         print("inpicled videoss");
+//                                         print(videos?.length);
+//                                   var path =  await getThumbnailFromVideo(pf.path.toString());
+//                                   PlatformFile? pff = PlatformFile(name: "thumbnail ${DateTime.now().microsecondsSinceEpoch}", size: 10 *1024 *3,path: path);
+//                                   print("actual  path${pff.path}");
+//                         actualFiles?.add(pff!);
+//
+//                                       }
+//                                       if(validDocExt.contains(pf.extension))
+//                                       {
+//
+//                docs?.add(pf);
+//                print("docs selected");
+//                print(docs?.length);
+//                actualFiles?.add(pf!);
+//                                       }
+//                                     }
+//                                   allFiles=actualFiles;
+//                                 }
+//
+//                                 setState(() {});
+//                               },
                             },
                             child:
                                 SvgPicture.asset('assets/images/attach.svg')),
