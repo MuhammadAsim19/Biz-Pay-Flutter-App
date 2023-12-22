@@ -253,7 +253,7 @@ class _ExportProfileState extends State<ExportProfile> {
                               setState(() {});
                             },
                             hintText: 'Category',
-                            getList: state.list,
+                            getList: state.list!,
                             hMar: 10,
                           );
                         } else {

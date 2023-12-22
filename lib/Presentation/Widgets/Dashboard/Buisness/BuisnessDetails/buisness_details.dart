@@ -1,13 +1,16 @@
+import 'dart:developer';
+
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
+import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/business_shimmer.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/chip_widget.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Components/chart_revenue.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/bussiness_wishlist_api_cubit.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/State/business_detail_state.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/State/business_wishlistapi_state.dart';
 
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/chat.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,6 +55,10 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                     child: BlocConsumer<BussinessWishlistApiCubit,
                         BussinessWishlistApiState>(
                       listener: (BuildContext context, state) {
+                        if (state is BussinessWishlistApiLoading) {
+                          LoadingDialog.showLoadingDialog(context);
+                        }
+
                         if (state is BussinessWishlistApiError) {
                           WidgetsBinding.instance.addPostFrameCallback((_) {
                             WidgetFunctions.instance.snackBar(context,
@@ -64,12 +71,16 @@ class _BusinessDetailsState extends State<BusinessDetails> {
 
                         if (state is BussinessWishlistApiLoaded) {
                           wishlistbool = state.wishliatValue ?? false;
+
+                          Future.delayed(const Duration(milliseconds: 500), () {
+                            Navigator.pop(context);
+                          });
                         }
                       },
                       builder: (context, state) {
                         print(state);
                         if (state is BussinessWishlistApiLoading) {
-                          return const BusinessLoading();
+                          LoadingDialog.showLoadingDialog(context);
                         } else {
                           return Column(
                             children: [
@@ -104,13 +115,23 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                       const Spacer(),
                                       const Icon(Icons.share),
                                       3.x,
-                                      state is BussinessWishlistApiLoading
-                                          ? wishlistbool
-                                              ? SvgPicture.asset(
-                                                  Assets.heartLight)
-                                              : SvgPicture.asset(
-                                                  Assets.heartRed)
-                                          : SvgPicture.asset(Assets.heartLight),
+                                      IconButton(
+                                        icon: !wishlistbool
+                                            ? SvgPicture.asset(
+                                                Assets.heartLight)
+                                            : SvgPicture.asset(Assets.heartRed),
+                                        onPressed: () async {
+                                          setState(() {
+                                            wishlistbool = !wishlistbool;
+                                          });
+
+                                          await context
+                                              .read<BussinessWishlistApiCubit>()
+                                              .wishlistCheckCubit(
+                                                  widget.model!.id!,
+                                                  wishlistbool);
+                                        },
+                                      ),
                                       10.x,
                                     ],
                                   ),
@@ -119,6 +140,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                             ],
                           );
                         }
+                        return Container();
                       },
                     )),
                 backgroundColor: AppColors.whiteColor,
