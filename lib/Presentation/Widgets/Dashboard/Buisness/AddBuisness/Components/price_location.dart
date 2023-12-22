@@ -31,6 +31,8 @@ class _PriceLocationState extends State<PriceLocation> {
   String? country;
   String? city;
 
+  int yearMi = 1;
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -87,7 +89,7 @@ class _PriceLocationState extends State<PriceLocation> {
                             borderRadius: 40,
 
                             // isBorderRequired: false,
-                            textInputType: TextInputType.text),
+                            textInputType: TextInputType.number),
                         20.y,
                         AppText("Financial detail",
                             style: Styles.circularStdMedium(context,
@@ -118,6 +120,7 @@ class _PriceLocationState extends State<PriceLocation> {
                         //     textInputType: TextInputType.text),
                         finincialDetails.isNotEmpty
                             ? ListView.separated(
+                                physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 separatorBuilder: (context, index) {
                                   return 1.y;
@@ -135,7 +138,7 @@ class _PriceLocationState extends State<PriceLocation> {
                                       //maxline: 10,
 
                                       // isBorderRequired: false,
-                                      textInputType: TextInputType.text);
+                                      textInputType: TextInputType.number);
                                 },
                                 itemCount: finincialDetails.length)
                             : const SizedBox.shrink(),
@@ -144,16 +147,18 @@ class _PriceLocationState extends State<PriceLocation> {
                           onTap: () {
                             finincialDetails.add(
                               {
-                                "Revenue ${DateTime.now().year - 1} (USD)":
+                                "Revenue ${DateTime.now().year - yearMi} (USD)":
                                     TextEditingController()
                               },
                             );
                             finincialDetails.add(
                               {
-                                "Profit ${DateTime.now().year - 1} (USD)":
+                                "Profit ${DateTime.now().year - yearMi} (USD)":
                                     TextEditingController()
                               },
                             );
+
+                            yearMi++;
                             setState(() {});
                           },
                           text: "+ Add previous year 2022",
@@ -258,8 +263,8 @@ class _PriceLocationState extends State<PriceLocation> {
     List<Map<String, String>> details = [];
     for (int i = 0; i < finincialDetails.length; i++) {
       details.add({
-        finincialDetails[i].keys.first:
-            finincialDetails[i].values.first.text.trim()
+        "financialYear": finincialDetails[i].keys.first,
+        "revenue": finincialDetails[i].values.first.text.trim()
       });
     }
 
@@ -273,5 +278,7 @@ class _PriceLocationState extends State<PriceLocation> {
       country: countryController.text.trim(),
       zipCode: zipCode.text.trim(),
     );
+
+    print(currentModel.documnets.toString());
   }
 }

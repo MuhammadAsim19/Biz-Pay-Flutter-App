@@ -37,6 +37,10 @@ class AllBusiness {
     }
   }
 
+  static Future<Map<String, dynamic>> getBusinessCetegory() async {
+    return await ApiService.get(ApiConstant.getAllCateg);
+  }
+
   static Future<Map<String, dynamic>> recentlyView() async {
     var headers = {"Authorization": " ${Data.app.user!.token}"};
 

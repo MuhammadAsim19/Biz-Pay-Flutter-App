@@ -5,6 +5,8 @@ import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart'
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/validator.dart';
 import 'package:buysellbiz/Domain/BusinessModel/add_business_model.dart';
+import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
+import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/add_image_widget.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/custom_dropdown.dart';
@@ -13,9 +15,11 @@ import 'package:buysellbiz/Presentation/Common/custom_textfield_with_on_tap.dart
 import 'package:buysellbiz/Presentation/Common/display_images.dart';
 import 'package:buysellbiz/Presentation/Common/widget_functions.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/add_business_controller.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/business_category_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/Controller/add_business_conntroller.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BusinessAddDetails extends StatefulWidget {
   BusinessAddDetails({super.key});
@@ -56,6 +60,30 @@ class _BusinessAddDetailsState extends State<BusinessAddDetails> {
   PlatformFile? upload;
 
   List<String> advantages = [];
+
+  bool uploadFiles = false;
+
+  List<BusinessCategory> catg = [];
+
+  @override
+  void initState() {
+    context.read<BusinessCategoryCubit>().getCategory();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    businessNameController.dispose();
+    industryController.dispose();
+    yearFoundController.dispose();
+    ofOwnerController.dispose();
+    ofEmployeeController.dispose();
+    descriptionController.dispose();
+    businessHour.dispose();
+    registrationNumber.dispose(); // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,20 +139,44 @@ class _BusinessAddDetailsState extends State<BusinessAddDetails> {
                             // isBorderRequired: false,
                             textInputType: TextInputType.text),
 
-                        CustomDropDownWidget(
-                          isBorderRequired: true,
-                          prefixIcon: SvgPicture.asset(Assets.dropDownIcon),
-                          hMargin: 0,
-                          vMargin: 0,
-                          itemsMap: ["IndustryA", "IndustryB"].map((e) {
-                            return DropdownMenuItem(value: e, child: Text(e));
-                          }).toList(),
-                          hintText: "Industry",
-                          value: indurstry,
-                          validationText: 'Industry Required',
-                          onChanged: (value) {
-                            industryController.text = value.toString();
-                            indurstry = value;
+                        BlocConsumer<BusinessCategoryCubit,
+                            BusinessCategoryState>(
+                          listener: (context, state) {
+                            if (state is BusinessCategoryLoading) {
+                              LoadingDialog.showLoadingDialog(context);
+                            }
+                            if (state is BusinessCategoryLoaded) {
+                              Navigator.pop(context);
+                            }
+                            if (state is BusinessCategoryError) {
+                              WidgetFunctions.instance.showErrorSnackBar(
+                                  context: context, error: state.error);
+                            }
+                            // TODO: implement listener
+                          },
+                          builder: (context, state) {
+                            return CustomDropDownWidget(
+                              isBorderRequired: true,
+                              prefixIcon: SvgPicture.asset(Assets.dropDownIcon),
+                              hMargin: 0,
+                              vMargin: 0,
+                              itemsMap: state is BusinessCategoryLoaded
+                                  ? state.list!.map((e) {
+                                      return DropdownMenuItem(
+                                          value: e.id, child: Text(e.title!));
+                                    }).toList()
+                                  : catg.map((e) {
+                                      return DropdownMenuItem(
+                                          value: e.id, child: Text(e.title!));
+                                    }).toList(),
+                              hintText: "Industry",
+                              value: indurstry,
+                              validationText: 'Industry Required',
+                              onChanged: (value) {
+                                industryController.text = value.toString();
+                                indurstry = value;
+                              },
+                            );
                           },
                         ),
 
@@ -320,9 +372,16 @@ class _BusinessAddDetailsState extends State<BusinessAddDetails> {
                                 },
                               )
                             : 10.x,
+                        7.y,
+                        uploadFiles == true
+                            ? AppText("Files Required",
+                                style: Styles.circularStdRegular(context,
+                                    fontSize: 12,
+                                    color: AppColors.redColor,
+                                    fontWeight: FontWeight.w400))
+                            : 10.y,
                       ],
                     )),
-
                 // ClipRRect(
                 //
                 //   borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -384,10 +443,17 @@ class _BusinessAddDetailsState extends State<BusinessAddDetails> {
             child: CustomButton(
               onTap: () {
                 if (_formKey.currentState!.validate()) {
-                  AddNotifier.addPageController.jumpToPage(1);
-                  AddNotifier.addBusinessNotifier.value = 1;
-                  _addData();
-                  log("Here is the data of notifier${AddBusinessController.addBusiness.value.advantages.toString()}");
+                  if (upload != null) {
+                    AddNotifier.addPageController.jumpToPage(1);
+                    AddNotifier.addBusinessNotifier.value = 1;
+                    _addData();
+                    log("Here is the data of notifier${AddBusinessController.addBusiness.value.advantages.toString()}");
+                    uploadFiles = false;
+                    setState(() {});
+                  } else {
+                    uploadFiles = true;
+                    setState(() {});
+                  }
                 }
               },
               textFontWeight: FontWeight.w500,
@@ -403,6 +469,8 @@ class _BusinessAddDetailsState extends State<BusinessAddDetails> {
   }
 
   _addData() {
+    print(upload!.path);
+
     AddBusinessController.addBusiness.value = AddBusinessModel(
       name: businessNameController.text.trim(),
       industry: industryController.text.trim(),
@@ -413,7 +481,7 @@ class _BusinessAddDetailsState extends State<BusinessAddDetails> {
       businessHour: businessHour.text.trim(),
       registrationNumber: registrationNumber.text.trim(),
       advantages: advantages,
-      documnets: upload!.path,
+      documnets: [upload!.path],
     );
   }
 }

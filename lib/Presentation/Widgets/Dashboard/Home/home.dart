@@ -26,6 +26,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Recent
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/search_busniess.dart';
 
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/notifications.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/export_profile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/SearchListing/search_listing.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -420,7 +421,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   businessProducts: state.business,
                                   getData: (dto) {
                                     Navigate.to(
-                                        context, const BusinessDetails());
+                                        context,
+                                        BusinessDetails(
+                                          model: dto,
+                                        ));
                                   })
                               : state is RecentlyViewedLoading
                                   ? const RecentViewedBusinessLoading()
@@ -536,7 +540,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   const Spacer(),
                                   Align(
                                     child: CustomButton(
-                                      onTap: () {},
+                                      onTap: () {
+                                        Navigate.to(
+                                            context, const ExportProfile());
+                                      },
                                       text: 'Create Your Profile',
                                       textFontWeight: FontWeight.w400,
                                       horizontalMargin: 10,

@@ -48,13 +48,17 @@ class _PublishWidgetState extends State<PublishWidget> {
 //         text: 'Publish' ,),
       body: BlocConsumer<AddBusinessCubit, AddBusinessState>(
         listener: (context, state) {
+          print(state.toString());
+
           if (state is AddBusinessLoading) {
             LoadingDialog.showLoadingDialog(context);
           }
           if (state is AddBusinessLoaded) {
-            CustomDialog.dialog(context, const AddSuccessDialog(),
-                barrierDismissible: false);
-            Future.delayed(const Duration(seconds: 3));
+            Navigator.pop(context);
+            // CustomDialog.dialog(context, const AddSuccessDialog(),
+            //     barrierDismissible: false);
+            // Future.delayed(const Duration(seconds: 3));
+            Navigator.pop(context);
           }
           if (state is AddBusinessError) {
             Navigator.pop(context);
@@ -79,6 +83,7 @@ class _PublishWidgetState extends State<PublishWidget> {
                     addText: "Uploads photos",
                     onTap: () async {
                       images = await PickFile.pickImage();
+                      valid = false;
                       setState(() {});
                     },
                   ),
@@ -91,33 +96,35 @@ class _PublishWidgetState extends State<PublishWidget> {
                           color: const Color(0xFFB0B0B0), fontSize: 14)),
 
                   images != null
-                      ? SizedBox(
-                          height: 100.h,
-                          width: 1.sw,
-                          child: ListView.separated(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: images!.length,
-                            itemBuilder: (context, index) {
-                              return DisplayFileImage(
-                                fileImage: images![index].toString(),
-                                onDeleteTap: () {
-                                  setState(() {
-                                    images!.removeAt(index);
-                                    //image = [];
-                                  });
+                      ? valid == false
+                          ? SizedBox(
+                              height: 100.h,
+                              width: 1.sw,
+                              child: ListView.separated(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: images!.length,
+                                itemBuilder: (context, index) {
+                                  return DisplayFileImage(
+                                    fileImage: images![index].toString(),
+                                    onDeleteTap: () {
+                                      setState(() {
+                                        images!.removeAt(index);
+                                        //image = [];
+                                      });
+                                    },
+                                  );
                                 },
-                              );
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return SizedBox(
-                                width: 5.sp,
-                              );
-                            },
-                          ),
-                        )
-                      : const SizedBox(),
+                                separatorBuilder:
+                                    (BuildContext context, int index) {
+                                  return SizedBox(
+                                    width: 5.sp,
+                                  );
+                                },
+                              ),
+                            )
+                          : const SizedBox()
+                      : const SizedBox.shrink(),
                   valid
                       ? AppText('Image Required',
                           style: Styles.circularStdRegular(context,
@@ -135,10 +142,12 @@ class _PublishWidgetState extends State<PublishWidget> {
                 left: 10,
                 child: CustomButton(
                   onTap: () async {
-                    if (images == null) {
+                    if (images == null || images!.isEmpty) {
                       valid = true;
                       setState(() {});
                     } else {
+                      valid = false;
+                      setState(() {});
                       _sendData();
                     }
                   },
@@ -159,15 +168,15 @@ class _PublishWidgetState extends State<PublishWidget> {
   _sendData() {
     AddBusinessModel currentModel = AddBusinessController.addBusiness.value;
 
-    AddBusinessController.addBusiness.value = currentModel.copyWith(
-      images: images,
-    );
-
     Map<String, dynamic> mapData =
         AddBusinessController.addBusiness.value.toJson();
 
+    print("this the map data in json ${mapData.toString()}");
+
     context.read<AddBusinessCubit>().addBusiness(
           body: mapData,
+          images: images!,
+          files: currentModel.documnets,
         );
   }
 }

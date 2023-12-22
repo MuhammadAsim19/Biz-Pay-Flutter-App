@@ -7,7 +7,7 @@ import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 
 class WishlistRepo {
   static Future<Map<String, dynamic>> wishlistData() async {
-    var headers = {"Authorization": " ${Data.app.user!.token}"};
+    var headers = {"authorization": " ${Data.app.user!.token}"};
 
     try {
       return await ApiService.get(

@@ -3,7 +3,7 @@ import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/recently_viewd_bussines_loading.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Saved/Controller/saved_listing_cubit.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Saved/saved_loading.dart';
+import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/saved_loading.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SavedListBusiness extends StatefulWidget {

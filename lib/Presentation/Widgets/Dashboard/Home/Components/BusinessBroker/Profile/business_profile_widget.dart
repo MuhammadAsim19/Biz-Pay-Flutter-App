@@ -48,7 +48,7 @@ class BusinessProfileWidget extends StatelessWidget {
                     width: 120.sp,
                   ),
                   15.y,
-                  AppText(profileData![index].designation!,
+                  AppText(profileData![index].designation ?? "",
                       maxLine: 2,
                       style: Styles.circularStdRegular(context,
                           color: AppColors.lightGreyColor, fontSize: 12.sp)),

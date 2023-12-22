@@ -26,11 +26,12 @@ class _BusinessDetailsState extends State<BusinessDetails> {
   void initState() {
     context
         .read<BussinessWishlistApiCubit>()
-        .bussinessWishlistApi(widget.model!.id.toString());
+        .bussinessWishlistApi(widget.model?.id ?? "");
     super.initState();
   }
 
-  bool? wishlistbool;
+  bool wishlistbool = false;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -62,7 +63,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                         }
 
                         if (state is BussinessWishlistApiLoaded) {
-                          wishlistbool = state.wishliatValue;
+                          wishlistbool = state.wishliatValue ?? false;
                         }
                       },
                       builder: (context, state) {
@@ -103,9 +104,13 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                       const Spacer(),
                                       const Icon(Icons.share),
                                       3.x,
-                                      wishlistbool!
-                                          ? SvgPicture.asset(Assets.heartLight)
-                                          : SvgPicture.asset(Assets.heartRed),
+                                      state is BussinessWishlistApiLoading
+                                          ? wishlistbool
+                                              ? SvgPicture.asset(
+                                                  Assets.heartLight)
+                                              : SvgPicture.asset(
+                                                  Assets.heartRed)
+                                          : SvgPicture.asset(Assets.heartLight),
                                       10.x,
                                     ],
                                   ),

@@ -215,3 +215,29 @@ class FinancialDetail {
         "_id": id,
       };
 }
+
+class BusinessCategory {
+  final String? id;
+  final String? title;
+
+  BusinessCategory({
+    this.id,
+    this.title,
+  });
+
+  factory BusinessCategory.fromRawJson(String str) =>
+      BusinessCategory.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory BusinessCategory.fromJson(Map<String, dynamic> json) =>
+      BusinessCategory(
+        id: json["_id"],
+        title: json["title"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "_id": id,
+        "title": title,
+      };
+}

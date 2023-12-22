@@ -2,16 +2,18 @@ import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Common/custom_dropdown.dart';
 
 class MultiItemPicker extends StatefulWidget {
-  final void Function(List) onChange;
+  final void Function(List<String>) onChange;
   final List getList;
   final String hintText;
   final double? hMar;
+  final String validationText;
 
   const MultiItemPicker({
     super.key,
     required this.onChange,
     required this.getList,
     required this.hintText,
+    required this.validationText,
     this.hMar = 10,
   });
 
@@ -20,7 +22,7 @@ class MultiItemPicker extends StatefulWidget {
 }
 
 class _MultiItemPickerState extends State<MultiItemPicker> {
-  List list = [];
+  List<String> list = [];
   bool isClicked = false;
 
   var value;
@@ -39,7 +41,7 @@ class _MultiItemPickerState extends State<MultiItemPicker> {
           }).toList(),
           hintText: widget.hintText,
           value: value,
-          validationText: '',
+          validationText: widget.validationText,
           onChanged: (value) {
             list.contains(value) ? null : list.add(value);
             widget.onChange(list);

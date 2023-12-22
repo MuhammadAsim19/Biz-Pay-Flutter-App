@@ -12,15 +12,15 @@ class BussinessWishlistApiCubit extends Cubit<BussinessWishlistApiState> {
 
     print('BussinessWishlistApiCubit call');
     try {
-      final value = await AllBusiness.inWishlist(businessId);
+      await AllBusiness.inWishlist(businessId).then((value) {
+        if (value['Success']) {
+          final bool inWishlist = value['body']['inWishlist'];
 
-      if (value['Success']) {
-        final bool inWishlist = value['body']['inWishlist'];
-
-        emit(BussinessWishlistApiLoaded(wishliatValue: inWishlist));
-      } else {
-        emit(BussinessWishlistApiError(error: value['error']));
-      }
+          emit(BussinessWishlistApiLoaded(wishliatValue: inWishlist));
+        } else {
+          emit(BussinessWishlistApiError(error: value['error']));
+        }
+      });
     } catch (e) {
       emit(BussinessWishlistApiError(error: e.toString()));
       rethrow;

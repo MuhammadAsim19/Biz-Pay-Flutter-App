@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class AddBusinessModel {
   String? name;
   String? owner;
@@ -12,7 +14,7 @@ class AddBusinessModel {
   String? businessHour;
   List<String>? advantages;
   String? registrationNumber;
-  String? documnets;
+  List<String?>? documnets;
   String? salesPrice;
   List<Map<String, dynamic>>? financialDetails;
   List<String?>? images;
@@ -50,7 +52,7 @@ class AddBusinessModel {
     String? businessHour,
     List<String>? advantages,
     String? registrationNumber,
-    String? documents,
+    List<String>? documents,
     String? salesPrice,
     List<Map<String, dynamic>>? financialDetails,
     List<String?>? images,
@@ -69,7 +71,7 @@ class AddBusinessModel {
       businessHour: businessHour ?? this.businessHour,
       advantages: advantages ?? this.advantages,
       registrationNumber: registrationNumber ?? this.registrationNumber,
-      documnets: documents ?? documnets,
+      documnets: documents ?? this.documnets,
       salesPrice: salesPrice ?? this.salesPrice,
       financialDetails: financialDetails ?? this.financialDetails,
       images: images ?? this.images,
@@ -91,7 +93,7 @@ class AddBusinessModel {
       businessHour: json['businessHour'],
       advantages: List<String>.from(json['advantages'] ?? []),
       registrationNumber: json['registrationNumber'],
-      documnets: json['documents'],
+      documnets: List<String>.from(json['images'] ?? []),
       salesPrice: json['salesPrice'],
       financialDetails:
           List<Map<String, dynamic>>.from(json['financialDetails'] ?? []),
@@ -102,22 +104,20 @@ class AddBusinessModel {
   Map<String, dynamic> toJson() {
     return {
       'name': name,
-      'owner': owner,
+      'numberOfEmployes': owner,
       'industry': industry,
-      'employee': employee,
-      'description': description,
-      'yearFound': yearFound,
+      'numberOfOwners': employee,
+      'businessDescription': description,
+      'foundationYear': yearFound,
       'country': country,
       'city': city,
       'address': address,
       'zipCode': zipCode,
-      'businessHour': businessHour,
-      'advantages': advantages,
+      'businessHours': businessHour,
+      'advantages': jsonEncode(advantages),
       'registrationNumber': registrationNumber,
-      'documents': documnets,
-      'salesPrice': salesPrice,
-      'financialDetails': financialDetails,
-      'images': images,
+      'salePrice': salesPrice,
+      'financialDetails': jsonEncode(financialDetails),
     };
   }
 }

@@ -5,6 +5,7 @@ import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/Controllers/
 import 'package:buysellbiz/Presentation/Widgets/Auth/Login/Controllers/login_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/Controllers/sign_up_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/add_business_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/business_category_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/bussiness_wishlist_api_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Brokers/brokers_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Business/all_business_cubit.dart';
@@ -12,6 +13,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Online
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/RecentlyAdded/recently_added_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Categories/category_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/RecentlyView/recently_viewed_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/Controller/broker_profile_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Saved/Controller/saved_listing_cubit.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,4 +35,7 @@ List<BlocProvider> appProviders = [
   BlocProvider<AddBusinessCubit>(create: (context) => AddBusinessCubit()),
   BlocProvider<BussinessWishlistApiCubit>(
       create: (context) => BussinessWishlistApiCubit()),
+  BlocProvider<BusinessCategoryCubit>(
+      create: (context) => BusinessCategoryCubit()),
+  BlocProvider<BrokerProfileCubit>(create: (context) => BrokerProfileCubit()),
 ];
