@@ -679,7 +679,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   businessProducts: state.data,
                                   getData: (data) {
                                     Navigate.to(
-                                        context, const BusinessDetails());
+                                        context,
+                                        BusinessDetails(
+                                          model: data,
+                                        ));
                                   },
                                   chatTap: (BusinessModel val) {
                                     BottomNotifier.bottomPageController!

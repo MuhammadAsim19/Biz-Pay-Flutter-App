@@ -6,7 +6,7 @@ import '../State/business_wishlistapi_state.dart';
 class BussinessWishlistApiCubit extends Cubit<BussinessWishlistApiState> {
   BussinessWishlistApiCubit() : super(BussinessWishlistApiInitial());
 
-  Future<void> bussinessWishlistApi(String businessId) async {
+  businessWishListCheck(String businessId) async {
     await Future.delayed(Duration.zero);
     emit(BussinessWishlistApiLoading());
 
@@ -27,13 +27,13 @@ class BussinessWishlistApiCubit extends Cubit<BussinessWishlistApiState> {
     }
   }
 
-  Future<void> wishlistCheckCubit(String businessId, bool operation) async {
+  businessWishListIn(String businessId, bool operation) async {
     await Future.delayed(Duration.zero);
     emit(BussinessWishlistApiLoading());
     try {
       await AllBusiness.wishlistCheck(businessId, operation).then((value) {
         if (value['Success']) {
-          emit(BussinessWishlistApiLoaded(wishliatValue: operation));
+          emit(BussinessWishlistApiInLoaded(wishliatValue: operation));
         } else {
           emit(BussinessWishlistApiError(error: value['error']));
         }
