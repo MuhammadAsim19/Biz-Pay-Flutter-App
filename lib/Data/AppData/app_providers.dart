@@ -14,6 +14,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Recent
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Categories/category_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/RecentlyView/recently_viewed_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/Controller/broker_profile_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/Controller/get_all_country_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Saved/Controller/saved_listing_cubit.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,4 +39,5 @@ List<BlocProvider> appProviders = [
   BlocProvider<BusinessCategoryCubit>(
       create: (context) => BusinessCategoryCubit()),
   BlocProvider<BrokerProfileCubit>(create: (context) => BrokerProfileCubit()),
+  BlocProvider<GetAllCountryCubit>(create: (context) => GetAllCountryCubit()),
 ];

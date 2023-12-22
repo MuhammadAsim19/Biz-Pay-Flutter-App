@@ -2,7 +2,7 @@ import 'package:buysellbiz/Data/AppData/data.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
 
 class ApiConstant {
-  static String baseUrl = 'http://192.168.1.7:9000';
+  static String baseUrl = 'http://192.168.1.5:9000';
   static String login = "$baseUrl/api/user/login";
   static String signUp = "$baseUrl/api/user/register";
   static String socialLoginUrl = '$baseUrl/api/user/continue_with_google';
@@ -10,6 +10,10 @@ class ApiConstant {
   static String verifyOtp = '$baseUrl/api/user/forget_password/validate_otp';
   static String setPassword =
       '$baseUrl/api/user/forget_password/request_change_password';
+
+  static String allCountry = '$baseUrl/countries';
+
+  static String stateOfCountry = 'http://localhost:9000/countries';
 
   /// Business Apis
   static String getAllBusiness = "$baseUrl/api/business";
