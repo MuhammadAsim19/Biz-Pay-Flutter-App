@@ -1,4 +1,5 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
+import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/dialog.dart';
@@ -27,11 +28,10 @@ class ProfileScreen extends StatelessWidget {
           child: Column(
             children: [
               40.y,
-              AssetImageWidget(
-                url: Assets.dummyImage2,
-                radius: 60.r,
-                isCircle: true,
-              ),
+              CachedImage(
+                  radius: 55.sp,
+                  url:
+                      "${ApiConstant.baseUrl}${Data.app.user?.user!.profilePic}"),
               Column(
                 children: [
                   10.y,
@@ -44,7 +44,7 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Navigate.to(context, PersonalInformation());
+                          Navigate.to(context, const PersonalInformation());
                         },
                         child: const CustomListTile(
                           title: AppStrings.personalLinfo,

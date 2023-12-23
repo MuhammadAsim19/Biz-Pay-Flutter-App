@@ -14,23 +14,23 @@ void main() {
   //WidgetsFlutterBinding.ensureInitialized();
   init();
 
-  runApp(MultiBlocProvider(providers: appProviders, child: const MyApp()));
+  runApp(MultiBlocProvider(providers: appProviders, child: MyApp()));
 }
 
 Future<void> init() async {
   WidgetsFlutterBinding.ensureInitialized(); //Add this line
 
+  await SharedPrefs.init();
   if (Platform.isIOS) {
     await Firebase.initializeApp();
   } else {
     await Firebase.initializeApp();
   }
   await ScreenUtil.ensureScreenSize();
-  await SharedPrefs.init();
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
   // This widget is the root of your application.
   @override

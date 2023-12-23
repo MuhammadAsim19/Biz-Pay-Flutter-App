@@ -15,7 +15,10 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Recent
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Categories/category_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/RecentlyView/recently_viewed_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Controller/ChangePassword/change_password_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Controller/CustomerSupport/customer_support_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Controller/ListBusiness/your_business_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Controller/UpdateProfile/update_profile_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/DeleteAccount/delete_account_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/Controller/broker_profile_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/Controller/get_all_country_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Saved/Controller/saved_listing_cubit.dart';
@@ -47,4 +50,8 @@ List<BlocProvider> appProviders = [
   BlocProvider<AddToRecentlyViewCubit>(
       create: (context) => AddToRecentlyViewCubit()),
   BlocProvider<ChangePasswordCubit>(create: (context) => ChangePasswordCubit()),
+  BlocProvider<CustomerSupportCubit>(
+      create: (context) => CustomerSupportCubit()),
+  BlocProvider<UpdateProfileCubit>(create: (context) => UpdateProfileCubit()),
+  BlocProvider<DeleteAccountCubit>(create: (context) => DeleteAccountCubit()),
 ];

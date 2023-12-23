@@ -23,7 +23,7 @@ class SocialLoginCubit extends Cubit<SocialLoginState> {
           // var  check= null;
           //print(jsonDecode(jsonEncode(value)));
           UserModel userData = UserModel.fromJson((value));
-          await SharedPrefs.setUserLoginData(userRawData: value);
+          await SharedPrefs.setUserLoginData(userRawData: userData);
           SharedPrefs.getUserLoginData();
           //print("here3");
           emit(SocialLoginSuccess(data: userData));

@@ -18,21 +18,24 @@ class AllBusiness {
   }
 
   static Future<Map<String, dynamic>> yourBusinessList() async {
-    var headers = {"Authorization": " ${Data.app.user!.token}"};
+    var headers = {"Authorization": " ${Data.app.token}"};
 
     return await ApiService.get(ApiConstant.userBusiness, headers: headers);
   }
 
   static Future<Map<String, dynamic>> addToRecentlyView(
       String businessID) async {
-    var headers = {"Authorization": " ${Data.app.user!.token}"};
+    print("Here is Token${Data.app.token}");
+    print("Here is Token${Data.app.user!.user!.email}");
+
+    var headers = {"Authorization": " ${Data.app.token}"};
 
     return await ApiService.get(
         headers: headers, "${ApiConstant.addToRecentlyViewed}/$businessID");
   }
 
   static Future<Map<String, dynamic>> inWishlist(String bussinessId) async {
-    var headers = {"Authorization": " ${Data.app.user!.token}"};
+    var headers = {"Authorization": " ${Data.app.token}"};
 
     try {
       return await ApiService.get(
@@ -54,7 +57,7 @@ class AllBusiness {
   }
 
   static Future<Map<String, dynamic>> recentlyView() async {
-    var headers = {"Authorization": " ${Data.app.user!.token}"};
+    var headers = {"Authorization": " ${Data.app.token}"};
 
     try {
       return await ApiService.get(
@@ -72,7 +75,7 @@ class AllBusiness {
 
   static Future<Map<String, dynamic>> wishlistCheck(
       String bussinessId, bool operation) async {
-    var headers = {"Authorization": " ${Data.app.user!.token}"};
+    var headers = {"Authorization": " ${Data.app.token}"};
 
     try {
       String operations = !operation ? "ADD" : "REMOVE";

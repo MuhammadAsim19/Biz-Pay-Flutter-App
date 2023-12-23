@@ -1,11 +1,9 @@
 import 'dart:convert';
 
 class UserModel {
-  final String? token;
   final User? user;
 
   UserModel({
-    this.token,
     this.user,
   });
 
@@ -15,17 +13,30 @@ class UserModel {
   String toRawJson() => json.encode(toJson());
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-        token: json['body']["token"],
         user: json["user"] == null ? null : User.fromJson(json["user"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "token": token,
         "user": user?.toJson(),
       };
+
+  UserModel copyWith({
+    String? token,
+    User? user,
+  }) {
+    return UserModel(
+      user: user ?? this.user,
+    );
+  }
 }
 
 class User {
+  final String? dob;
+  final String? phoneNumber;
+  final String? lastName;
+  final String? country;
+
+  final String? profilePic;
   final String? firstName;
   final String? fullName;
   final String? email;
@@ -52,11 +63,16 @@ class User {
     this.onlineStatus,
     this.isActive,
     this.isVerified,
+    this.country,
     this.role,
     this.businesses,
+    this.lastName,
     this.businessesWishlist,
     this.recentlyViewedBusiness,
     this.id,
+    this.profilePic,
+    this.phoneNumber,
+    this.dob,
     this.createdAt,
     this.updatedAt,
     this.v,
@@ -68,14 +84,19 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         firstName: json["firstName"],
+        dob: json["dob"],
+        phoneNumber: json['phone'],
         fullName: json["fullName"],
+        country: json["country"],
         email: json["email"],
         accountStatus: json["accountStatus"],
         agreedToPolicies: json["agreed_to_policies"],
         onlineStatus: json["onlineStatus"],
         isActive: json["isActive"],
         isVerified: json["isVerified"],
+        lastName: json["lastName"],
         role: json["role"],
+        profilePic: json['profilePic'],
         businesses: json["businesses"] == null
             ? []
             : List<dynamic>.from(json["businesses"]!.map((x) => x)),
@@ -97,6 +118,9 @@ class User {
       );
 
   Map<String, dynamic> toJson() => {
+        "phone": phoneNumber,
+        "country": country,
+        "lastName": lastName,
         "firstName": firstName,
         "fullName": fullName,
         "email": email,
@@ -105,6 +129,8 @@ class User {
         "onlineStatus": onlineStatus,
         "isActive": isActive,
         "isVerified": isVerified,
+        "profilePic": profilePic,
+        "dob": dob,
         "role": role,
         "businesses": businesses == null
             ? []

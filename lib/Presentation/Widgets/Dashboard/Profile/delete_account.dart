@@ -1,14 +1,20 @@
+import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
+import 'package:buysellbiz/Data/AppData/app_preferences.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/strings.dart';
 import 'package:buysellbiz/Domain/PrivacyAndPolicy/privacy_and_terms_model.dart';
+import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/custom_textfield_with_on_tap.dart';
 import 'package:buysellbiz/Presentation/Common/dialog.dart';
+import 'package:buysellbiz/Presentation/Widgets/Auth/Login/login.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_appbar.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_list_tile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/delete_dialog.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/DeleteAccount/delete_account_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/PrivacyAndTerms/Components/privacy_and_terms_tile.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DeleteAccount extends StatelessWidget {
   DeleteAccount({super.key});
@@ -160,7 +166,7 @@ class DeleteAccount extends StatelessWidget {
               child: Column(
                 children: [
                   ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: data.length,
                       shrinkWrap: true,
                       itemBuilder: (context, index) =>
@@ -173,15 +179,36 @@ class DeleteAccount extends StatelessWidget {
                 bottom: 15.sp,
                 left: 15.sp,
                 right: 15.sp,
-                child: CustomButton(
-                  onTap: () {
-
-                    CustomDialog.dialog(context, const DeleteDialog(),barrierDismissible: true);
+                child: BlocListener<DeleteAccountCubit, DeleteAccountState>(
+                  listener: (context, state) {
+                    if (state is DeleteAccountLoading) {
+                      LoadingDialog.showLoadingDialog(context);
+                    }
+                    if (state is DeleteAccountLoaded) {
+                      Navigate.pop(context);
+                      CustomDialog.dialog(context, const DeleteDialog(),
+                          barrierDismissible: true);
+                      Future.delayed(const Duration(seconds: 2), () {
+                        SharedPrefs.clearUserData();
+                        Navigator.pop(context);
+                        Navigate.toReplaceAll(context, LoginScreen());
+                      });
+                    }
+                    if (state is DeleteAccountError) {
+                      Navigate.pop(context);
+                      WidgetFunctions.instance.showErrorSnackBar(
+                          context: context, error: state.error);
+                    }
                   },
-                  text: 'Delete Account',
-                  borderRadius: 50.r,
-                  bgColor: AppColors.redColor,
-                  isBorder: false,
+                  child: CustomButton(
+                    onTap: () {
+                      context.read<DeleteAccountCubit>().deleteAccount();
+                    },
+                    text: 'Delete Account',
+                    borderRadius: 50.r,
+                    bgColor: AppColors.redColor,
+                    isBorder: false,
+                  ),
                 ))
           ],
         ));

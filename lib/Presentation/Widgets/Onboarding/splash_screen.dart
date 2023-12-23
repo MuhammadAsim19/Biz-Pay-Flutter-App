@@ -1,4 +1,5 @@
 import 'package:buysellbiz/Data/AppData/app_initializer.dart';
+import 'package:buysellbiz/Data/AppData/app_preferences.dart';
 import 'package:buysellbiz/Data/AppData/data.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Widgets/Onboarding/onboarding.dart';
@@ -15,9 +16,18 @@ class _SplashScreenState extends State<SplashScreen>
   late AnimationController _controller;
   late Animation<double> _animation;
 
+  String? token;
+
+  checkToken() async {
+    token = SharedPrefs.getUserToken();
+
+    print(token);
+  }
+
   @override
   void initState() {
     super.initState();
+    checkToken();
 
     _controller = AnimationController(
       vsync: this,
@@ -33,7 +43,9 @@ class _SplashScreenState extends State<SplashScreen>
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const OnboardingScreen(),
+            builder: (context) => token != null
+                ? const BottomNavigationScreen()
+                : const OnboardingScreen(),
           ),
         );
       }

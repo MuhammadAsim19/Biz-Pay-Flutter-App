@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:buysellbiz/Application/Services/Connectivity/connectivity_service.dart';
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
+import 'package:buysellbiz/Data/AppData/app_initializer.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Common/no_internet_connection.dart';
@@ -40,6 +41,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
 
   @override
   void initState() {
+    AppInitializer.init();
     connection();
     // BottomNotifier.bottomPageController=pageContr oller;
     ///do not remove new keyword flutter is confused
@@ -94,7 +96,10 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
               AddNotifier.addBusinessNotifier.value = 0;
               Navigate.to(context, const AddBusiness());
             },
-            child: const Icon(Icons.add,color: AppColors.whiteColor,), //icon inside button
+            child: const Icon(
+              Icons.add,
+              color: AppColors.whiteColor,
+            ), //icon inside button
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
@@ -122,7 +127,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
 
             shape: const CircularNotchedRectangle(),
             //shape of notch
-           // notchMargin: 5,
+            // notchMargin: 5,
             //notche margin between floating button and bottom appbar
             child: ValueListenableBuilder(
               builder: (context, state, ss) {

@@ -1,10 +1,12 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/AppData/app_initializer.dart';
+import 'package:buysellbiz/Data/AppData/app_preferences.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/Brokers/broker_list_model.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisness_profile.dart';
 import 'package:buysellbiz/Domain/Category/categroy.dart';
+import 'package:buysellbiz/Domain/User/user_model.dart';
 import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/broker_loading.dart';
 import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/business_shimmer.dart';
 import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/category_loading.dart';
@@ -260,10 +262,16 @@ List<BusinessModel>? allData;
 List<BusinessModel>? searchData;
 
 class _HomeScreenState extends State<HomeScreen> {
+  UserModel? userData;
+
+  setUserData() {
+    userData = Data.app.user;
+  }
+
   @override
   void initState() {
 // get the user data for accessing in app
-    AppInitializer.init();
+
     context.read<AllBusinessCubit>().getBusiness();
     context.read<RecentlyAddedCubit>().getRecentBusiness();
     context.read<CategoryCubit>().getCategory();
@@ -271,13 +279,15 @@ class _HomeScreenState extends State<HomeScreen> {
     context.read<OnlineBusinessCubit>().getBusiness();
     context.read<BrokersCubit>().getBrokers();
 
+    setUserData();
+
     // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    print("User token here ${Data.app.user!.token}");
+    print("email ${Data.app.user!.user!.email}");
 
     return Scaffold(
       body: Column(
@@ -306,7 +316,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             AppText(AppStrings.hello,
                                 style: Styles.circularStdRegular(context,
                                     fontSize: 14, color: AppColors.whiteColor)),
-                            AppText("Adib Javid",
+                            AppText(userData!.user?.fullName ?? "",
                                 style: Styles.circularStdMedium(context,
                                     fontSize: 20, color: AppColors.whiteColor))
                           ],
