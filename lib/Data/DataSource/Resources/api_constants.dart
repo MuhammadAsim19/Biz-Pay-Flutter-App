@@ -1,5 +1,5 @@
 class ApiConstant {
-  static String baseUrl = 'http://192.168.1.5:9000';
+  static String baseUrl = 'http://18.118.10.44:8000';
   static String login = "$baseUrl/api/user/login";
   static String signUp = "$baseUrl/api/user/register";
   static String socialLoginUrl = '$baseUrl/api/user/continue_with_google';
@@ -31,4 +31,5 @@ class ApiConstant {
       "$baseUrl/api/user/check_businesses_wishlist";
 
   static String toggleWishlist = "$baseUrl/api/user/toggle_wishlist";
+  static String privacyPolicy = "$baseUrl/api/privacy_and_terms";
 }

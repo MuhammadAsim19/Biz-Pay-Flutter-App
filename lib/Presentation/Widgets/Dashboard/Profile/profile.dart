@@ -8,7 +8,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/change_password.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/customer_support.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/personal_information.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/privacy_policy.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/PrivacyPolicy/privacy_policy.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/terms_and_conditions.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/your_business.dart';
 import 'package:share_plus/share_plus.dart';
@@ -44,7 +44,7 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Navigate.to(context, PersonalInformation());
+                          Navigate.to(context, const PersonalInformation());
                         },
                         child: const CustomListTile(
                           title: AppStrings.personalLinfo,
