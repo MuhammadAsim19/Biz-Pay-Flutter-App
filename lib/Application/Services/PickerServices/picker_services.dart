@@ -69,6 +69,27 @@ class PickFile {
     if (result == null) return null;
     return result.files.first;
   }
+  static Future<List<PlatformFile>?> pickMultipleFiles(List<String>? allowedExtension,bool? allowMultiple ) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowMultiple: allowMultiple??false,
+       allowedExtensions: allowedExtension
+      //   'jpg',
+      //   'png',
+      //   'jpeg',
+      //   'docx',
+      //   'doc',
+      //   'pdf',
+      //   'csv',
+      //   'xls',
+      //   'xlsx',
+      //   'txt',
+      //   'mp4',
+      // ],
+    );
+    if (result == null) return null;
+    return result.files;
+  }
 
   static Future getImage(ImageSource source) async {
     final image = await ImagePicker().pickImage(source: source);

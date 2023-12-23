@@ -58,9 +58,10 @@ dependencies:
   flutter_linear_datepicker: ^2.0.5
   pdf: ^3.8.4
   flutter_rating_bar: ^4.0.1
-  flutter_downloader: ^1.8.0+1
+  flutter_downloader: 1.11.6
   permission_handler: ^10.2.0
   path_provider: ^2.0.11
+  dio:
 #  touchable_opacity: ^1.2.0
   app_settings: ^5.0.0
 #  syncfusion_flutter_datagrid: ^22.2.9
@@ -89,9 +90,10 @@ dependencies:
   firebase_core: ^2.2.0
   share_plus: ^7.2.1
   socket_io_client: ^2.0.3+1
-  video_thumbnail:
+  video_thumbnail: 0.5.3
   video_player: 2.7.2
   chewie: 1.7.4
+  open_file_plus: 3.4.1
 #  cached_video_player: 2.0.4
 
 

@@ -19,6 +19,12 @@ class GetAllCountryStateLoaded extends GetAllCountryState {
   GetAllCountryStateLoaded({this.states});
 }
 
+class GetAllCountryCityLoaded extends GetAllCountryState {
+  final List<dynamic>? city;
+
+  GetAllCountryCityLoaded({this.city});
+}
+
 class GetAllCountryError extends GetAllCountryState {
   final String? error;
 

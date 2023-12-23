@@ -9,6 +9,7 @@ import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/business_shimmer.
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/chip_widget.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Components/chart_revenue.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/add_to_recently_view_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/bussiness_wishlist_api_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/State/business_wishlistapi_state.dart';
 
@@ -30,6 +31,11 @@ class _BusinessDetailsState extends State<BusinessDetails> {
     context
         .read<BussinessWishlistApiCubit>()
         .businessWishListCheck(widget.model?.id ?? "");
+
+    context
+        .read<AddToRecentlyViewCubit>()
+        .addToRecentlyViewed(widget.model?.id ?? "");
+
     super.initState();
   }
 
@@ -67,6 +73,8 @@ class _BusinessDetailsState extends State<BusinessDetails> {
               physics: const NeverScrollableScrollPhysics(),
               headerSliverBuilder:
                   (BuildContext context, bool innerBoxIsScrolled) {
+                print(widget.model!.id);
+
                 return [
                   SliverAppBar(
                     elevation: 0,
@@ -146,7 +154,6 @@ class _BusinessDetailsState extends State<BusinessDetails> {
               },
               body: Builder(builder: (context) {
                 final value = widget.model!;
-                log(value.attachedFiles!.toString());
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Stack(
@@ -179,7 +186,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                         color: AppColors.lightGreyColor,
                                         fontSize: 12)),
                                 5.x,
-                                AppText(value.status!,
+                                AppText(value.viewsCount!,
                                     style: Styles.circularStdRegular(context,
                                         color: AppColors.lightGreyColor,
                                         fontSize: 12)),

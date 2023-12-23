@@ -5,11 +5,24 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 
 import 'Data/AppData/app_preferences.dart';
 import 'Data/DataSource/Resources/imports.dart';
 import 'Presentation/Widgets/Onboarding/splash_screen.dart';
-
+class DownloadCallBack {
+  static void downloadCallBackTest(id, status, progress) {
+    if (kDebugMode) {
+      print(id);
+    }
+    if (kDebugMode) {
+      print(status);
+    }
+    if (kDebugMode) {
+      print(progress);
+    }
+  }
+}
 void main() {
   //WidgetsFlutterBinding.ensureInitialized();
   init();
@@ -27,6 +40,9 @@ Future<void> init() async {
   }
   await ScreenUtil.ensureScreenSize();
   await SharedPrefs.init();
+  await FlutterDownloader.initialize();
+  await FlutterDownloader.registerCallback(
+      DownloadCallBack.downloadCallBackTest);
 }
 
 class MyApp extends StatelessWidget {

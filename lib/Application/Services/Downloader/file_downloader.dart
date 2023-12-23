@@ -63,7 +63,7 @@ class FileDownloader {
     // final directory = await getExternalStorageDirectory();
     if (Platform.isIOS) {
       Directory? directory = await getApplicationDocumentsDirectory();
-      final myFilePath = '${directory.path}/HbkApp';
+      final myFilePath = '${directory.path}/bizpay';
 
       final myImgDir = await Directory(myFilePath).create();
       // print(myImgDir);
@@ -85,7 +85,7 @@ class FileDownloader {
             type: StorageDirectory.downloads);
         final myFilePath = '${directory![0].path}/buysell';
         final dire = await AppPermissions.prepareSaveDir();
-
+print(dire);
         final myImgDir = await Directory(myFilePath).create();
         // print(myImgDir);
         final taskId = await FlutterDownloader.enqueue(
@@ -98,13 +98,64 @@ class FileDownloader {
           // show download progress in status bar (for Android)
           openFileFromNotification: true,
           // click on notification to open downloaded file (for Android)
-          saveInPublicStorage: true,
+          //saveInPublicStorage: true,
         );
-        // if (taskId != null) {
-        //   await FlutterDownloader.open(taskId: taskId);
-        // }
-        print(taskId);
+        if (taskId != null) {
+          print("task is... downloaded");
+          print(taskId);
+          await FlutterDownloader.open(taskId: taskId);
+          return dire.path;
+
+        }
+
+
       });
+    }
+  }
+  static Future<File?> tempFilePath(Uint8List data) async {
+    File? file;
+    if (Platform.isIOS) {
+      Directory? tempDir = await getApplicationDocumentsDirectory();
+      print("here");
+      File? tempFile = await File(
+          '${tempDir.path}/${DateTime.now().year}_${DateTime.now().month}${DateTime.now().millisecond}_${DateTime.now().month}${DateTime.now().millisecond}.pdf')
+          .create(recursive: false);
+      //print("filee ${file!.path}");
+
+      file = await tempFile.writeAsBytes(data);
+
+      //await file.writeAsBytes(data);
+
+      return file;
+    } else {
+      bool check =
+      await AppPermissions.hasStoragePermission(onSuccess: () async {
+        // print()
+        //file=temp;
+        //print("filee2 ${temp!.path}");
+
+        // await FileDownloader.download(file.uri.path);
+      });
+      //  print("nooo ${file?.absolute}");
+
+      if (check == true) {
+        Directory? tempDir = await AppPermissions.prepareSaveDir();
+        print("here in hbk data ${tempDir.path}");
+        // File? tempFile = await File(
+        //         '${tempDir!.parent.parent.parent.parent.path}/Documents/${DateTime.now().year}_${DateTime.now().month}${DateTime.now().millisecond}_${DateTime.now().month}${DateTime.now().millisecond}.pdf')
+        //     .create(recursive: false);
+        //print("filee ${file!.path}");
+        File? tempFile = await File(
+            '${tempDir.path}/${DateTime.now().year}_${DateTime.now().month}${DateTime.now().millisecond}_${DateTime.now().month}${DateTime.now().millisecond}.pdf')
+            .create(recursive: false);
+        file = await tempFile.writeAsBytes(data);
+
+        //await file.writeAsBytes(data);
+
+        return file;
+      } else {
+        return null;
+      }
     }
   }
 }

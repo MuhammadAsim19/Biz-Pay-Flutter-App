@@ -31,7 +31,7 @@ class ApiService {
 
   static Future<Map<String, dynamic>> get(String url,
       {Map<String, String>? headers}) async {
-    print("object");
+    print(url);
     print(headers.toString());
 
     try {
@@ -309,11 +309,11 @@ class ApiService {
       String url, Map<String, dynamic>? body,
       {Map<String, String>? headers}) async {
     try {
-      //print(body);
+      print("pa repo ka map ${body}");
       http.Response res = await http.put(
         Uri.parse(url),
         headers: headers ?? _authMiddleWare(),
-        body: jsonEncode(body),
+        body: body,
         //encoding: Encoding.getByName("application/x-www-form-urlencoded")
       );
 

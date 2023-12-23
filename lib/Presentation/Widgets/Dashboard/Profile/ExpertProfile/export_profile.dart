@@ -33,13 +33,13 @@ class _ExportProfileState extends State<ExportProfile> {
   List services = ['Capital Raising', "IPO Advisory", 'Social Marketing'];
 
   List country = [];
+  List privance = [];
+  List cityList = [];
 
   List industry = ['Automobile', "Education", 'Finance'];
 
   List profession = ['Annalists', "Marketing Manger", 'Sales Man'];
   List yearOfExperience = ["4", "10", "2"];
-
-  List privance = [];
 
   List education = [
     'Master in Business',
@@ -291,45 +291,12 @@ class _ExportProfileState extends State<ExportProfile> {
                           print("in listener${state.country}");
                           country = state.country!;
                         }
-                        if (state is GetAllCountryError) {
-                          WidgetFunctions.instance.showErrorSnackBar(
-                              context: context, error: state.error);
-                        }
-                        // TODO: implement listener
-                      },
-                      builder: (context, state) {
-                        return CustomDropDownWidget(
-                          isBorderRequired: true,
-                          hMargin: 0,
-                          vMargin: 0,
-                          itemsMap: country.map((e) {
-                            return DropdownMenuItem(value: e, child: Text(e));
-                          }).toList(),
-                          hintText: 'Country',
-                          value: countryName,
-                          validationText: 'Country Required',
-                          onChanged: (value) {
-                            context
-                                .read<GetAllCountryCubit>()
-                                .getCountryStates(value);
-
-                            countryName = value;
-                            setState(() {});
-                          },
-                        );
-                      },
-                    ),
-                    15.y,
-                    BlocConsumer<GetAllCountryCubit, GetAllCountryState>(
-                      listener: (context, state) {
-                        // print(state);
-                        // if (state is GetAllCountryLoading) {
-                        //   LoadingDialog.showLoadingDialog(context);
-                        // }
                         if (state is GetAllCountryStateLoaded) {
-                          print("in listener${state.states}");
                           privance = state.states!;
                         }
+                        if (state is GetAllCountryCityLoaded) {
+                          cityList = state.city!;
+                        }
                         if (state is GetAllCountryError) {
                           WidgetFunctions.instance.showErrorSnackBar(
                               context: context, error: state.error);
@@ -337,31 +304,72 @@ class _ExportProfileState extends State<ExportProfile> {
                         // TODO: implement listener
                       },
                       builder: (context, state) {
-                        return CustomDropDownWidget(
-                          isBorderRequired: true,
-                          hMargin: 0,
-                          vMargin: 0,
-                          itemsMap: privance.map((e) {
-                            return DropdownMenuItem(value: e, child: Text(e));
-                          }).toList(),
-                          hintText: 'State/province',
-                          value: privanceName,
-                          validationText: 'State Required',
-                          onChanged: (value) {
-                            privanceName = value;
-                            setState(() {});
-                          },
+                        return Column(
+                          children: [
+                            CustomDropDownWidget(
+                              isBorderRequired: true,
+                              hMargin: 0,
+                              vMargin: 0,
+                              itemsMap: country.map((e) {
+                                return DropdownMenuItem(
+                                    value: e, child: Text(e));
+                              }).toList(),
+                              hintText: 'Country',
+                              value: countryName,
+                              validationText: 'Country Required',
+                              onChanged: (value) {
+                                context
+                                    .read<GetAllCountryCubit>()
+                                    .getCountryStates(value, false);
+
+                                countryName = value;
+                                setState(() {});
+                              },
+                            ),
+                            10.y,
+                            CustomDropDownWidget(
+                              isBorderRequired: true,
+                              hMargin: 0,
+                              vMargin: 0,
+                              itemsMap: privance.map((e) {
+                                return DropdownMenuItem(
+                                    value: e, child: Text(e));
+                              }).toList(),
+                              hintText: 'Province/State',
+                              value: privanceName,
+                              validationText: 'Province/State Required',
+                              onChanged: (value) {
+                                privanceName = value;
+                                privanceName!.replaceAll('', '');
+                                setState(() {});
+
+                                context
+                                    .read<GetAllCountryCubit>()
+                                    .getCountryStates(privanceName!, true);
+                              },
+                            ),
+                            10.y,
+                            CustomDropDownWidget(
+                              isBorderRequired: true,
+                              hMargin: 0,
+                              vMargin: 0,
+                              itemsMap: cityList.map((e) {
+                                return DropdownMenuItem(
+                                    value: e, child: Text(e));
+                              }).toList(),
+                              hintText: 'City',
+                              value: cityName,
+                              validationText: 'City Required',
+                              onChanged: (value) {
+                                cityName = value;
+                                setState(() {});
+                              },
+                            ),
+                          ],
                         );
                       },
                     ),
-                    15.y,
-                    CustomTextFieldWithOnTap(
-                        validateText: "City Required",
-                        prefixIcon: SvgPicture.asset(Assets.location),
-                        borderRadius: 40.r,
-                        controller: city,
-                        hintText: 'City',
-                        textInputType: TextInputType.text),
+
                     15.y,
                     CustomTextFieldWithOnTap(
                         validateText: "Zip Code Required",
@@ -467,7 +475,7 @@ class _ExportProfileState extends State<ExportProfile> {
         {
           "country": countryName,
           "state": privanceName,
-          "city": city.text.trim(),
+          "city": cityName,
           "zipcode": zipCode.text.trim(),
         },
       ),

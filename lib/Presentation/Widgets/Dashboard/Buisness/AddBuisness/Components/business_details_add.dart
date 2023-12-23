@@ -363,15 +363,15 @@ class _BusinessAddDetailsState extends State<BusinessAddDetails> {
                           width: 123.w,
                           text: 'Upload Documents',
                         ),
-                        // upload != null
-                        //     ? DisplayFile(
-                        //         file: upload,
-                        //         onDeleteTap: () {
-                        //           upload = null;
-                        //           setState(() {});
-                        //         },
-                        //       )
-                        //     : 10.x,
+                        upload != null
+                            ? DisplayFileImage(
+                                fileImage: upload!.path!,
+                                onDeleteTap: () {
+                                  upload = null;
+                                  setState(() {});
+                                },
+                              )
+                            : 10.x,
                         7.y,
                         uploadFiles == true
                             ? AppText("Files Required",
