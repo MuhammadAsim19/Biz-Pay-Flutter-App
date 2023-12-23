@@ -5,10 +5,10 @@ import 'app_media.dart';
 import 'app_theme.dart';
 
 class Data with AppTheme, AppMedia, AppInitializer, UserData {
-  Data._privateConstructor();
+  Data._();
 
   // Static instance variable
-  static final Data app = Data._privateConstructor();
+  static final Data app = Data._();
 
   // Getter to access the instance
   factory Data() {

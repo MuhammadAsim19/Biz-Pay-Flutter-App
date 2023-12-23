@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
@@ -21,7 +22,7 @@ class SocialLoginCubit extends Cubit<SocialLoginState> {
         if (value["Success"] != null && value["Success"] == true) {
           //    print("here");
           // var  check= null;
-          //print(jsonDecode(jsonEncode(value)));
+        print(jsonDecode(jsonEncode(value)));
           UserModel userData = UserModel.fromJson((value));
           await SharedPrefs.setUserLoginData(userRawData: value);
           SharedPrefs.getUserLoginData();

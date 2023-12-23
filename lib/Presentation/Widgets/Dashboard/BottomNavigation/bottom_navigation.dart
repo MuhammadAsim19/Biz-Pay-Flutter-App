@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:buysellbiz/Application/Services/Connectivity/connectivity_service.dart';
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
+import 'package:buysellbiz/Data/AppData/app_initializer.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Common/no_internet_connection.dart';
@@ -47,6 +48,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
       // executes after build
       BottomNotifier.bottomNavigationNotifier.value = 0;
     });
+    AppInitializer.init();
     BottomNotifier.bottomPageController =
         new PageController(initialPage: widget.initialPage ?? 0);
     //BottomNotifier.bottomNavigationNotifier.value=widget.initialPage??0;
@@ -110,7 +112,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
               },
               children: [
                 const HomeScreen(),
-                SavedListing(),
+                const SavedListing(),
                 ChatScreen(),
                 const ProfileScreen()
               ],

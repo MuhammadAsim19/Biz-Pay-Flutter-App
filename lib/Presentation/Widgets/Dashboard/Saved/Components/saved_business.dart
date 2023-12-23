@@ -18,7 +18,7 @@ class SavedListBusiness extends StatefulWidget {
 class _SavedListBusinessState extends State<SavedListBusiness> {
   @override
   void initState() {
-    AppInitializer.init();
+    //AppInitializer.init();
     context.read<SavedListingCubit>().getWishlistData();
     super.initState();
   }

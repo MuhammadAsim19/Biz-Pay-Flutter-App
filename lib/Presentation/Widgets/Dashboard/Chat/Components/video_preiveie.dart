@@ -99,186 +99,193 @@ class _VideoPreviewState extends State<VideoPreview> {
     return Scaffold(
       backgroundColor: AppColors.whiteColor,
       body: _controller.value.isInitialized
-          ? Center(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 10.0),
-          child: Column(
-            children: [
-              orientation == Orientation.portrait
-                  ? const CustomAppBar(
-                title: 'Video',
-                leading: true,
-              )
-                  : const SizedBox(
-                height: 0,
-                width: 0,
-              ),
-              orientation == Orientation.portrait
-                  ? const Spacer()
-                  : const SizedBox(
-                height: 0,
-                width: 0,
-              ),
-              Expanded(
-                child: Stack(
-                  alignment: Alignment.center,
+          ? Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: SingleChildScrollView(
+              child: SizedBox(
+                height: 1.sh,
+                width: 1.sw,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    AspectRatio(
-                      //  aspectRatio:  orientation == Orientation.portrait?3/2:5/2,
-                      aspectRatio: orientation == Orientation.portrait
-                          ? 3 / 2
-                          : _controller.value.aspectRatio * 3,
-                      child: VideoPlayer(_controller),
+
+                    orientation == Orientation.portrait
+                        ? const CustomAppBar(
+                      title: 'Video',
+                      leading: true,
+                    )
+                        : const SizedBox(
+                      height: 0,
+                      width: 0,
                     ),
-                    InkWell(
-                        onTap: () {
-                          setState(() {
-                            _controller.value.isPlaying
-                                ? _controller.pause()
-                                : _controller.play();
-                          });
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(80),
-                          child: _controller.value.isPlaying
-                              ? const SizedBox(
-                            width: 30,
-                            height: 30,
-                          )
-                              : const Icon(
-                            Icons.play_circle,
-                            size: 40,
-                            color: AppColors.primaryColor,
+                    // orientation == Orientation.portrait
+                    //     ? const Spacer()
+                    //     : const SizedBox(
+                    //   height: 0,
+                    //   width: 0,
+                    // ),
+                    100.y,
+                    Expanded(
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          AspectRatio(
+                            //  aspectRatio:  orientation == Orientation.portrait?3/2:5/2,
+                            aspectRatio: orientation == Orientation.portrait
+                                ?  4/ 3
+                                : _controller.value.aspectRatio * 3,
+                            child: VideoPlayer(_controller),
                           ),
-                        )),
-                    Positioned(
-                      bottom: 15,
-                      child: SizedBox(
-                        height: 40,
-                        width: orientation != Orientation.portrait
-                            ? MediaQuery.of(context).size.width * 0.50
-                            : MediaQuery.of(context).size.width * 0.70,
-                        child: Column(
-                          //  crossAxisAlignment: CrossAxisAlignment.end,
-                          //mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Row(
+                          InkWell(
+                              onTap: () {
+                                setState(() {
+                                  _controller.value.isPlaying
+                                      ? _controller.pause()
+                                      : _controller.play();
+                                });
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(80),
+                                child: _controller.value.isPlaying
+                                    ? const SizedBox(
+                                  width: 30,
+                                  height: 30,
+                                )
+                                    : const Icon(
+                                  Icons.play_circle,
+                                  size: 40,
+                                  color: AppColors.primaryColor,
+                                ),
+                              )),
+                          Positioned(
+                            bottom: 15,
+                            child: SizedBox(
+                              height: 40,
+                              width: orientation != Orientation.portrait
+                                  ? MediaQuery.of(context).size.width * 0.50
+                                  : MediaQuery.of(context).size.width * 0.70,
+                              child: Column(
+                                //  crossAxisAlignment: CrossAxisAlignment.end,
+                                //mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Padding(
-                                    padding:
-                                    const EdgeInsets.only(right: 1.0),
-                                    child: ValueListenableBuilder(
-                                        valueListenable: _controller,
-                                        builder: (context, val, child) {
-                                          return Text(
-                                            videoDuration(val.position),
-                                            style: const TextStyle(
-                                                color:
-                                                AppColors.whiteColor,
-                                                fontSize: 14,
-                                                fontWeight:
-                                                FontWeight.w700),
-                                          );
-                                        }),
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                          const EdgeInsets.only(right: 1.0),
+                                          child: ValueListenableBuilder(
+                                              valueListenable: _controller,
+                                              builder: (context, val, child) {
+                                                return Text(
+                                                  videoDuration(val.position),
+                                                  style: const TextStyle(
+                                                      color:
+                                                      AppColors.whiteColor,
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                      FontWeight.w700),
+                                                );
+                                              }),
+                                        ),
+                                        Text(
+                                          "/",
+                                          style: Styles.circularStdRegular(context,
+                                              color: AppColors.whiteColor),
+                                        ),
+                                        // const Spacer(),
+                                        Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 8.0),
+                                            child: Text(
+                                              videoDuration(
+                                                  _controller.value.duration),
+                                              style: const TextStyle(
+                                                  color: AppColors.whiteColor,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w700),
+                                            )),
+                                      ],
+                                    ),
                                   ),
-                                  Text(
-                                    "/",
-                                    style: Styles.circularStdRegular(context,
-                                        color: AppColors.whiteColor),
+                                  Expanded(
+                                    child: VideoProgressIndicator(
+                                      _controller,
+                                      padding: const EdgeInsets.all(8),
+                                      colors: const VideoProgressColors(
+                                        playedColor:
+                                        AppColors.primaryColor,
+                                        backgroundColor: AppColors.whiteColor,
+                                        bufferedColor: Color(0x90656464),
+                                      ),
+                                      allowScrubbing: true,
+                                    ),
                                   ),
-                                  // const Spacer(),
-                                  Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: 8.0),
-                                      child: Text(
-                                        videoDuration(
-                                            _controller.value.duration),
-                                        style: const TextStyle(
-                                            color: AppColors.whiteColor,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w700),
-                                      )),
                                 ],
                               ),
                             ),
-                            Expanded(
-                              child: VideoProgressIndicator(
-                                _controller,
-                                padding: const EdgeInsets.all(8),
-                                colors: const VideoProgressColors(
-                                  playedColor:
-                                  AppColors.primaryColor,
-                                  backgroundColor: AppColors.whiteColor,
-                                  bufferedColor: Color(0x90656464),
+                          ),
+                          Positioned(
+                              top: 10,
+                              left: 10,
+                              child: orientation != Orientation.portrait
+                                  ? GestureDetector(
+                                onTap: () {
+                                  // context
+                                  //     .read<GalleryDataCubit>()
+                                  //     .getGalleryData(
+                                  //         false, "all", false);
+                                  Navigator.pop(context);
+                                },
+                                behavior: HitTestBehavior.opaque,
+                                child: Icon(
+                                  Icons.arrow_back_ios_new_rounded,
+                                  color: AppColors.primaryColor,
+                                  size: 30.r,
                                 ),
-                                allowScrubbing: true,
+                              )
+                                  : const SizedBox(
+                                height: 0,
+                                width: 0,
+                              )),
+                          Positioned(
+                            bottom: 30,
+                            right: 10,
+                            child: GestureDetector(
+                              onTap: () {
+                                if (orientation != Orientation.portrait) {
+                                  SystemChrome.setPreferredOrientations([
+                                    DeviceOrientation.portraitUp,
+                                  ]);
+                                } else {
+                                  SystemChrome.setPreferredOrientations([
+                                    DeviceOrientation.landscapeRight,
+                                    DeviceOrientation.landscapeLeft,
+                                  ]);
+                                }
+                              },
+                              behavior: HitTestBehavior.opaque,
+                              child: Icon(
+                                Icons.screen_rotation_alt,
+                                color: AppColors.whiteColor.withOpacity(0.7),
+                                size: 25.r,
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                    Positioned(
-                        top: 10,
-                        left: 10,
-                        child: orientation != Orientation.portrait
-                            ? GestureDetector(
-                          onTap: () {
-                            // context
-                            //     .read<GalleryDataCubit>()
-                            //     .getGalleryData(
-                            //         false, "all", false);
-                            Navigator.pop(context);
-                          },
-                          behavior: HitTestBehavior.opaque,
-                          child: Icon(
-                            Icons.arrow_back_ios_new_rounded,
-                            color: AppColors.primaryColor,
-                            size: 30.r,
-                          ),
-                        )
-                            : const SizedBox(
-                          height: 0,
-                          width: 0,
-                        )),
-                    Positioned(
-                      bottom: 30,
-                      right: 10,
-                      child: GestureDetector(
-                        onTap: () {
-                          if (orientation != Orientation.portrait) {
-                            SystemChrome.setPreferredOrientations([
-                              DeviceOrientation.portraitUp,
-                            ]);
-                          } else {
-                            SystemChrome.setPreferredOrientations([
-                              DeviceOrientation.landscapeRight,
-                              DeviceOrientation.landscapeLeft,
-                            ]);
-                          }
-                        },
-                        behavior: HitTestBehavior.opaque,
-                        child: Icon(
-                          Icons.screen_rotation_alt,
-                          color: AppColors.whiteColor.withOpacity(0.7),
-                          size: 25.r,
-                        ),
-                      ),
+                    orientation == Orientation.portrait
+                        ? const Spacer()
+                        : const SizedBox(
+                      height: 0,
+                      width: 0,
                     ),
                   ],
                 ),
               ),
-              orientation == Orientation.portrait
-                  ? const Spacer()
-                  : const SizedBox(
-                height: 0,
-                width: 0,
-              ),
-            ],
-          ),
-        ),
-      )
+            ),
+          )
           : const Center(
         child:
       CircularProgressIndicator(color: AppColors.primaryColor,)
