@@ -1,13 +1,14 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
+import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/buisness_details.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_popup_menu.dart';
 
 class BussinesList extends StatelessWidget {
-  final List<BusinessProductModel> businessProducts;
-  final void Function(BusinessProductModel val) getData;
+  final List<BusinessModel>? businessProducts;
+  final void Function(BusinessModel val) getData;
   final int? index;
 
   const BussinesList(
@@ -22,7 +23,7 @@ class BussinesList extends StatelessWidget {
       height: 110.h,
       child: GestureDetector(
         onTap: () {
-          Navigate.to(context,const BusinessDetails());
+          Navigate.to(context, const BusinessDetails());
         },
         child: Container(
           width: 338.sp,
@@ -36,11 +37,16 @@ class BussinesList extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AssetImageWidget(
-                url: businessProducts[index!].businessImage!,
-                width: 119.sp,
-                height: 120.h,
-              ),
+              if (businessProducts![index!].images != null)
+                CachedImage(
+                  radius: 30.sp,
+                  containerRadius: 10.sp,
+                  isCircle: false,
+                  url:
+                      "${ApiConstant.baseUrl}/${businessProducts![index!].images!.first}",
+                  width: 119.sp,
+                  height: 120.h,
+                ),
               10.x,
               Expanded(
                 child: Column(
@@ -49,7 +55,7 @@ class BussinesList extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        AppText(businessProducts[index!].location!,
+                        AppText(businessProducts![index!].address!,
                             style: Styles.circularStdRegular(context,
                                 color: AppColors.lightGreyColor)),
                         const Spacer(),
@@ -57,17 +63,16 @@ class BussinesList extends StatelessWidget {
                       ],
                     ),
                     5.y,
-                    Align(
-                        child: AppText(
-                      businessProducts[index!].businessName!,
+                    AppText(
+                      businessProducts![index!].name!,
                       style:
                           Styles.circularStdRegular(context, fontSize: 17.sp),
                       maxLine: 3,
-                    )),
+                    ),
                     5.y,
                     Row(
                       children: [
-                        AppText(businessProducts[index!].price!,
+                        AppText("\$ ${businessProducts![index!].salePrice!}",
                             style: Styles.circularStdBold(context)),
                         const Spacer(),
                         SizedBox(

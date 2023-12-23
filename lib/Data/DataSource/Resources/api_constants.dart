@@ -1,6 +1,3 @@
-import 'package:buysellbiz/Data/AppData/data.dart';
-import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
-
 class ApiConstant {
   static String baseUrl = 'http://192.168.1.5:9000';
   static String login = "$baseUrl/api/user/login";
@@ -11,9 +8,12 @@ class ApiConstant {
   static String setPassword =
       '$baseUrl/api/user/forget_password/request_change_password';
 
+  static String changePassword = '$baseUrl/api/user/changePassword';
+
   static String allCountry = '$baseUrl/countries';
 
-  static String stateOfCountry = 'http://localhost:9000/countries';
+  static String stateOfCountry = '$baseUrl/states';
+  static String stateCity = '$baseUrl/cities';
 
   /// Business Apis
   static String getAllBusiness = "$baseUrl/api/business";
@@ -28,8 +28,15 @@ class ApiConstant {
   static String switchTOBroker = "$baseUrl/api/broker/switch_to_broker";
 
   static String recentlyViewBusiness = "$baseUrl/api/user/get_recentlyViewed";
+
+  static String addToRecentlyViewed = "$baseUrl/api/user/add_to_recentlyViewed";
+
   static String wishList = "$baseUrl/api/user/businesses_wishlist";
   static String addBusiness = "$baseUrl/api/business/create";
   static String checkBusinessesWishlist =
       "$baseUrl/api/user/check_businesses_wishlist";
+
+  static String userBusiness = "$baseUrl/api/user/get/businessess";
+
+  static String toggleWishlist = "$baseUrl/api/user/toggle_wishlist";
 }

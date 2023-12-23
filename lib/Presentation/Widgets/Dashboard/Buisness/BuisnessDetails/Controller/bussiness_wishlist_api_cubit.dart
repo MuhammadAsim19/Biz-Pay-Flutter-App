@@ -1,12 +1,12 @@
 import 'package:buysellbiz/Data/DataSource/Repository/Business/all_business.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../State/business_detail_state.dart';
+import '../State/business_wishlistapi_state.dart';
 
 class BussinessWishlistApiCubit extends Cubit<BussinessWishlistApiState> {
   BussinessWishlistApiCubit() : super(BussinessWishlistApiInitial());
 
-  Future<void> bussinessWishlistApi(String businessId) async {
+  businessWishListCheck(String businessId) async {
     await Future.delayed(Duration.zero);
     emit(BussinessWishlistApiLoading());
 
@@ -17,6 +17,23 @@ class BussinessWishlistApiCubit extends Cubit<BussinessWishlistApiState> {
           final bool inWishlist = value['body']['inWishlist'];
 
           emit(BussinessWishlistApiLoaded(wishliatValue: inWishlist));
+        } else {
+          emit(BussinessWishlistApiError(error: value['error']));
+        }
+      });
+    } catch (e) {
+      emit(BussinessWishlistApiError(error: e.toString()));
+      rethrow;
+    }
+  }
+
+  businessWishListIn(String businessId, bool operation) async {
+    await Future.delayed(Duration.zero);
+    emit(BussinessWishlistApiLoading());
+    try {
+      await AllBusiness.wishlistCheck(businessId, operation).then((value) {
+        if (value['Success']) {
+          emit(BussinessWishlistApiInLoaded(wishliatValue: operation));
         } else {
           emit(BussinessWishlistApiError(error: value['error']));
         }

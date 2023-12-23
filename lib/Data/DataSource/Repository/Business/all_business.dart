@@ -1,10 +1,8 @@
 import 'dart:developer';
 
 import 'package:buysellbiz/Application/Services/ApiServices/api_services.dart';
-import 'package:buysellbiz/Data/AppData/app_preferences.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
-import 'package:buysellbiz/Domain/User/user_model.dart';
 
 class AllBusiness {
   static Future<Map<String, dynamic>> getBusiness() async {
@@ -17,6 +15,20 @@ class AllBusiness {
 
   static Future<Map<String, dynamic>> recentlyAdded() async {
     return await ApiService.get(ApiConstant.recentlyAddedBusiness);
+  }
+
+  static Future<Map<String, dynamic>> yourBusinessList() async {
+    var headers = {"Authorization": " ${Data.app.user!.token}"};
+
+    return await ApiService.get(ApiConstant.userBusiness, headers: headers);
+  }
+
+  static Future<Map<String, dynamic>> addToRecentlyView(
+      String businessID) async {
+    var headers = {"Authorization": " ${Data.app.user!.token}"};
+
+    return await ApiService.get(
+        headers: headers, "${ApiConstant.addToRecentlyViewed}/$businessID");
   }
 
   static Future<Map<String, dynamic>> inWishlist(String bussinessId) async {
@@ -49,6 +61,27 @@ class AllBusiness {
         headers: headers,
         ApiConstant.recentlyViewBusiness,
       ).then((value) {
+        return value;
+      }).catchError((e) {
+        throw e;
+      });
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  static Future<Map<String, dynamic>> wishlistCheck(
+      String bussinessId, bool operation) async {
+    var headers = {"Authorization": " ${Data.app.user!.token}"};
+
+    try {
+      String operations = !operation ? "ADD" : "REMOVE";
+      log(operations);
+      return await ApiService.get(
+              headers: headers,
+              "${ApiConstant.toggleWishlist}/$bussinessId/$operations")
+          .then((value) {
+        log(value.toString());
         return value;
       }).catchError((e) {
         throw e;

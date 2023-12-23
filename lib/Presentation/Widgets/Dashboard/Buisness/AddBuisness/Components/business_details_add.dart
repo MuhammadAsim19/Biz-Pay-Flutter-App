@@ -22,7 +22,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BusinessAddDetails extends StatefulWidget {
-  BusinessAddDetails({super.key});
+  const BusinessAddDetails({super.key});
 
   @override
   State<BusinessAddDetails> createState() => _BusinessAddDetailsState();
