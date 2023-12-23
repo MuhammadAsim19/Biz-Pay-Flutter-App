@@ -1,6 +1,5 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/AppData/app_initializer.dart';
-import 'package:buysellbiz/Data/AppData/app_preferences.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/Brokers/broker_list_model.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
@@ -262,16 +261,12 @@ List<BusinessModel>? allData;
 List<BusinessModel>? searchData;
 
 class _HomeScreenState extends State<HomeScreen> {
-  UserModel? userData;
-
-  setUserData() {
-    userData = Data.app.user;
-  }
-
   @override
   void initState() {
 // get the user data for accessing in app
-
+//    UserModel? us = Data().user;
+//    print("checking init data");
+//    print(us?.user == null);
     context.read<AllBusinessCubit>().getBusiness();
     context.read<RecentlyAddedCubit>().getRecentBusiness();
     context.read<CategoryCubit>().getCategory();
@@ -279,15 +274,13 @@ class _HomeScreenState extends State<HomeScreen> {
     context.read<OnlineBusinessCubit>().getBusiness();
     context.read<BrokersCubit>().getBrokers();
 
-    setUserData();
-
     // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    print("email ${Data.app.user!.user!.email}");
+    print("User token here ${Data.app.user!.token}");
 
     return Scaffold(
       body: Column(
@@ -316,7 +309,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             AppText(AppStrings.hello,
                                 style: Styles.circularStdRegular(context,
                                     fontSize: 14, color: AppColors.whiteColor)),
-                            AppText(userData!.user?.fullName ?? "",
+                            AppText("Adib Javid",
                                 style: Styles.circularStdMedium(context,
                                     fontSize: 20, color: AppColors.whiteColor))
                           ],

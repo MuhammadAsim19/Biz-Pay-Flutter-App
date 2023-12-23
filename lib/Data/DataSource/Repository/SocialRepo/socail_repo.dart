@@ -12,7 +12,7 @@ class SocialRepo {
       //   "photoUrl": photoUrl ?? "",
       //   "type": type
       // };
-      final headers = {'Content-Type': 'application/json'};
+      final headers = {'':""};
       return await ApiService.post(ApiConstant.socialLoginUrl, data,
               header: headers)
           .then((value) {

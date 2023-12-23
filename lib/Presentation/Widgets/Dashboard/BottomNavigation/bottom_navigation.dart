@@ -49,6 +49,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
       // executes after build
       BottomNotifier.bottomNavigationNotifier.value = 0;
     });
+    AppInitializer.init();
     BottomNotifier.bottomPageController =
         new PageController(initialPage: widget.initialPage ?? 0);
     //BottomNotifier.bottomNavigationNotifier.value=widget.initialPage??0;
@@ -115,7 +116,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
               },
               children: [
                 const HomeScreen(),
-                SavedListing(),
+                const SavedListing(),
                 ChatScreen(),
                 const ProfileScreen()
               ],

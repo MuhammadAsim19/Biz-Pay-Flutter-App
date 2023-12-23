@@ -96,7 +96,7 @@ class AppPermissions {
 
   static Future<Directory> prepareSaveDir() async {
     String? localPath = (await getSavedDir())!;
-    final savedDir = Directory('$localPath/HbkApp');
+    final savedDir = Directory('$localPath/bizzpay');
     if (await savedDir.exists() == false) {
       await savedDir.create();
     }

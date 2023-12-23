@@ -1,7 +1,7 @@
 import 'package:buysellbiz/Data/AppData/app_preferences.dart';
 
 mixin AppInitializer {
-  static void init() {
+  static void  init() async {
     Future.wait([_user()]);
   }
 
