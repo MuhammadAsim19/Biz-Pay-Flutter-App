@@ -44,12 +44,9 @@ List<BlocProvider> appProviders = [
       create: (context) => BusinessCategoryCubit()),
   BlocProvider<BrokerProfileCubit>(create: (context) => BrokerProfileCubit()),
   BlocProvider<GetAllCountryCubit>(create: (context) => GetAllCountryCubit()),
-<<<<<<< HEAD
   BlocProvider<PrivacyPolicyCubit>(create: (context) => PrivacyPolicyCubit()),
-=======
   BlocProvider<YourBusinessCubit>(create: (context) => YourBusinessCubit()),
   BlocProvider<AddToRecentlyViewCubit>(
       create: (context) => AddToRecentlyViewCubit()),
   BlocProvider<ChangePasswordCubit>(create: (context) => ChangePasswordCubit()),
->>>>>>> 6ca189df8711f39b0839274bbf534c966425eea4
 ];
