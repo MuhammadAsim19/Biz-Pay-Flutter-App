@@ -1,10 +1,7 @@
-import 'dart:ffi';
-
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
 import 'package:buysellbiz/Presentation/Common/ContextWidgets/bottom_sheet.dart';
-import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/business_shimmer.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/buisness_details.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Category/Controller/category_business_cubit.dart';
@@ -50,7 +47,7 @@ class _SearchListingState extends State<SearchListing> {
   @override
   void initState() {
     context.read<CategoryBusinessCubit>().getCategoryBusiness(widget.id);
-    // TODO: implement initState
+
     super.initState();
   }
 
@@ -114,16 +111,18 @@ class _SearchListingState extends State<SearchListing> {
                   // 10.x,
                   FilterButtons(
                       value: 'Price',
-                      onChange: (val) {
-                        print("on Change Value$val");
-                        _filterByPrice(val);
+                      onTap: () {
+                        _filterBottomSheet((value) {
+                          _filterByPrice(value);
+                        });
                       }),
                   10.x,
                   FilterButtons(
                       value: 'Revenue',
-                      onChange: (val) {
-                        print("on Change Value$val");
-                        _filterByRevenue(val);
+                      onTap: () {
+                        _filterBottomSheet((value) {
+                          _filterByRevenue(value);
+                        });
                       }),
                 ],
               ),
@@ -198,6 +197,40 @@ class _SearchListingState extends State<SearchListing> {
         ),
       ),
     );
+  }
+
+  _filterBottomSheet(Function(double value) onChange) {
+    double value1 = 10;
+
+    CustomBottomSheet().showBottomSheet(context,
+        StatefulBuilder(builder: (context, state) {
+      return SizedBox(
+        height: 1.sh / 2,
+        width: 1.sw,
+        child: Center(
+          // ignore: missing_required_param
+          child: SfSlider(
+            onChangeEnd: (va) {
+              Navigator.pop(context);
+            },
+            activeColor: AppColors.primaryColor,
+            min: 0.0,
+            max: 500.0,
+            value: value1,
+            interval: 100,
+            showTicks: false,
+            showLabels: true,
+            onChanged: (value) {
+              print("da value da aw hasi demode kohlrabi$value1");
+              state(() {
+                value1 = value;
+              });
+              onChange(value);
+            },
+          ),
+        ),
+      );
+    }));
   }
 
   _filterByCountry(String query) {

@@ -1,6 +1,19 @@
-part of 'notification_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Components/notification_model.dart';
 
-@immutable
-abstract class NotificationState {}
+abstract class NotificationCubitState {}
 
-class NotificationInitial extends NotificationState {}
+class NotificationInitial extends NotificationCubitState {}
+
+class NotificationLoading extends NotificationCubitState {}
+
+class NotificationLoaded extends NotificationCubitState {
+  final List<NotificationModel>? notificationModel;
+
+  NotificationLoaded({this.notificationModel});
+}
+
+class NotificationError extends NotificationCubitState {
+  final String? error;
+
+  NotificationError({this.error});
+}

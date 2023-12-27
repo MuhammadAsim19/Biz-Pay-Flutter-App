@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:buysellbiz/Data/DataSource/Repository/Brokers/brokers.dart';
-import 'package:buysellbiz/Data/DataSource/Repository/Business/all_business.dart';
+import 'package:buysellbiz/Data/DataSource/Repository/Business/all_business_repo.dart';
 import 'package:buysellbiz/Domain/Brokers/broker_list_model.dart';
 import 'package:meta/meta.dart';
 

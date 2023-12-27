@@ -10,6 +10,7 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'Data/AppData/app_preferences.dart';
 import 'Data/DataSource/Resources/imports.dart';
 import 'Presentation/Widgets/Onboarding/splash_screen.dart';
+
 class DownloadCallBack {
   static void downloadCallBackTest(id, status, progress) {
     if (kDebugMode) {
@@ -23,23 +24,16 @@ class DownloadCallBack {
     }
   }
 }
-class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
-  }
-}
+
 void main() {
-  //WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   init();
-  HttpOverrides.global = MyHttpOverrides();
+
   runApp(MultiBlocProvider(providers: appProviders, child: const MyApp()));
 }
 
 Future<void> init() async {
-  WidgetsFlutterBinding.ensureInitialized(); //Add this line
+  await SharedPrefs.init();
 
   if (Platform.isIOS) {
     await Firebase.initializeApp();
@@ -47,7 +41,7 @@ Future<void> init() async {
     await Firebase.initializeApp();
   }
   await ScreenUtil.ensureScreenSize();
-  await SharedPrefs.init();
+
   await FlutterDownloader.initialize();
   await FlutterDownloader.registerCallback(
       DownloadCallBack.downloadCallBackTest);
