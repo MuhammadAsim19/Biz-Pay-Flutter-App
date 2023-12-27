@@ -3,46 +3,15 @@ import 'package:buysellbiz/Presentation/Common/ContextWidgets/bottom_sheet.dart'
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 class FilterButtons extends StatelessWidget {
-  FilterButtons({super.key, this.onChange, this.value});
+  FilterButtons({super.key, this.onTap, this.value});
 
   String? value;
-  Function(double val)? onChange;
+  VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        CustomBottomSheet().showBottomSheet(context,
-            StatefulBuilder(builder: (context, state) {
-          double value1 = 10;
-          return SizedBox(
-            height: 1.sh / 2,
-            width: 1.sw,
-            child: Center(
-              // ignore: missing_required_param
-              child: SfSlider(
-                onChangeEnd: (va) {
-                  Navigator.pop(context);
-                },
-                activeColor: AppColors.primaryColor,
-                min: 0.0,
-                max: 500.0,
-                value: value1,
-                interval: 100,
-                showTicks: false,
-                showLabels: true,
-                onChanged: (value) {
-                  print(value);
-                  state(() {
-                    value = value;
-                  });
-                  onChange!(value);
-                },
-              ),
-            ),
-          );
-        }));
-      },
+      onTap: onTap,
       child: Container(
         // width: 150,
         height: 50,

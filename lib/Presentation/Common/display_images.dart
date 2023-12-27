@@ -46,8 +46,7 @@ class DisplayFileImage extends StatelessWidget {
         Positioned(
           top: 0,
           right: 1,
-          child:GestureDetector(
-
+          child: GestureDetector(
               onTap: onDeleteTap,
               child: SvgPicture.asset(Assets.crossDeleteIcon)),
         )
@@ -55,7 +54,6 @@ class DisplayFileImage extends StatelessWidget {
     );
   }
 }
-
 
 class DisplayFileImageChat extends StatelessWidget {
   final String fileImage;
@@ -67,10 +65,24 @@ class DisplayFileImageChat extends StatelessWidget {
   const DisplayFileImageChat({
     super.key,
     required this.fileImage,
-    required this.onDeleteTap, this.fullFile,
+    required this.onDeleteTap,
+    this.fullFile,
   });
-  static final  List<String> validImageExt=["jpg","jpeg","png","webp","heic"];
-  static final List<String?> validVideExt=["mp4","avi","mpeg","wmv","mkv"];
+
+  static final List<String> validImageExt = [
+    "jpg",
+    "jpeg",
+    "png",
+    "webp",
+    "heic"
+  ];
+  static final List<String?> validVideExt = [
+    "mp4",
+    "avi",
+    "mpeg",
+    "wmv",
+    "mkv"
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -94,21 +106,20 @@ class DisplayFileImageChat extends StatelessWidget {
               height: 95.h,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child:
-
-                fullFile?.path!.contains("thumbnail")==true?
-                Image.file(
-                  File(fullFile!.path!),
-                  fit: BoxFit.fill,
-                )
-
-                    :
-                validImageExt.contains(fullFile?.extension?.toLowerCase())? Image.file(
-                  File(fileImage),
-                  fit: BoxFit.fill,
-                ):
-                Image.asset("assets/images/docimage.jpeg",fit: BoxFit.fill,)
-                ,
+                child: fullFile?.path!.contains("thumbnail") == true
+                    ? Image.file(
+                        File(fullFile!.path!),
+                        fit: BoxFit.fill,
+                      )
+                    : validImageExt.contains(fullFile?.extension?.toLowerCase())
+                        ? Image.file(
+                            File(fileImage),
+                            fit: BoxFit.fill,
+                          )
+                        : Image.asset(
+                            "assets/images/docimage.jpeg",
+                            fit: BoxFit.fill,
+                          ),
               ),
             ),
           ),
@@ -116,8 +127,7 @@ class DisplayFileImageChat extends StatelessWidget {
         Positioned(
           top: 0,
           right: 1,
-          child:GestureDetector(
-
+          child: GestureDetector(
               onTap: onDeleteTap,
               child: SvgPicture.asset(Assets.crossDeleteIcon)),
         ),
@@ -126,11 +136,60 @@ class DisplayFileImageChat extends StatelessWidget {
             right: 0,
             top: 0,
             left: 0,
-            child:fullFile?.path!.contains("thumbnail")==true? const Icon(Icons.play_circle_outline,color: AppColors.whiteColor,)
-
-                :const Stack()
-        )
+            child: fullFile?.path!.contains("thumbnail") == true
+                ? const Icon(
+                    Icons.play_circle_outline,
+                    color: AppColors.whiteColor,
+                  )
+                : const Stack())
       ],
+    );
+  }
+}
+
+class DisplayFile extends StatelessWidget {
+  final PlatformFile? file;
+  final VoidCallback onDeleteTap;
+  final int index;
+
+  const DisplayFile({
+    super.key,
+    required this.file,
+    required this.index,
+    required this.onDeleteTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 15).r,
+      margin: const EdgeInsets.symmetric(vertical: 8).r,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: AppColors.whiteColor,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Flexible(
+            child: AppText(
+              file!.name,
+              maxLine: 1,
+              overflow: TextOverflow.ellipsis,
+              style: Styles.circularStdRegular(context),
+            ),
+          ),
+          GestureDetector(
+            onTap: onDeleteTap,
+            behavior: HitTestBehavior.opaque,
+            child: Icon(
+              Icons.delete,
+              color: AppColors.redColor,
+              size: 23.r,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

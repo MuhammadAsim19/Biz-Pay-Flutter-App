@@ -45,4 +45,5 @@ class ApiConstant {
 
   static String updateProfile = "$baseUrl/api/user/update_user/";
   static String privacyPolicy = "$baseUrl/api/privacy_and_terms";
+  static String categouryBusiness = "$baseUrl/api/business/filterByCategory";
 }

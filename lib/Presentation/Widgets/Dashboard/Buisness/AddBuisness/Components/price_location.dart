@@ -4,6 +4,8 @@ import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/custom_dropdown.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/add_business_controller.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/Controller/add_business_conntroller.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/Controller/get_all_country_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PriceLocation extends StatefulWidget {
   PriceLocation({super.key});
@@ -28,8 +30,13 @@ class _PriceLocationState extends State<PriceLocation> {
 
   TextEditingController addressController = TextEditingController();
 
+  List countryList = [];
+  List privance = [];
+  List cityList = [];
+
   String? country;
   String? city;
+  String? privanceName;
 
   int yearMi = 1;
 
@@ -174,20 +181,89 @@ class _PriceLocationState extends State<PriceLocation> {
                                 fontSize: 20)),
                         10.y,
 
-                        CustomDropDownWidget(
-                          prefixIcon: SvgPicture.asset(Assets.dropDownIcon),
-                          isBorderRequired: true,
-                          hMargin: 0,
-                          vMargin: 0,
-                          itemsMap: ["CountryA", "CountryB"].map((e) {
-                            return DropdownMenuItem(value: e, child: Text(e));
-                          }).toList(),
-                          hintText: "Country",
-                          value: country,
-                          validationText: 'Country Required',
-                          onChanged: (value) {
-                            countryController.text = value;
-                            country = value;
+                        BlocConsumer<GetAllCountryCubit, GetAllCountryState>(
+                          listener: (context, state) {
+                            print(state);
+                            if (state is GetAllCountryLoaded) {
+                              print("in listener${state.country}");
+                              countryList = state.country!;
+                            }
+                            if (state is GetAllCountryStateLoaded) {
+                              privance = state.states!;
+                            }
+                            if (state is GetAllCountryCityLoaded) {
+                              cityList = state.city!;
+                            }
+                            if (state is GetAllCountryError) {
+                              WidgetFunctions.instance.showErrorSnackBar(
+                                  context: context, error: state.error);
+                            }
+                            // TODO: implement listener
+                          },
+                          builder: (context, state) {
+                            return Column(
+                              children: [
+                                CustomDropDownWidget(
+                                  isBorderRequired: true,
+                                  hMargin: 0,
+                                  vMargin: 0,
+                                  itemsMap: countryList.map((e) {
+                                    return DropdownMenuItem(
+                                        value: e, child: Text(e));
+                                  }).toList(),
+                                  hintText: 'Country',
+                                  value: country,
+                                  validationText: 'Country Required',
+                                  onChanged: (value) {
+                                    context
+                                        .read<GetAllCountryCubit>()
+                                        .getCountryStates(value, false);
+
+                                    country = value;
+                                    setState(() {});
+                                  },
+                                ),
+                                10.y,
+                                CustomDropDownWidget(
+                                  isBorderRequired: true,
+                                  hMargin: 0,
+                                  vMargin: 0,
+                                  itemsMap: privance.map((e) {
+                                    return DropdownMenuItem(
+                                        value: e, child: Text(e));
+                                  }).toList(),
+                                  hintText: 'Province/State',
+                                  value: privanceName,
+                                  validationText: 'Province/State Required',
+                                  onChanged: (value) {
+                                    privanceName = value;
+                                    privanceName!.replaceAll('', '');
+                                    setState(() {});
+
+                                    context
+                                        .read<GetAllCountryCubit>()
+                                        .getCountryStates(privanceName!, true);
+                                  },
+                                ),
+                                10.y,
+                                CustomDropDownWidget(
+                                  isBorderRequired: true,
+                                  hMargin: 0,
+                                  vMargin: 0,
+                                  itemsMap: cityList.map((e) {
+                                    return DropdownMenuItem(
+                                        value: e, child: Text(e));
+                                  }).toList(),
+                                  hintText: 'City',
+                                  value: city,
+                                  validationText: 'City Required',
+                                  onChanged: (value) {
+                                    city = value;
+                                    setState(() {});
+                                  },
+                                ),
+                              ],
+                            );
                           },
                         ),
 

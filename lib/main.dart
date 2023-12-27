@@ -33,8 +33,6 @@ void main() {
 }
 
 Future<void> init() async {
-  // WidgetsFlutterBinding.ensureInitialized(); //Add this line
-
   await SharedPrefs.init();
 
   if (Platform.isIOS) {
