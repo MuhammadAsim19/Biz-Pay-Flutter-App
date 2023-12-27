@@ -1,46 +1,58 @@
+import 'dart:ffi';
+
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
+import 'package:buysellbiz/Presentation/Common/ContextWidgets/bottom_sheet.dart';
+import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
+import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/business_shimmer.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/buisness_details.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Category/Controller/category_business_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/chat.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/SearchListing/Components/filter_button.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 import 'Components/search_business_widget.dart';
 
-class SearchListing extends StatelessWidget {
+class SearchListing extends StatefulWidget {
   final String title;
+  final String id;
 
-  SearchListing({super.key, required this.title});
+  const SearchListing({super.key, required this.title, required this.id});
 
-  final List<String> countryList = ["USA", "China", "PAK"];
+  @override
+  State<SearchListing> createState() => _SearchListingState();
+}
+
+class _SearchListingState extends State<SearchListing> {
+  final List<String> countryList = ["CountryA", "China", "PAKISTAN"];
+
   final List<String> priceList = [
     "0-1000\$",
     '1000-100000 \$',
     "100000-1000000\$"
   ];
+
   final List<String> categoryList = [
     "Food",
     "RealState",
     "Maufacture",
     "Online"
   ];
+
   final List<String> revenueList = ["10k", "20k", "30k"];
-  List<BusinessModel> businessProducts1 = [
-    BusinessModel(
-        images: [Assets.dummyImage2],
-        name: 'Drop shipping website & E-commerce business',
-        salePrice: 30,
-        address: "San Francisco, USA"),
-    BusinessModel(
-        images: [Assets.dummyImage2],
-        name: 'Drop shipping website & E-commerce business',
-        salePrice: 30,
-        address: "San Francisco, USA"),
-    BusinessModel(
-        images: [Assets.dummyImage2],
-        name: 'Drop shipping website & E-commerce business',
-        salePrice: 30,
-        address: "San Francisco, USA"),
-  ];
+
+  List<BusinessModel>? businessProducts1;
+
+  List<BusinessModel> filterData = [];
+
+  @override
+  void initState() {
+    context.read<CategoryBusinessCubit>().getCategoryBusiness(widget.id);
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +76,7 @@ class SearchListing extends StatelessWidget {
         elevation: 0,
         automaticallyImplyLeading: false,
         title: AppText(
-          title,
+          widget.title,
           style: Styles.circularStdRegular(context,
               fontWeight: FontWeight.w700, fontSize: 18.sp),
         ),
@@ -89,63 +101,138 @@ class SearchListing extends StatelessWidget {
                   WidgetFunctions.instance.dropDown(context,
                       values: countryList,
                       titles: countryList,
-                      placeholder: "USA",
-                      onChange: (c) {},
-                      width: 100),
+                      placeholder: "Country", onChange: (c) {
+                    _filterByCountry(c.toString());
+                  }, width: 110),
                   10.x,
-                  WidgetFunctions.instance.dropDown(context,
-                      values: categoryList,
-                      titles: categoryList,
-                      placeholder: "Categories",
-                      onChange: (c) {},
-                      width: 120),
+                  // WidgetFunctions.instance.dropDown(context,
+                  //     values: categoryList,
+                  //     titles: categoryList,
+                  //     placeholder: "Categories",
+                  //     onChange: (c) {},
+                  //     width: 120),
+                  // 10.x,
+                  FilterButtons(
+                      value: 'Price',
+                      onChange: (val) {
+                        print("on Change Value$val");
+                        _filterByPrice(val);
+                      }),
                   10.x,
-                  WidgetFunctions.instance.dropDown(context,
-                      values: priceList,
-                      titles: priceList,
-                      placeholder: "Price",
-                      onChange: (c) {},
-                      width: 100),
-                  10.x,
-                  WidgetFunctions.instance.dropDown(context,
-                      values: revenueList,
-                      titles: revenueList,
-                      placeholder: "Revenue",
-                      onChange: (c) {},
-                      width: 100),
-                  10.x
+                  FilterButtons(
+                      value: 'Revenue',
+                      onChange: (val) {
+                        print("on Change Value$val");
+                        _filterByRevenue(val);
+                      }),
                 ],
               ),
             ),
-            5.y,
-            AppText("129 Business",
-                style: Styles.circularStdMedium(context, fontSize: 16)),
+
             15.y,
             Expanded(
-                child: SearchBusinessWidget(
-              businessProducts: businessProducts1,
-              getData: (BusinessModel val) {
-                print(val.name);
-
-                Navigate.to(context, const BusinessDetails());
+                child:
+                    BlocConsumer<CategoryBusinessCubit, CategoryBusinessState>(
+              listener: (context, state) {
+                if (state is CategoryBusinessLoaded) {
+                  filterData = state.business!;
+                  businessProducts1 = state.business;
+                }
+                if (state is CategoryBusinessError) {
+                  WidgetFunctions.instance
+                      .showErrorSnackBar(context: context, error: state.error);
+                }
+                // TODO: implement listener
               },
-              chatTap: (BusinessModel val) {
-                //BottomNotifier.bottomPageController.removeListener(() { });
-                // BottomNotifier.bottomPageController=PageController(initialPage: 2);
-                // BottomNotifier.bottomNavigationNotifier.value=2;
-                //
-                // Navigate.toReplace(context, const BottomNavigationScreen(initialPage: 2,));
+              builder: (context, state) {
+                return state is CategoryBusinessLoading
+                    ? BusinessLoading(
+                        direction: Axis.vertical,
+                      )
+                    : state is CategoryBusinessLoaded
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              AppText("${filterData.length} Business",
+                                  style: Styles.circularStdMedium(context,
+                                      fontSize: 16)),
+                              5.y,
+                              Expanded(
+                                child: SearchBusinessWidget(
+                                  businessProducts: filterData,
+                                  getData: (BusinessModel val) {
+                                    Navigate.to(
+                                        context,
+                                        BusinessDetails(
+                                          model: val,
+                                        ));
+                                  },
+                                  chatTap: (BusinessModel val) {
+                                    //BottomNotifier.bottomPageController.removeListener(() { });
+                                    // BottomNotifier.bottomPageController=PageController(initialPage: 2);
+                                    // BottomNotifier.bottomNavigationNotifier.value=2;
+                                    //
+                                    // Navigate.toReplace(context, const BottomNavigationScreen(initialPage: 2,));
 
-                Navigate.to(
-                    context,
-                    ChatScreen(
-                      backButton: true,
-                    ));
+                                    Navigate.to(
+                                        context,
+                                        ChatScreen(
+                                          backButton: true,
+                                        ));
+                                  },
+                                ),
+                              ),
+                            ],
+                          )
+                        : state is CategoryBusinessError
+                            ? Align(
+                                alignment: Alignment.bottomCenter,
+                                child: AppText(state.error!,
+                                    style: Styles.circularStdRegular(context)),
+                              )
+                            : 10.y;
               },
             ))
           ],
         ),
       ),
     );
+  }
+
+  _filterByCountry(String query) {
+    print(query);
+
+    filterData = businessProducts1!
+        .where(
+            (element) => element.country!.toLowerCase() == query.toLowerCase())
+        .toList();
+
+    setState(() {});
+  }
+
+  // _filterByProfit(query) {
+  //   filterData = businessProducts1!.where((item) => item.p == query).toList();
+  // }
+
+  _filterByRevenue(double query) {
+    print('Here is your Query $query');
+
+    filterData = businessProducts1!
+        .where((item) => item.salePrice! > 0 && item.salePrice! > query.toInt())
+        .toList();
+
+    print(businessProducts1![0].salePrice);
+
+    setState(() {});
+  }
+
+  _filterByPrice(double query) {
+    filterData = businessProducts1!
+        .where(
+            (item) => item.salePrice! >= 0 && item.salePrice! > query.toInt())
+        .toList();
+
+    setState(() {});
   }
 }

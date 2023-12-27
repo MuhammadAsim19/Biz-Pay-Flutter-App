@@ -10,6 +10,7 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'Data/AppData/app_preferences.dart';
 import 'Data/DataSource/Resources/imports.dart';
 import 'Presentation/Widgets/Onboarding/splash_screen.dart';
+
 class DownloadCallBack {
   static void downloadCallBackTest(id, status, progress) {
     if (kDebugMode) {
@@ -23,15 +24,18 @@ class DownloadCallBack {
     }
   }
 }
+
 void main() {
-  //WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   init();
 
   runApp(MultiBlocProvider(providers: appProviders, child: const MyApp()));
 }
 
 Future<void> init() async {
-  WidgetsFlutterBinding.ensureInitialized(); //Add this line
+  // WidgetsFlutterBinding.ensureInitialized(); //Add this line
+
+  await SharedPrefs.init();
 
   if (Platform.isIOS) {
     await Firebase.initializeApp();
@@ -39,7 +43,7 @@ Future<void> init() async {
     await Firebase.initializeApp();
   }
   await ScreenUtil.ensureScreenSize();
-  await SharedPrefs.init();
+
   await FlutterDownloader.initialize();
   await FlutterDownloader.registerCallback(
       DownloadCallBack.downloadCallBackTest);

@@ -45,224 +45,23 @@ TextEditingController searchController = TextEditingController();
 List<String> countryList = ['USA', 'China', 'PAK'];
 String? selectedListItem;
 
-// List<Category> categoryData = [
-//   Category(
-//       icon: Assets.foodBeverageIcon,
-//       title: "Food & Beverage",
-//       backgroundcolor: "0xFFEAF1FD"),
-//   Category(
-//       icon: Assets.fashionIcon,
-//       : "Fashion",
-//       backgroundColor: 0xFFEDF5ED),
-//   CategoryDummy(
-//       catPic: Assets.retailIcon,
-//       catName: "Retail",
-//       backgroundColor: 0xFFFCEDE9),
-//   CategoryDummy(
-//       catPic: Assets.serviceIcon,
-//       catName: "Service",
-//       backgroundColor: 0xFFF0F6F4),
-//   CategoryDummy(
-//       catPic: Assets.educationIcon,
-//       catName: "Education",
-//       backgroundColor: 0xFFE5F2F9),
-//   CategoryDummy(
-//       catPic: Assets.entertainmentIcon,
-//       catName: "Entertainment",
-//       backgroundColor: 0xFFFAF0EE),
-//   CategoryDummy(
-//       catPic: Assets.informationTech,
-//       catName: "Information Technology",
-//       backgroundColor: 0xFFFBF3ED),
-//   CategoryDummy(
-//       catPic: Assets.moreIcon, catName: "More", backgroundColor: 0xFFFEF3E8)
-// ];
-// List<CategoryDummy> categoryFullData = [
-//   CategoryDummy(
-//       catPic: Assets.foodBeverageIcon,
-//       catName: "Food & Beverage",
-//       backgroundColor: 0xFFEAF1FD),
-//   CategoryDummy(
-//       catPic: Assets.fashionIcon,
-//       catName: "Fashion",
-//       backgroundColor: 0xFFEDF5ED),
-//   CategoryDummy(
-//       catPic: Assets.retailIcon,
-//       catName: "Retail",
-//       backgroundColor: 0xFFFCEDE9),
-//   CategoryDummy(
-//       catPic: Assets.serviceIcon,
-//       catName: "Service",
-//       backgroundColor: 0xFFF0F6F4),
-//   CategoryDummy(
-//       catPic: Assets.educationIcon,
-//       catName: "Education",
-//       backgroundColor: 0xFFE5F2F9),
-//   CategoryDummy(
-//       catPic: Assets.entertainmentIcon,
-//       catName: "Entertainment",
-//       backgroundColor: 0xFFFAF0EE),
-//   CategoryDummy(
-//       catPic: Assets.agricultureIcon,
-//       catName: "Agriculture",
-//       backgroundColor: 0xFFE5F2E6),
-//   CategoryDummy(
-//       catPic: Assets.informationTech,
-//       catName: "Travel",
-//       backgroundColor: 0xFFFEF3E8),
-//   CategoryDummy(
-//       catPic: Assets.automotiveBoatIcon,
-//       catName: "Automotive\n& Boat",
-//       backgroundColor: 0xFFEDEDF5),
-//   CategoryDummy(
-//       catPic: Assets.healthCareAndFitnessIcon,
-//       catName: "Health Care & Fitness",
-//       backgroundColor: 0xFFEBF8F7),
-//   CategoryDummy(
-//       catPic: Assets.transportationIcon,
-//       catName: "Transportation\n& Storage",
-//       backgroundColor: 0xFFF2EBE5),
-//   CategoryDummy(
-//       catPic: Assets.manufactureIcon,
-//       catName: "Manufacturing",
-//       backgroundColor: 0xFFF3F9EC),
-//   CategoryDummy(
-//       catPic: Assets.petServiceIcon,
-//       catName: "Pet Services",
-//       backgroundColor: 0xFFE8F5FC),
-//   CategoryDummy(
-//       catPic: Assets.wholeSaleDistributorIcon,
-//       catName: "Whole Sale & Distributor",
-//       backgroundColor: 0xFFE6F6F6),
-// ];
+///to search data from list and assign to list
+List<BusinessModel>? allBusiness;
+List<BusinessModel>? allBusinessSearch;
 
-List<BusinessModel> businessProducts = [
-  BusinessModel(
-      images: [Assets.dummyImage],
-      name: 'Drop shipping website & E-commerce business',
-      salePrice: 40,
-      address: "San Francisco, USA"),
-  BusinessModel(
-      images: [Assets.dummyImage],
-      name: 'Drop shipping website & E-commerce business',
-      salePrice: 40,
-      address: "San Francisco, USA"),
-  BusinessModel(
-      images: [Assets.dummyImage],
-      name: 'Drop shipping website & E-commerce business',
-      salePrice: 40,
-      address: "San Francisco, USA"),
-  BusinessModel(
-      images: [Assets.dummyImage],
-      name: 'Drop shipping website & E-commerce business',
-      salePrice: 40,
-      address: "San Francisco, USA"),
-];
-List<BusinessProductModel> businessProducts1 = [
-  BusinessProductModel(
-      businessImage: Assets.dummyImage2,
-      businessName: 'Drop shipping website & E-commerce business',
-      isFav: false,
-      price: 'USD 40K',
-      location: "San Francisco, USA"),
-  BusinessProductModel(
-      businessImage: Assets.dummyImage2,
-      isFav: true,
-      businessName: 'Drop shipping website & E-commerce business',
-      price: 'USD 30K',
-      location: "San Francisco, USA"),
-  BusinessProductModel(
-      businessImage: Assets.dummyImage2,
-      isFav: true,
-      businessName: 'Drop shipping website & E-commerce business',
-      price: 'USD 20K',
-      location: "San Francisco, USA"),
-  BusinessProductModel(
-      businessImage: Assets.dummyImage2,
-      isFav: false,
-      businessName: 'Drop shipping website & E-commerce business',
-      price: 'USD 10K',
-      location: "San Francisco, USA"),
-];
+List<BusinessModel>? recentlyAdded;
+List<BusinessModel>? recentlyAddedSearch;
 
-///to be continued
-List<BusinessBrokerProfile> profileData = [
-  BusinessBrokerProfile(
-      name: "Gabriel Tasse",
-      image: Assets.dummyImage3,
-      businessCategories: ["Business", "Franchises"],
-      rating: 5),
-  BusinessBrokerProfile(
-      name: "Gabriel Tasse",
-      image: Assets.dummyImage3,
-      businessCategories: [
-        "Business",
-        "Franchises",
-        "Businesss plus",
-        "testting"
-      ],
-      rating: 5),
-];
+List<BusinessModel>? recentlyViewed;
+List<BusinessModel>? recentlyViewedSearch;
 
-List<BusinessProductModel> businessProductsForYou = [
-  BusinessProductModel(
-      businessImage: Assets.dummyImage4,
-      businessName: 'Famous tutoring franchise',
-      isFav: false,
-      price: 'USD 40K',
-      location: "San Francisco, USA"),
-  BusinessProductModel(
-      businessImage: Assets.dummyImage2,
-      isFav: true,
-      businessName: 'Drop shipping website & E-commerce business',
-      price: 'USD 30K',
-      location: "San Francisco, USA"),
-  BusinessProductModel(
-      businessImage: Assets.dummyImage2,
-      isFav: true,
-      businessName: 'Drop shipping website & E-commerce business',
-      price: 'USD 20K',
-      location: "San Francisco, USA"),
-  BusinessProductModel(
-      businessImage: Assets.dummyImage2,
-      isFav: false,
-      businessName: 'Drop shipping website & E-commerce business',
-      price: 'USD 10K',
-      location: "San Francisco, USA"),
-];
-List<BusinessProductModel> businessProductsOnline = [
-  BusinessProductModel(
-      businessImage: Assets.dummyImage5,
-      businessName: 'Web design & Digital marketing company',
-      isFav: false,
-      price: 'USD 40K',
-      location: "San Francisco, USA"),
-  BusinessProductModel(
-      businessImage: Assets.dummyImage2,
-      isFav: true,
-      businessName: 'Drop shipping website & E-commerce business',
-      price: 'USD 30K',
-      location: "San Francisco, USA"),
-  BusinessProductModel(
-      businessImage: Assets.dummyImage2,
-      isFav: true,
-      businessName: 'Drop shipping website & E-commerce business',
-      price: 'USD 20K',
-      location: "San Francisco, USA"),
-  BusinessProductModel(
-      businessImage: Assets.dummyImage2,
-      isFav: false,
-      businessName: 'Drop shipping website & E-commerce business',
-      price: 'USD 10K',
-      location: "San Francisco, USA"),
-];
-
-List<BusinessModel>? allData;
-List<BusinessModel>? searchData;
+List<BusinessModel>? onlineBusiness;
+List<BusinessModel>? onlineBusinessSearch;
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
+    searchController.clear();
 // get the user data for accessing in app
 //    UserModel? us = Data().user;
 //    print("checking init data");
@@ -280,8 +79,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("User token here ${Data.app.user!.token}");
-
     return Scaffold(
       body: Column(
         children: [
@@ -333,17 +130,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     right: 24,
                     bottom: 0,
                     child: CustomTextFieldWithOnTap(
-                      readOnly: true,
+                      readOnly: false,
                       controller: searchController,
                       borderRadius: 40,
                       isBorderRequired: false,
                       isShadowRequired: true,
-                      onTap: () {
-                        Navigate.to(
-                            context,
-                            BusniessSearch(
-                              model: businessProducts,
-                            ));
+                      onChanged: (value) {
+                        _search(value);
                       },
                       prefixIcon: SvgPicture.asset(Assets.searchIcon),
                       suffixIcon: Container(
@@ -351,7 +144,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: GeneralizedDropDown(
                           items: countryList,
                           selectedValue: countryList[0],
-                          onChanged: (v) {},
+                          onChanged: (v) {
+                            _searchByCountry(v);
+                            print(v);
+                          },
                         ),
                       ),
                       hintText: 'Search for business',
@@ -397,8 +193,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                             categoryData: state.model,
                                           ));
                                     } else {
-                                      Navigate.to(context,
-                                          SearchListing(title: val.title!));
+                                      Navigate.to(
+                                          context,
+                                          SearchListing(
+                                              title: val.title!, id: val.id!));
                                     }
                                   },
                                 )
@@ -417,11 +215,16 @@ class _HomeScreenState extends State<HomeScreen> {
                               Styles.circularStdMedium(context, fontSize: 18)),
                       5.y,
                       BlocConsumer<RecentlyViewedCubit, RecentlyViewedState>(
-                        listener: (context, state) {},
+                        listener: (context, state) {
+                          if (state is RecentlyViewedLoaded) {
+                            recentlyViewedSearch = state.business;
+                            recentlyViewed = state.business;
+                          }
+                        },
                         builder: (context, state) {
                           return state is RecentlyViewedLoaded
                               ? RecentlyViewWidget(
-                                  businessProducts: state.business,
+                                  businessProducts: recentlyViewedSearch,
                                   getData: (dto) {
                                     Navigate.to(
                                         context,
@@ -458,13 +261,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       5.y,
                       BlocConsumer<RecentlyAddedCubit, RecentlyAddedState>(
-                        listener: (context, state) {},
+                        listener: (context, state) {
+                          if (state is RecentlyAddedLoaded) {
+                            recentlyAddedSearch = state.data;
+                            recentlyAdded = state.data;
+                          }
+                        },
                         builder: (context, state) {
                           return state is RecentlyAddedLoading
-                              ? const BusinessLoading()
+                              ? BusinessLoading(
+                                  direction: Axis.horizontal,
+                                )
                               : state is RecentlyAddedLoaded
                                   ? RecentlyAdded(
-                                      businessProducts: state.data,
+                                      businessProducts: recentlyAddedSearch,
                                       getData: (v) {
                                         Navigate.to(
                                             context,
@@ -615,8 +425,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       BlocConsumer<AllBusinessCubit, AllBusinessState>(
                         listener: (context, state) {
                           if (state is AllBusinessLoaded) {
-                            allData = state.business;
-                            searchData = state.business;
+                            allBusiness = state.business;
+                            allBusinessSearch = state.business;
                           }
                           if (state is AllBusinessError) {
                             WidgetFunctions.instance.snackBar(context,
@@ -629,10 +439,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         builder: (context, state) {
                           return state is AllBusinessLoading
-                              ? const BusinessLoading()
+                              ? BusinessLoading(
+                                  direction: Axis.horizontal,
+                                )
                               : state is AllBusinessLoaded
                                   ? BusinessForYouWidget(
-                                      businessProducts: state.business!,
+                                      businessProducts: allBusinessSearch,
                                       getData: (data) {
                                         Navigate.to(
                                             context,
@@ -674,12 +486,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       5.y,
                       BlocConsumer<OnlineBusinessCubit, OnlineBusinessState>(
                         listener: (context, state) {
+                          if (state is OnlineBusinessLoaded) {
+                            onlineBusiness = state.data;
+                            onlineBusinessSearch = state.data;
+                          }
                           // TODO: implement listener
                         },
                         builder: (context, state) {
                           return state is OnlineBusinessLoaded
                               ? BusinessForYouWidget(
-                                  businessProducts: state.data,
+                                  businessProducts: onlineBusinessSearch,
                                   getData: (data) {
                                     Navigate.to(
                                         context,
@@ -695,7 +511,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   },
                                 )
                               : state is OnlineBusinessLoading
-                                  ? const BusinessLoading()
+                                  ? BusinessLoading(
+                                      direction: Axis.horizontal,
+                                    )
                                   : state is OnlineBusinessError
                                       ? Center(
                                           child: AppText(
@@ -716,5 +534,44 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
+  }
+
+  _search(String query) {
+    query = query.toLowerCase();
+    if (query.isNotEmpty) {
+      allBusinessSearch = allBusinessSearch!
+          .where((item) => item.name!.toLowerCase().contains(query))
+          .toList();
+      onlineBusinessSearch = onlineBusinessSearch!
+          .where((item) => item.name!.toLowerCase().contains(query))
+          .toList();
+      recentlyViewedSearch = recentlyViewedSearch!
+          .where((item) => item.name!.toLowerCase().contains(query))
+          .toList();
+      recentlyAddedSearch = recentlyAddedSearch!
+          .where((item) => item.name!.toLowerCase().contains(query))
+          .toList();
+    } else {
+      allBusinessSearch = allBusiness;
+      onlineBusinessSearch = onlineBusiness;
+      recentlyViewedSearch = recentlyAdded;
+      recentlyAddedSearch = recentlyViewed;
+    }
+    setState(() {});
+  }
+
+  _searchByCountry(String query) {
+    query = query;
+    print(query);
+    setState(() {
+      allBusinessSearch =
+          allBusiness!.where((item) => item.country == query).toList();
+      onlineBusinessSearch =
+          onlineBusiness!.where((item) => item.country == query).toList();
+      recentlyViewedSearch =
+          recentlyAdded!.where((item) => item.country == query).toList();
+      recentlyAddedSearch =
+          recentlyViewed!.where((item) => item.country == query).toList();
+    });
   }
 }

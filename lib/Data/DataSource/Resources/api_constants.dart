@@ -1,5 +1,5 @@
 class ApiConstant {
-  static String baseUrl = 'http://18.118.10.44:8000';
+  static String baseUrl = 'http://192.168.1.14:9000';
   static String login = "$baseUrl/api/user/login";
   static String signUp = "$baseUrl/api/user/register";
   static String socialLoginUrl = '$baseUrl/api/user/continue_with_google';
@@ -24,6 +24,8 @@ class ApiConstant {
   static String getAllBusinessDetails = "$baseUrl/api/business/details/";
   static String recentlyAddedBusiness = "$baseUrl/api/business/recently_added";
   static String category = "$baseUrl/api/category";
+  static String categoryBusiness = "$baseUrl/api/business/filterByCategory";
+
   static String brokerList = "$baseUrl/api/broker";
   static String switchTOBroker = "$baseUrl/api/broker/switch_to_broker";
 

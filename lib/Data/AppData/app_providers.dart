@@ -8,6 +8,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/C
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/business_category_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/add_to_recently_view_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/bussiness_wishlist_api_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Category/Controller/category_business_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Brokers/brokers_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Business/all_business_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/OnlineBusiness/online_business_cubit.dart';
@@ -54,4 +55,6 @@ List<BlocProvider> appProviders = [
       create: (context) => CustomerSupportCubit()),
   BlocProvider<UpdateProfileCubit>(create: (context) => UpdateProfileCubit()),
   BlocProvider<DeleteAccountCubit>(create: (context) => DeleteAccountCubit()),
+  BlocProvider<CategoryBusinessCubit>(
+      create: (context) => CategoryBusinessCubit()),
 ];

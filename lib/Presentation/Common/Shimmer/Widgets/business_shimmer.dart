@@ -3,7 +3,9 @@ import 'package:buysellbiz/Presentation/Common/Shimmer/app_shimmer.dart';
 import 'package:buysellbiz/Presentation/Common/app_shadow.dart';
 
 class BusinessLoading extends StatelessWidget {
-  const BusinessLoading({super.key});
+  BusinessLoading({super.key, this.direction});
+
+  Axis? direction;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,7 @@ class BusinessLoading extends StatelessWidget {
             },
             shrinkWrap: true,
             itemCount: 6,
-            scrollDirection: Axis.horizontal,
+            scrollDirection: direction ?? Axis.horizontal,
             physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {
               return Container(
