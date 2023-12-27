@@ -24,8 +24,6 @@ class ApiConstant {
   static String getAllBusinessDetails = "$baseUrl/api/business/details/";
   static String recentlyAddedBusiness = "$baseUrl/api/business/recently_added";
   static String category = "$baseUrl/api/category";
-  static String categoryBusiness = "$baseUrl/api/business/filterByCategory";
-
   static String brokerList = "$baseUrl/api/broker";
   static String switchTOBroker = "$baseUrl/api/broker/switch_to_broker";
 
@@ -46,4 +44,5 @@ class ApiConstant {
   static String deleteAccount = "$baseUrl /api/user/delete_user";
 
   static String updateProfile = "$baseUrl/api/user/update_user/";
+  static String privacyPolicy = "$baseUrl/api/privacy_and_terms";
 }
