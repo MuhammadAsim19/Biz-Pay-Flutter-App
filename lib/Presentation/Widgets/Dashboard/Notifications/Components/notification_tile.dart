@@ -1,11 +1,16 @@
+import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/ChatModel/chat_tile_model.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_details.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Components/notification_model.dart';
 
 class ChatTile extends StatelessWidget {
-  const ChatTile({super.key, this.data});
+  const ChatTile({
+    super.key,
+    this.data,
+  });
 
-  final NotificationsModel? data;
+  final NotificationModel? data;
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +32,7 @@ class ChatTile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AssetImageWidget(
-                height: 50.h, width: 50.w, url: data!.pr0fileImage),
+            AssetImageWidget(height: 50.h, width: 50.w, url: data!.icon!),
             15.x,
             Expanded(
               flex: 10,
@@ -37,11 +41,11 @@ class ChatTile extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      AppText(data?.title ?? "",
+                      AppText(data?.childSubCategory ?? "",
                           style: Styles.circularStdBold(context,
                               fontSize: 18.sp, fontWeight: FontWeight.w500)),
                       const Spacer(),
-                      AppText(data!.time,
+                      AppText(data!.createdAt!.toString(),
                           style: Styles.circularStdRegular(context,
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w400,
@@ -49,7 +53,7 @@ class ChatTile extends StatelessWidget {
                     ],
                   ),
                   5.y,
-                  AppText(data!.subtitle,
+                  AppText(data!.childSubCategory.toString(),
                       maxLine: 1,
                       style: Styles.circularStdRegular(context,
                           fontSize: 14.sp,

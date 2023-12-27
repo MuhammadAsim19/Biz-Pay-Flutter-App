@@ -14,6 +14,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Online
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/RecentlyAdded/recently_added_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Categories/category_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/RecentlyView/recently_viewed_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/notification_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Controller/ChangePassword/change_password_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Controller/ListBusiness/your_business_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/Controller/broker_profile_cubit.dart';
@@ -49,4 +50,5 @@ List<BlocProvider> appProviders = [
   BlocProvider<AddToRecentlyViewCubit>(
       create: (context) => AddToRecentlyViewCubit()),
   BlocProvider<ChangePasswordCubit>(create: (context) => ChangePasswordCubit()),
+  BlocProvider<NotificationCubit>(create: (context) => NotificationCubit()),
 ];

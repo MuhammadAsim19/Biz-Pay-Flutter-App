@@ -1,45 +1,26 @@
+import 'dart:developer';
+
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/ChatModel/chat_message_model.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/ChatModel/chat_tile_model.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Components/notification_model.dart';
+import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/saved_loading.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/notification_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/notification_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../Components/notification_tile.dart';
 
-class Notifications extends StatelessWidget {
-  Notifications({super.key});
+class Notifications extends StatefulWidget {
+  const Notifications({super.key});
 
-  final List<NotificationsModel> chatData = [
-    NotificationsModel(
-        subtitle: 'You received new message from Gaberial',
-        messageLength: '1',
-        title: 'New chat',
-        pr0fileImage: 'assets/images/notification.png',
-        time: '3 day ago'),
-    NotificationsModel(
-        subtitle: 'You received new message from Gaberial',
-        messageLength: '',
-        title: 'New Listing',
-        pr0fileImage: 'assets/images/notification.png',
-        time: '1 day ago'),
-    NotificationsModel(
-        subtitle: 'Hello How Are Your',
-        messageLength: '3',
-        title: 'New Chat',
-        pr0fileImage: 'assets/images/notification.png',
-        time: '1 day ago'),
-    NotificationsModel(
-        subtitle: 'New Business has been listed in market',
-        messageLength: '',
-        title: 'New Listing',
-        pr0fileImage: 'assets/images/notification.png',
-        time: '1 day ago'),
-    NotificationsModel(
-        subtitle: 'New Business has been listed in market',
-        messageLength: '3',
-        title: 'New Chat',
-        pr0fileImage: 'assets/images/notification.png',
-        time: '1 day ago'),
-  ];
+  @override
+  State<Notifications> createState() => _NotificationsState();
+}
+
+class _NotificationsState extends State<Notifications> {
+  @override
+  void initState() {
+    context.read<NotificationCubit>().getNotificationCubitData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,34 +37,50 @@ class Notifications extends StatelessWidget {
             backgroundColor: AppColors.whiteColor,
             title: AppText('Notifications',
                 style: Styles.circularStdBold(context,
-                    color: AppColors.blackColor, fontSize: 18.sp))),
-        body: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 1.sh,
-                  width: 1.sw,
-                  child: ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return ChatTile(
-                          data: chatData[index],
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return SizedBox(
-                          height: 20.h,
-                        );
-                      },
-                      itemCount: chatData.length),
-                ),
-              ],
-            ),
-          ),
+                    color: const Color.fromRGBO(0, 0, 0, 1), fontSize: 18.sp))),
+        body: BlocConsumer<NotificationCubit, NotificationState>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            log(state.toString());
+            return state is NotificationLoaded
+                ? SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 1.sh,
+                            width: 1.sw,
+                            child: ListView.separated(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  return ChatTile(
+                                      data: state.notificationModel![index]);
+                                },
+                                separatorBuilder: (context, index) {
+                                  return SizedBox(
+                                    height: 20.h,
+                                  );
+                                },
+                                itemCount: state.notificationModel!.length),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                : state is NotificationLoading
+                    ? const SavedLoading()
+                    : state is NotificationError
+                        ? Center(
+                            child: AppText(
+                              state.error!,
+                              style: Styles.circularStdRegular(context),
+                            ),
+                          )
+                        : const SizedBox.shrink();
+          },
         ),
       ),
     );

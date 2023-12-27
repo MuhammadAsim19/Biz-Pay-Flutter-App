@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:buysellbiz/Data/AppData/data.dart';
 import 'package:buysellbiz/Data/DataSource/Repository/Business/all_business.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,6 +17,7 @@ class BussinessWishlistApiCubit extends Cubit<BussinessWishlistApiState> {
     try {
       await AllBusiness.inWishlist(businessId).then((value) {
         if (value['Success']) {
+          log('hyhhhhhh     ${Data().user!.token!}');
           final bool inWishlist = value['body']['inWishlist'];
 
           emit(BussinessWishlistApiLoaded(wishliatValue: inWishlist));
