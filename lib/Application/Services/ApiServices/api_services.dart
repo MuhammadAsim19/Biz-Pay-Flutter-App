@@ -15,7 +15,9 @@ import '../../../Data/AppData/user_data.dart';
 
 class ApiService {
   static Map<String, String> _authMiddleWare() {
-    return {};
+    return {
+              'Content-Type': 'application/json',
+            };
     // print(us);
     //
     // return us != null
@@ -114,9 +116,61 @@ class ApiService {
       http.Response res = await http
           .post(
             Uri.parse(url),
-            headers: header ?? _authMiddleWare(),
+           headers: header ?? _authMiddleWare(),
             body: body,
           )
+          .timeout(const Duration(seconds: 30));
+      print("Response ${res.body}");
+      if (res.statusCode == 200 || res.statusCode == 201) {
+        Map<String, dynamic> decode = jsonDecode(res.body);
+        return decode;
+      }
+
+      return {
+        "Success": false,
+        "error": "${res.statusCode} ${res.reasonPhrase}",
+        "body": res.body
+      };
+    } on SocketException catch (e) {
+      print('in socet');
+      // Handle SocketException here.
+      return {
+        "Success": false,
+        "error": 'No Internet Connection',
+        "status": 30
+      };
+
+      print('SocketException: $e');
+      // You can display an error message to the user or perform other actions.
+    } on TimeoutException catch (e) {
+      print('in timeout');
+      // Handle SocketException here.
+      return {"Success": false, "error": "Time Out", "status": 31};
+    } on HttpException catch (e) {
+      // Handle HttpException (e.g., invalid URL) here.
+      return {"Success": false, "error": "Invalid", "status": 32};
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+  static Future<Map<String, dynamic>> postJson(
+      String url, Map<String, dynamic> body,
+      {Map<String, String>? header}) async {
+    log(url);
+
+    try {
+      print("body in the repo ${body.toString()}");
+
+      var data = jsonEncode(body);
+
+      print(data.toString());
+
+      http.Response res = await http
+          .post(
+        Uri.parse(url),
+        headers: header ?? _authMiddleWare(),
+        body: data,
+      )
           .timeout(const Duration(seconds: 30));
       print("Response ${res.body}");
       if (res.statusCode == 200 || res.statusCode == 201) {

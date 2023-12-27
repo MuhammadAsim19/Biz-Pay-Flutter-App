@@ -269,7 +269,7 @@ class MessageContainer extends StatelessWidget {
               ),
               chatDto!.images!.isNotEmpty || chatDto!.videos!.isNotEmpty?  10.y:4.y,
            ///content messages
-              Align(
+              chatDto!.content !=  null  && chatDto!.content!.isNotEmpty ?   Align(
                 alignment: chatDto!.sender == senderId
                     ? Alignment.centerRight
                     : Alignment.centerLeft,
@@ -300,7 +300,7 @@ class MessageContainer extends StatelessWidget {
                                   ? AppColors.blackColor
                                   : AppColors.whiteColor)),
                 ),
-              ),
+              ):const SizedBox(),
               chatDto!.images!.isNotEmpty || chatDto!.videos!.isNotEmpty?  10.y:5.y,
               Align(
                 alignment: chatDto!.sender != senderId

@@ -10,6 +10,8 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Controllers/inbox
 import 'package:file_picker/src/platform_file.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:grouped_list/grouped_list.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:video_thumbnail/video_thumbnail.dart';
@@ -73,6 +75,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
     //_scrollController2.jumpTo(_scrollController.position.maxScrollExtent+100);
 
   });
+
   focusNode.addListener(() {
     if(focusNode.hasFocus)
       {
@@ -108,6 +111,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
     "userId" : "6579ea61d76f7a30f94f5c80",  ///from shared prefs
     "businessConversationId" : widget.chatDto?.id ///from chatDto
   };
+
   InboxRepo.socket.on('user_online_status',(data){
     print("Online Status");
     String recId=InboxControllers.chatDetailData.value.receiver.toString();
@@ -128,6 +132,46 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
     print(data);
 
   });
+  InboxRepo.socket.on('block_user', (data) {
+    // Handle the event data
+    print("blocked  called");
+    print(data);
+    bool status=data['isBlocked'] as bool;
+    print(status);
+    InboxControllers.blockedStatus.value=status;
+if(status==true) {
+ // InboxControllers.blockedStatus.value = true;
+  if (data['blockedUser_id'] != "6579ea61d76f7a30f94f5c80") {
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+
+      InboxControllers.blockedString.value =
+      "Can not Chat You Have Blocked this User";
+      InboxControllers.blockedString.notifyListeners();
+      InboxControllers.blockedStatus.notifyListeners();
+    });
+  }
+  else {
+    InboxControllers.blockedString.value =
+    "Can not Chat You Have been Blocked by this User";
+
+   // InboxControllers.blockedStatus.value = false;
+    InboxControllers.blockedString.notifyListeners();
+    InboxControllers.blockedStatus.notifyListeners();
+  }
+}
+else
+  {
+    print("da dlta raaze?");
+    InboxControllers.blockedStatus.value = false;
+    //InboxControllers.blockedStatus.notifyListeners();
+   // InboxControllers.blockedString.notifyListeners();
+  }
+
+
+
+   // InboxControllers.blockedStatus.notifyListeners();
+
+  });
 
 
 InboxRepo.socket.emit('getBusinessChatDetails',dataGet);
@@ -135,6 +179,8 @@ InboxRepo.socket.onError((e){
   print(e);
 });
 InboxRepo.socket.on('error',(data) {
+  print("There is error ");
+  WidgetFunctions.instance.snackBar(context,text: data);
   print(data);
 
 });
@@ -213,17 +259,13 @@ InboxRepo.socket.on('error',(data) {
 
 
     InboxControllers.chatDetailData.notifyListeners();
-    _scrollController.jumpTo(_scrollController.position.maxScrollExtent+80);
+    //_scrollController.jumpTo(_scrollController.position.maxScrollExtent+80);
 
     print(data);
 
   });
   ///block _ user listener
-  InboxRepo.socket.on("block_user",(data) {
-    print("blocked Data");
-    print(data);
 
-  });
 
 //InboxRepo.socket.emit("user_online_status","Online");
 ///Typing event listening
@@ -237,18 +279,34 @@ InboxRepo.socket.on('error',(data) {
   });
 
 
-  //InboxRepo.socket.
-
-  // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-  //
-  //
-  //
-  // });
-
-
-    // TODO: implement initState
-
   }
+
+
+
+  String _formatDate(DateTime date) {
+    // Format date as desired (e.g., "MMM dd, yyyy")
+    if(date.day== DateTime.now().day &&  date.year==DateTime.now().year && date.month==DateTime.now().month)
+      {
+        return "Today";
+      }
+    return DateFormat("MMM dd, yyyy").format(date);
+  }
+
+  // int calculateVisibleIndex(ScrollController controller) {
+  //   // Find the index of the first visible item
+  //   double firstVisibleIndex = controller
+  //       .position
+  //       .pixels;
+  //   // Change to minScrollExtent for the last visible item
+  //   if (firstVisibleIndex < 0) {
+  //     return 0;
+  //   }
+  //   // Find the index of the item based on the offset and item height
+  //   print(InboxControllers.chatDetailData.value.messages!.length);
+  //   int visibleIndex = (firstVisibleIndex / InboxControllers.chatDetailData.value.messages!.length).floor();
+  //
+  //   return visibleIndex.clamp(0, InboxControllers.chatDetailData.value.messages!.length - 1);;
+  // }
   @override
   void dispose() {
     // TODO: implement dispose
@@ -335,72 +393,87 @@ InboxRepo.socket.on('error',(data) {
                 ),
                 Expanded(
                   flex: 7,
-                  child: SingleChildScrollView(
-                   // controller: _scrollController,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
 
-                    physics: const BouncingScrollPhysics(),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Chip(
-                            labelPadding: EdgeInsets.symmetric(
-                                horizontal: 5.sp, vertical: 2.sp),
-                            backgroundColor: AppColors.borderColor,
-                            label: AppText(
-                              '16 May, 2023',
-                              style: Styles.circularStdMedium(context),
-                            )),
-                        20.y,
-                        ValueListenableBuilder(
+                      10.y,
+                      Expanded(
+                        child: ValueListenableBuilder(
                           builder: (context,chatState,ss) {
+                            //List<Message>? messages =[];
+                            var elements=[];
+                            if(chatState.messages!=null&& chatState.messages!.isNotEmpty)
+                              {
+                                // chatState.messages?.forEach((element) {
+                                //
+                                //
+                                //
+                                // });
+                              elements=List<dynamic>.from(chatState.messages!.map((x) => x.toJson()));
+                        
+                              print("grouped elements------>");
+                              print(elements);
+                        
+                              }
+                        
                             return chatState.messages!=null && chatState.messages!.isNotEmpty?
-                            SizedBox(
-                              height: 1.sh/1.6,
-                              child: ListView.separated(
-                                  physics: const BouncingScrollPhysics(),
-                                  controller: _scrollController,
-
-                                  padding: EdgeInsets.symmetric(horizontal: 24.sp),
-                                  //shrinkWrap: true,
-                                 // controller: _scrollController2,
-
-                                  itemBuilder: (context, index) {
-
-                                  //  getThumbnailsFromVidz
-
-                                   //getThumbnailFromVideo(chatState.messages![index].videos)
-
-                                    return MessageContainer(
-                                      modelData: chats[0],
-                                      index: index,
-                                      chatDto:chatState.messages![index],
-                                      senderId: "6579ea61d76f7a30f94f5c80",
-                                    );
-                                  },
-                                  separatorBuilder: (context, index) {
-                                    return SizedBox(
-                                      height: 5.sp,
-                                    );
-                                  },
-                                  itemCount: chatState.messages!.length),
+                            GroupedListView<dynamic, String>(
+                              //shrinkWrap: true,
+                              controller: _scrollController,
+                                    elements: elements,
+                                    groupBy: (element) => _formatDate(DateTime.parse(element['createdAt'])),
+                                    // groupComparator: (value1, value2) =>
+                                    //     value2.compareTo(value1),
+                        
+                                    order: GroupedListOrder.ASC,
+                              padding: EdgeInsets.symmetric(horizontal: 24.sp),
+                                    useStickyGroupSeparators: true,
+                                    floatingHeader: true,
+                                    groupSeparatorBuilder: (String value) =>Chip(
+                                        labelPadding: EdgeInsets.symmetric(
+                                            horizontal: 5.sp, vertical: 2.sp),
+                                        backgroundColor: AppColors.borderColor,
+                                        label: AppText(
+                                          value,
+                                          style: Styles.circularStdMedium(context),
+                                        )),
+                            itemBuilder: (c,element){
+                              return MessageContainer(
+                                          modelData: chats[0],
+                                          index: 0,
+                                          chatDto:Message.fromJson(element),
+                                          senderId: "6579ea61d76f7a30f94f5c80",
+                                        );
+                        
+                        
+                            },
+                        
+                        
+                            //                             return MessageContainer(
+                            // //                                       modelData: chats[0],
+                            // //                                       index: index,
+                            // //                                       chatDto:chatState.messages![index],
+                            // //                                       senderId: "6579ea61d76f7a30f94f5c80",
+                            // //                                     );
                             ):
-
+                        
                             chatState.messages!=null &&chatState.messages!.isEmpty?
                              Center(
-
+                        
                               child: AppText("No New Messages",style: Styles.circularStdMedium(context),))
                                 :
                                 const Center(
-
+                        
                                   child: CircularProgressIndicator(color: AppColors.primaryColor,),
-
+                        
                                 );
-
+                        
                           }, valueListenable: InboxControllers.chatDetailData,
                         ),
-                        75.y,
-                      ],
-                    ),
+                      ),
+                      75.y,
+                    ],
                   ),
                 ),
               ],
@@ -486,9 +559,10 @@ InboxRepo.socket.on('error',(data) {
                               suffixIcon: GestureDetector(
                                 onTap: ()
                                 {
-                                  if(message.text.isNotEmpty) {
+
                                     _sendMessage(message.text);
-                                  }
+
+
                                 },
                                 child: Container(
                                     margin: EdgeInsets.only(right: 10.sp),
@@ -503,7 +577,8 @@ InboxRepo.socket.on('error',(data) {
                         ],
                       ),
                     ),
-                  ):
+                  )
+                      :
                       ValueListenableBuilder(
                         builder: (context,blockedString,fg) {
                           return Container(
@@ -716,7 +791,7 @@ mainAxisAlignment: MainAxisAlignment.center,
       ),
     );
   }
-  _sendMessage(cc) async {
+  _sendMessage(messageContent) async {
     List<Map<String, dynamic>> imagesToSend=[] ;
     List<Map<String, dynamic>> vidToSend=[] ;
     List<Map<String, dynamic>> docsToSend=[] ;
@@ -857,12 +932,11 @@ print("here in videoss");
       "docs":docs!=null?docsToSend:[]
 
     };
-    if(allFiles.isEmpty)
-    {
-      print("in here");
-      InboxControllers.chatDetailData.value.messages?.add(Message(id: widget.chatDto?.id,sender: "6579ea61d76f7a30f94f5c80",receiver: widget.chatDto?.receiver.toString(),images:[] ,videos: [],docs: [],content: message.text,createdAt: DateTime.now()));
-    InboxControllers.chatDetailData.notifyListeners();
-    }
+    // if(allFiles.isEmpty)
+    // {
+    //   print("in here");
+    //
+    // }
     print("here");
     // const images = [
     //   {
@@ -871,7 +945,20 @@ print("here in videoss");
     //   }
     // ]
 
-      InboxRepo.socket.emit('sendMessageToBusiness',messageToSend);
+ if(allFiles.isEmpty && message.text.isNotEmpty)
+  {
+    InboxControllers.chatDetailData.value.messages?.add(Message(id: widget.chatDto?.id,sender: "6579ea61d76f7a30f94f5c80",receiver: widget.chatDto?.receiver.toString(),images:[] ,videos: [],docs: [],content: message.text,createdAt: DateTime.now()));
+    InboxControllers.chatDetailData.notifyListeners();
+    InboxRepo.socket.emit('sendMessageToBusiness',messageToSend);
+  }
+else if(allFiles.isNotEmpty && message.text.isEmpty)
+  {
+    InboxRepo.socket.emit('sendMessageToBusiness',messageToSend);
+  }
+
+    else {
+   WidgetFunctions.instance.snackBar(context,text: "Can not be Empty");
+    }
 
 message.clear()
     ;

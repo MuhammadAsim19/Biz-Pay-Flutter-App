@@ -10,5 +10,6 @@ class InboxControllers{
   static ValueNotifier<bool> typingStatus=ValueNotifier(false);
   static ValueNotifier<bool> blockedStatus=ValueNotifier(false);
   static ValueNotifier<String> blockedString=ValueNotifier("");
+  static ValueNotifier<String> dateChatTime=ValueNotifier("");
 
 }

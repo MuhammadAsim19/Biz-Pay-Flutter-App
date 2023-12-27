@@ -1,6 +1,8 @@
 
 
+import 'package:buysellbiz/Application/Services/ApiServices/api_services.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Controllers/Repo/block_repo/block_repo.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Controllers/Repo/inboox_repo.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Controllers/inboxControllers.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Controllers/inboxmodel.dart';
@@ -50,9 +52,22 @@ class PopMenu extends StatelessWidget {
 
 
           };
+          // var staticData={
+          //   "isBlocked": false ,
+          //   "blockedBy": "6579ea61d76f7a30f94f5c80",
+          //   "blockedTo": "6579f21c00996aa38f7c7a2b",
+          //   "conversationId": "658a7e4bc7d312d5ed0b796f"
+          // };
 
-  InboxRepo.socket.emit("blockUser",data);
-  InboxControllers.blockedStatus.value=InboxControllers.blockedStatus.value==true?false:true;
+  InboxRepo.socket.emit('blockUser',data);
+  // await BlockRepo().blockUser(body: data).then((value) {
+  //   print("api----data");
+  //
+  //   print(value);
+  //
+  // });
+
+
 
 }
         // if (value == MenuItem.edit) {
