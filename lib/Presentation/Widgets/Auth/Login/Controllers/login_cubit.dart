@@ -21,8 +21,11 @@ class LoginCubit extends Cubit<LoginState> {
         print('here is value$value');
 
         if (value['Success'] == true) {
-          UserModel userData = UserModel.fromJson((value));
-          await SharedPrefs.setUserLoginData(userRawData: value);
+          UserModel userData = UserModel.fromJson((value['body']));
+
+          await SharedPrefs.setUserLoginData(userRawData: userData);
+          await SharedPrefs.setLoginToken(value['body']['token']);
+
           emit(LoginLoaded());
           // SharedPrefs.getUserLoginData();
         } else {

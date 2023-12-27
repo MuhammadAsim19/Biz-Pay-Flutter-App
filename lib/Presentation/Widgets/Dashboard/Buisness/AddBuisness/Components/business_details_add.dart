@@ -364,12 +364,13 @@ class _BusinessAddDetailsState extends State<BusinessAddDetails> {
                           text: 'Upload Documents',
                         ),
                         upload != null
-                            ? DisplayFileImage(
-                                fileImage: upload!.path!,
+                            ? DisplayFile(
+                                file: upload,
                                 onDeleteTap: () {
                                   upload = null;
                                   setState(() {});
                                 },
+                                index: 0,
                               )
                             : 10.x,
                         7.y,

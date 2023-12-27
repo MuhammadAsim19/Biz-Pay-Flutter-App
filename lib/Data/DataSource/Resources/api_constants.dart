@@ -39,6 +39,15 @@ class ApiConstant {
   static String userBusiness = "$baseUrl/api/user/get/businessess";
 
   static String toggleWishlist = "$baseUrl/api/user/toggle_wishlist";
+
+  static String customerSupport = "$baseUrl/api/user/needs_support";
+  static String deleteAccount = "$baseUrl /api/user/delete_user";
+
+  static String updateProfile = "$baseUrl/api/user/update_user/";
   static String privacyPolicy = "$baseUrl/api/privacy_and_terms";
+<<<<<<< HEAD
   static String getAllNotification = "$baseUrl/api/user/getAllNotification";
+=======
+  static String categouryBusiness = "$baseUrl/api/business/filterByCategory";
+>>>>>>> 004efce1d230cfce14f1e469b9780d3f8eb0d6d2
 }

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
+import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
 import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
@@ -43,6 +44,8 @@ class _BusinessDetailsState extends State<BusinessDetails> {
 
   @override
   Widget build(BuildContext context) {
+    print("data da da${widget.model!.industry.toString()}");
+
     return SafeArea(
       child: Scaffold(
         body:
@@ -73,7 +76,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
               physics: const NeverScrollableScrollPhysics(),
               headerSliverBuilder:
                   (BuildContext context, bool innerBoxIsScrolled) {
-                print(widget.model!.id);
+                print(widget.model!.country);
 
                 return [
                   SliverAppBar(
@@ -81,79 +84,69 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                     stretch: true,
                     pinned: true,
                     automaticallyImplyLeading: false,
-                    flexibleSpace: SingleChildScrollView(
-                        physics: const NeverScrollableScrollPhysics(),
-                        child: Column(
+                    flexibleSpace: Stack(
+                      children: [
+                        CachedImage(
+                            height: 330.sp,
+                            width: 1.sw,
+                            isCircle: false,
+                            url:
+                                "${ApiConstant.baseUrl}${widget.model!.images!.first}"),
+                        Row(
                           children: [
-                            Container(
-                              height: 1.sh * 0.36,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(Assets.dummyImage4),
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                              child: Container(
-                                margin:
-                                    const EdgeInsets.only(left: 10, top: 10),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigate.pop(context);
-                                      },
-                                      child: SvgPicture.asset(
-                                        Assets.arrowBackIcon,
-                                        width: 20.sp,
-                                        height: 30.sp,
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                    ),
-                                    const Spacer(),
-                                    const Icon(Icons.share),
-                                    3.x,
-                                    BlocListener<BussinessWishlistApiCubit,
-                                        BussinessWishlistApiState>(
-                                      listener: (context, state) {
-                                        if (state
-                                            is BussinessWishlistApiInLoaded) {
-                                          context
-                                              .read<BussinessWishlistApiCubit>()
-                                              .businessWishListCheck(
-                                                  widget.model?.id ?? "");
-                                          Navigator.pop(context);
-                                        }
-                                        // TODO: implement listener
-                                      },
-                                      child: IconButton(
-                                        icon: !wishlistbool
-                                            ? SvgPicture.asset(
-                                                Assets.heartLight)
-                                            : SvgPicture.asset(Assets.heartRed),
-                                        onPressed: () async {
-                                          context
-                                              .read<BussinessWishlistApiCubit>()
-                                              .businessWishListIn(
-                                                  widget.model!.id!,
-                                                  wishlistbool);
-                                        },
-                                      ),
-                                    ),
-                                    10.x,
-                                  ],
-                                ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigate.pop(context);
+                              },
+                              child: SvgPicture.asset(
+                                Assets.arrowBackIcon,
+                                width: 20.sp,
+                                height: 30.sp,
+                                fit: BoxFit.fitWidth,
                               ),
                             ),
+                            const Spacer(),
+                            const Icon(Icons.share),
+                            3.x,
+                            BlocListener<BussinessWishlistApiCubit,
+                                BussinessWishlistApiState>(
+                              listener: (context, state) {
+                                if (state is BussinessWishlistApiInLoaded) {
+                                  context
+                                      .read<BussinessWishlistApiCubit>()
+                                      .businessWishListCheck(
+                                          widget.model?.id ?? "");
+                                  Navigator.pop(context);
+                                }
+                                // TODO: implement listener
+                              },
+                              child: IconButton(
+                                icon: !wishlistbool
+                                    ? SvgPicture.asset(Assets.heartLight)
+                                    : SvgPicture.asset(Assets.heartRed),
+                                onPressed: () async {
+                                  context
+                                      .read<BussinessWishlistApiCubit>()
+                                      .businessWishListIn(
+                                          widget.model!.id!, wishlistbool);
+                                },
+                              ),
+                            ),
+                            10.x,
                           ],
-                        )),
+                        )
+                      ],
+                    ),
                     backgroundColor: AppColors.whiteColor,
-                    expandedHeight: 1.sh * 0.36,
+                    expandedHeight: 1.sh * 0.26,
                   ),
                 ];
               },
               body: Builder(builder: (context) {
                 final value = widget.model!;
+
+                print("pa ui ka ${value.industry.toString()}");
+
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Stack(
@@ -228,9 +221,8 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                 Expanded(
                                     child: AppText(
                                         value.industry != null
-                                            ? value.industry!['industry'] ??
-                                                'Unknown Industry'
-                                            : 'Unknown Industry',
+                                            ? value.industry!['title'] ?? ''
+                                            : '',
                                         style: Styles.circularStdRegular(
                                             context,
                                             fontSize: 14.sp))),

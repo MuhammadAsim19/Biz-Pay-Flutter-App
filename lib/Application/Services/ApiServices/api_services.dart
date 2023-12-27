@@ -160,9 +160,9 @@ class ApiService {
     try {
       print("Here is body ${body.toString()}");
 
-      print("here2");
-      print(Data().user!.token);
-      final headers = {'authorization': '${Data().user!.token}'};
+      print("here is Url$url");
+      print(Data().token);
+      final headers = {'authorization': '${Data().token}'};
       var request =
           http.MultipartRequest(requestMethod ?? 'POST', Uri.parse(url));
       // request.fields.addAll();
@@ -181,10 +181,12 @@ class ApiService {
       }
 
       request.headers.addAll(headers);
-      for (String? e in filesPath) {
-        //print(e);
-        request.files.add(await http.MultipartFile.fromPath(
-            imagePathName ?? 'profileImage', e!));
+      if (filesPath.isNotEmpty) {
+        for (String? e in filesPath) {
+          //print(e);
+          request.files.add(await http.MultipartFile.fromPath(
+              imagePathName ?? 'profileImage', e!));
+        }
       }
 
       http.StreamedResponse res = await request.send();
@@ -306,15 +308,17 @@ class ApiService {
   }
 
   static Future<Map<String, dynamic>> put(
-      String url, Map<String, dynamic>? body,
-      {Map<String, String>? headers}) async {
+    String url,
+    Map<String, dynamic>? body,
+  ) async {
+    final headers = {'authorization': '${Data().token}'};
+
     try {
       print("pa repo ka map ${body}");
       http.Response res = await http.put(
         Uri.parse(url),
         headers: headers ?? _authMiddleWare(),
         body: body,
-        //encoding: Encoding.getByName("application/x-www-form-urlencoded")
       );
 
       if (res.statusCode == 200 || res.statusCode == 201) {
@@ -353,12 +357,86 @@ class ApiService {
     }
   }
 
-  static Future<Map<String, dynamic>> delete(String url, String id,
+  static Future<Map<String, dynamic>> putMultiPart(
+      String url, Map<String, dynamic> body, List<String?> filesPath,
+      {Map<String, String>? header,
+      String? requestMethod,
+      String? imagePathName}) async {
+    try {
+      print("Here is body ${body.toString()}");
+
+      print("here is Url$url");
+      print(Data().token);
+      final headers = {'authorization': '${Data().token}'};
+      var request =
+          http.MultipartRequest(requestMethod ?? 'PUT', Uri.parse(url));
+      // request.fields.addAll();
+
+      for (var str in body.entries) {
+        if (str.value != null) {
+          print(str.value);
+          if (str.value.runtimeType is bool || str.key.runtimeType is bool) {
+            print("herewe");
+            request.fields[str.key.toString()] = str.value.toString();
+          } else {
+            request.fields[str.key] = str.value;
+          }
+          print(str.key);
+        }
+      }
+
+      request.headers.addAll(headers);
+      if (filesPath.isNotEmpty) {
+        for (String? e in filesPath) {
+          //print(e);
+          request.files.add(await http.MultipartFile.fromPath(
+              imagePathName ?? 'profileImage', e!));
+        }
+      }
+
+      http.StreamedResponse res = await request.send();
+      // print(res.statusCode.toString() +"status code");
+      if (res.statusCode == 200 || res.statusCode == 201) {
+        Map<String, dynamic> decode =
+            jsonDecode(await res.stream.bytesToString());
+        return decode;
+      }
+
+      return {
+        "Success": false,
+        "error": "${res.statusCode} ${res.reasonPhrase}",
+        "body": null
+      };
+    } on SocketException catch (e) {
+      print('in socet');
+      // Handle SocketException here.
+      return {
+        "Success": false,
+        "error": 'No Internet Connection',
+        "status": 30
+      };
+
+      // You can display an error message to the user or perform other actions.
+    } on TimeoutException catch (e) {
+      print('in timeout');
+      // Handle SocketException here.
+      return {"Success": false, "error": "Time Out", "status": 31};
+    } on HttpException catch (e) {
+      // Handle HttpException (e.g., invalid URL) here.
+      return {"Success": false, "error": "Invalid", "status": 32};
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  static Future<Map<String, dynamic>> delete(String url,
       {Map<String, String>? headers}) async {
+    final headers = {'authorization': '${Data().token}'};
+
     try {
       http.Response res = await http.delete(
-        Uri.parse("$url/$id"),
-        headers: headers ?? _authMiddleWare(),
+        Uri.parse(url),
+        headers: headers,
       );
       if (res.statusCode == 200 || res.statusCode == 201) {
         Map<String, dynamic> decode = jsonDecode(res.body);
