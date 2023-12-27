@@ -34,74 +34,9 @@ class _ChatScreenState extends State<ChatScreen> {
 
   int chip = 0;
 
-  List<ChatTileModel> chatData = [
-    ChatTileModel(
-        title: 'Man fashion collection',
-        message: 'Hello How Are You Doing and asd,asldmakcnxjcbsdhb',
-        messageLength: '1',
-        name: 'Gabriel Tasse',
-        pr0fileImage: 'assets/images/chat1.png',
-        time: '03:30 PM'),
-    ChatTileModel(
-        message: 'Aqib Javid',
-        messageLength: '',
-        title: 'Women Fashion',
-        name: 'Gabriel Tasse',
-        pr0fileImage: 'assets/images/profile.png',
-        time: '04:30 AM'),
-    ChatTileModel(
-        message: 'Hello How Are Your',
-        messageLength: '3',
-        title: 'Drop shipping and e-commerce website',
-        name: 'Elizabeth',
-        pr0fileImage: 'assets/images/chat2.png',
-        time: '05:30 AM'),
-  ];
+  List<ChatTileModel> chatData =[];
 
-  List<ChatTileModel> brokers = [
-    ChatTileModel(
-        title: 'Business broker',
-        message: 'Thank You',
-        messageLength: '1',
-        name: 'Kamran Ali',
-        pr0fileImage: 'assets/images/profile.png',
-        time: '03:30 PM'),
-    ChatTileModel(
-        title: 'M&A Advisor',
-        message: 'Hello ',
-        messageLength: '',
-        name: 'Gabriel Tasse',
-        pr0fileImage: 'assets/images/chat1.png',
-        time: '04:30 AM'),
-    ChatTileModel(
-        title: 'Financial Advisor',
-        message: 'How Are you Doing and what the current position',
-        messageLength: '3',
-        name: 'Elizabeth',
-        pr0fileImage: 'assets/images/chat2.png',
-        time: '05:30 AM'),
-    ChatTileModel(
-        title: 'M&A Advisor',
-        message: 'Aqib Javid',
-        messageLength: '',
-        name: 'Gabriel Tasse',
-        pr0fileImage: 'assets/images/chat1.png',
-        time: '04:30 AM'),
-    ChatTileModel(
-        title: 'Financial Advisor',
-        message: 'How Are you Doing and what the current position',
-        messageLength: '3',
-        name: 'Elizabeth',
-        pr0fileImage: 'assets/images/chat2.png',
-        time: '05:30 AM'),
-    ChatTileModel(
-        title: 'Financial Advisor',
-        message: 'How Are you Doing and what the current position',
-        messageLength: '3',
-        name: 'Elizabeth',
-        pr0fileImage: 'assets/images/chat2.png',
-        time: '05:30 AM'),
-  ];
+  List<ChatTileModel> brokers =[];
 @override
   void initState() {
   InboxRepo().initSocket(context, "6579ea61d76f7a30f94f5c80");
@@ -236,7 +171,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       itemCount: chip == 0 ? chatState.length : brokers.length,
                       itemBuilder: (context, index) {
                         return ChatTile(
-                          data: chip == 0 ? chatData[index] : brokers[index],
+                         // data: chip == 0 ? chatData[index] : brokers[index],
                           tileData:  chatState[index],
                         );
                       },
