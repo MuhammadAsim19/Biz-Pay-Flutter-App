@@ -17,7 +17,7 @@ class NotificationCubit extends Cubit<NotificationCubitState> {
       await GetAllNotificationRepo.getAllNotificationData().then((value) {
         log(value.toString());
         print(value.toString());
-        if (value['Success'] == true) {
+        if (value['Success']) {
           List<NotificationModel> notificationModel = List.from(
               value['body'].map((e) => NotificationModel.fromJson(e)));
 
