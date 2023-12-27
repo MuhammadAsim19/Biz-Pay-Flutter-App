@@ -9,7 +9,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Controllers/inbox
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Controllers/inboxmodel.dart';
 import 'package:file_picker/src/platform_file.dart';
 import 'package:flutter/foundation.dart';
-
+import 'package:flutter/scheduler.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:video_thumbnail/video_thumbnail.dart';
@@ -65,6 +65,8 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
   bool? isLoading=false;
 @override
   void initState() {
+
+  super.initState();
   WidgetsBinding.instance.addPostFrameCallback((_) {
     // Scroll to the end when the widgets are fully painted and visible
     _scrollController.jumpTo(_scrollController.position.maxScrollExtent+400);
@@ -76,11 +78,13 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       {
         print("keyboard is open");
         // InboxRepo.socket.on(event, (data) => null);
+        print(InboxControllers.chatDetailData.value.receiver);
         var data  = {
           "status":true,
           "reciever":InboxControllers.chatDetailData.value.receiver
 
         };
+
         InboxRepo.socket.emit("isTyping",data);
 
       }
@@ -135,12 +139,63 @@ InboxRepo.socket.on('error',(data) {
 
 });
 
+
 ///full chat listener first time
   InboxRepo.socket.on('businessChatDetails', (data) {
     print("bizness details");
     print(data);
-    InboxControllers.chatDetailData.value=ChatTileApiModel.fromJson(data);
+
+   ChatTileApiModel chTo=ChatTileApiModel.fromJson(data);
+    InboxControllers.chatDetailData.value=chTo;
     InboxControllers.chatDetailData.notifyListeners();
+    if(chTo.blockedUser.toString() == chTo.receiver.toString())
+      {
+        print(InboxControllers.chatDetailData.value.blockedUser);
+        print(InboxControllers.chatDetailData.value.receiver);
+        print("inside the condition");
+
+        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+
+          InboxControllers.blockedStatus.value=true;
+          InboxControllers.blockedString.value="Can not Chat You Have Blocked this User";
+          InboxControllers.blockedString.notifyListeners();
+          InboxControllers.blockedStatus.notifyListeners();
+
+        });
+
+
+
+
+
+      }
+    else
+      {
+        InboxControllers.blockedStatus.value=false;
+
+      }
+    if(InboxControllers.chatDetailData.value.blockedUser == "6579ea61d76f7a30f94f5c80")
+      {
+        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+
+          InboxControllers.blockedStatus.value=true;
+          InboxControllers.blockedString.value="Can not Chat You Have been Blocked by this User";
+          InboxControllers.blockedString.notifyListeners();
+          InboxControllers.blockedStatus.notifyListeners();
+
+        });
+
+      }
+    else
+      {
+        InboxControllers.blockedStatus.value=false;
+
+      }
+
+      InboxControllers.blockedString.notifyListeners();
+      InboxControllers.blockedStatus.notifyListeners();
+
+
+
   });
 ///new messageto  chat
   InboxRepo.socket.on("newMessageToBusiness", (data)  {
@@ -163,22 +218,42 @@ InboxRepo.socket.on('error',(data) {
     print(data);
 
   });
-//InboxRepo.socket.emit("user_online_status","Online");
-
-  InboxRepo.socket.on("isTyping", (data) {
-
-    print("status");
-    print(Data);
+  ///block _ user listener
+  InboxRepo.socket.on("block_user",(data) {
+    print("blocked Data");
+    print(data);
 
   });
 
+//InboxRepo.socket.emit("user_online_status","Online");
+///Typing event listening
+  InboxRepo.socket.on("isTyping", (data) {
+
+    print("statusTypingTyping");
+    InboxControllers.typingStatus.value=data;
+    InboxControllers.typingStatus.notifyListeners();
+    print(data);
+
+  });
+
+
+  //InboxRepo.socket.
+
+  // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+  //
+  //
+  //
+  // });
+
+
     // TODO: implement initState
-    super.initState();
+
   }
   @override
   void dispose() {
     // TODO: implement dispose
     InboxRepo.socket.off("newMessageToBusiness");
+    InboxControllers.typingStatus.value=false;
     focusNode.dispose();
     //InboxRepo.socket.clearListeners();
     super.dispose();
@@ -249,7 +324,7 @@ InboxRepo.socket.on('error',(data) {
                         ),
                       ),
                       //const Spacer(),
-                      const PopMenu(),
+                       PopMenu(chDto: widget.chatDto,),
                     ],
                   ),
                 ),
@@ -334,99 +409,125 @@ InboxRepo.socket.on('error',(data) {
               bottom: 0,
               right: 0,
               left: 0,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: Container(
-                  height:allFiles!=null && allFiles!.isNotEmpty?220 : 80.h,
-                  width: 1.sw,
-                  decoration: BoxDecoration(
+              child: ValueListenableBuilder(
+                builder: (context,blockedState,ss) {
+                  print("${blockedState}blockedState");
+                  return blockedState==false? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: Container(
+                      height:allFiles!=null && allFiles!.isNotEmpty?220 : 80.h,
+                      width: 1.sw,
+                      decoration: BoxDecoration(
 
-                    border: Border.all(color:allFiles.isNotEmpty? AppColors.borderColor:Colors.transparent,width: 2),
-                    borderRadius: BorderRadius.circular(20),
-                   // color: AppColors.borderColor,
-
-                  ),
-                  child: Column(
-                    children: [
-                      allFiles.isNotEmpty?
-                      Container(
-                        height: 120.h,
-                        width: 1.sw,
-
-                        child: ListView.separated(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: allFiles.length,
-                          itemBuilder: (context, index) {
-                            return DisplayFileImageChat(
-                              fileImage: allFiles[index].path.toString(),
-                              fullFile: allFiles[index],
-
-                              onDeleteTap: () {
-                                setState(() {
-                                  if(validImageExt.contains(allFiles[index].extension?.toLowerCase()))
-                                    {
-                                      images?.remove(allFiles[index]);
-                                    }
-                                  // if(   allFiles?[index].path!.contains("thumbnail")==true)
-                                  // {
-                                  //   videos?.remove(allFiles![index]);
-                                  // }
-                                  if(validDocExt.contains(allFiles[index].extension?.toLowerCase()))
-                                  {
-                                    docs?.remove(allFiles[index]);
-                                  }
-                                  allFiles.removeAt(index);
-                                 // actualFiles.removeAt(index);
-                                  //image = [];
-                                });
-                              },
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return SizedBox(
-                              width: 5.sp,
-                            );
-                          },
-                        ),
-                      )
-                          :const SizedBox(),
-
-                      CustomTextFieldWithOnTap(
-                        filledColor: AppColors.borderColor,
-                        focusNode: focusNode,
-                        isBorderRequired:allFiles!=null && allFiles!.isNotEmpty? false:true,
-                          prefixIcon: GestureDetector(
-
-                              onTap: () async {
-
-                                showPickerCustomBottomSheet(context,actualFiles
-                                );
-
-                              },
-                              child: SvgPicture.asset('assets/images/attach.svg')),
-                          suffixIcon: GestureDetector(
-                            onTap: ()
-                            {
-                              if(message.text.isNotEmpty) {
-                                _sendMessage(message.text);
-                              }
-                            },
-                            child: Container(
-                                margin: EdgeInsets.only(right: 10.sp),
-                                child: SvgPicture.asset('assets/images/send.svg')),
-                          ),
-                          borderRadius: 40.sp,
-                          controller: message,
-                          hintText: 'Message',
-                          textInputType: TextInputType.text,
+                        border: Border.all(color:allFiles.isNotEmpty? AppColors.borderColor:Colors.transparent,width: 2),
+                        borderRadius: BorderRadius.circular(20),
+                       // color: AppColors.borderColor,
 
                       ),
-                    ],
-                  ),
-                ),
+                      child: Column(
+                        children: [
+                          allFiles.isNotEmpty?
+                          Container(
+                            height: 120.h,
+                            width: 1.sw,
+
+                            child: ListView.separated(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: allFiles.length,
+                              itemBuilder: (context, index) {
+                                return DisplayFileImageChat(
+                                  fileImage: allFiles[index].path.toString(),
+                                  fullFile: allFiles[index],
+
+                                  onDeleteTap: () {
+                                    setState(() {
+                                      if(validImageExt.contains(allFiles[index].extension?.toLowerCase()))
+                                        {
+                                          images?.remove(allFiles[index]);
+                                        }
+                                      // if(   allFiles?[index].path!.contains("thumbnail")==true)
+                                      // {
+                                      //   videos?.remove(allFiles![index]);
+                                      // }
+                                      if(validDocExt.contains(allFiles[index].extension?.toLowerCase()))
+                                      {
+                                        docs?.remove(allFiles[index]);
+                                      }
+                                      allFiles.removeAt(index);
+                                     // actualFiles.removeAt(index);
+                                      //image = [];
+                                    });
+                                  },
+                                );
+                              },
+                              separatorBuilder: (BuildContext context, int index) {
+                                return SizedBox(
+                                  width: 5.sp,
+                                );
+                              },
+                            ),
+                          )
+                              :const SizedBox(),
+
+                          CustomTextFieldWithOnTap(
+                            filledColor: AppColors.borderColor,
+                            focusNode: focusNode,
+                            isBorderRequired:allFiles!=null && allFiles!.isNotEmpty? false:true,
+                              prefixIcon: GestureDetector(
+
+                                  onTap: () async {
+
+                                    showPickerCustomBottomSheet(context,actualFiles
+                                    );
+
+                                  },
+                                  child: SvgPicture.asset('assets/images/attach.svg')),
+                              suffixIcon: GestureDetector(
+                                onTap: ()
+                                {
+                                  if(message.text.isNotEmpty) {
+                                    _sendMessage(message.text);
+                                  }
+                                },
+                                child: Container(
+                                    margin: EdgeInsets.only(right: 10.sp),
+                                    child: SvgPicture.asset('assets/images/send.svg')),
+                              ),
+                              borderRadius: 40.sp,
+                              controller: message,
+                              hintText: 'Message',
+                              textInputType: TextInputType.text,
+
+                          ),
+                        ],
+                      ),
+                    ),
+                  ):
+                      ValueListenableBuilder(
+                        builder: (context,blockedString,fg) {
+                          return Container(
+                            width: 1.sw,
+                            height: 80,
+                            padding: EdgeInsets.symmetric(horizontal: 24.sp),
+                            child: AppText(blockedString,style: Styles.circularStdRegular(context,fontSize: 14),),
+
+                          );
+                        }, valueListenable: InboxControllers.blockedString,
+                      );
+                }, valueListenable: InboxControllers.blockedStatus,
               ),
             ),
+             Positioned(
+                 bottom: 120,
+                 //top: 0,
+                 left: 30,
+                 right: 0,
+                 child: ValueListenableBuilder(
+                   builder: (context,typingState,ss) {
+                     return AppText(typingState?"Typing...":"",style: Styles.circularStdRegular(context),);
+                   }, valueListenable: InboxControllers.typingStatus,
+                 )),
              Positioned(
 
                  top: 0,

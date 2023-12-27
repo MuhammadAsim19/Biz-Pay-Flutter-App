@@ -23,10 +23,18 @@ class DownloadCallBack {
     }
   }
 }
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
 void main() {
   //WidgetsFlutterBinding.ensureInitialized();
   init();
-
+  HttpOverrides.global = MyHttpOverrides();
   runApp(MultiBlocProvider(providers: appProviders, child: const MyApp()));
 }
 

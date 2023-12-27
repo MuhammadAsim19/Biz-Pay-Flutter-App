@@ -28,6 +28,7 @@ class InboxRepo {
         //
 
       });
+      socket.onDisconnect((data) => print("disconnect from web sockrt"));
 
 
 
@@ -47,7 +48,7 @@ class InboxRepo {
 class ApiConstant{
 
 
-  static  String baseUrl="http://192.168.1.5:9000";
-  static String socketBase="192.168.1.5:9000";
+  static  String baseUrl="http://192.168.1.14:9000";
+  static String socketBase="192.168.1.14:9000";
 
 }

@@ -1,6 +1,9 @@
 
 
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Controllers/Repo/inboox_repo.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Controllers/inboxControllers.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Controllers/inboxmodel.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -10,7 +13,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class PopMenu extends StatelessWidget {
-  const PopMenu({super.key});
+  final ChatTileApiModel? chDto;
+  const PopMenu({super.key, required this.chDto});
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +36,25 @@ class PopMenu extends StatelessWidget {
           side: const BorderSide(color: AppColors.borderColor)),
       onSelected: (value) async {
         print(value);
+        if(value == MenuItem1.block)
+
+
+        {
+
+          var data={
+
+            "isBlocked":InboxControllers.blockedStatus.value==true?false:true,
+            "blockedBy":"6579ea61d76f7a30f94f5c80",
+            "blockedTo":InboxControllers.chatDetailData.value.receiver.toString().trim(),
+            "conversationId":chDto?.id.toString()
+
+
+          };
+
+  InboxRepo.socket.emit("blockUser",data);
+  InboxControllers.blockedStatus.value=InboxControllers.blockedStatus.value==true?false:true;
+
+}
         // if (value == MenuItem.edit) {
         //   // ///logic for edit
         // }
@@ -86,13 +109,17 @@ class PopMenu extends StatelessWidget {
               4.x,
               Expanded(
                 flex: 4,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 2.sp),
-                  child: AppText(
-                    'Block user',
-                    style: Styles.circularStdMedium(context, fontSize: 16.sp),
-                    textAlign: TextAlign.left,
-                  ),
+                child: ValueListenableBuilder(
+                  builder: (context,blockedState,sss) {
+                    return Padding(
+                      padding: EdgeInsets.only(left: 2.sp),
+                      child: AppText(
+                        blockedState==true?'Unblock User':'Block user',
+                        style: Styles.circularStdMedium(context, fontSize: 16.sp),
+                        textAlign: TextAlign.left,
+                      ),
+                    );
+                  }, valueListenable: InboxControllers.blockedStatus,
                 ),
               ),
             ],
@@ -102,6 +129,7 @@ class PopMenu extends StatelessWidget {
     );
   }
 }
+
 
 enum MenuItem1 {
   report,

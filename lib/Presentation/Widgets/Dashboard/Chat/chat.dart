@@ -128,8 +128,8 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void dispose() {
   print("called");
-  // InboxRepo.socket.disconnect();
-  // InboxRepo.socket.dispose();
+   InboxRepo.socket.disconnect();
+   InboxRepo.socket.dispose();
   // TODO: implement dispose
     super.dispose();
   }

@@ -13,9 +13,11 @@ class ChatTileApiModel {
   final String?  receiver;
   final dynamic lastMessage;
   final int? unreadMessages;
+  final String? blockedUser;
 
-  ChatTileApiModel( {
+  ChatTileApiModel(  {
     this.username,
+    this.blockedUser,
     this.receiver,
     this.onlineStatus,
     this.profilePic,
@@ -46,6 +48,7 @@ class ChatTileApiModel {
     v: json["__v"],
     lastMessage: json["lastMessage"].runtimeType==String?json["lastMessage"] :json["lastMessage"] == null ? null : LastMessage.fromJson(json["lastMessage"]),
     unreadMessages: json["unreadMessages"],
+      blockedUser:json["blockedUser"]
   );
 
   Map<String, dynamic> toJson() => {
@@ -61,6 +64,7 @@ class ChatTileApiModel {
     "__v": v,
     "lastMessage": lastMessage?.toJson(),
     "unreadMessages": unreadMessages,
+    "blockedUser":blockedUser
   };
 }
 
