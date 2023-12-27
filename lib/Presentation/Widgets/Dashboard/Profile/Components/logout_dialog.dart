@@ -1,5 +1,7 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
+import 'package:buysellbiz/Data/AppData/app_preferences.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
+import 'package:buysellbiz/Domain/User/user_model.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/Login/login.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/Login/login_onboard.dart';
@@ -46,6 +48,7 @@ class LogoutDialog extends StatelessWidget {
               const Spacer(),
               CustomButton(
                 onTap: () {
+                  SharedPrefs.clearUserData();
                   Navigate.toReplaceAll(context, const LoginOnboard());
                 },
                 text: AppStrings.logout,

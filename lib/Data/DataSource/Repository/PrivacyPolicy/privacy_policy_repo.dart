@@ -3,16 +3,12 @@ import 'dart:developer';
 import 'package:buysellbiz/Application/Services/ApiServices/api_services.dart';
 
 import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
-import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 
-class WishlistRepo {
-  static Future<Map<String, dynamic>> wishlistData() async {
-    var headers = {"authorization": " ${Data.app.token}"};
-
+class PrivacyPolicyRepo {
+  static Future<Map<String, dynamic>> privacyPolicyData() async {
     try {
       return await ApiService.get(
-        headers: headers,
-        ApiConstant.wishList,
+        ApiConstant.privacyPolicy,
       ).then((value) {
         log(value.toString());
         return value;

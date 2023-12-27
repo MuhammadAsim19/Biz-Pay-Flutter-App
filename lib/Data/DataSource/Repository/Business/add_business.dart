@@ -9,7 +9,7 @@ class AddBusiness {
       {required Map<String, dynamic> body,
       List<String?>? images,
       List<String?>? attachFiles}) async {
-    var headers = {"authorization": " ${Data.app.user!.token}"};
+    var headers = {"authorization": " ${Data.app.token}"};
 
     print(images.toString());
     print(attachFiles.toString());

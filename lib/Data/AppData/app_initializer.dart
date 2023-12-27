@@ -7,5 +7,6 @@ mixin AppInitializer {
 
   static Future _user() async {
     await SharedPrefs.getUserLoginData();
+    await SharedPrefs.getUserToken();
   }
 }
