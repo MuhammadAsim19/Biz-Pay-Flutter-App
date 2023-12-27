@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:buysellbiz/Data/DataSource/Repository/Brokers/get_country.dart';
-import 'package:buysellbiz/Data/DataSource/Repository/Business/all_business.dart';
+import 'package:buysellbiz/Data/DataSource/Repository/Business/all_business_repo.dart';
 import 'package:meta/meta.dart';
 
 part 'get_all_country_state.dart';

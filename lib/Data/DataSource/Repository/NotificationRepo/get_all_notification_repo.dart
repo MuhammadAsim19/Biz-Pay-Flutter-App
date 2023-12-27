@@ -7,12 +7,11 @@ import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 
 class GetAllNotificationRepo {
   static Future<Map<String, dynamic>> getAllNotificationData() async {
-    var token = {"authorization": " ${Data.app.user!.token}"};
+    var token = {"authorization": " ${Data.app.token!}"};
     try {
       return await ApiService.get(
-        headers: token,
-        ApiConstant.getAllNotification,
-      ).then((value) {
+              headers: token, ApiConstant.getAllNotification)
+          .then((value) {
         return value;
       }).catchError((exception) {
         throw exception;

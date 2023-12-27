@@ -47,7 +47,7 @@ class _SearchListingState extends State<SearchListing> {
   @override
   void initState() {
     context.read<CategoryBusinessCubit>().getCategoryBusiness(widget.id);
-    // TODO: implement initState
+
     super.initState();
   }
 

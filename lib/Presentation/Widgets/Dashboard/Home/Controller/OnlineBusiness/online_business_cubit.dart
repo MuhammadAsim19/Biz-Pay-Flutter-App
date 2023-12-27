@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:buysellbiz/Data/DataSource/Repository/Business/all_business.dart';
+import 'package:buysellbiz/Data/DataSource/Repository/Business/all_business_repo.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
 import 'package:meta/meta.dart';
 

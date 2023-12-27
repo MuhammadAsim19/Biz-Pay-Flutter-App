@@ -26,7 +26,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Online
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/RecentlyView/recently_viewed_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/search_busniess.dart';
 
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/notifications.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/notifications.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/export_profile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/SearchListing/search_listing.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -115,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       const Spacer(),
                       GestureDetector(
                         onTap: () {
-                          Navigate.to(context, Notifications());
+                          Navigate.to(context, const Notifications());
                         },
                         child: Container(
                             margin: EdgeInsets.only(right: 23.sp),

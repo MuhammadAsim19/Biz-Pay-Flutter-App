@@ -6,7 +6,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controll
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class NotificationCubit extends Cubit<NotificationState> {
+class NotificationCubit extends Cubit<NotificationCubitState> {
   NotificationCubit() : super(NotificationInitial());
 
   void getNotificationCubitData() async {

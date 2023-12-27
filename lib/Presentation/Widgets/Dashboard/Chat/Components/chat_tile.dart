@@ -1,4 +1,3 @@
-
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
@@ -25,12 +24,7 @@ class ChatTile extends StatelessWidget {
     return InkWell(
       onTap: () {
         //InboxRepo.socket.disconnect();
-        Navigate.to(
-            context,
-            ChatDetailsScreen(
-              model: data,
-              chatDto:tileData
-            ));
+        // Navigate.to(context, ChatDetailsScreen(modelId: data, chatDto: tileData));
       },
       child: Container(
         padding: EdgeInsets.all(13.sp),
@@ -41,7 +35,10 @@ class ChatTile extends StatelessWidget {
         child: Row(
           children: [
             CachedNetworkImage(
-                height: 50.h, width: 50.w,  imageUrl: "${ApiConstant.baseUrl}${tileData!.profilePic}",),
+              height: 50.h,
+              width: 50.w,
+              imageUrl: "${ApiConstant.baseUrl}${tileData!.profilePic}",
+            ),
             15.x,
             Expanded(
               child: Column(
@@ -57,7 +54,7 @@ class ChatTile extends StatelessWidget {
                           fontWeight: FontWeight.w400,
                           color: AppColors.primaryColor)),
                   2.y,
-                  AppText(tileData?.lastMessage?.content??"",
+                  AppText(tileData?.lastMessage?.content ?? "",
                       style: Styles.circularStdRegular(context,
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w400,
@@ -69,13 +66,13 @@ class ChatTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                AppText(data!.time,
+                AppText(data!.updatedAt.toString(),
                     style: Styles.circularStdRegular(context,
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w400,
                         color: AppColors.greyTextColor)),
                 20.y,
-                tileData!.unreadMessages! >0
+                tileData!.unreadMessages! > 0
                     ? CircleAvatar(
                         radius: 10.sp,
                         child: Center(

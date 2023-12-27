@@ -45,9 +45,8 @@ class ApiConstant {
 
   static String updateProfile = "$baseUrl/api/user/update_user/";
   static String privacyPolicy = "$baseUrl/api/privacy_and_terms";
-<<<<<<< HEAD
   static String getAllNotification = "$baseUrl/api/user/getAllNotification";
-=======
   static String categouryBusiness = "$baseUrl/api/business/filterByCategory";
->>>>>>> 004efce1d230cfce14f1e469b9780d3f8eb0d6d2
+
+  static String readNotification = "$baseUrl/api/user/readNotification";
 }

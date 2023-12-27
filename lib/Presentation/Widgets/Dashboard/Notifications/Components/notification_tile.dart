@@ -1,7 +1,5 @@
-import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/ChatModel/chat_tile_model.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_details.dart';
+
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Components/notification_model.dart';
 
 class ChatTile extends StatelessWidget {
@@ -19,7 +17,7 @@ class ChatTile extends StatelessWidget {
         // Navigate.to(
         //     context,
         //     ChatDetailsScreen(
-        //       model: data,
+        //       model: data.id!,
         //     ));
       },
       child: Container(
