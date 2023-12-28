@@ -1,19 +1,15 @@
-import 'dart:developer';
-
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
-import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
 import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
-import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/business_shimmer.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/chip_widget.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Components/chart_revenue.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/add_to_recently_view_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/bussiness_wishlist_api_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/download_file.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/State/business_wishlistapi_state.dart';
-
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/chat.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -44,8 +40,6 @@ class _BusinessDetailsState extends State<BusinessDetails> {
 
   @override
   Widget build(BuildContext context) {
-    print("data da da${widget.model!.industry.toString()}");
-
     return SafeArea(
       child: Scaffold(
         body:
@@ -76,8 +70,6 @@ class _BusinessDetailsState extends State<BusinessDetails> {
               physics: const NeverScrollableScrollPhysics(),
               headerSliverBuilder:
                   (BuildContext context, bool innerBoxIsScrolled) {
-                print(widget.model!.country);
-
                 return [
                   SliverAppBar(
                     elevation: 0,
@@ -343,7 +335,13 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                   ),
                                 ),
                                 const Spacer(),
-                                SvgPicture.asset(Assets.downloadIcon)
+                                InkWell(
+                                    onTap: () async {
+                                      await DownloadFile.download(
+                                          widget.model!.attachedFiles![0]);
+                                    },
+                                    child:
+                                        SvgPicture.asset(Assets.downloadIcon))
                               ],
                             ),
                             14.y,
@@ -421,13 +419,11 @@ class WishListDetail extends StatelessWidget {
                   onTap: () {
                     Navigate.pop(context);
                   },
-                  child: Container(
-                    child: SvgPicture.asset(
-                      Assets.arrowBackIcon,
-                      width: 20.sp,
-                      height: 30.sp,
-                      fit: BoxFit.fitWidth,
-                    ),
+                  child: SvgPicture.asset(
+                    Assets.arrowBackIcon,
+                    width: 20.sp,
+                    height: 30.sp,
+                    fit: BoxFit.fitWidth,
                   ),
                 ),
                 const Spacer(),

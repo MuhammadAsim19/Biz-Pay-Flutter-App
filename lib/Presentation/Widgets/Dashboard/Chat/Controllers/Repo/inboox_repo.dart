@@ -11,29 +11,25 @@ class InboxRepo {
   initSocket(BuildContext context, storyId) {
     try {
       print("here");
-      socket = IO.io("ws://${ApiConstant.socketBase}/?userid=$storyId", <String, dynamic>{
+      socket = IO.io(
+          "ws://${ApiConstant.socketBase}/?userid=$storyId", <String, dynamic>{
         'transports': ['websocket'],
         'autoConnect': false,
         'cors': {'origin': '*'}
-
-
       });
 
       socket.connect();
       print(socket.opts);
+
       ///replace userIdValue with storyId
 
       socket.onConnect((_) {
         print('connected to websocket');
         //
-
       });
 
-
-
       return 200;
-    }
-    on SocketException catch (e) {
+    } on SocketException catch (e) {
       debugPrint(e.toString());
       debugPrint('Internet connection is down.');
       return 10;
@@ -44,10 +40,7 @@ class InboxRepo {
   }
 }
 
-class ApiConstant{
-
-
-  static  String baseUrl="http://192.168.1.5:9000";
-  static String socketBase="192.168.1.5:9000";
-
+class ApiConstant {
+  static String baseUrl = "http://192.168.1.14:9000";
+  static String socketBase = "192.168.1.14:9000";
 }

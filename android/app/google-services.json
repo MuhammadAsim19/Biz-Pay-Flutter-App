@@ -1,44 +1,26 @@
 {
   "project_info": {
-    "project_number": "79825396245",
-    "project_id": "buysellbiz-d49f2",
-    "storage_bucket": "buysellbiz-d49f2.appspot.com"
+    "project_number": "161555327609",
+    "project_id": "bizzpay-311cb",
+    "storage_bucket": "bizzpay-311cb.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:79825396245:android:98c543e40977df2d34e41c",
+        "mobilesdk_app_id": "1:161555327609:android:fd733731f21ad4066c42a8",
         "android_client_info": {
           "package_name": "com.buysellbiz.application.buysellbiz"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "79825396245-e8f7aspg621e53kivs2hbrqekj1qt6c1.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.buysellbiz.application.buysellbiz",
-            "certificate_hash": "043481a670a84e7b993dd9570736c1d67340f5ef"
-          }
-        },
-        {
-          "client_id": "79825396245-lobopne24s74k1hvgjfm8bf96mcjoe0i.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBPodS_tYqTrxRXzZsw1MQ8dQXWtC4ZWL4"
+          "current_key": "AIzaSyChpXTgoDbYAZpKZzs_vFUXU2q76RuK2qU"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "79825396245-lobopne24s74k1hvgjfm8bf96mcjoe0i.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

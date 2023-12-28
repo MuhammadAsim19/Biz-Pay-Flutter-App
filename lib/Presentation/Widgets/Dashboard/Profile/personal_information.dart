@@ -17,6 +17,7 @@ import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/Components/country_p
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_appbar.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Controller/UpdateProfile/update_profile_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/DeleteAccount/delete_account_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/Controller/get_all_country_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/delete_account.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -39,7 +40,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
   TextEditingController countryController = TextEditingController();
   TextEditingController phone = TextEditingController();
 
-  List country = ['US', "Canada", ''];
+  List countryList = [];
 
   String? countryName;
 
@@ -52,6 +53,8 @@ class _PersonalInformationState extends State<PersonalInformation> {
 
   @override
   void initState() {
+    context.read<GetAllCountryCubit>().getCountry();
+
     userData = Data.app.user;
     firstNameController.text = userData?.user!.firstName ?? "";
     lastNameController.text = userData?.user!.lastName ?? "";
@@ -60,7 +63,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
     countryName = userData?.user!.country ?? "";
     phone.text = userData?.user!.phoneNumber ?? "";
 
-    country.add(countryName);
+    // countryList.add(countryName);
     // TODO: implement initState
     super.initState();
   }
@@ -164,20 +167,33 @@ class _PersonalInformationState extends State<PersonalInformation> {
                         readOnly: true,
                         textInputType: TextInputType.emailAddress),
                     10.y,
-                    CustomDropDownWidget(
-                      isBorderRequired: true,
-                      hMargin: 0,
-                      vMargin: 0,
-                      prefixIcon: SvgPicture.asset(Assets.location),
-                      itemsMap: country.map((e) {
-                        return DropdownMenuItem(value: e, child: Text(e));
-                      }).toList(),
-                      hintText: 'Country',
-                      value: countryName,
-                      validationText: 'Country Required',
-                      onChanged: (value) {
-                        countryName = value;
-                        setState(() {});
+                    BlocConsumer<GetAllCountryCubit, GetAllCountryState>(
+                      listener: (context, state) {
+                        if (state is GetAllCountryLoaded) {
+                          countryList = state.country!;
+                        }
+                        if (state is GetAllCountryError) {
+                          WidgetFunctions.instance.showErrorSnackBar(
+                              context: context, error: state.error);
+                        }
+                        // TODO: implement listener
+                      },
+                      builder: (context, state) {
+                        return CustomDropDownWidget(
+                          isBorderRequired: true,
+                          hMargin: 0,
+                          vMargin: 0,
+                          itemsMap: countryList.map((e) {
+                            return DropdownMenuItem(value: e, child: Text(e));
+                          }).toList(),
+                          hintText: 'Country',
+                          value: countryName,
+                          validationText: 'Country Required',
+                          onChanged: (value) {
+                            countryName = value;
+                            setState(() {});
+                          },
+                        );
                       },
                     ),
                   ],

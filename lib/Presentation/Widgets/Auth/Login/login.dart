@@ -13,7 +13,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dottedContainer.dart';
 
 class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+  LoginScreen({super.key, this.fcmToken});
+
+  final String? fcmToken;
 
   final email = TextEditingController();
   final password = TextEditingController();
@@ -24,7 +26,11 @@ class LoginScreen extends StatelessWidget {
 
   void _login(BuildContext context) {
     if (formKey.currentState!.validate()) {
-      var body = {"email": email.text, "password": password.text};
+      var body = {
+        "email": email.text,
+        "password": password.text,
+        "fcm_token": fcmToken
+      };
 
       context.read<LoginCubit>().loginUser(body: body);
     }
@@ -114,9 +120,10 @@ class LoginScreen extends StatelessWidget {
                           bgColor: AppColors.primaryColor, text: state.error);
                     }
                     if (state is LoginLoaded) {
-
                       Navigator.pop(context);
-                      WidgetFunctions.instance.snackBar(context,bgColor: AppColors.primaryColor,text: "Login Successfully");
+                      WidgetFunctions.instance.snackBar(context,
+                          bgColor: AppColors.primaryColor,
+                          text: "Login Successfully");
 
                       BottomNotifier.bottomNavigationNotifier.value = 0;
 

@@ -23,7 +23,7 @@ class BussinesList extends StatelessWidget {
       height: 110.h,
       child: GestureDetector(
         onTap: () {
-          Navigate.to(context, const BusinessDetails());
+          getData(businessProducts![index!]);
         },
         child: Container(
           width: 338.sp,

@@ -28,6 +28,7 @@ class AddBusiness extends StatelessWidget {
         return false;
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           centerTitle: true,
           automaticallyImplyLeading: false,

@@ -1,16 +1,13 @@
 import 'dart:developer';
-
-import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
+import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
-import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/saved_loading.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_details.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Components/notification_model.dart';
+import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
+import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/notification_shimmer.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/notification_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/notification_state.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/read_notification_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/read_notification_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'Components/notification_tile.dart';
 
 class Notifications extends StatefulWidget {
   const Notifications({
@@ -45,7 +42,12 @@ class _NotificationsState extends State<Notifications> {
                 style: Styles.circularStdBold(context,
                     color: const Color.fromRGBO(0, 0, 0, 1), fontSize: 18.sp))),
         body: BlocConsumer<NotificationCubit, NotificationCubitState>(
-          listener: (context, state) {},
+          listener: (context, state) {
+            if (state is NotificationError) {
+              WidgetFunctions.instance
+                  .showErrorSnackBar(context: context, error: state.error);
+            }
+          },
           builder: (context, state) {
             log(state.toString());
             return state is NotificationLoaded
@@ -63,97 +65,127 @@ class _NotificationsState extends State<Notifications> {
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) {
                                   log(state.notificationModel![index].id!);
-                                  return InkWell(
-                                    onTap: () {
-                                      context
-                                          .read<ReadNotificationCubit>()
-                                          .readNotification(state
-                                              .notificationModel![index].id!);
-                                      // Navigate.to(
-                                      //     context,
-                                      //     ChatDetailsScreen(
-                                      //         modelId: state
-                                      //             .notificationModel![index]
-                                      //             .id!));
+                                  return BlocListener<ReadNotificationCubit,
+                                      ReadNotificationState>(
+                                    listener: (context, state) {
+                                      if (state is ReadNotificationLoading) {
+                                        LoadingDialog.showLoadingDialog(
+                                            context);
+                                      }
+                                      if (state is ReadNotificationLoaded) {
+                                        Navigator.pop(context);
+                                        context
+                                            .read<NotificationCubit>()
+                                            .getNotificationCubitData();
+                                      }
+                                      if (state is ReadNotificationError) {
+                                        Navigator.pop(context);
+                                        WidgetFunctions.instance
+                                            .showErrorSnackBar(
+                                                context: context,
+                                                error: state.error);
+                                      }
+                                      // TODO: implement listener
                                     },
-                                    child: Container(
-                                      padding: EdgeInsets.all(13.sp),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10.sp),
-                                          color: AppColors.whiteColor,
-                                          border: Border.all(
-                                              color: AppColors.borderColor)),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          AssetImageWidget(
-                                              height: 50.h,
-                                              width: 50.w,
-                                              url: state
+                                    child: InkWell(
+                                      onTap: () {
+                                        print(state
+                                            .notificationModel![index].id!);
+                                        if (state.notificationModel![index]
+                                                .isRead !=
+                                            true) {
+                                          context
+                                              .read<ReadNotificationCubit>()
+                                              .readNotification(state
                                                   .notificationModel![index]
-                                                  .icon!),
-                                          15.x,
-                                          Expanded(
-                                            flex: 10,
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    AppText(
-                                                        state
-                                                            .notificationModel![
-                                                                index]
-                                                            .message!,
-                                                        style: Styles
-                                                            .circularStdBold(
-                                                                context,
-                                                                fontSize: 18.sp,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500)),
-                                                    const Spacer(),
-                                                    AppText(
-                                                        state
-                                                            .notificationModel![
-                                                                index]
-                                                            .message!
-                                                            .toString(),
-                                                        style: Styles
-                                                            .circularStdRegular(
-                                                                context,
-                                                                fontSize: 12.sp,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                color: AppColors
-                                                                    .greyTextColor)),
-                                                  ],
-                                                ),
-                                                5.y,
-                                                AppText(
-                                                    state
-                                                        .notificationModel![
-                                                            index]
-                                                        .subCategory!,
-                                                    maxLine: 1,
-                                                    style: Styles
-                                                        .circularStdRegular(
-                                                            context,
-                                                            fontSize: 14.sp,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            color: AppColors
-                                                                .greyTextColor)),
-                                              ],
+                                                  .id!);
+                                        }
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(15.sp),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10.sp),
+                                            color: AppColors.whiteColor,
+                                            border: Border.all(
+                                                color: AppColors.borderColor)),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            CachedImage(
+                                                radius: 25.sp,
+                                                isCircle: true,
+                                                height: 50.h,
+                                                width: 50.w,
+                                                url:
+                                                    "${ApiConstant.baseUrl}${state.notificationModel![index].icon!}"),
+                                            15.x,
+                                            Expanded(
+                                              flex: 10,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      AppText(
+                                                          state
+                                                              .notificationModel![
+                                                                  index]
+                                                              .type!,
+                                                          style: Styles
+                                                              .circularStdRegular(
+                                                                  context,
+                                                                  fontSize:
+                                                                      12.sp,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400)),
+                                                      const Spacer(),
+                                                      AppText(
+                                                          state
+                                                              .notificationModel![
+                                                                  index]
+                                                              .createdAt!
+                                                              .timeAgo(
+                                                                  numericDates:
+                                                                      false),
+                                                          style: Styles
+                                                              .circularStdRegular(
+                                                                  context,
+                                                                  fontSize:
+                                                                      12.sp,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: AppColors
+                                                                      .greyTextColor)),
+                                                    ],
+                                                  ),
+                                                  5.y,
+                                                  AppText(
+                                                      state
+                                                          .notificationModel![
+                                                              index]
+                                                          .message!,
+                                                      maxLine: 1,
+                                                      style: Styles
+                                                          .circularStdRegular(
+                                                              context,
+                                                              fontSize: 14.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              color: AppColors
+                                                                  .greyTextColor)),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   );
@@ -170,7 +202,7 @@ class _NotificationsState extends State<Notifications> {
                     ),
                   )
                 : state is NotificationLoading
-                    ? const SavedLoading()
+                    ? const NotificationLoadingShimmer()
                     : state is NotificationError
                         ? Center(
                             child: AppText(

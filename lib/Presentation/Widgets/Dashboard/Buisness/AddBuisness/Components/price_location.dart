@@ -44,6 +44,8 @@ class _PriceLocationState extends State<PriceLocation> {
 
   @override
   void initState() {
+    context.read<GetAllCountryCubit>().getCountry();
+
     finincialDetails.add(
       {"Revenue ${DateTime.now().year} (USD)": TextEditingController()},
     );
@@ -58,20 +60,7 @@ class _PriceLocationState extends State<PriceLocation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // bottomNavigationBar: Container(
-      //   color: Colors.transparent
-      //   ,
-      //   //height: 56.h,
-      //   child:       CustomButton(onTap: () {
-      //
-      //     AddNotifier.addPageController.jumpToPage(2);
-      //     AddNotifier.addBusinessNotifier.value=2;
-      //
-      //   },
-      //     borderRadius: 30,
-      //     height: 56,
-      //     text: 'Next' ,),
-      // ),
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -104,27 +93,6 @@ class _PriceLocationState extends State<PriceLocation> {
 
                         /// reveenue text
 
-                        // CustomTextFieldWithOnTap(
-                        //     validateText: 'Revenue Price Required',
-                        //     controller: revenueController,
-                        //     hintText: '2023 Revenue (\$CAD)',
-                        //     borderRadius: 40,
-                        //     height: 56,
-                        //     //maxline: 10,
-                        //
-                        //     // isBorderRequired: false,
-                        //     textInputType: TextInputType.text),
-                        //
-                        // ///profile
-                        // CustomTextFieldWithOnTap(
-                        //     controller: profileController,
-                        //     hintText: '2023 Profit (\$CAD)',
-                        //     borderRadius: 40,
-                        //     //height: 200.h,
-                        //     //maxline: 10,
-                        //
-                        //     // isBorderRequired: false,
-                        //     textInputType: TextInputType.text),
                         finincialDetails.isNotEmpty
                             ? ListView.separated(
                                 physics: const NeverScrollableScrollPhysics(),
@@ -218,7 +186,7 @@ class _PriceLocationState extends State<PriceLocation> {
                                     context
                                         .read<GetAllCountryCubit>()
                                         .getCountryStates(value, false);
-
+                                    cityController.text = value;
                                     country = value;
                                     setState(() {});
                                   },
@@ -259,6 +227,7 @@ class _PriceLocationState extends State<PriceLocation> {
                                   validationText: 'City Required',
                                   onChanged: (value) {
                                     city = value;
+                                    cityController.text = value;
                                     setState(() {});
                                   },
                                 ),
@@ -267,23 +236,6 @@ class _PriceLocationState extends State<PriceLocation> {
                           },
                         ),
 
-                        10.y,
-                        CustomDropDownWidget(
-                          prefixIcon: SvgPicture.asset(Assets.dropDownIcon),
-                          isBorderRequired: true,
-                          hMargin: 0,
-                          vMargin: 0,
-                          itemsMap: ["CityA", "CityB"].map((e) {
-                            return DropdownMenuItem(value: e, child: Text(e));
-                          }).toList(),
-                          hintText: "City",
-                          value: city,
-                          validationText: 'City Required',
-                          onChanged: (value) {
-                            cityController.text = value;
-                            city = value;
-                          },
-                        ),
                         10.y,
                         CustomTextFieldWithOnTap(
                             validateText: 'Address Required',
@@ -356,5 +308,11 @@ class _PriceLocationState extends State<PriceLocation> {
     );
 
     print(currentModel.documnets.toString());
+
+    salePriceController.clear();
+    addressController.clear();
+    cityController.clear();
+    countryController.clear();
+    zipCode.clear();
   }
 }

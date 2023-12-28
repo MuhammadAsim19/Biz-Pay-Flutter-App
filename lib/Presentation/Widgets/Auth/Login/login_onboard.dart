@@ -5,6 +5,7 @@ import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart'
 import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/strings.dart';
+import 'package:buysellbiz/Data/Services/firebase_services.dart';
 import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/auth_buttons.dart';
@@ -25,8 +26,16 @@ class LoginOnboard extends StatefulWidget {
 TextEditingController changeBaseUrl = TextEditingController();
 
 class _LoginOnboardState extends State<LoginOnboard> {
+  String? fcmToken;
+
+  getToken() async {
+    fcmToken = await FirebaseServices.getFcm();
+  }
+
   @override
   void initState() {
+    getToken();
+
     // TODO: implement initState
     changeBaseUrl.text = ApiConstant.baseUrl;
     super.initState();
@@ -82,7 +91,7 @@ class _LoginOnboardState extends State<LoginOnboard> {
                   isBorderRequired: true,
                   image: 'assets/images/email.svg',
                   onTap: () {
-                    Navigate.to(context, LoginScreen());
+                    Navigate.to(context, LoginScreen(fcmToken: fcmToken,));
                   },
                 ),
                 30.y,
@@ -133,7 +142,8 @@ class _LoginOnboardState extends State<LoginOnboard> {
                       var name = userData!.user?.displayName;
                       var photoUrl = userData!.user?.photoURL;
                       print(
-                          "${"email" + email.toString() + "name" + name}photo url:" +
+                          "${"email" + email.toString() + "name" +
+                              name}photo url:" +
                               photoUrl);
                       // sendToSocial(email,name,photoUrl,"apple");
                     }
@@ -194,7 +204,8 @@ class _LoginOnboardState extends State<LoginOnboard> {
           "email": user?.email.toString(),
           "fullname": user?.displayName.toString(),
           "photoURL": user?.photoURL.toString(),
-          "phoneNumber": user?.phoneNumber.toString()
+          "phoneNumber": user?.phoneNumber.toString(),
+          "fcm_token": fcmToken,
         };
         context.read<SocialLoginCubit>().setDataOfSocialToServer(data);
       } else {

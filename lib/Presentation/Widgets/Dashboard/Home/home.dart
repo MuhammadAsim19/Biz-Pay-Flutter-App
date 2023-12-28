@@ -1,6 +1,7 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/AppData/app_initializer.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
+import 'package:buysellbiz/Data/Services/firebase_services.dart';
 import 'package:buysellbiz/Domain/Brokers/broker_list_model.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisness_profile.dart';
@@ -59,9 +60,14 @@ List<BusinessModel>? onlineBusiness;
 List<BusinessModel>? onlineBusinessSearch;
 
 class _HomeScreenState extends State<HomeScreen> {
+  getFcm() async {
+    await FirebaseServices.getFcm();
+  }
+
   @override
   void initState() {
     searchController.clear();
+    getFcm();
 // get the user data for accessing in app
 //    UserModel? us = Data().user;
 //    print("checking init data");

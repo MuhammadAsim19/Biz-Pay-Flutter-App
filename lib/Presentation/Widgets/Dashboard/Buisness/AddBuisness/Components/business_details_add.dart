@@ -17,6 +17,7 @@ import 'package:buysellbiz/Presentation/Common/widget_functions.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/add_business_controller.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/business_category_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/Controller/add_business_conntroller.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/Controller/get_all_country_cubit.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -68,6 +69,7 @@ class _BusinessAddDetailsState extends State<BusinessAddDetails> {
   @override
   void initState() {
     context.read<BusinessCategoryCubit>().getCategory();
+
     // TODO: implement initState
     super.initState();
   }
@@ -88,6 +90,7 @@ class _BusinessAddDetailsState extends State<BusinessAddDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: Colors.transparent,
 
       // bottomNavigationBar:       Container(
@@ -123,7 +126,6 @@ class _BusinessAddDetailsState extends State<BusinessAddDetails> {
                 20.y,
                 AppText("Business  Detail",
                     style: Styles.circularStdMedium(context, fontSize: 20)),
-
                 Form(
                     key: _formKey,
                     child: Column(
@@ -383,57 +385,6 @@ class _BusinessAddDetailsState extends State<BusinessAddDetails> {
                             : 10.y,
                       ],
                     )),
-                // ClipRRect(
-                //
-                //   borderRadius: const BorderRadius.all(Radius.circular(12)),
-                //   child:   Container(
-                //     color: AppColors.dottedGreyColor,
-                //     child: DottedBorder(
-                //       borderType: BorderType.RRect,
-                //       radius: const Radius.circular(12).r,
-                //       padding: const EdgeInsets.symmetric(vertical: 35).r,
-                //       color: AppColors.greyColor,
-                //
-                //       strokeWidth: 3,
-                //
-                //       dashPattern: const [2, 3],
-                //       child:   GestureDetector(
-                //         onTap: ()
-                //         async {
-                //         var pickedFile= await PickFile.pickFiles();
-                //         if(pickedFile!= null) {
-                //           print(pickedFile[0].name);
-                //         }
-                //         },
-                //         child: Container(
-                //           height: 62,
-                //           width: 123,
-                //           decoration: const BoxDecoration(
-                //            // color: Colors.red
-                //
-                //           ),//color: AppColors.lightGreyColor),
-                //
-                //     child: SizedBox(
-                //         width: 97,
-                //         height: 40,
-                //         child: Column(
-                //
-                //           children: [
-                //
-                //             SvgPicture.asset(Assets.addImageIcon),
-                //
-                //             AppText("Upload Document", style: Styles.circularStdRegular(context,fontSize: 12))
-                //
-                //           ],
-                //
-                //
-                //         ),
-                //     )
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
                 70.y
               ],
             ),
