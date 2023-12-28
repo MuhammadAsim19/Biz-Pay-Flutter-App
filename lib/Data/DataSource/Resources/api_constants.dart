@@ -7,6 +7,7 @@ class ApiConstant {
   static String verifyOtp = '$baseUrl/api/user/forget_password/validate_otp';
   static String setPassword =
       '$baseUrl/api/user/forget_password/request_change_password';
+  static String blockUser="$baseUrl/block_user";
 
   static String changePassword = '$baseUrl/api/user/changePassword';
 

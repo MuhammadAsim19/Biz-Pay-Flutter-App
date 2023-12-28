@@ -14,9 +14,9 @@ import 'ChatModel/chat_tile_model.dart';
 import 'chat_details.dart';
 
 class ChatTile extends StatelessWidget {
-  const ChatTile({super.key, this.data, this.tileData});
+  const ChatTile({super.key, this.tileData});
 
-  final ChatTileModel? data;
+  //final ChatTileModel? data;
   final ChatTileApiModel? tileData;
 
   @override
@@ -24,7 +24,7 @@ class ChatTile extends StatelessWidget {
     return InkWell(
       onTap: () {
         //InboxRepo.socket.disconnect();
-        // Navigate.to(context, ChatDetailsScreen(modelId: data, chatDto: tileData));
+         Navigate.to(context, ChatDetailsScreen(chatDto: tileData));
       },
       child: Container(
         padding: EdgeInsets.all(13.sp),
@@ -66,11 +66,7 @@ class ChatTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                AppText(data!.updatedAt.toString(),
-                    style: Styles.circularStdRegular(context,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.greyTextColor)),
+
                 20.y,
                 tileData!.unreadMessages! > 0
                     ? CircleAvatar(

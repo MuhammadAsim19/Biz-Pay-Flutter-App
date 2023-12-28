@@ -1,7 +1,11 @@
+
+
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+
 
 import '../../../../Data/DataSource/Resources/imports.dart';
 import 'Components/ChatModel/chat_tile_model.dart';
@@ -10,9 +14,11 @@ import 'Components/chat_tile.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+
 import 'Controllers/Repo/inboox_repo.dart';
 import 'Controllers/inboxControllers.dart';
 import 'Controllers/inboxmodel.dart';
+
 
 class ChatScreen extends StatefulWidget {
   ChatScreen({super.key, this.backButton});
@@ -28,105 +34,41 @@ class _ChatScreenState extends State<ChatScreen> {
 
   int chip = 0;
 
-  // List<ChatTileModel> chatData = [
-  //   ChatTileModel(
-  //       title: 'Man fashion collection',
-  //       message: 'Hello How Are You Doing and asd,asldmakcnxjcbsdhb',
-  //       messageLength: '1',
-  //       name: 'Gabriel Tasse',
-  //       pr0fileImage: 'assets/images/chat1.png',
-  //       time: '03:30 PM'),
-  //   ChatTileModel(
-  //       message: 'Aqib Javid',
-  //       messageLength: '',
-  //       title: 'Women Fashion',
-  //       name: 'Gabriel Tasse',
-  //       pr0fileImage: 'assets/images/profile.png',
-  //       time: '04:30 AM'),
-  //   ChatTileModel(
-  //       message: 'Hello How Are Your',
-  //       messageLength: '3',
-  //       title: 'Drop shipping and e-commerce website',
-  //       name: 'Elizabeth',
-  //       pr0fileImage: 'assets/images/chat2.png',
-  //       time: '05:30 AM'),
-  // ];
+  List<ChatTileModel> chatData =[];
 
-  // List<ChatTileModel> brokers = [
-  //   ChatTileModel(
-  //       title: 'Business broker',
-  //       message: 'Thank You',
-  //       messageLength: '1',
-  //       name: 'Kamran Ali',
-  //       pr0fileImage: 'assets/images/profile.png',
-  //       time: '03:30 PM'),
-  //   ChatTileModel(
-  //       title: 'M&A Advisor',
-  //       message: 'Hello ',
-  //       messageLength: '',
-  //       name: 'Gabriel Tasse',
-  //       pr0fileImage: 'assets/images/chat1.png',
-  //       time: '04:30 AM'),
-  //   ChatTileModel(
-  //       title: 'Financial Advisor',
-  //       message: 'How Are you Doing and what the current position',
-  //       messageLength: '3',
-  //       name: 'Elizabeth',
-  //       pr0fileImage: 'assets/images/chat2.png',
-  //       time: '05:30 AM'),
-  //   ChatTileModel(
-  //       title: 'M&A Advisor',
-  //       message: 'Aqib Javid',
-  //       messageLength: '',
-  //       name: 'Gabriel Tasse',
-  //       pr0fileImage: 'assets/images/chat1.png',
-  //       time: '04:30 AM'),
-  //   ChatTileModel(
-  //       title: 'Financial Advisor',
-  //       message: 'How Are you Doing and what the current position',
-  //       messageLength: '3',
-  //       name: 'Elizabeth',
-  //       pr0fileImage: 'assets/images/chat2.png',
-  //       time: '05:30 AM'),
-  //   ChatTileModel(
-  //       title: 'Financial Advisor',
-  //       message: 'How Are you Doing and what the current position',
-  //       messageLength: '3',
-  //       name: 'Elizabeth',
-  //       pr0fileImage: 'assets/images/chat2.png',
-  //       time: '05:30 AM'),
-  // ];
-
-  @override
+  List<ChatTileModel> brokers =[];
+@override
   void initState() {
-    InboxRepo().initSocket(context, "6579ea61d76f7a30f94f5c80");
+  InboxRepo().initSocket(context, "6579ea61d76f7a30f94f5c80");
 
-    // var data={
-    //   "userId" : "6579ea61d76f7a30f94f5c80"
-    // };
-    InboxRepo.socket.on("allBusinessConversations", (data) {
-      print("chatTileData");
-      print((data));
-      InboxControllers.tileInboxData.value = List<ChatTileApiModel>.from(
-          data.map((x) => ChatTileApiModel.fromJson(x)));
-    });
+  // var data={
+  //   "userId" : "6579ea61d76f7a30f94f5c80"
+  // };
+  InboxRepo.socket.on("allBusinessConversations", (data) {
+    print("chatTileData");
+    print((data));
+    InboxControllers.tileInboxData.value=List<ChatTileApiModel>.from(
+        data.map((x) => ChatTileApiModel.fromJson(x)));
 
-    //InboxRepo.socket.emit("getAllBusinessConversations", jsonEncode(data));
+
+  });
+
+
+  //InboxRepo.socket.emit("getAllBusinessConversations", jsonEncode(data));
 
     // TODO: implement initState
 
+
     super.initState();
   }
-
   @override
   void dispose() {
-    print("called");
-    // InboxRepo.socket.disconnect();
-    // InboxRepo.socket.dispose();
-    // TODO: implement dispose
+  print("called");
+   InboxRepo.socket.disconnect();
+   InboxRepo.socket.dispose();
+  // TODO: implement dispose
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -217,9 +159,8 @@ class _ChatScreenState extends State<ChatScreen> {
               25.y,
               Expanded(
                 child: ValueListenableBuilder(
-                  builder: (context, chatState, ss) {
+                  builder: (context,chatState,ss) {
                     return ListView.separated(
-                      itemCount: 3,
                       physics: const BouncingScrollPhysics(),
                       separatorBuilder: (context, index) {
                         return SizedBox(
@@ -227,16 +168,15 @@ class _ChatScreenState extends State<ChatScreen> {
                         );
                       },
                       shrinkWrap: true,
-                      // itemCount: chip == 0 ? chatState.length : brokers.length,
+                      itemCount: chip == 0 ? chatState.length : brokers.length,
                       itemBuilder: (context, index) {
                         return ChatTile(
-                          // data: chip == 0 ? chatData[index] : brokers[index],
-                          tileData: chatState[index],
+                         // data: chip == 0 ? chatData[index] : brokers[index],
+                          tileData:  chatState[index],
                         );
                       },
                     );
-                  },
-                  valueListenable: InboxControllers.tileInboxData,
+                  }, valueListenable:   InboxControllers.tileInboxData,
                 ),
               )
             ],
