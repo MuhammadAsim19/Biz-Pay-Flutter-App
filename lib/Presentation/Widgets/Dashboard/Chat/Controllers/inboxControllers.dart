@@ -11,5 +11,6 @@ class InboxControllers{
   static ValueNotifier<bool> blockedStatus=ValueNotifier(false);
   static ValueNotifier<String> blockedString=ValueNotifier("");
   static ValueNotifier<String> dateChatTime=ValueNotifier("");
+  static ValueNotifier<bool> scrollDownNotifier=ValueNotifier(false);
 
 }

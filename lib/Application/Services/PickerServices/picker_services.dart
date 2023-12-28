@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 
 class PickFile {
   static Future pickImage() async {
+   // ImagePicker.platform.getImageFromSource(source: ImageSource.camera);
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.image,
       // allowedExtensions: [".jpg",".png",".heic","jpeg"],

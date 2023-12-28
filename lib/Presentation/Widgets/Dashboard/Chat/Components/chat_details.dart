@@ -277,6 +277,34 @@ InboxRepo.socket.on('error',(data) {
     print(data);
 
   });
+  _scrollController
+  .addListener(() {
+
+    print("scroll listening");
+print(_scrollController.position.minScrollExtent);
+   int scrollMax= (_scrollController.position.maxScrollExtent.toInt());
+    int scrollOff=(_scrollController.offset.toInt());
+    int diff =scrollMax-scrollOff;
+    print(diff);
+
+    if(diff>250)
+{
+  print("in condition of scroll");
+  if(InboxControllers.scrollDownNotifier.value!=true)
+    {
+      InboxControllers.scrollDownNotifier.value=true;
+    }
+
+
+}
+    else{
+
+      if(InboxControllers.scrollDownNotifier.value!=false) {
+        InboxControllers.scrollDownNotifier.value=false;
+      }
+
+    }
+  });
 
 
   }
@@ -313,7 +341,9 @@ InboxRepo.socket.on('error',(data) {
     InboxRepo.socket.off("newMessageToBusiness");
     InboxControllers.typingStatus.value=false;
     focusNode.dispose();
-    //InboxRepo.socket.clearListeners();
+    _scrollController.dispose();
+    InboxControllers.scrollDownNotifier.value=false;
+        //InboxRepo.socket.clearListeners();
     super.dispose();
   }
   List<PlatformFile>? images=[];
@@ -612,7 +642,25 @@ InboxRepo.socket.on('error',(data) {
                  child: isLoading==true?const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,),):const Stack()
 
 
-             )
+             ),
+            Positioned(
+                bottom: 100,
+                right: 27,
+                child: ValueListenableBuilder(
+                  builder: (context,scrollData,ss) {
+
+                    return  scrollData ==true?  GestureDetector(
+
+                      onTap: (){
+                        _scrollController.animateTo(_scrollController.position.maxScrollExtent+400, duration: const Duration(milliseconds: 500), curve: Curves.bounceInOut);
+                      },
+                      child: Container(height: 40,width: 40,decoration: const BoxDecoration(shape: BoxShape.circle,color: AppColors.whiteColor),
+
+                      child: const Center(child:Icon(Icons.arrow_downward,color: AppColors.primaryColor,)),
+                      ),
+                    ):const Stack();
+                  }, valueListenable: InboxControllers.scrollDownNotifier,
+                ))
           ],
         ),
       ),

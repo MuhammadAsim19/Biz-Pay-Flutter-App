@@ -64,7 +64,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void dispose() {
   print("called");
-   InboxRepo.socket.disconnect();
+   InboxRepo.socket.disconnect(); ///does not work on ios
    InboxRepo.socket.dispose();
   // TODO: implement dispose
     super.dispose();
@@ -73,9 +73,11 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: const Text('Chat'),
-          leading: const Icon(Icons.arrow_back),
+        //  leading: const Icon(Icons.arrow_back),
         ),
         backgroundColor: Colors.white,
         body: Padding(

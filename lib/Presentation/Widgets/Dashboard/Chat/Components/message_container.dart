@@ -11,6 +11,7 @@ import 'package:buysellbiz/Data/AppData/app_permision.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Common/display_images.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/image_preview.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/video_preiveie.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Controllers/inbox_detail_model.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Controllers/inboxmodel.dart';
@@ -86,10 +87,15 @@ class MessageContainer extends StatelessWidget {
 
                             children: chatDto!.images!.map((e) {
                             print("${ApiConstant.baseUrl}$e");
-                              return CachedImage(url: "${ApiConstant.baseUrl}$e",fit: BoxFit.fill
-                                ,isCircle: false,
-                              height: chatDto!.images!.length>2?null:250,
-                                width: chatDto!.images!.length>1?110:250,
+                              return GestureDetector(
+                                onTap: (){
+                                  Navigate.to(context, ImagePreview(imageUrl: "${ApiConstant.baseUrl}$e"));
+                                },
+                                child: CachedImage(url: "${ApiConstant.baseUrl}$e",fit: BoxFit.fill
+                                  ,isCircle: false,
+                                height: chatDto!.images!.length>2?null:250,
+                                  width: chatDto!.images!.length>1?110:250,
+                                ),
                               );
 
                             }).toList(),
@@ -142,20 +148,30 @@ class MessageContainer extends StatelessWidget {
 
                                     PlatformFile? pff = PlatformFile(name: "thumbnail ${DateTime.now().microsecondsSinceEpoch}", size: 10 *1024 *3,path: dd.data);
 
-                                    return Container(
-                                      color: AppColors.productTileColor,
-                                      width: 100,
+                                    return GestureDetector(
+                                      onTap: (){
 
-                                      child:  GestureDetector(
-
-                                          onTap: (){
-
-                                            Navigate.to(context,VideoPreview(url: "${ApiConstant.baseUrl}$e"));
-                                          },
-                                          child:  Image.file(
-                                            File(pff.path!),
-                                            fit: BoxFit.contain,
-                                          )));
+                                          Navigate.to(context,VideoPreview(url: "${ApiConstant.baseUrl}$e"));
+                                        },
+                                      child: Stack(
+                                        children: [
+                                          Container(
+                                            color: AppColors.productTileColor,
+                                            height: 250,
+                                            child:  Image.file(
+                                                File(pff.path!),
+                                                fit: BoxFit.fill,
+                                              ),
+                                          ),
+                                          Positioned(
+                                              top: 0,
+                                              left: 0,
+                                              right: 0,
+                                              bottom: 0,
+                                              child: Icon(Icons.play_circle,size:50.sp,color: AppColors.primaryColor,))
+                                        ],
+                                      ),
+                                    );
                                   }
                                   // else{
                                   //   return const CircularProgressIndicator(color: AppColors.primaryColor,);
@@ -327,6 +343,7 @@ class MessageContainer extends StatelessWidget {
       imageFormat: ImageFormat.JPEG,
       maxWidth: 250,
       maxHeight: 130,
+      quality: 20
     );
     print("here"+fileName.toString());
 
