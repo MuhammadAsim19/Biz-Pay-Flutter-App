@@ -16,6 +16,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/BottomNavigation/Contr
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/BrokerProfile/broker_profile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/buisness_details.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Category/all_categories.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_navigation.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/BusinessBroker/Profile/business_profile_widget.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/Category/categories_list.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/for_you_buisiness.dart';
@@ -283,10 +284,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ));
                                       },
                                       chatTap: (BusinessModel val) {
-                                        BottomNotifier.bottomPageController!
-                                            .jumpToPage(2);
-                                        BottomNotifier
-                                            .bottomNavigationNotifier.value = 2;
+                                        ChatNavigation.getToChatDetails(context, val.createdBy!.id!, val.id!);
+                                        // BottomNotifier.bottomPageController!
+                                        //     .jumpToPage(2);
+                                        // BottomNotifier
+                                        //     .bottomNavigationNotifier.value = 2;
                                       },
                                     )
                                   : state is RecentlyAddedError
