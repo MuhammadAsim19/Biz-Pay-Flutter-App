@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:buysellbiz/Application/Services/ApiServices/api_services.dart';
+import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -43,12 +45,20 @@ class InboxRepo {
       return 0;
     }
   }
+
+  Future<Map<String, dynamic>> createBuissness(
+      {required Map<String, dynamic> body}) async {
+    try {
+      print("baseeee urlll ${ApiConstant.createBusinessUrl}");
+      return await ApiService.postJson(ApiConstant.createBusinessUrl, body).then((value) {
+        return value;
+      }).catchError((e) {
+        throw e;
+      });
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 }
 
-class ApiConstant{
-
-
-  static  String baseUrl="http://192.168.1.15:9000";
-  static String socketBase="192.168.1.15:9000";
-
-}

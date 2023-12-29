@@ -18,6 +18,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/BrokerProfile/broker_p
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/buisness_details.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Category/all_categories.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_navigation.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Controllers/Repo/inboox_repo.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/BusinessBroker/Profile/business_profile_widget.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/Category/categories_list.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/for_you_buisiness.dart';
@@ -69,6 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     searchController.clear();
     getFcm();
+   // InboxRepo().initSocket(context, Data().user?.user?.id);
 // get the user data for accessing in app
 //    UserModel? us = Data().user;
 //    print("checking init data");
@@ -83,7 +85,13 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
   }
-
+@override
+  void dispose() {
+    // TODO: implement dispose
+ // InboxRepo.socket.disconnect();
+  //InboxRepo.socket.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

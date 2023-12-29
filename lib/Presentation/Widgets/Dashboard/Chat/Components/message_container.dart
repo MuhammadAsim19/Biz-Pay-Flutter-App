@@ -85,7 +85,7 @@ class MessageContainer extends StatelessWidget {
 
                             //verticalDirection: VerticalDirection.up,
 
-                            children: chatDto!.images!.map((e) {
+                            children: chatDto!.images!.take(4).map((e) {
                             print("${ApiConstant.baseUrl}$e");
                               return GestureDetector(
                                 onTap: (){

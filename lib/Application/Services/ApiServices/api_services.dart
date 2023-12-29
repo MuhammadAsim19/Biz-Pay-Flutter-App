@@ -16,7 +16,7 @@ import '../../../Data/AppData/user_data.dart';
 class ApiService {
   static Map<String, String> _authMiddleWare() {
     return {
-              'Content-Type': 'application/json',
+              // 'Content-Type': 'application/json',
             };
     // print(us);
     //
@@ -168,7 +168,9 @@ class ApiService {
       http.Response res = await http
           .post(
         Uri.parse(url),
-        headers: header ?? _authMiddleWare(),
+        headers: header ?? {
+          'Content-Type': 'application/json',
+        },
         body: data,
       )
           .timeout(const Duration(seconds: 30));

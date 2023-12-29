@@ -12,5 +12,6 @@ class InboxControllers{
   static ValueNotifier<String> blockedString=ValueNotifier("");
   static ValueNotifier<String> dateChatTime=ValueNotifier("");
   static ValueNotifier<bool> scrollDownNotifier=ValueNotifier(false);
+  static const GlobalObjectKey scrollGroupedKey = GlobalObjectKey("ScrollKey");
 
 }
