@@ -39,7 +39,7 @@ class _ChatScreenState extends State<ChatScreen> {
   List<ChatTileModel> brokers =[];
 @override
   void initState() {
-  InboxRepo().initSocket(context, "6579ea61d76f7a30f94f5c80");
+  InboxRepo().initSocket(context, Data().user?.user?.id);
 
   // var data={
   //   "userId" : "6579ea61d76f7a30f94f5c80"

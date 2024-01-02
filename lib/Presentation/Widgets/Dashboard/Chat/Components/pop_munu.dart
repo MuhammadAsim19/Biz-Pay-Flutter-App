@@ -46,7 +46,7 @@ class PopMenu extends StatelessWidget {
           var data={
 
             "isBlocked":InboxControllers.blockedStatus.value==true?false:true,
-            "blockedBy":"6579ea61d76f7a30f94f5c80",
+            "blockedBy":Data().user?.user?.id,
             "blockedTo":InboxControllers.chatDetailData.value.receiver.toString().trim(),
             "conversationId":chDto?.id.toString()
 

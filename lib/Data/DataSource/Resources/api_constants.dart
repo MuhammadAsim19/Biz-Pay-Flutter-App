@@ -1,13 +1,16 @@
 class ApiConstant {
-  static String baseUrl = 'http://192.168.1.7:9000';
+  static String baseUrl = 'http://192.168.1.11:9000';
   static String login = "$baseUrl/api/user/login";
   static String signUp = "$baseUrl/api/user/register";
+  static String socketBase="192.168.1.11:9000";
   static String socialLoginUrl = '$baseUrl/api/user/continue_with_google';
   static String forgetEmail = '$baseUrl/api/user/forget_password/check_user';
   static String verifyOtp = '$baseUrl/api/user/forget_password/validate_otp';
   static String setPassword =
       '$baseUrl/api/user/forget_password/request_change_password';
   static String blockUser = "$baseUrl/block_user";
+  static String blockUser="$baseUrl/block_user";
+  static String createBusinessUrl="$baseUrl/createBusinessConversation";
 
   static String changePassword = '$baseUrl/api/user/changePassword';
 
