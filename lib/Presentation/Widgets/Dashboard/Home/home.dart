@@ -26,8 +26,6 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/recent
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Brokers/brokers_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/OnlineBusiness/online_business_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/RecentlyView/recently_viewed_cubit.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/search_busniess.dart';
-
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/notifications.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/export_profile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/SearchListing/search_listing.dart';
@@ -236,7 +234,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Navigate.to(
                                         context,
                                         BusinessDetails(
-                                          model: dto,
+                                          modelData: dto,
+                                          id: dto.id,
                                         ));
                                   })
                               : state is RecentlyViewedLoading
@@ -286,11 +285,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Navigate.to(
                                             context,
                                             BusinessDetails(
-                                              model: v,
+                                              modelData: v,
+                                              id: v.id,
                                             ));
                                       },
                                       chatTap: (BusinessModel val) {
-                                        ChatNavigation.getToChatDetails(context, val.createdBy!.id!, val.id!);
+                                        ChatNavigation.getToChatDetails(context,
+                                            val.createdBy!.id!, val.id!);
                                         // BottomNotifier.bottomPageController!
                                         //     .jumpToPage(2);
                                         // BottomNotifier
@@ -397,7 +398,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               Navigate.to(
                                                   context,
                                                   BrokerProfile(
-                                                    model: val,
+                                                    id: val.id,
                                                   ));
                                             },
                                           )
@@ -457,7 +458,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Navigate.to(
                                             context,
                                             BusinessDetails(
-                                              model: data,
+                                              modelData: data,
+                                              id: data.id,
                                             ));
                                       },
                                       chatTap: (BusinessModel val) {
@@ -508,7 +510,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Navigate.to(
                                         context,
                                         BusinessDetails(
-                                          model: data,
+                                          modelData: data,
+                                          id: data.id,
                                         ));
                                   },
                                   chatTap: (BusinessModel val) {

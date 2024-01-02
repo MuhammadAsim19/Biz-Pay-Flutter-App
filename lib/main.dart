@@ -45,34 +45,36 @@ class DownloadCallBack {
   }
 }
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  init();
 
-  runApp(MultiBlocProvider(providers: appProviders, child: const MyApp()));
-}
-
-Future<void> init() async {
   await SharedPrefs.init();
 
   await Firebase.initializeApp();
+
   await NotificationServices().initNotification();
+
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
+  final RemoteMessage? message =
+      await FirebaseMessaging.instance.getInitialMessage();
   await ScreenUtil.ensureScreenSize();
 
   await FlutterDownloader.initialize();
   await FlutterDownloader.registerCallback(
       DownloadCallBack.downloadCallBackTest);
 
-  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
-  final RemoteMessage? message =
-      await FirebaseMessaging.instance.getInitialMessage();
-
-  print(
-      "MESSAGE ${message?.notification?.title} ${message?.notification?.body}");
+  runApp(MultiBlocProvider(
+      providers: appProviders,
+      child: MyApp(
+        message: message,
+      )));
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, this.message});
+
+  final RemoteMessage? message;
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -81,7 +83,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    init(context);
+    init(widget.message);
     // TODO: implement initState
     super.initState();
   }
@@ -101,15 +103,14 @@ class _MyAppState extends State<MyApp> {
                 bottomNavigationBarTheme: const BottomNavigationBarThemeData(
                     backgroundColor: Colors.transparent,
                     type: BottomNavigationBarType.shifting)),
-            home: const SplashScreen(),
+            home: SplashScreen(message: widget.message),
             // home: const SignUpScreen(),
             debugShowCheckedModeBanner: false,
           );
         });
   }
 
-  init(BuildContext context) {
+  init(RemoteMessage? message) {
     NotificationMetaData().messagingInitiation();
-    NotificationMetaData().foregroundNotificationHandler(context: context);
   }
 }

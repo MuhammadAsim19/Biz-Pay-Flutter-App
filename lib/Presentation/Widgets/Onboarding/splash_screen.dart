@@ -5,9 +5,12 @@ import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/Services/Notification/notification_meta_data.dart';
 import 'package:buysellbiz/Data/Services/firebase_services.dart';
 import 'package:buysellbiz/Presentation/Widgets/Onboarding/onboarding.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  const SplashScreen({super.key, this.message});
+
+  final RemoteMessage? message;
 
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -28,6 +31,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void initState() {
+    // init(context);
     super.initState();
     checkToken();
 
@@ -46,7 +50,9 @@ class _SplashScreenState extends State<SplashScreen>
           context,
           MaterialPageRoute(
             builder: (context) => token != null
-                ? const BottomNavigationScreen()
+                ? BottomNavigationScreen(
+                    message: widget.message,
+                  )
                 : const OnboardingScreen(),
           ),
         );

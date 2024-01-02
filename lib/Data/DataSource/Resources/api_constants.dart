@@ -1,5 +1,5 @@
 class ApiConstant {
-  static String baseUrl = 'http://192.168.1.15:9000';
+  static String baseUrl = 'http://192.168.1.7:9000';
   static String login = "$baseUrl/api/user/login";
   static String signUp = "$baseUrl/api/user/register";
   static String socialLoginUrl = '$baseUrl/api/user/continue_with_google';
@@ -7,7 +7,7 @@ class ApiConstant {
   static String verifyOtp = '$baseUrl/api/user/forget_password/validate_otp';
   static String setPassword =
       '$baseUrl/api/user/forget_password/request_change_password';
-  static String blockUser="$baseUrl/block_user";
+  static String blockUser = "$baseUrl/block_user";
 
   static String changePassword = '$baseUrl/api/user/changePassword';
 
@@ -18,14 +18,17 @@ class ApiConstant {
 
   /// Business Apis
   static String getAllBusiness = "$baseUrl/api/business";
+  static String getBusinessById = "$baseUrl/api/business/details";
+
   static String getAllCateg = "$baseUrl/api/category/get_titles";
 
   static String catg = "$baseUrl/api/business/filterByCategory/";
 
-  static String getAllBusinessDetails = "$baseUrl/api/business/details/";
   static String recentlyAddedBusiness = "$baseUrl/api/business/recently_added";
   static String category = "$baseUrl/api/category";
   static String brokerList = "$baseUrl/api/broker";
+  static String brokerById = "$baseUrl/api/broker/info";
+
   static String switchTOBroker = "$baseUrl/api/broker/switch_to_broker";
 
   static String recentlyViewBusiness = "$baseUrl/api/user/get_recentlyViewed";
@@ -50,4 +53,6 @@ class ApiConstant {
   static String categouryBusiness = "$baseUrl/api/business/filterByCategory";
 
   static String readNotification = "$baseUrl/api/user/readNotification";
+
+  static String updateBusiness = "$baseUrl/api/business/update";
 }

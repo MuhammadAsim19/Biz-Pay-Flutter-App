@@ -43,7 +43,8 @@ class _ViewAllBusinessState extends State<ViewAllBusiness> {
                   Navigate.to(
                       context,
                       BusinessDetails(
-                        model: val,
+                        modelData: val,
+                        id: val.id,
                       ));
                 },
               );

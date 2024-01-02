@@ -5,8 +5,11 @@ import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 
 class AllBusiness {
-  static Future<Map<String, dynamic>> getBusiness() async {
-    return await ApiService.get(ApiConstant.getAllBusiness);
+  static Future<Map<String, dynamic>> getBusiness({String? id}) async {
+    String apiUrl = id == null
+        ? ApiConstant.getAllBusiness
+        : "${ApiConstant.getBusinessById}/$id";
+    return await ApiService.get(apiUrl);
   }
 
   static Future<Map<String, dynamic>> onlineBusiness() async {
@@ -85,6 +88,22 @@ class AllBusiness {
               "${ApiConstant.toggleWishlist}/$bussinessId/$operations")
           .then((value) {
         log(value.toString());
+        return value;
+      }).catchError((e) {
+        throw e;
+      });
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  /// to update your business
+  static Future<Map<String, dynamic>> updateBusiness(
+      {Map<String, dynamic>? body, String? businessId}) async {
+    try {
+      return await ApiService.put(
+              "${ApiConstant.updateBusiness}/$businessId", body)
+          .then((value) {
         return value;
       }).catchError((e) {
         throw e;

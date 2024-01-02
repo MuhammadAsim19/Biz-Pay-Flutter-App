@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:buysellbiz/Data/DataSource/Repository/Business/all_business_repo.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
@@ -16,8 +18,10 @@ class YourBusinessCubit extends Cubit<YourBusinessState> {
     try {
       await AllBusiness.yourBusinessList().then((value) {
         if (value['Success']) {
+          log(value.toString());
+
           List<BusinessModel> business =
-              List.from(value["body"].map((e) => BusinessModel.fromJson(e)));
+              List.from(value["body"].map((e) => BusinessModel.fromRawJson(e)));
 
           print(value.toString());
 

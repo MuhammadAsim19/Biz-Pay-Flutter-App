@@ -10,7 +10,7 @@ part 'all_business_state.dart';
 class AllBusinessCubit extends Cubit<AllBusinessState> {
   AllBusinessCubit() : super(AllBusinessInitial());
 
-  getBusiness() async {
+  getBusiness({String? id}) async {
     await Future.delayed(Duration.zero);
 
     emit(AllBusinessLoading());
