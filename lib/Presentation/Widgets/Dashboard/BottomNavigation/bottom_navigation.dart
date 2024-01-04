@@ -3,23 +3,24 @@ import 'dart:io';
 import 'package:buysellbiz/Application/Services/Connectivity/connectivity_service.dart';
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/AppData/app_initializer.dart';
-import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
+import 'package:buysellbiz/Data/Services/Notification/notification_meta_data.dart';
 import 'package:buysellbiz/Presentation/Common/no_internet_connection.dart';
-import 'package:buysellbiz/Presentation/Common/widget_functions.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/add_buisness.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/Controller/add_business_conntroller.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/chat.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/home.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/profile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Saved/saved_listing.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'Controller/BottomNavigationNotifier/bottom_navigation_notifier.dart';
 
 class BottomNavigationScreen extends StatefulWidget {
   final int? initialPage;
+  final RemoteMessage? message;
 
-  const BottomNavigationScreen({super.key, this.initialPage});
+  const BottomNavigationScreen({super.key, this.initialPage, this.message});
 
   @override
   State<BottomNavigationScreen> createState() => _BottomNavigationScreenState();
@@ -39,10 +40,20 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
     );
   }
 
+  init(BuildContext context) {
+    NotificationMetaData().foregroundNotificationHandler(context: context);
+    NotificationMetaData().setContext(context);
+    NotificationMetaData().notificationPayload(context);
+    NotificationMetaData().backgroundNotificationOnTapHandler(context: context);
+    NotificationMetaData().terminatedFromOnTapStateHandler(
+        context: context, payLoadData: widget.message);
+  }
+
   @override
   void initState() {
     AppInitializer.init();
     connection();
+    init(context);
     // BottomNotifier.bottomPageController=pageContr oller;
     ///do not remove new keyword flutter is confused
     WidgetsBinding.instance.addPostFrameCallback((_) {

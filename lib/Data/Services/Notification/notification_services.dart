@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationServices {
@@ -39,10 +41,14 @@ class NotificationServices {
             iOS: initializationSettingsIOS);
 
     // the initialization settings are initialized after they are set
-    // await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-    //     onDidReceiveNotificationResponse: (res) {
-    //   PayloadStream.instance.payload.sink.add(res.payload ?? 'Default');
-    // });
+    await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: (res) {
+        print("pa notification service ka dana ${res.payload}");
+
+        PayloadStream.instance.payload.sink.add(res.payload ?? 'Default');
+      },
+    );
   }
 
   Future<void> showNotification(
@@ -215,4 +221,12 @@ class NotificationServices {
 //     };
 //   }
 // }
+}
+
+class PayloadStream {
+  static final PayloadStream instance = PayloadStream();
+
+  final payload = StreamController<String>.broadcast();
+
+  Stream<String> get getPayload => payload.stream;
 }

@@ -16,10 +16,12 @@ import 'package:buysellbiz/Presentation/Common/custom_dropdown.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/BottomNavigation/Controller/BottomNavigationNotifier/bottom_navigation_notifier.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/BrokerProfile/broker_profile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/buisness_details.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/ViewAllBusiness/view_all_business.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Category/all_categories.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_navigation.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Controllers/Repo/inboox_repo.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/BusinessBroker/Profile/business_profile_widget.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/BusinessBroker/view_all_brokers.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/Category/categories_list.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/for_you_buisiness.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/recently_added.dart';
@@ -27,8 +29,6 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Components/recent
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Brokers/brokers_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/OnlineBusiness/online_business_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/RecentlyView/recently_viewed_cubit.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/search_busniess.dart';
-
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/notifications.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/export_profile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/SearchListing/search_listing.dart';
@@ -61,6 +61,8 @@ List<BusinessModel>? recentlyViewedSearch;
 List<BusinessModel>? onlineBusiness;
 List<BusinessModel>? onlineBusinessSearch;
 
+List<BrokersListModel>? brokers;
+
 class _HomeScreenState extends State<HomeScreen> {
   getFcm() async {
     await FirebaseServices.getFcm();
@@ -70,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     searchController.clear();
     getFcm();
-   // InboxRepo().initSocket(context, Data().user?.user?.id);
+    // InboxRepo().initSocket(context, Data().user?.user?.id);
 // get the user data for accessing in app
 //    UserModel? us = Data().user;
 //    print("checking init data");
@@ -85,13 +87,15 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
   }
-@override
+
+  @override
   void dispose() {
     // TODO: implement dispose
- // InboxRepo.socket.disconnect();
-  //InboxRepo.socket.dispose();
+    // InboxRepo.socket.disconnect();
+    //InboxRepo.socket.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -244,7 +248,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Navigate.to(
                                         context,
                                         BusinessDetails(
-                                          model: dto,
+                                          modelData: dto,
+                                          id: dto.id,
                                         ));
                                   })
                               : state is RecentlyViewedLoading
@@ -269,9 +274,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               style: Styles.circularStdMedium(context,
                                   fontSize: 18)),
                           const Spacer(),
-                          AppText("View all",
-                              style: Styles.circularStdRegular(context,
-                                  fontSize: 14))
+                          _viewAllBusiness(
+                              data: recentlyAdded,
+                              businessType: 'Recently Added'),
                         ],
                       ),
                       5.y,
@@ -294,11 +299,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Navigate.to(
                                             context,
                                             BusinessDetails(
-                                              model: v,
+                                              modelData: v,
+                                              id: v.id,
                                             ));
                                       },
                                       chatTap: (BusinessModel val) {
-                                        ChatNavigation.getToChatDetails(context, val.createdBy!.id!, val.id!);
+                                        ChatNavigation.getToChatDetails(context,
+                                            val.createdBy!.id!, val.id!);
                                         // BottomNotifier.bottomPageController!
                                         //     .jumpToPage(2);
                                         // BottomNotifier
@@ -323,9 +330,21 @@ class _HomeScreenState extends State<HomeScreen> {
                               style: Styles.circularStdMedium(context,
                                   fontSize: 18)),
                           const Spacer(),
-                          AppText("View all",
-                              style: Styles.circularStdRegular(context,
-                                  fontSize: 14))
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) {
+                                  return ViewAllBrokers(
+                                    profileData: brokers,
+                                    getData: (val) {},
+                                  );
+                                },
+                              ));
+                            },
+                            child: AppText("View all",
+                                style: Styles.circularStdRegular(context,
+                                    fontSize: 14)),
+                          )
                         ],
                       ),
                       5.y,
@@ -392,6 +411,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             10.x,
                             BlocConsumer<BrokersCubit, BrokersState>(
                               listener: (context, state) {
+                                print(state);
+
+                                if (state is BrokersLoaded) {
+                                  brokers = state.brokers;
+                                }
                                 // TODO: implement listener
                               },
                               builder: (context, state) {
@@ -405,7 +429,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               Navigate.to(
                                                   context,
                                                   BrokerProfile(
-                                                    model: val,
+                                                    id: val.id,
                                                   ));
                                             },
                                           )
@@ -432,9 +456,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               style: Styles.circularStdMedium(context,
                                   fontSize: 18)),
                           const Spacer(),
-                          AppText("View all",
-                              style: Styles.circularStdRegular(context,
-                                  fontSize: 14))
+                          _viewAllBusiness(
+                              data: allBusiness,
+                              businessType: 'Business For You'),
                         ],
                       ),
                       5.y,
@@ -465,7 +489,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Navigate.to(
                                             context,
                                             BusinessDetails(
-                                              model: data,
+                                              modelData: data,
+                                              id: data.id,
                                             ));
                                       },
                                       chatTap: (BusinessModel val) {
@@ -494,9 +519,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               style: Styles.circularStdMedium(context,
                                   fontSize: 18)),
                           const Spacer(),
-                          AppText("View all",
-                              style: Styles.circularStdRegular(context,
-                                  fontSize: 14))
+                          _viewAllBusiness(
+                              data: onlineBusiness,
+                              businessType: 'Online Business'),
                         ],
                       ),
                       5.y,
@@ -516,7 +541,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Navigate.to(
                                         context,
                                         BusinessDetails(
-                                          model: data,
+                                          modelData: data,
+                                          id: data.id,
                                         ));
                                   },
                                   chatTap: (BusinessModel val) {
@@ -574,6 +600,23 @@ class _HomeScreenState extends State<HomeScreen> {
       recentlyAddedSearch = recentlyViewed;
     }
     setState(() {});
+  }
+
+  _viewAllBusiness({List<BusinessModel>? data, String? businessType}) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context) {
+            return ViewAllBusiness(
+              model: data,
+              businessRow: businessType,
+            );
+          },
+        ));
+      },
+      child: AppText("View all",
+          style: Styles.circularStdRegular(context, fontSize: 14)),
+    );
   }
 
   _searchByCountry(String query) {

@@ -14,22 +14,22 @@ import 'package:http/http.dart';
 import '../../../Data/AppData/user_data.dart';
 
 class ApiService {
-  static Map<String, String> _authMiddleWare() {
-    return {
-              // 'Content-Type': 'application/json',
-            };
-    // print(us);
-    //
-    // return us != null
-    //     ? {
-    //         "Authorization": "Bearer $us",
-    //         //'Content-Type': 'application/x-www-form-urlencoded',
-    //         //'Content-Type': 'application/json'
-    //       }
-    //     : {
-    //         'Content-Type': 'application/json',
-    //       };
-  }
+  // static Map<String, String> _authMiddleWare() {
+  //   return {
+  //             'Content-Type': 'application/json',
+  //           };
+  // print(us);
+  //
+  // return us != null
+  //     ? {
+  //         "Authorization": "Bearer $us",
+  //         //'Content-Type': 'application/x-www-form-urlencoded',
+  //         //'Content-Type': 'application/json'
+  //       }
+  //     : {
+  //         'Content-Type': 'application/json',
+  //       };
+  // }
 
   static Future<Map<String, dynamic>> get(String url,
       {Map<String, String>? headers}) async {
@@ -39,7 +39,7 @@ class ApiService {
     try {
       http.Response res = await http.get(
         Uri.parse(url),
-        headers: headers ?? _authMiddleWare(),
+        headers: headers,
       );
       if (res.statusCode == 200) {
         Map<String, dynamic> decode = jsonDecode(res.body);
@@ -116,7 +116,7 @@ class ApiService {
       http.Response res = await http
           .post(
             Uri.parse(url),
-           headers: header ?? _authMiddleWare(),
+            headers: header,
             body: body,
           )
           .timeout(const Duration(seconds: 30));
@@ -153,6 +153,7 @@ class ApiService {
       return Future.error(e);
     }
   }
+
   static Future<Map<String, dynamic>> postJson(
       String url, Map<String, dynamic> body,
       {Map<String, String>? header}) async {
@@ -167,12 +168,10 @@ class ApiService {
 
       http.Response res = await http
           .post(
-        Uri.parse(url),
-        headers: header ?? {
-          'Content-Type': 'application/json',
-        },
-        body: data,
-      )
+            Uri.parse(url),
+            headers: header,
+            body: data,
+          )
           .timeout(const Duration(seconds: 30));
       print("Response ${res.body}");
       if (res.statusCode == 200 || res.statusCode == 201) {
@@ -370,10 +369,10 @@ class ApiService {
     final headers = {'authorization': '${Data().token}'};
 
     try {
-      print("pa repo ka map ${body}");
+      print("pa repo ka map $body");
       http.Response res = await http.put(
         Uri.parse(url),
-        headers: headers ?? _authMiddleWare(),
+        headers: headers,
         body: body,
       );
 
@@ -451,6 +450,7 @@ class ApiService {
       }
 
       http.StreamedResponse res = await request.send();
+
       // print(res.statusCode.toString() +"status code");
       if (res.statusCode == 200 || res.statusCode == 201) {
         Map<String, dynamic> decode =

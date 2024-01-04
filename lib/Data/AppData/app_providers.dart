@@ -9,6 +9,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/C
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/add_to_recently_view_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/bussiness_wishlist_api_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Category/Controller/category_business_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Brokers/broker_by_id_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Brokers/brokers_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Business/all_business_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/OnlineBusiness/online_business_cubit.dart';
@@ -19,6 +20,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controll
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/read_notification_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Controller/ChangePassword/change_password_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Controller/CustomerSupport/customer_support_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Controller/ListBusiness/update_business_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Controller/ListBusiness/your_business_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Controller/UpdateProfile/update_profile_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/DeleteAccount/delete_account_cubit.dart';
@@ -64,4 +66,6 @@ List<BlocProvider> appProviders = [
       create: (context) => CategoryBusinessCubit()),
   BlocProvider<ReadNotificationCubit>(
       create: (context) => ReadNotificationCubit()),
+  BlocProvider<UpdateBusinessCubit>(create: (context) => UpdateBusinessCubit()),
+  BlocProvider<BrokerByIdCubit>(create: (context) => BrokerByIdCubit()),
 ];

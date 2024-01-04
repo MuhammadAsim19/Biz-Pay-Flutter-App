@@ -5,15 +5,14 @@ import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/buisness_details.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_popup_menu.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/YourBusinessList/UpdateBusiness/update_business.dart';
 
-class BussinesList extends StatelessWidget {
+class BusinessListContainer extends StatelessWidget {
   final List<BusinessModel>? businessProducts;
   final void Function(BusinessModel val) getData;
   final int? index;
   final bool isFromAllBusiness;
 
-  const BussinesList(
+  const BusinessListContainer(
       {super.key,
       required this.businessProducts,
       required this.getData,
@@ -56,23 +55,12 @@ class BussinesList extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    10.y,
                     Row(
                       children: [
                         AppText(businessProducts![index!].address!,
                             style: Styles.circularStdRegular(context,
                                 color: AppColors.lightGreyColor)),
-                        const Spacer(),
-                        CustomPopupMenu(
-                          onClick: (action) {
-                            if (action == 'edit') {
-                              Navigate.to(
-                                  context,
-                                  UpdateBusiness(
-                                    model: businessProducts![index!],
-                                  ));
-                            }
-                          },
-                        ),
                       ],
                     ),
                     5.y,
@@ -83,11 +71,12 @@ class BussinesList extends StatelessWidget {
                       maxLine: 3,
                     ),
                     5.y,
+                    AppText("\$ ${businessProducts![index!].salePrice!}",
+                        style: Styles.circularStdBold(context)),
+                    3.y,
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        AppText("\$ ${businessProducts![index!].salePrice!}",
-                            style: Styles.circularStdBold(context)),
-                        const Spacer(),
                         SizedBox(
                           height: 20.h,
                           width: 20.w,
@@ -110,9 +99,3 @@ class BussinesList extends StatelessWidget {
     );
   }
 }
-
-// enum MenuItem1 {
-//   edit,
-//   delete,
-//   share,
-// }

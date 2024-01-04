@@ -96,7 +96,7 @@ dependencies:
   open_file_plus: 3.4.1
   syncfusion_flutter_sliders: ^22.2.12
   grouped_list: ^5.1.2
-  flutter_local_notifications:
+  flutter_local_notifications: ^16.3.0
 #  cached_video_player: 2.0.4
 
 

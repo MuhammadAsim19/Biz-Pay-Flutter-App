@@ -82,6 +82,7 @@ class _YourBusinessState extends State<YourBusiness> {
                         itemCount: state.business!.length,
                         itemBuilder: (context, index) {
                           return BussinesList(
+                            isFromAllBusiness: false,
                             index: index,
                             businessProducts: state.business,
                             getData: (BusinessModel val) {},

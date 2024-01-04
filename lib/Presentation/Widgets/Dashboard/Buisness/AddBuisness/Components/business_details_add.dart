@@ -91,8 +91,7 @@ class _BusinessAddDetailsState extends State<BusinessAddDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: Colors.transparent,
-
+      backgroundColor: AppColors.whiteColor,
       // bottomNavigationBar:       Container(
       //   height: 100,
       //   color: Colors.transparent,
@@ -123,7 +122,7 @@ class _BusinessAddDetailsState extends State<BusinessAddDetails> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                20.y,
+                30.y,
                 AppText("Business  Detail",
                     style: Styles.circularStdMedium(context, fontSize: 20)),
                 Form(

@@ -164,7 +164,8 @@ class _SearchListingState extends State<SearchListing> {
                                     Navigate.to(
                                         context,
                                         BusinessDetails(
-                                          model: val,
+                                          modelData: val,
+                                          id: val.id,
                                         ));
                                   },
                                   chatTap: (BusinessModel val) {
