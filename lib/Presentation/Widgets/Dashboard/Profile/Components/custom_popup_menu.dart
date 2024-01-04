@@ -1,7 +1,11 @@
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Components/business_details_add.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/YourBusinessList/UpdateBusiness/update_business.dart';
 
 class CustomPopupMenu extends StatelessWidget {
-  const CustomPopupMenu({super.key});
+  const CustomPopupMenu({super.key, required this.onClick});
+
+  final Function(String? action) onClick;
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +26,10 @@ class CustomPopupMenu extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.sp),
           side: const BorderSide(color: AppColors.borderColor)),
       onSelected: (value) async {
-        print(value);
-        // if (value == MenuItem.edit) {
-        //   // ///logic for edit
+        onClick(value.name);
+
+        // if (value == MenuItem1.edit) {
+        //
         // }
       },
       child: SizedBox(

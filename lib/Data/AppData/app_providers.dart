@@ -9,6 +9,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/C
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/add_to_recently_view_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/bussiness_wishlist_api_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Category/Controller/category_business_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Brokers/broker_by_id_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Brokers/brokers_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Business/all_business_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/OnlineBusiness/online_business_cubit.dart';
@@ -66,4 +67,5 @@ List<BlocProvider> appProviders = [
   BlocProvider<ReadNotificationCubit>(
       create: (context) => ReadNotificationCubit()),
   BlocProvider<UpdateBusinessCubit>(create: (context) => UpdateBusinessCubit()),
+  BlocProvider<BrokerByIdCubit>(create: (context) => BrokerByIdCubit()),
 ];

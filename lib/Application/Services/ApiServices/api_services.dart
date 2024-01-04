@@ -450,6 +450,7 @@ class ApiService {
       }
 
       http.StreamedResponse res = await request.send();
+
       // print(res.statusCode.toString() +"status code");
       if (res.statusCode == 200 || res.statusCode == 201) {
         Map<String, dynamic> decode =

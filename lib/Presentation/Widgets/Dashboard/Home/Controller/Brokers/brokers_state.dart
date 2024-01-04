@@ -14,7 +14,7 @@ class BrokersLoaded extends BrokersState {
 }
 
 class BrokersError extends BrokersState {
-  String? error;
+  final String? error;
 
   BrokersError({this.error});
 }

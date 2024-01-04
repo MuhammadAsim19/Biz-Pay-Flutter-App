@@ -1,5 +1,4 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
-import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Components/business_details_add.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Components/price_location.dart';
@@ -224,7 +223,7 @@ class AddBusiness extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 controller: AddNotifier.addPageController,
                 children: [
-                  BusinessAddDetails(),
+                  const BusinessAddDetails(),
                   PriceLocation(),
                   const PublishPage()
                 ],

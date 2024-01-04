@@ -11,7 +11,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/customer_suppo
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/personal_information.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/PrivacyPolicy/privacy_policy.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/terms_and_conditions.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/your_business.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/YourBusinessList/your_business.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ProfileScreen extends StatelessWidget {

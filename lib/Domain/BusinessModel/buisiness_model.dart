@@ -60,6 +60,8 @@ class BusinessModel {
   final String? city;
   final String? address;
   final String? zipcode;
+  final String? businessHour;
+
   final dynamic industry;
   final List<dynamic>? subIndustry;
   final String? status;
@@ -81,6 +83,7 @@ class BusinessModel {
     this.city,
     this.address,
     this.viewsCount,
+    this.businessHour,
     this.zipcode,
     this.industry,
     this.subIndustry,
@@ -93,38 +96,40 @@ class BusinessModel {
   String toRawJson() => json.encode(toJson());
 
   factory BusinessModel.fromJson(Map<String, dynamic> json) => BusinessModel(
-        id: json["_id"],
-        name: json["name"],
-        foundationYear: json["foundationYear"],
-        numberOfOwners: json["numberOfOwners"],
-        numberOfEmployes: json["numberOfEmployes"],
-        businessDescription: json["businessDescription"],
-        images: json["images"] == null
-            ? []
-            : List<String>.from(json["images"]!.map((x) => x)),
-        attachedFiles: json["attached_files"] == null
-            ? []
-            : List<String>.from(json["attached_files"]!.map((x) => x)),
-        advantages: json["advantages"] == null
-            ? []
-            : List<String>.from(json["advantages"]!.map((x) => x)),
-        salePrice: json["salePrice"],
-        financialDetails: json["financialDetails"] == null
-            ? []
-            : List<FinancialDetail>.from(json["financialDetails"]!
-                .map((x) => FinancialDetail.fromJson(x))),
-        country: json["country"],
-        city: json["city"],
-        address: json["address"],
-        zipcode: json["zipcode"],
-        industry: json["industry"],
-        subIndustry: json["subIndustry"] == null
-            ? []
-            : List<dynamic>.from(json["subIndustry"]!.map((x) => x)),
-        status: json["status"],
-        viewsCount: json['viewsCount'].toString(),
-    createdBy: CreatedBy.fromJson(json['createdBy'])
-      );
+      id: json["_id"],
+      name: json["name"],
+      foundationYear: json["foundationYear"],
+      numberOfOwners: json["numberOfOwners"],
+      numberOfEmployes: json["numberOfEmployes"],
+      businessHour: json['businessHours'],
+      businessDescription: json["businessDescription"],
+      images: json["images"] == null
+          ? []
+          : List<String>.from(json["images"]!.map((x) => x)),
+      attachedFiles: json["attached_files"] == null
+          ? []
+          : List<String>.from(json["attached_files"]!.map((x) => x)),
+      advantages: json["advantages"] == null
+          ? []
+          : List<String>.from(json["advantages"]!.map((x) => x)),
+      salePrice: json["salePrice"],
+      financialDetails: json["financialDetails"] == null
+          ? []
+          : List<FinancialDetail>.from(json["financialDetails"]!
+              .map((x) => FinancialDetail.fromJson(x))),
+      country: json["country"],
+      city: json["city"],
+      address: json["address"],
+      zipcode: json["zipcode"],
+      industry: json["industry"],
+      subIndustry: json["subIndustry"] == null
+          ? []
+          : List<dynamic>.from(json["subIndustry"]!.map((x) => x)),
+      status: json["status"],
+      viewsCount: json['viewsCount'].toString(),
+      createdBy: json['createdBy'] == null
+          ? null
+          : CreatedBy.fromJson(json['createdBy']));
 
   Map<String, dynamic> toJson() => {
         "_id": id,
@@ -147,6 +152,7 @@ class BusinessModel {
             : List<dynamic>.from(financialDetails!.map((x) => x.toJson())),
         "country": country,
         "city": city,
+        "businessHours": businessHour,
         "address": address,
         "zipcode": zipcode,
         "industry": industry,
@@ -225,19 +231,20 @@ class CreatedBy {
     this.email,
   });
 
-  factory CreatedBy.fromRawJson(String str) => CreatedBy.fromJson(json.decode(str));
+  factory CreatedBy.fromRawJson(String str) =>
+      CreatedBy.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory CreatedBy.fromJson(Map<String, dynamic> json) => CreatedBy(
-    id: json["_id"],
-    fullName: json["fullName"],
-    email: json["email"],
-  );
+        id: json["_id"],
+        fullName: json["fullName"],
+        email: json["email"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "_id": id,
-    "fullName": fullName,
-    "email": email,
-  };
+        "_id": id,
+        "fullName": fullName,
+        "email": email,
+      };
 }

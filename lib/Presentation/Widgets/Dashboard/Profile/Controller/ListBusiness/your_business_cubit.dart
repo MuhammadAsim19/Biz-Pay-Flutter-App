@@ -20,8 +20,9 @@ class YourBusinessCubit extends Cubit<YourBusinessState> {
         if (value['Success']) {
           log(value.toString());
 
+          //
           List<BusinessModel> business =
-              List.from(value["body"].map((e) => BusinessModel.fromRawJson(e)));
+              List.from(value["body"].map((e) => BusinessModel.fromJson(e)));
 
           print(value.toString());
 

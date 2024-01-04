@@ -1,8 +1,7 @@
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
+import "package:bloc/bloc.dart";
 import 'package:buysellbiz/Data/DataSource/Repository/Brokers/brokers.dart';
-import 'package:buysellbiz/Data/DataSource/Repository/Business/all_business_repo.dart';
 import 'package:buysellbiz/Domain/Brokers/broker_list_model.dart';
 import 'package:meta/meta.dart';
 
@@ -11,7 +10,7 @@ part 'brokers_state.dart';
 class BrokersCubit extends Cubit<BrokersState> {
   BrokersCubit() : super(BrokersInitial());
 
-  getBrokers({String? brokerId}) async {
+  getBrokers() async {
     await Future.delayed(Duration.zero);
 
     emit(BrokersLaoding());
@@ -19,7 +18,7 @@ class BrokersCubit extends Cubit<BrokersState> {
     print('cubit call');
 
     try {
-      await BrokersData.brokerData(brokerId: brokerId).then((value) {
+      await BrokersData.brokerData().then((value) {
         if (value['Success']) {
           List<BrokersListModel> brokers =
               List.from(value["body"].map((e) => BrokersListModel.fromJson(e)));
