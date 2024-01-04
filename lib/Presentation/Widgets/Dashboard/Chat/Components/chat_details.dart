@@ -48,6 +48,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
   void initState() {
     super.initState();
     initValue=1;
+
     //
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   // Scroll to the end when the widgets are fully painted and visible
@@ -199,7 +200,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       InboxControllers.blockedStatus.notifyListeners();
     });
 
-    ///new messageto  chat
+    ///new message to  chat
     InboxRepo.socket.on("newMessageToBusiness", (data) {
       //print("new message listener ");
       Message newMessageDto = Message.fromJson(data);
