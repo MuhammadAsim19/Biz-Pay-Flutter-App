@@ -8,7 +8,7 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:http/http.dart' as http;
 
 class InboxRepo {
-  static late IO.Socket socket;
+  static  IO.Socket? socket;
 
   initSocket(BuildContext context, storyId) {
     try {
@@ -21,16 +21,16 @@ class InboxRepo {
 
       });
 
-      socket.connect();
-      print(socket.opts);
+      socket?.connect();
+      print(socket?.opts);
       ///replace userIdValue with storyId
 
-      socket.onConnect((_) {
+      socket?.onConnect((_) {
         print('connected to websocket');
         //
 
       });
-      socket.onDisconnect((data) => print("disconnect from web sockrt"));
+      socket?.onDisconnect((data) => print("disconnect from web sockrt"));
 
 
 
@@ -50,7 +50,7 @@ class InboxRepo {
       {required Map<String, dynamic> body}) async {
     try {
       print("baseeee urlll ${ApiConstant.createBusinessUrl}");
-      return await ApiService.postJson(ApiConstant.createBusinessUrl, body).then((value) {
+      return await ApiService.post(ApiConstant.createBusinessUrl, body).then((value) {
         return value;
       }).catchError((e) {
         throw e;

@@ -9,12 +9,13 @@ class ChatNavigation{
 
  static getToChatDetails(BuildContext context,String createdFor,String businessId)
   async {
-    // print(InboxRepo.socket.connected);
+     print(InboxRepo.socket !=  null);
     // if(InboxRepo.socket.connected==false) {
     //
     // }
-    if(InboxRepo.socket.connected==false)
+    if(InboxRepo.socket==null && InboxRepo.socket?.connected==false)
     {
+      print("in  hereee");
       InboxRepo().initSocket(context, Data().user?.user?.id);
     }
     print("user id${Data().user!.user!.id}");
