@@ -320,7 +320,8 @@ class _ExportProfileState extends State<ExportProfile> {
                               onChanged: (value) {
                                 context
                                     .read<GetAllCountryCubit>()
-                                    .getCountryStates(value, false);
+                                    .getCountryStates(
+                                        state: value, city: false);
 
                                 countryName = value;
                                 setState(() {});
@@ -345,7 +346,10 @@ class _ExportProfileState extends State<ExportProfile> {
 
                                 context
                                     .read<GetAllCountryCubit>()
-                                    .getCountryStates(privanceName!, true);
+                                    .getCountryStates(
+                                        countryName: countryName,
+                                        state: value,
+                                        city: true);
                               },
                             ),
                             10.y,

@@ -420,7 +420,8 @@ class _BusinessAddDetailsState extends State<BusinessAddDetails> {
   }
 
   _addData() {
-    print(upload!.path);
+    print('here is data of employ ${ofEmployeeController.text}');
+    print('here is data of  owner ${ofOwnerController.text}');
 
     AddBusinessController.addBusiness.value = AddBusinessModel(
       name: businessNameController.text.trim(),

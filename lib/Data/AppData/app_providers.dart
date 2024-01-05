@@ -68,4 +68,5 @@ List<BlocProvider> appProviders = [
       create: (context) => ReadNotificationCubit()),
   BlocProvider<UpdateBusinessCubit>(create: (context) => UpdateBusinessCubit()),
   BlocProvider<BrokerByIdCubit>(create: (context) => BrokerByIdCubit()),
+  BlocProvider<UpdateBusinessCubit>(create: (context) => UpdateBusinessCubit()),
 ];

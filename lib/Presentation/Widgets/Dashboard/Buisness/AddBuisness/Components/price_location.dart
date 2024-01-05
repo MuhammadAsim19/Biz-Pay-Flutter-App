@@ -185,8 +185,9 @@ class _PriceLocationState extends State<PriceLocation> {
                                   onChanged: (value) {
                                     context
                                         .read<GetAllCountryCubit>()
-                                        .getCountryStates(value, false);
-                                    cityController.text = value;
+                                        .getCountryStates(
+                                            countryName: country, city: false);
+                                    countryController.text = '';
                                     country = value;
                                     setState(() {});
                                   },
@@ -210,7 +211,10 @@ class _PriceLocationState extends State<PriceLocation> {
 
                                     context
                                         .read<GetAllCountryCubit>()
-                                        .getCountryStates(privanceName!, true);
+                                        .getCountryStates(
+                                            state: value,
+                                            countryName: country,
+                                            city: true);
                                   },
                                 ),
                                 10.y,

@@ -5,6 +5,8 @@ import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/custom_dropdown.dart';
 import 'package:buysellbiz/Presentation/Common/dialog.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/add_business_controller.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Controller/ListBusiness/update_business_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/Controller/get_all_country_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/YourBusinessList/UpdateBusiness/Controller/update_business_notifer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,13 +34,17 @@ class _UpdateBusinessDetailsState extends State<UpdateBusinessDetails> {
   List countryList = [];
   List privance = [];
   List cityList = [];
+  List employ = ["23", "22", "11", "32"];
   String? country;
   String? city;
   String? privanceName;
 
   @override
   void initState() {
-    context.read<GetAllCountryCubit>().getCountry();
+    employ.add(widget.businessModel!.numberOfEmployes);
+    countryList.add(widget.businessModel!.country);
+    cityList.add(widget.businessModel!.city);
+
     _assignData();
     // TODO: implement initState
     super.initState();
@@ -47,10 +53,11 @@ class _UpdateBusinessDetailsState extends State<UpdateBusinessDetails> {
   @override
   void dispose() {
     businessNameController.dispose();
-
     ofEmployeeController.dispose();
     descriptionController.dispose();
     businessHour.dispose();
+    zipCode.dispose();
+    address.dispose();
     // TODO: implement dispose
     super.dispose();
   }
@@ -90,8 +97,7 @@ class _UpdateBusinessDetailsState extends State<UpdateBusinessDetails> {
                           isBorderRequired: true,
                           hMargin: 0,
                           vMargin: 0,
-                          itemsMap: ["dummy employee", "dummy 2", "dummy 3", ""]
-                              .map((e) {
+                          itemsMap: employ.map((e) {
                             return DropdownMenuItem(value: e, child: Text(e));
                           }).toList(),
                           hintText: "# of employees",
@@ -126,7 +132,7 @@ class _UpdateBusinessDetailsState extends State<UpdateBusinessDetails> {
                             }
                             print(state);
                             if (state is GetAllCountryLoaded) {
-                              Navigator.pop(context);
+                              Navigator.of(context).pop(true);
                               countryList = state.country!;
                             }
                             if (state is GetAllCountryStateLoaded) {
@@ -134,9 +140,12 @@ class _UpdateBusinessDetailsState extends State<UpdateBusinessDetails> {
                             }
                             if (state is GetAllCountryCityLoaded) {
                               cityList = state.city!;
+                              cityList.add(widget.businessModel!.city);
                             }
                             if (state is GetAllCountryError) {
                               Navigator.pop(context);
+                            }
+                            if (state is CityAndStateError) {
                               WidgetFunctions.instance.showErrorSnackBar(
                                   context: context, error: state.error);
                             }
@@ -159,7 +168,8 @@ class _UpdateBusinessDetailsState extends State<UpdateBusinessDetails> {
                                   onChanged: (value) {
                                     context
                                         .read<GetAllCountryCubit>()
-                                        .getCountryStates(value, false);
+                                        .getCountryStates(
+                                            countryName: value, city: false);
                                     // cityController.text = value;
                                     country = value;
                                     setState(() {});
@@ -184,7 +194,10 @@ class _UpdateBusinessDetailsState extends State<UpdateBusinessDetails> {
 
                                     context
                                         .read<GetAllCountryCubit>()
-                                        .getCountryStates(privanceName!, true);
+                                        .getCountryStates(
+                                            countryName: country,
+                                            state: value,
+                                            city: true);
                                   },
                                 ),
                                 10.y,
@@ -212,18 +225,17 @@ class _UpdateBusinessDetailsState extends State<UpdateBusinessDetails> {
                         10.y,
                         CustomTextFieldWithOnTap(
                             validateText: 'Address Required',
-                            controller: businessNameController,
+                            controller: address,
                             hintText: 'Address',
                             borderRadius: 40,
                             height: 56,
                             //maxline: 10,
-
                             // isBorderRequired: false,
                             textInputType: TextInputType.text),
                         10.y,
                         CustomTextFieldWithOnTap(
                             validateText: "Zip Code Required",
-                            controller: businessHour,
+                            controller: zipCode,
                             hintText: 'Zip Code',
                             borderRadius: 40,
                             //height: 200.h,
@@ -251,21 +263,11 @@ class _UpdateBusinessDetailsState extends State<UpdateBusinessDetails> {
             left: 10,
             child: CustomButton(
               onTap: () {
-                UpdateBusinessNotifier.addPageController.jumpToPage(1);
-                UpdateBusinessNotifier.updateBusiness.value = 1;
-
-                // if (_formKey.currentState!.validate()) {
-                //   if (upload != null) {
-
-                //     _addData();
-                //     log("Here is the data of notifier${AddBusinessController.addBusiness.value.advantages.toString()}");
-                //     uploadFiles = false;
-                //     setState(() {});
-                //   } else {
-                //     uploadFiles = true;
-                //     setState(() {});
-                //   }
-                // }
+                if (_formKey.currentState!.validate()) {
+                  UpdateBusinessNotifier.updateBusiness.value = 1;
+                  UpdateBusinessNotifier.addPageController.jumpToPage(1);
+                  _addData();
+                }
               },
               textFontWeight: FontWeight.w500,
               borderRadius: 30,
@@ -280,31 +282,31 @@ class _UpdateBusinessDetailsState extends State<UpdateBusinessDetails> {
   }
 
   _assignData() {
-    print(widget.businessModel!.businessDescription);
-
-    // city = widget.businessModel!.city;
-    // country = widget.businessModel!.country;
-    // employee = widget.businessModel?.numberOfEmployes ?? "";
+    print("here is Business Description${widget.businessModel!.city}");
+    city = widget.businessModel!.city;
+    country = widget.businessModel!.country;
+    employee = widget.businessModel!.numberOfEmployes;
     businessNameController.text = widget.businessModel?.name ?? "";
     businessHour.text = widget.businessModel?.businessHour ?? "";
     address.text = widget.businessModel!.address ?? "";
     zipCode.text = widget.businessModel!.zipcode ?? "";
-    descriptionController.text == widget.businessModel!.businessDescription;
+    descriptionController.text =
+        widget.businessModel!.businessDescription ?? "";
   }
 
   _addData() {
-    // AddBusinessController.addBusiness.value = AddBusinessModel(
-    //   name: businessNameController.text.trim(),
-    //   industry: industryController.text.trim(),
-    //   employee: ofEmployeeController.text.trim(),
-    //   yearFound: yearFoundController.text.trim(),
-    //   owner: ofOwnerController.text.trim(),
-    //   description: descriptionController.text.trim(),
-    //   businessHour: businessHour.text.trim(),
-    //   registrationNumber: registrationNumber.text.trim(),
-    //   advantages: advantages,
-    //   documnets: [upload!.path],
-    // );
+    AddBusinessController.addBusiness.value = AddBusinessModel(
+      id: widget.businessModel!.id,
+      name: businessNameController.text.trim(),
+      employee: ofEmployeeController.text.trim(),
+      description: descriptionController.text.trim(),
+      businessHour: businessHour.text.trim(),
+      address: address.text.trim(),
+      zipCode: zipCode.text.trim(),
+      country: country,
+      city: city,
+      state: privanceName,
+    );
   }
 }
 

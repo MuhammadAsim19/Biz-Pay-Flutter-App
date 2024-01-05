@@ -99,10 +99,13 @@ class AllBusiness {
 
   /// to update your business
   static Future<Map<String, dynamic>> updateBusiness(
-      {Map<String, dynamic>? body, String? businessId}) async {
+      {Map<String, dynamic>? body,
+      String? businessId,
+      List<String?>? images}) async {
     try {
-      return await ApiService.put(
-              "${ApiConstant.updateBusiness}/$businessId", body)
+      return await ApiService.putMultiPart(
+              "${ApiConstant.updateBusiness}/$businessId", body!, images ?? [],
+              imagePathName: 'images')
           .then((value) {
         return value;
       }).catchError((e) {

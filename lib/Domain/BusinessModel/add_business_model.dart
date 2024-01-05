@@ -2,6 +2,8 @@ import 'dart:convert';
 
 class AddBusinessModel {
   String? name;
+  String? id;
+  String? state;
   String? owner;
   String? industry;
   String? employee;
@@ -23,6 +25,7 @@ class AddBusinessModel {
       {this.name,
       this.owner,
       this.industry,
+      this.state,
       this.employee,
       this.description,
       this.yearFound,
@@ -36,11 +39,13 @@ class AddBusinessModel {
       this.documnets,
       this.salesPrice,
       this.financialDetails,
+      this.id,
       this.images});
 
   AddBusinessModel copyWith({
     String? name,
     String? owner,
+    String? state,
     String? industry,
     String? employee,
     String? description,
@@ -48,6 +53,7 @@ class AddBusinessModel {
     String? country,
     String? city,
     String? address,
+    String? id,
     String? zipCode,
     String? businessHour,
     List<String>? advantages,
@@ -58,6 +64,8 @@ class AddBusinessModel {
     List<String?>? images,
   }) {
     return AddBusinessModel(
+      state: state ?? this.state,
+      id: id ?? this.id,
       name: name ?? this.name,
       owner: owner ?? this.owner,
       industry: industry ?? this.industry,
@@ -80,6 +88,8 @@ class AddBusinessModel {
 
   factory AddBusinessModel.fromJson(Map<String, dynamic> json) {
     return AddBusinessModel(
+      id: json['id'],
+      state: json['state'],
       name: json['name'],
       owner: json['owner'],
       industry: json['industry'],
@@ -103,10 +113,12 @@ class AddBusinessModel {
 
   Map<String, dynamic> toJson() {
     return {
+      "state": state,
       'name': name,
-      'numberOfEmployes': owner,
+      "id": id,
+      'numberOfEmployes': employee,
       'industry': industry,
-      'numberOfOwners': employee,
+      'numberOfOwners': owner,
       'businessDescription': description,
       'foundationYear': yearFound,
       'country': country,

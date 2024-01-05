@@ -99,8 +99,8 @@ class BusinessModel {
       id: json["_id"],
       name: json["name"],
       foundationYear: json["foundationYear"],
-      numberOfOwners: json["numberOfOwners"],
-      numberOfEmployes: json["numberOfEmployes"],
+      numberOfOwners: json["numberOfOwners"].toString(),
+      numberOfEmployes: json["numberOfEmployes"].toString(),
       businessHour: json['businessHours'],
       businessDescription: json["businessDescription"],
       images: json["images"] == null

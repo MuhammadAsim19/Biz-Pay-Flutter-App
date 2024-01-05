@@ -30,3 +30,9 @@ class GetAllCountryError extends GetAllCountryState {
 
   GetAllCountryError({this.error});
 }
+
+class CityAndStateError extends GetAllCountryState {
+  final String? error;
+
+  CityAndStateError({this.error});
+}

@@ -1,3 +1,4 @@
+import 'package:buysellbiz/Application/Services/PickerServices/picker_services.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/BusinessModel/add_business_model.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
@@ -5,14 +6,16 @@ import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/add_image_widget.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/custom_dropdown.dart';
+import 'package:buysellbiz/Presentation/Common/dialog.dart';
 import 'package:buysellbiz/Presentation/Common/display_images.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/add_business_controller.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/add_business_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/Controller/add_business_conntroller.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Controller/ListBusiness/update_business_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/Controller/get_all_country_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/YourBusinessList/UpdateBusiness/Components/update_business_sucess.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/YourBusinessList/UpdateBusiness/Controller/update_business_notifer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../../../../Application/Services/PickerServices/picker_services.dart';
 
 class UpdatePriceLocation extends StatefulWidget {
   const UpdatePriceLocation({super.key, this.businessModel});
@@ -57,15 +60,7 @@ class _UpdatePriceLocationState extends State<UpdatePriceLocation> {
 
   @override
   void initState() {
-    context.read<GetAllCountryCubit>().getCountry();
-
-    finincialDetails.add(
-      {"Revenue ${DateTime.now().year} (USD)": TextEditingController()},
-    );
-
-    finincialDetails
-        .add({"Profit ${DateTime.now().year} (USD)": TextEditingController()});
-
+    _assignData();
     // TODO: implement initState
     super.initState();
   }
@@ -115,6 +110,8 @@ class _UpdatePriceLocationState extends State<UpdatePriceLocation> {
                                 },
                                 itemBuilder: (context, index) {
                                   return CustomTextFieldWithOnTap(
+                                      titleText:
+                                          finincialDetails[index].keys.first,
                                       validateText:
                                           "${finincialDetails[index].keys.first} is Required ",
                                       controller:
@@ -165,8 +162,6 @@ class _UpdatePriceLocationState extends State<UpdatePriceLocation> {
                           addText: "Uploads photos",
                           onTap: () async {
                             images = await PickFile.pickImage();
-                            valid = false;
-                            setState(() {});
                           },
                         ),
                         10.y,
@@ -178,42 +173,36 @@ class _UpdatePriceLocationState extends State<UpdatePriceLocation> {
                                 color: const Color(0xFFB0B0B0), fontSize: 14)),
 
                         images != null
-                            ? valid == false
-                                ? SizedBox(
-                                    height: 100.h,
-                                    width: 1.sw,
-                                    child: ListView.separated(
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: images!.length,
-                                      itemBuilder: (context, index) {
-                                        return DisplayFileImage(
-                                          fileImage: images![index].toString(),
-                                          onDeleteTap: () {
-                                            setState(() {
-                                              images!.removeAt(index);
-                                              //image = [];
-                                            });
-                                          },
-                                        );
+                            ? SizedBox(
+                                height: 100.h,
+                                width: 1.sw,
+                                child: ListView.separated(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: images!.length,
+                                  itemBuilder: (context, index) {
+                                    return DisplayFileImage(
+                                      fileImage: images![index].toString(),
+                                      onDeleteTap: () {
+                                        setState(() {
+                                          images!.removeAt(index);
+                                          if (images.length == 0) {
+                                            images = null;
+                                          }
+                                          //image = [];
+                                        });
                                       },
-                                      separatorBuilder:
-                                          (BuildContext context, int index) {
-                                        return SizedBox(
-                                          width: 5.sp,
-                                        );
-                                      },
-                                    ),
-                                  )
-                                : const SizedBox()
-                            : const SizedBox.shrink(),
-                        valid
-                            ? AppText('Image Required',
-                                style: Styles.circularStdRegular(context,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w400,
-                                    color: AppColors.redColor))
-                            : 10.x,
+                                    );
+                                  },
+                                  separatorBuilder:
+                                      (BuildContext context, int index) {
+                                    return SizedBox(
+                                      width: 5.sp,
+                                    );
+                                  },
+                                ),
+                              )
+                            : const SizedBox()
                       ],
                     )),
                 80.y
@@ -223,21 +212,24 @@ class _UpdatePriceLocationState extends State<UpdatePriceLocation> {
           Positioned(
             bottom: 10.sp,
             left: 10.sp,
-            child: BlocConsumer<AddBusinessCubit, AddBusinessState>(
+            child: BlocConsumer<UpdateBusinessCubit, UpdateBusinessState>(
               listener: (context, state) {
                 print(state.toString());
 
-                if (state is AddBusinessLoading) {
+                if (state is UpdateBusinessLoading) {
                   LoadingDialog.showLoadingDialog(context);
                 }
-                if (state is AddBusinessLoaded) {
+                if (state is UpdateBusinessLoaded) {
                   Navigator.pop(context);
-                  // CustomDialog.dialog(context, const AddSuccessDialog(),
-                  //     barrierDismissible: false);
-                  // Future.delayed(const Duration(seconds: 3));
+                  Navigator.pop(context);
+                  CustomDialog.alertDialog(
+                    context,
+                    const AddSuccessDialog(),
+                  );
+                  Future.delayed(const Duration(seconds: 3));
                   Navigator.pop(context);
                 }
-                if (state is AddBusinessError) {
+                if (state is UpdateBusinessError) {
                   Navigator.pop(context);
                   WidgetFunctions.instance
                       .showErrorSnackBar(context: context, error: state.error);
@@ -249,8 +241,6 @@ class _UpdatePriceLocationState extends State<UpdatePriceLocation> {
                 return CustomButton(
                   onTap: () {
                     if (_formKey.currentState!.validate()) {
-                      AddNotifier.addPageController.jumpToPage(2);
-                      AddNotifier.addBusinessNotifier.value = 2;
                       _addData();
                     }
                   },
@@ -268,6 +258,17 @@ class _UpdatePriceLocationState extends State<UpdatePriceLocation> {
     );
   }
 
+  _assignData() {
+    widget.businessModel!.financialDetails?.forEach((element) {
+      TextEditingController controller = TextEditingController();
+      controller.text = element.revenue.toString();
+      finincialDetails.add({
+        element.financialYear!: controller,
+      });
+    });
+    salePriceController.text = widget.businessModel!.salePrice.toString();
+  }
+
   _addData() {
     List<Map<String, String>> details = [];
     for (int i = 0; i < finincialDetails.length; i++) {
@@ -278,22 +279,16 @@ class _UpdatePriceLocationState extends State<UpdatePriceLocation> {
     }
 
     AddBusinessModel currentModel = AddBusinessController.addBusiness.value;
-
     AddBusinessController.addBusiness.value = currentModel.copyWith(
       salesPrice: salePriceController.text.trim(),
       financialDetails: details,
-      address: addressController.text.trim(),
-      city: cityController.text.trim(),
-      country: countryController.text.trim(),
-      zipCode: zipCode.text.trim(),
     );
-
-    print(currentModel.documnets.toString());
+    Map<String, dynamic> mapData =
+        AddBusinessController.addBusiness.value.toJson();
+    context.read<UpdateBusinessCubit>().updateBusinessById(
+        images: images, data: mapData, bsId: currentModel.id);
 
     salePriceController.clear();
-    addressController.clear();
-    cityController.clear();
-    countryController.clear();
-    zipCode.clear();
+    finincialDetails.first.values.first.clear();
   }
 }

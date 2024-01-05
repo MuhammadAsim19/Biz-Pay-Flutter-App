@@ -33,12 +33,13 @@ class GetAllCountryCubit extends Cubit<GetAllCountryState> {
     }
   }
 
-  getCountryStates(String countryName, bool city) async {
+  getCountryStates({String? countryName, String? state, bool? city}) async {
     await Future.delayed(const Duration(microseconds: 10));
-    emit(GetAllCountryLoading());
+    // emit(GetAllCountryLoading());
 
     try {
-      await GetCountry.getCountryStates(countryName, city).then((value) {
+      await GetCountry.getCountryStates(countryName!, state ?? "", city!)
+          .then((value) {
         if (value['Success']) {
           // List<BusinessModel> business =
           // List.from(value["body"].map((e) => BusinessModel.fromJson(e)));
@@ -48,14 +49,14 @@ class GetAllCountryCubit extends Cubit<GetAllCountryState> {
             emit(GetAllCountryCityLoaded(city: value['body']));
           }
         } else {
-          emit(GetAllCountryError(error: value['error']));
+          emit(CityAndStateError(error: value['error']));
         }
       }).catchError((e) {
-        emit(GetAllCountryError(error: 'Some Thing Wrong'));
+        emit(CityAndStateError(error: 'Some Thing Wrong'));
         throw e;
       });
     } catch (e) {
-      emit(GetAllCountryError(error: e.toString()));
+      emit(CityAndStateError(error: e.toString()));
       rethrow;
     }
   }
