@@ -59,7 +59,7 @@ class PopMenu extends StatelessWidget {
           //   "conversationId": "658a7e4bc7d312d5ed0b796f"
           // };
 
-  InboxRepo.socket.emit('blockUser',data);
+  InboxRepo.socket?.emit('blockUser',data);
   // await BlockRepo().blockUser(body: data).then((value) {
   //   print("api----data");
   //

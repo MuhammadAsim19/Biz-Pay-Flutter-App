@@ -3,6 +3,7 @@
 
 import 'dart:async';
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:buysellbiz/Application/Services/Downloader/DioDownloads/downloaderDio.dart';
 import 'package:buysellbiz/Application/Services/Downloader/file_downloader.dart';
@@ -85,7 +86,7 @@ class MessageContainer extends StatelessWidget {
 
                             //verticalDirection: VerticalDirection.up,
 
-                            children: chatDto!.images!.take(4).map((e) {
+                            children: chatDto!.images!.length<=4?chatDto!.images!.map((e) {
                             print("${ApiConstant.baseUrl}$e");
                               return GestureDetector(
                                 onTap: (){
@@ -98,7 +99,39 @@ class MessageContainer extends StatelessWidget {
                                 ),
                               );
 
-                            }).toList(),
+                            }).toList():
+                            chatDto!.images!.take(4).map((e) {
+                              print("${ApiConstant.baseUrl}$e");
+                              int index=chatDto!.images!.indexOf(e);
+
+                              return Stack(
+                                children: [
+                                  GestureDetector(
+                                    onTap: (){
+                                      Navigate.to(context, ImagePreview(imageUrl: "${ApiConstant.baseUrl}$e"));
+                                    },
+                                    child: CachedImage(url: "${ApiConstant.baseUrl}$e",fit: BoxFit.fill
+                                      ,isCircle: false,
+                                      height: chatDto!.images!.length>2?null:250,
+                                      width: chatDto!.images!.length>1?110:250,
+                                    ),
+                                  ),
+                                  Positioned(
+                                      top:0,
+                                      bottom:0,
+
+                              left: 0,
+                              right: 0
+                              ,
+                                      child: BackdropFilter(
+
+
+                                          filter: ImageFilter.blur(),
+                                          child: Center(child: AppText("+ ${chatDto!.images!.length-4}",style: Styles.circularStdMedium(context,fontSize: 20,color: AppColors.whiteColor),))))
+                                ],
+                              );
+
+                            }).toList()
 
                                               ),
                           ),

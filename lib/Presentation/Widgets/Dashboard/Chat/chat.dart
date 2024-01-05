@@ -44,7 +44,7 @@ class _ChatScreenState extends State<ChatScreen> {
   // var data={
   //   "userId" : "6579ea61d76f7a30f94f5c80"
   // };
-  InboxRepo.socket.on("allBusinessConversations", (data) {
+  InboxRepo.socket?.on("allBusinessConversations", (data) {
     print("chatTileData");
     print((data));
     InboxControllers.tileInboxData.value=List<ChatTileApiModel>.from(
@@ -64,8 +64,8 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void dispose() {
   print("called");
-   InboxRepo.socket.disconnect(); ///does not work on ios
-   InboxRepo.socket.dispose();
+   InboxRepo.socket?.disconnect(); ///does not work on ios
+   InboxRepo.socket?.dispose();
   // TODO: implement dispose
     super.dispose();
   }

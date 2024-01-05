@@ -48,6 +48,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
   void initState() {
     super.initState();
     initValue=1;
+
     //
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   // Scroll to the end when the widgets are fully painted and visible
@@ -66,7 +67,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
           "reciever": InboxControllers.chatDetailData.value.receiver
         };
 
-        InboxRepo.socket.emit("isTyping", data);
+        InboxRepo.socket?.emit("isTyping", data);
       }
       else {
         //print("keyBoard is closed");
@@ -74,7 +75,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
           "status": false,
           "reciever": InboxControllers.chatDetailData.value.receiver
         };
-        InboxRepo.socket.emit("isTyping", data);
+        InboxRepo.socket?.emit("isTyping", data);
       }
     });
 
@@ -89,7 +90,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       ///from chatDto
     };
 
-    InboxRepo.socket.on('user_online_status', (data) {
+    InboxRepo.socket?.on('user_online_status', (data) {
      // print("Online Status");
       String recId = InboxControllers.chatDetailData.value.receiver.toString();
 
@@ -107,7 +108,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       InboxControllers.connectivityStatus.notifyListeners();
      // print(data);
     });
-    InboxRepo.socket.on('block_user', (data) {
+    InboxRepo.socket?.on('block_user', (data) {
       // Handle the event data
       //print("blocked  called");
       //print(data);
@@ -146,11 +147,11 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
     });
 
 
-    InboxRepo.socket.emit('getBusinessChatDetails', dataGet);
-    InboxRepo.socket.onError((e) {
+    InboxRepo.socket!.emit('getBusinessChatDetails', dataGet);
+    InboxRepo.socket?.onError((e) {
     //  print(e);
     });
-    InboxRepo.socket.on('error', (data) {
+    InboxRepo.socket?.on('error', (data) {
      // print("There is error ");
       WidgetFunctions.instance.snackBar(context, text: data);
       //print(data);
@@ -158,9 +159,9 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
 
 
     ///full chat listener first time
-    InboxRepo.socket.on('businessChatDetails', (data) {
-      // print("bizness details");
-      // print(data);
+    InboxRepo.socket!.on('businessChatDetails', (data) {
+      print("bizness details");
+      print(data);
 
       ChatTileApiModel chTo = ChatTileApiModel.fromJson(data);
       InboxControllers.chatDetailData.value = chTo;
@@ -199,8 +200,8 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       InboxControllers.blockedStatus.notifyListeners();
     });
 
-    ///new messageto  chat
-    InboxRepo.socket.on("newMessageToBusiness", (data) {
+    ///new message to  chat
+    InboxRepo.socket?.on("newMessageToBusiness", (data) {
       //print("new message listener ");
       Message newMessageDto = Message.fromJson(data);
       //InboxControllers.chatDetailData.value.messages?.clear();
@@ -222,7 +223,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
 
 //InboxRepo.socket.emit("user_online_status","Online");
     ///Typing event listening
-    InboxRepo.socket.on("isTyping", (data) {
+    InboxRepo.socket?.on("isTyping", (data) {
       print("statusTypingTyping");
       InboxControllers.typingStatus.value = data;
       InboxControllers.typingStatus.notifyListeners();
@@ -274,7 +275,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
   @override
   void dispose() {
     // TODO: implement dispose
-    InboxRepo.socket.off("newMessageToBusiness");
+    InboxRepo.socket?.off("newMessageToBusiness");
     InboxControllers.typingStatus.value = false;
     focusNode.dispose();
     _scrollController.dispose();
@@ -442,9 +443,10 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                                                       context),
                                                 )),
                                         itemBuilder: (c, element) {
+                                          int index=elements.indexOf(element);
                                           return MessageContainer(
                                             //modelData: chats[0],
-                                            index: 0,
+                                            index: index,
                                             chatDto: Message.fromJson(element),
                                             senderId: Data().user?.user?.id,
                                           );
@@ -520,7 +522,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                                   width: 1.sw,
 
                                   child: ListView.separated(
-                                    shrinkWrap: true,
+                                   // shrinkWrap: true,
                                     scrollDirection: Axis.horizontal,
                                     itemCount: allFiles.length,
                                     itemBuilder: (context, index) {
@@ -991,10 +993,10 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
           content: message.text,
           createdAt: DateTime.now()));
       InboxControllers.chatDetailData.notifyListeners();
-      InboxRepo.socket.emit('sendMessageToBusiness', messageToSend);
+      InboxRepo.socket?.emit('sendMessageToBusiness', messageToSend);
     }
     else if (allFiles.isNotEmpty && message.text.isEmpty) {
-      InboxRepo.socket.emit('sendMessageToBusiness', messageToSend);
+      InboxRepo.socket?.emit('sendMessageToBusiness', messageToSend);
     }
 
     else {
