@@ -1,7 +1,9 @@
+import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/AppData/app_initializer.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/recently_viewd_bussines_loading.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/buisness_details.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Saved/Controller/saved_listing_cubit.dart';
 import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/saved_loading.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,6 +41,7 @@ class _SavedListBusinessState extends State<SavedListBusiness> {
 
                     return GestureDetector(
                       onTap: () {
+                        Navigate.to(context, BusinessDetails(id: data.id));
                         // widget.getData(widget.businessProducts[index]);
                       },
                       child: Stack(

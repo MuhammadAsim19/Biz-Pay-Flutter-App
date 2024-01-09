@@ -1,7 +1,9 @@
+import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
 import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/saved_loading.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/buisness_details.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/bussines_tile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_appbar.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Controller/ListBusiness/your_business_cubit.dart';
@@ -85,7 +87,13 @@ class _YourBusinessState extends State<YourBusiness> {
                             isFromAllBusiness: false,
                             index: index,
                             businessProducts: state.business,
-                            getData: (BusinessModel val) {},
+                            getData: (BusinessModel val) {
+                              Navigate.to(
+                                  context,
+                                  BusinessDetails(
+                                    id: state.business![index].id,
+                                  ));
+                            },
                           );
                         },
                       )

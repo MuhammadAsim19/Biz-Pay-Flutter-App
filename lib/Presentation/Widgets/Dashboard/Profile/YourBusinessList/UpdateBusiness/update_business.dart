@@ -19,6 +19,7 @@ class UpdateBusiness extends StatefulWidget {
 class _UpdateBusinessState extends State<UpdateBusiness> {
   @override
   void initState() {
+    UpdateBusinessNotifier.updateBusiness.value = 0;
     context.read<GetAllCountryCubit>().getCountry();
     // TODO: implement initState
     super.initState();

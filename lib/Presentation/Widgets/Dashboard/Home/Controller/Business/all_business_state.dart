@@ -13,6 +13,12 @@ class AllBusinessLoaded extends AllBusinessState {
   AllBusinessLoaded({this.business});
 }
 
+class BusinessByIdLoaded extends AllBusinessState {
+  final BusinessModel? business;
+
+  BusinessByIdLoaded({this.business});
+}
+
 class AllBusinessError extends AllBusinessState {
   final String? error;
 

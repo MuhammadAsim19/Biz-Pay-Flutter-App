@@ -72,11 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     searchController.clear();
     getFcm();
-    // InboxRepo().initSocket(context, Data().user?.user?.id);
-// get the user data for accessing in app
-//    UserModel? us = Data().user;
-//    print("checking init data");
-//    print(us?.user == null);
+
     context.read<AllBusinessCubit>().getBusiness();
     context.read<RecentlyAddedCubit>().getRecentBusiness();
     context.read<CategoryCubit>().getCategory();
@@ -93,11 +89,14 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement dispose
     // InboxRepo.socket.disconnect();
     //InboxRepo.socket.dispose();
+
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    String fullName = Data.app.user!.user!.fullName ?? '';
+
     return Scaffold(
       body: Column(
         children: [
@@ -125,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             AppText(AppStrings.hello,
                                 style: Styles.circularStdRegular(context,
                                     fontSize: 14, color: AppColors.whiteColor)),
-                            AppText("Adib Javid",
+                            AppText(fullName,
                                 style: Styles.circularStdMedium(context,
                                     fontSize: 20, color: AppColors.whiteColor))
                           ],
@@ -411,8 +410,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             10.x,
                             BlocConsumer<BrokersCubit, BrokersState>(
                               listener: (context, state) {
-                                print(state);
-
                                 if (state is BrokersLoaded) {
                                   brokers = state.brokers;
                                 }

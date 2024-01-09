@@ -45,6 +45,7 @@ class BusinessProductModel {
 class BusinessModel {
   final String? id;
   final String? name;
+  final String? privence;
   final String? viewsCount;
   final String? foundationYear;
   final String? numberOfOwners;
@@ -76,6 +77,7 @@ class BusinessModel {
     this.businessDescription,
     this.images,
     this.attachedFiles,
+    this.privence,
     this.advantages,
     this.salePrice,
     this.financialDetails,
@@ -96,6 +98,7 @@ class BusinessModel {
   String toRawJson() => json.encode(toJson());
 
   factory BusinessModel.fromJson(Map<String, dynamic> json) => BusinessModel(
+      privence: json['state'],
       id: json["_id"],
       name: json["name"],
       foundationYear: json["foundationYear"],
@@ -161,6 +164,7 @@ class BusinessModel {
             : List<dynamic>.from(subIndustry!.map((x) => x)),
         "status": status,
         'viewsCount': viewsCount,
+        "state": privence,
       };
 }
 

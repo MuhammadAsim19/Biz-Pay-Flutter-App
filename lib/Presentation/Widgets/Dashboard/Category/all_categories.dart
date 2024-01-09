@@ -2,6 +2,7 @@ import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/Category/categroy.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/SearchListing/search_listing.dart';
 
 class AllCategory extends StatelessWidget {
   AllCategory({super.key, this.categoryData});
@@ -122,7 +123,11 @@ class AllCategory extends StatelessWidget {
                   final color = int.parse("0xff${category.backgroundcolor!}");
                   return GestureDetector(
                     onTap: () {
-                      // getData(category, index);
+                      Navigate.to(
+                          context,
+                          SearchListing(
+                              title: categoryData![index].title ?? "",
+                              id: categoryData![index].id!));
                     },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,

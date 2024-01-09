@@ -24,7 +24,7 @@ class ChatTile extends StatelessWidget {
     return InkWell(
       onTap: () {
         //InboxRepo.socket.disconnect();
-         Navigate.to(context, ChatDetailsScreen(chatDto: tileData));
+        Navigate.to(context, ChatDetailsScreen(chatDto: tileData));
       },
       child: Container(
         padding: EdgeInsets.all(13.sp),
@@ -34,10 +34,12 @@ class ChatTile extends StatelessWidget {
             border: Border.all(color: AppColors.borderColor)),
         child: Row(
           children: [
-            CachedNetworkImage(
-              height: 50.h,
-              width: 50.w,
-              imageUrl: "${ApiConstant.baseUrl}${tileData!.profilePic}",
+            CachedImage(
+              isCircle: true,
+              radius: 30.sp,
+              height: 10.h,
+              width: 10.w,
+              url: "${ApiConstant.baseUrl}${tileData!.profilePic}",
             ),
             15.x,
             Expanded(
@@ -66,7 +68,6 @@ class ChatTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-
                 20.y,
                 tileData!.unreadMessages! > 0
                     ? CircleAvatar(

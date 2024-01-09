@@ -121,7 +121,11 @@ class NotificationMetaData {
         )
       },
       {'': const Notifications()},
-      {'BUSINES_UPDATED': const BusinessDetails()},
+      {
+        'BUSINES_UPDATED': BusinessDetails(
+          id: info,
+        )
+      },
       {
         'BUSINES_CHAT_STARTED': const BottomNavigationScreen(
           initialPage: 2,

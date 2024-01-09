@@ -31,7 +31,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
 
   @override
   void initState() {
-    context.read<AllBusinessCubit>().getBusiness(id: widget.id);
+    context.read<AllBusinessCubit>().getByIdBusiness(id: widget.id);
     context.read<AddToRecentlyViewCubit>().addToRecentlyViewed(widget.id!);
     context
         .read<BussinessWishlistApiCubit>()
@@ -61,13 +61,13 @@ class _BusinessDetailsState extends State<BusinessDetails> {
               });
             }
 
-            if (state is AllBusinessLoaded) {
+            if (state is BusinessByIdLoaded) {
               Navigator.pop(context);
-              model = state.business![0];
+              model = state.business;
             }
           },
           builder: (context, state) {
-            return state is AllBusinessLoaded
+            return state is BusinessByIdLoaded
                 ? NestedScrollView(
                     physics: const NeverScrollableScrollPhysics(),
                     headerSliverBuilder:
@@ -85,7 +85,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                   width: 1.sw,
                                   isCircle: false,
                                   url:
-                                      "${ApiConstant.baseUrl}${state.business![0].images?.first}"),
+                                      "${ApiConstant.baseUrl}${state.business!.images?.first}"),
                               Row(
                                 children: [
                                   GestureDetector(
@@ -156,7 +156,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                       ];
                     },
                     body: Builder(builder: (context) {
-                      BusinessModel value = state.business![0];
+                      BusinessModel? value = state.business;
 
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -172,7 +172,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                     children: [
                                       //24.x,
                                       AppText(
-                                        "${value.city}, ${value.country}",
+                                        "${value!.city}, ${value.country}",
                                         style: Styles.circularStdRegular(
                                           context,
                                           color: AppColors.lightGreyColor,

@@ -53,17 +53,17 @@ class _PersonalInformationState extends State<PersonalInformation> {
 
   @override
   void initState() {
-    context.read<GetAllCountryCubit>().getCountry();
-
     userData = Data.app.user;
+    // context.read<GetAllCountryCubit>().getCountry();
     firstNameController.text = userData?.user!.firstName ?? "";
     lastNameController.text = userData?.user!.lastName ?? "";
     emailController.text = userData?.user!.email ?? "";
     calendarController.text = userData?.user!.dob ?? "";
     countryName = userData?.user!.country ?? "";
     phone.text = userData?.user!.phoneNumber ?? "";
-
-    // countryList.add(countryName);
+    // countryList.add(userData!.user?.country ?? "");
+    //
+    // // countryList.add(countryName);
     // TODO: implement initState
     super.initState();
   }
@@ -100,7 +100,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
                               radius: 60,
                               isCircle: true,
                               url:
-                                  "${ApiConstant.baseUrl}/${userData?.user?.profilePic}")
+                                  "${ApiConstant.baseUrl}/${userData!.user!.profilePic}")
                           : const AssetImageWidget(
                               url: Assets.dummyImage2,
                               radius: 60,
@@ -147,16 +147,6 @@ class _PersonalInformationState extends State<PersonalInformation> {
                         controller: lastNameController,
                         hintText: 'Tesse',
                         textInputType: TextInputType.name),
-                    CountryPicker(
-                      countrySelect: (value) {
-                        countryCode = value!;
-                        print(value);
-                        setState(() {});
-                      },
-                      controller: phone,
-                      validator: Validate.phone,
-                      onTapField: false,
-                    ),
                     CustomTextFieldWithOnTap(
                         validateText: 'Email Required',
                         suffixIcon: SvgPicture.asset(Assets.blueCheck),
@@ -167,35 +157,46 @@ class _PersonalInformationState extends State<PersonalInformation> {
                         readOnly: true,
                         textInputType: TextInputType.emailAddress),
                     10.y,
-                    BlocConsumer<GetAllCountryCubit, GetAllCountryState>(
-                      listener: (context, state) {
-                        if (state is GetAllCountryLoaded) {
-                          countryList = state.country!;
-                        }
-                        if (state is GetAllCountryError) {
-                          WidgetFunctions.instance.showErrorSnackBar(
-                              context: context, error: state.error);
-                        }
-                        // TODO: implement listener
+                    CountryPicker(
+                      countrySelect: (value) {
+                        countryCode = value!;
+                        print(value);
+                        setState(() {});
                       },
-                      builder: (context, state) {
-                        return CustomDropDownWidget(
-                          isBorderRequired: true,
-                          hMargin: 0,
-                          vMargin: 0,
-                          itemsMap: countryList.map((e) {
-                            return DropdownMenuItem(value: e, child: Text(e));
-                          }).toList(),
-                          hintText: 'Country',
-                          value: countryName,
-                          validationText: 'Country Required',
-                          onChanged: (value) {
-                            countryName = value;
-                            setState(() {});
-                          },
-                        );
-                      },
+                      controller: phone,
+                      validator: Validate.phone,
+                      onTapField: false,
                     ),
+                    10.y,
+                    // BlocConsumer<GetAllCountryCubit, GetAllCountryState>(
+                    //   listener: (context, state) {
+                    //     if (state is GetAllCountryLoaded) {
+                    //       countryList = state.country!;
+                    //     }
+                    //     if (state is GetAllCountryError) {
+                    //       WidgetFunctions.instance.showErrorSnackBar(
+                    //           context: context, error: state.error);
+                    //     }
+                    //     // TODO: implement listener
+                    //   },
+                    //   builder: (context, state) {
+                    //     return CustomDropDownWidget(
+                    //       isBorderRequired: true,
+                    //       hMargin: 0,
+                    //       vMargin: 0,
+                    //       itemsMap: countryList.map((e) {
+                    //         return DropdownMenuItem(value: e, child: Text(e));
+                    //       }).toList(),
+                    //       hintText: 'Country',
+                    //       value: countryName,
+                    //       validationText: 'Country Required',
+                    //       onChanged: (value) {
+                    //         countryName = value;
+                    //         setState(() {});
+                    //       },
+                    //     );
+                    //   },
+                    // ),
                   ],
                 ),
               ),
@@ -270,7 +271,6 @@ class _PersonalInformationState extends State<PersonalInformation> {
       'firstName': firstNameController.text.trim(),
       'lastName': lastNameController.text.trim(),
       'phone': phone.text.trim(),
-      "country": countryName,
     };
     context.read<UpdateProfileCubit>().updateProfile(body: data, image: image);
   }

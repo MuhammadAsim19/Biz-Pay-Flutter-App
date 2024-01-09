@@ -1,3 +1,4 @@
+import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Application/Services/PickerServices/picker_services.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/BusinessModel/add_business_model.dart';
@@ -5,16 +6,10 @@ import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
 import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/add_image_widget.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
-import 'package:buysellbiz/Presentation/Common/custom_dropdown.dart';
-import 'package:buysellbiz/Presentation/Common/dialog.dart';
 import 'package:buysellbiz/Presentation/Common/display_images.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/add_business_controller.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/add_business_cubit.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/Controller/add_business_conntroller.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Controller/ListBusiness/update_business_cubit.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/Controller/get_all_country_cubit.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/YourBusinessList/UpdateBusiness/Components/update_business_sucess.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/YourBusinessList/UpdateBusiness/Controller/update_business_notifer.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/YourBusinessList/your_business.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UpdatePriceLocation extends StatefulWidget {
@@ -221,13 +216,12 @@ class _UpdatePriceLocationState extends State<UpdatePriceLocation> {
                 }
                 if (state is UpdateBusinessLoaded) {
                   Navigator.pop(context);
-                  Navigator.pop(context);
-                  CustomDialog.alertDialog(
-                    context,
-                    const AddSuccessDialog(),
-                  );
-                  Future.delayed(const Duration(seconds: 3));
-                  Navigator.pop(context);
+                  // CustomDialog.alertDialog(
+                  //   context,
+                  //   const AddSuccessDialog(),
+                  // );
+                  // Future.delayed(const Duration(seconds: 3));
+                  Navigate.toReplace(context, const YourBusiness());
                 }
                 if (state is UpdateBusinessError) {
                   Navigator.pop(context);

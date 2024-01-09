@@ -21,7 +21,6 @@ import 'package:path/path.dart' as path;
 import 'ChatModel/chat_message_model.dart';
 import 'ChatModel/chat_tile_model.dart';
 
-
 import 'message_container.dart';
 
 class ChatDetailsScreen extends StatefulWidget with ChangeNotifier {
@@ -34,20 +33,20 @@ class ChatDetailsScreen extends StatefulWidget with ChangeNotifier {
   State<ChatDetailsScreen> createState() => _ChatDetailsScreenState();
 }
 
-
 class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
   final TextEditingController message = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+
   //final ScrollController _scrollController2 = ScrollController();
   FocusNode focusNode = FocusNode();
 
-
   bool? isLoading = false;
-  int initValue=0;
+  int initValue = 0;
+
   @override
   void initState() {
     super.initState();
-    initValue=1;
+    initValue = 1;
 
     //
     // WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -56,7 +55,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
     //   checkIfListViewAttached();
     // });
 
-///for typing  keyboard
+    ///for typing  keyboard
     focusNode.addListener(() {
       if (focusNode.hasFocus) {
         print("keyboard is open");
@@ -68,8 +67,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
         };
 
         InboxRepo.socket?.emit("isTyping", data);
-      }
-      else {
+      } else {
         //print("keyBoard is closed");
         var data = {
           "status": false,
@@ -91,22 +89,19 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
     };
 
     InboxRepo.socket?.on('user_online_status', (data) {
-     // print("Online Status");
+      // print("Online Status");
       String recId = InboxControllers.chatDetailData.value.receiver.toString();
 
       List<dynamic> allUsers = data;
       if (allUsers.contains(recId)) {
         InboxControllers.connectivityStatus.value = true;
-      }
-
-      else {
+      } else {
         InboxControllers.connectivityStatus.value = false;
       }
 
-
-     // print("${InboxControllers.connectivityStatus.value}valueeeeeeee");
+      // print("${InboxControllers.connectivityStatus.value}valueeeeeeee");
       InboxControllers.connectivityStatus.notifyListeners();
-     // print(data);
+      // print(data);
     });
     InboxRepo.socket?.on('block_user', (data) {
       // Handle the event data
@@ -120,43 +115,37 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
         if (data['blockedUser_id'] != "6579ea61d76f7a30f94f5c80") {
           SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
             InboxControllers.blockedString.value =
-            "Can not Chat You Have Blocked this User";
+                "Can not Chat You Have Blocked this User";
             InboxControllers.blockedString.notifyListeners();
             InboxControllers.blockedStatus.notifyListeners();
           });
-        }
-        else {
+        } else {
           InboxControllers.blockedString.value =
-          "Can not Chat You Have been Blocked by this User";
+              "Can not Chat You Have been Blocked by this User";
 
           // InboxControllers.blockedStatus.value = false;
           InboxControllers.blockedString.notifyListeners();
           InboxControllers.blockedStatus.notifyListeners();
         }
-      }
-      else {
-       // print("da dlta raaze?");
+      } else {
+        // print("da dlta raaze?");
         InboxControllers.blockedStatus.value = false;
         //InboxControllers.blockedStatus.notifyListeners();
         // InboxControllers.blockedString.notifyListeners();
       }
 
-
       // InboxControllers.blockedStatus.notifyListeners();
-
     });
-
 
     InboxRepo.socket!.emit('getBusinessChatDetails', dataGet);
     InboxRepo.socket?.onError((e) {
-    //  print(e);
+      //  print(e);
     });
     InboxRepo.socket?.on('error', (data) {
-     // print("There is error ");
+      // print("There is error ");
       WidgetFunctions.instance.snackBar(context, text: data);
       //print(data);
     });
-
 
     ///full chat listener first time
     InboxRepo.socket!.on('businessChatDetails', (data) {
@@ -174,12 +163,11 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
         SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
           InboxControllers.blockedStatus.value = true;
           InboxControllers.blockedString.value =
-          "Can not Chat You Have Blocked this User";
+              "Can not Chat You Have Blocked this User";
           InboxControllers.blockedString.notifyListeners();
           InboxControllers.blockedStatus.notifyListeners();
         });
-      }
-      else {
+      } else {
         InboxControllers.blockedStatus.value = false;
       }
       if (InboxControllers.chatDetailData.value.blockedUser ==
@@ -187,12 +175,11 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
         SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
           InboxControllers.blockedStatus.value = true;
           InboxControllers.blockedString.value =
-          "Can not Chat You Have been Blocked by this User";
+              "Can not Chat You Have been Blocked by this User";
           InboxControllers.blockedString.notifyListeners();
           InboxControllers.blockedStatus.notifyListeners();
         });
-      }
-      else {
+      } else {
         InboxControllers.blockedStatus.value = false;
       }
 
@@ -211,7 +198,6 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       // await  Future.delayed(const Duration(milliseconds: 20));
       InboxControllers.chatDetailData.value = dto;
 
-
       InboxControllers.chatDetailData.notifyListeners();
       //_scrollController.jumpTo(_scrollController.position.maxScrollExtent+80);
 
@@ -219,7 +205,6 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
     });
 
     ///block _ user listener
-
 
 //InboxRepo.socket.emit("user_online_status","Online");
     ///Typing event listening
@@ -230,10 +215,8 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       print(data);
     });
 
-
-    _scrollController
-        .addListener(() {
-     // print("scroll listening");
+    _scrollController.addListener(() {
+      // print("scroll listening");
 
       print(_scrollController.position.minScrollExtent);
       int scrollMax = (_scrollController.position.maxScrollExtent.toInt());
@@ -242,12 +225,11 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       print(diff);
 
       if (diff > 250) {
-      //  print("in condition of scroll");
+        //  print("in condition of scroll");
         if (InboxControllers.scrollDownNotifier.value != true) {
           InboxControllers.scrollDownNotifier.value = true;
         }
-      }
-      else {
+      } else {
         if (InboxControllers.scrollDownNotifier.value != false) {
           InboxControllers.scrollDownNotifier.value = false;
         }
@@ -255,22 +237,16 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
     });
   }
 
-
   ///formatting date  for grouped header list chip
   String _formatDate(DateTime date) {
     // Format date as desired (e.g., "MMM dd, yyyy")
-    if (date.day == DateTime
-        .now()
-        .day && date.year == DateTime
-        .now()
-        .year && date.month == DateTime
-        .now()
-        .month) {
+    if (date.day == DateTime.now().day &&
+        date.year == DateTime.now().year &&
+        date.month == DateTime.now().month) {
       return "Today";
     }
     return DateFormat("MMM dd, yyyy").format(date);
   }
-
 
   @override
   void dispose() {
@@ -295,120 +271,114 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
   List<String> validVideExt = ["mp4", "avi", "mpeg", "wmv", "mkv"];
   List<String> validDocExt = ["pdf", "docx", "xlsx", "pptx"];
 
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          backgroundColor: AppColors.whiteColor,
-          body: SizedBox(
-              height: 1.sh,
-              width: 1.sw,
-              child: Stack(
-                children: [
-                  Column(
+      backgroundColor: AppColors.whiteColor,
+      body: SizedBox(
+        height: 1.sh,
+        width: 1.sw,
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                16.y,
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24.sp),
+                  child: Row(
                     children: [
-                      16.y,
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 24.sp),
-                        child: Row(
+                      const BackArrowWidget(),
+                      10.x,
+                      CachedImage(
+                          isCircle: true,
+                          radius: 30.sp,
+                          url:
+                              "${ApiConstant.baseUrl}${widget.chatDto!.profilePic}"),
+                      10.x,
+                      Expanded(
+                        flex: 3,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            const BackArrowWidget(),
-                            10.x,
-                            CachedNetworkImage(
-                                height: 50.h,
-                                width: 50.w,
-                                imageUrl: "${ApiConstant.baseUrl}${widget
-                                    .chatDto!
-                                    .profilePic}"),
-                            10.x,
-                            Expanded(
-                              flex: 3,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  AppText(widget.chatDto!.username ?? "",
-                                      style: Styles.circularStdBold(context,
-                                          fontSize: 18.sp,
-                                          fontWeight: FontWeight.w500)),
-                                  AppText(
-                                    widget.chatDto!.businessReff?.name ?? "",
-                                    maxLine: 1,
-                                    overflow:
-                                    TextOverflow.ellipsis,
-                                    style: Styles.circularStdMedium(
-                                      context,
-                                      fontSize: 12.sp,
-                                      color: AppColors.greyTextColor,
-                                    ),
-                                  ),
-                                  ValueListenableBuilder(
-                                    builder: (context, cStatus, ss) {
-                                      return AppText(
-                                          cStatus == false
-                                              ? "Offline"
-                                              : "Online",
-                                          style: Styles.circularStdMedium(
-                                              context,
-                                              fontSize: 12.sp,
-                                              color: AppColors.greyTextColor));
-                                    },
-                                    valueListenable: InboxControllers
-                                        .connectivityStatus,
-                                  ),
-                                ],
+                            AppText(widget.chatDto!.username ?? "",
+                                style: Styles.circularStdBold(context,
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.w500)),
+                            AppText(
+                              widget.chatDto!.businessReff?.name ?? "",
+                              maxLine: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: Styles.circularStdMedium(
+                                context,
+                                fontSize: 12.sp,
+                                color: AppColors.greyTextColor,
                               ),
                             ),
-                            //const Spacer(),
-                            PopMenu(chDto: widget.chatDto,),
+                            ValueListenableBuilder(
+                              builder: (context, cStatus, ss) {
+                                return AppText(
+                                    cStatus == false ? "Offline" : "Online",
+                                    style: Styles.circularStdMedium(context,
+                                        fontSize: 12.sp,
+                                        color: AppColors.greyTextColor));
+                              },
+                              valueListenable:
+                                  InboxControllers.connectivityStatus,
+                            ),
                           ],
                         ),
                       ),
-                      5.y,
-                      const Divider(
-                        color: AppColors.borderColor,
-                        thickness: 2,
+                      //const Spacer(),
+                      PopMenu(
+                        chDto: widget.chatDto,
                       ),
+                    ],
+                  ),
+                ),
+                5.y,
+                const Divider(
+                  color: AppColors.borderColor,
+                  thickness: 2,
+                ),
+                Expanded(
+                  flex: 7,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      10.y,
+
+                      /// grouped messages message container message show
                       Expanded(
-                        flex: 7,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                        child: ValueListenableBuilder(
+                          builder: (context, chatState, ss) {
+                            //List<Message>? messages =[];
+                            var elements = [];
+                            if (chatState.messages != null &&
+                                chatState.messages!.isNotEmpty) {
+                              // chatState.messages?.forEach((element) {
+                              //
+                              //
+                              //
+                              // });
+                              elements = List<dynamic>.from(
+                                  chatState.messages!.map((x) => x.toJson()));
+                              // if(InboxControllers.scrollGroupedKey.currentContext != null) {
+                              //
+                              // }
 
-                            10.y,
+                              print("grouped elements------>");
+                              print(elements);
+                            }
 
-                            /// grouped messages message container message show
-                            Expanded(
-                              child: ValueListenableBuilder(
-                                builder: (context, chatState, ss) {
-                                  //List<Message>? messages =[];
-                                  var elements = [];
-                                  if (chatState.messages != null &&
-                                      chatState.messages!.isNotEmpty) {
-                                    // chatState.messages?.forEach((element) {
-                                    //
-                                    //
-                                    //
-                                    // });
-                                    elements = List<dynamic>.from(
-                                        chatState.messages!.map((x) =>
-                                            x.toJson()));
-                                    // if(InboxControllers.scrollGroupedKey.currentContext != null) {
-                                    //
-                                    // }
-
-                                    print("grouped elements------>");
-                                    print(elements);
-                                  }
-
-                                  return chatState.messages != null &&
-                                      chatState.messages!.isNotEmpty ?
-
-                                  FutureBuilder(
-                                    builder: (context,dd) {
+                            return chatState.messages != null &&
+                                    chatState.messages!.isNotEmpty
+                                ? FutureBuilder(
+                                    builder: (context, dd) {
                                       print("future isbuilding---");
-                                      if(dd.connectionState == ConnectionState.done) {
+                                      if (dd.connectionState ==
+                                          ConnectionState.done) {
                                         scrollToBottom();
                                       }
                                       return GroupedListView<dynamic, String>(
@@ -417,10 +387,10 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                                         //  cacheExtent: 20,
 
                                         controller: _scrollController,
-                                       // physics: const CustomScrollPhysics(),
+                                        // physics: const CustomScrollPhysics(),
                                         elements: elements,
-                                        groupBy: (element) =>
-                                            _formatDate(DateTime.parse(
+                                        groupBy: (element) => _formatDate(
+                                            DateTime.parse(
                                                 element['createdAt'])),
                                         // groupComparator: (value1, value2) =>
                                         //     value2.compareTo(value1),
@@ -432,18 +402,20 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                                         floatingHeader: true,
                                         groupSeparatorBuilder: (String value) =>
                                             Chip(
-                                                labelPadding: EdgeInsets.symmetric(
-                                                    horizontal: 5.sp,
-                                                    vertical: 2.sp),
-                                                backgroundColor: AppColors
-                                                    .borderColor,
+                                                labelPadding:
+                                                    EdgeInsets.symmetric(
+                                                        horizontal: 5.sp,
+                                                        vertical: 2.sp),
+                                                backgroundColor:
+                                                    AppColors.borderColor,
                                                 label: AppText(
                                                   value,
-                                                  style: Styles.circularStdMedium(
-                                                      context),
+                                                  style:
+                                                      Styles.circularStdMedium(
+                                                          context),
                                                 )),
                                         itemBuilder: (c, element) {
-                                          int index=elements.indexOf(element);
+                                          int index = elements.indexOf(element);
                                           return MessageContainer(
                                             //modelData: chats[0],
                                             index: index,
@@ -452,7 +424,6 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                                           );
                                         },
 
-
                                         //                             return MessageContainer(
                                         // //                                       modelData: chats[0],
                                         // //                                       index: index,
@@ -460,44 +431,44 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                                         // //                                       senderId: "6579ea61d76f7a30f94f5c80",
                                         // //                                     );
                                       );
-                                    }, future: Future.delayed(const Duration(milliseconds: 0)),
+                                    },
+                                    future: Future.delayed(
+                                        const Duration(milliseconds: 0)),
                                   )
-                                      :
-
-                                  chatState.messages != null &&
-                                      chatState.messages!.isEmpty ?
-                                  Center(
-
-                                      child: AppText("No New Messages",
-                                        style: Styles.circularStdMedium(
-                                            context),))
-                                      :
-                                  const Center(
-
-                                    child: CircularProgressIndicator(
-                                      color: AppColors.primaryColor,),
-
-                                  );
-                                }, valueListenable: InboxControllers
-                                  .chatDetailData,
-                              ),
-                            ),
-                            75.y,
-                          ],
+                                : chatState.messages != null &&
+                                        chatState.messages!.isEmpty
+                                    ? Center(
+                                        child: AppText(
+                                        "No New Messages",
+                                        style:
+                                            Styles.circularStdMedium(context),
+                                      ))
+                                    : const Center(
+                                        child: CircularProgressIndicator(
+                                          color: AppColors.primaryColor,
+                                        ),
+                                      );
+                          },
+                          valueListenable: InboxControllers.chatDetailData,
                         ),
                       ),
+                      75.y,
                     ],
                   ),
+                ),
+              ],
+            ),
 
-                  /// Message text field send message
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    left: 0,
-                    child: ValueListenableBuilder(
-                      builder: (context, blockedState, ss) {
-                        print("${blockedState}blockedState");
-                        return blockedState == false ? Padding(
+            /// Message text field send message
+            Positioned(
+              bottom: 0,
+              right: 0,
+              left: 0,
+              child: ValueListenableBuilder(
+                builder: (context, blockedState, ss) {
+                  print("${blockedState}blockedState");
+                  return blockedState == false
+                      ? Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 24.0),
                           child: Container(
                             height: allFiles != null && allFiles!.isNotEmpty
@@ -505,76 +476,78 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                                 : 80.h,
                             width: 1.sw,
                             decoration: BoxDecoration(
-
                               border: Border.all(
-                                  color: allFiles.isNotEmpty ? AppColors
-                                      .borderColor : Colors.transparent,
+                                  color: allFiles.isNotEmpty
+                                      ? AppColors.borderColor
+                                      : Colors.transparent,
                                   width: 2),
                               borderRadius: BorderRadius.circular(20),
                               // color: AppColors.borderColor,
-
                             ),
                             child: Column(
                               children: [
-                                allFiles.isNotEmpty ?
-                                SizedBox(
-                                  height: 120.h,
-                                  width: 1.sw,
-
-                                  child: ListView.separated(
-                                   // shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: allFiles.length,
-                                    itemBuilder: (context, index) {
-                                      return DisplayFileImageChat(
-                                        fileImage: allFiles[index].path
-                                            .toString(),
-                                        fullFile: allFiles[index],
-
-                                        onDeleteTap: () {
-                                          setState(() {
-                                            if (validImageExt.contains(
-                                                allFiles[index].extension
-                                                    ?.toLowerCase())) {
-                                              images?.remove(allFiles[index]);
-                                            }
-                                            // if(   allFiles?[index].path!.contains("thumbnail")==true)
-                                            // {
-                                            //   videos?.remove(allFiles![index]);
-                                            // }
-                                            if (validDocExt.contains(
-                                                allFiles[index].extension
-                                                    ?.toLowerCase())) {
-                                              docs?.remove(allFiles[index]);
-                                            }
-                                            allFiles.removeAt(index);
-                                            // actualFiles.removeAt(index);
-                                            //image = [];
-                                          });
-                                        },
-                                      );
-                                    },
-                                    separatorBuilder: (BuildContext context,
-                                        int index) {
-                                      return SizedBox(
-                                        width: 5.sp,
-                                      );
-                                    },
-                                  ),
-                                )
+                                allFiles.isNotEmpty
+                                    ? SizedBox(
+                                        height: 120.h,
+                                        width: 1.sw,
+                                        child: ListView.separated(
+                                          // shrinkWrap: true,
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: allFiles.length,
+                                          itemBuilder: (context, index) {
+                                            return DisplayFileImageChat(
+                                              fileImage: allFiles[index]
+                                                  .path
+                                                  .toString(),
+                                              fullFile: allFiles[index],
+                                              onDeleteTap: () {
+                                                setState(() {
+                                                  if (validImageExt.contains(
+                                                      allFiles[index]
+                                                          .extension
+                                                          ?.toLowerCase())) {
+                                                    images?.remove(
+                                                        allFiles[index]);
+                                                  }
+                                                  // if(   allFiles?[index].path!.contains("thumbnail")==true)
+                                                  // {
+                                                  //   videos?.remove(allFiles![index]);
+                                                  // }
+                                                  if (validDocExt.contains(
+                                                      allFiles[index]
+                                                          .extension
+                                                          ?.toLowerCase())) {
+                                                    docs?.remove(
+                                                        allFiles[index]);
+                                                  }
+                                                  allFiles.removeAt(index);
+                                                  // actualFiles.removeAt(index);
+                                                  //image = [];
+                                                });
+                                              },
+                                            );
+                                          },
+                                          separatorBuilder:
+                                              (BuildContext context,
+                                                  int index) {
+                                            return SizedBox(
+                                              width: 5.sp,
+                                            );
+                                          },
+                                        ),
+                                      )
                                     : const SizedBox(),
-
                                 CustomTextFieldWithOnTap(
                                   filledColor: AppColors.borderColor,
                                   focusNode: focusNode,
-                                  isBorderRequired: allFiles != null &&
-                                      allFiles!.isNotEmpty ? false : true,
+                                  isBorderRequired:
+                                      allFiles != null && allFiles!.isNotEmpty
+                                          ? false
+                                          : true,
                                   prefixIcon: GestureDetector(
-
                                       onTap: () async {
                                         showPickerCustomBottomSheet(
-                                            context, actualFiles
-                                        );
+                                            context, actualFiles);
                                       },
                                       child: SvgPicture.asset(
                                           'assets/images/attach.svg')),
@@ -591,88 +564,97 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                                   controller: message,
                                   hintText: 'Message',
                                   textInputType: TextInputType.text,
-
                                 ),
                               ],
                             ),
                           ),
                         )
-                            :
-                        ValueListenableBuilder(
+                      : ValueListenableBuilder(
                           builder: (context, blockedString, fg) {
                             return Container(
                               width: 1.sw,
                               height: 80,
                               padding: EdgeInsets.symmetric(horizontal: 24.sp),
-                              child: AppText(blockedString,
-                                style: Styles.circularStdRegular(
-                                    context, fontSize: 14),),
-
+                              child: AppText(
+                                blockedString,
+                                style: Styles.circularStdRegular(context,
+                                    fontSize: 14),
+                              ),
                             );
-                          }, valueListenable: InboxControllers.blockedString,
+                          },
+                          valueListenable: InboxControllers.blockedString,
                         );
-                      }, valueListenable: InboxControllers.blockedStatus,
-                    ),
-                  ),
-                  ///typing text
-                  Positioned(
-                      bottom: 120,
-                      //top: 0,
-                      left: 30,
-                      right: 0,
-                      child: ValueListenableBuilder(
-                        builder: (context, typingState, ss) {
-                          return AppText(typingState ? "Typing..." : "",
-                            style: Styles.circularStdRegular(context),);
-                        }, valueListenable: InboxControllers.typingStatus,
-                      )),
-
-                  ///loader
-                  Positioned(
-
-                      top: 0,
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: isLoading == true ? const Center(
-                        child: CircularProgressIndicator(
-                          color: AppColors.primaryColor,),) : const Stack()
-
-
-                  ),
-
-                  ///scroll container  scroll indicator
-                  Positioned(
-                      bottom: 100,
-                      right: 27,
-                      child: ValueListenableBuilder(
-                        builder: (context, scrollData, ss) {
-                          return scrollData == true ? GestureDetector(
-
-                            onTap: () {
-                              _scrollController.animateTo(_scrollController
-                                  .position.maxScrollExtent + 400,
-                                  duration: const Duration(milliseconds: 500),
-                                  curve: Curves.bounceInOut);
-                            },
-                            child: Container(height: 30,
-                              width: 30,
-                              decoration: const BoxDecoration(shape: BoxShape
-                                  .circle, color: AppColors.whiteColor),
-
-                              child: const Center(child: Icon(
-                                Icons.keyboard_double_arrow_down_outlined,
-                                color: AppColors.primaryColor,)),
-                            ),
-                          ) : const Stack();
-                        },
-                        valueListenable: InboxControllers.scrollDownNotifier,
-                      ))
-                ],
+                },
+                valueListenable: InboxControllers.blockedStatus,
               ),
             ),
 
-        ));
+            ///typing text
+            Positioned(
+                bottom: 120,
+                //top: 0,
+                left: 30,
+                right: 0,
+                child: ValueListenableBuilder(
+                  builder: (context, typingState, ss) {
+                    return AppText(
+                      typingState ? "Typing..." : "",
+                      style: Styles.circularStdRegular(context),
+                    );
+                  },
+                  valueListenable: InboxControllers.typingStatus,
+                )),
+
+            ///loader
+            Positioned(
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: isLoading == true
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors.primaryColor,
+                        ),
+                      )
+                    : const Stack()),
+
+            ///scroll container  scroll indicator
+            Positioned(
+                bottom: 100,
+                right: 27,
+                child: ValueListenableBuilder(
+                  builder: (context, scrollData, ss) {
+                    return scrollData == true
+                        ? GestureDetector(
+                            onTap: () {
+                              _scrollController.animateTo(
+                                  _scrollController.position.maxScrollExtent +
+                                      400,
+                                  duration: const Duration(milliseconds: 500),
+                                  curve: Curves.bounceInOut);
+                            },
+                            child: Container(
+                              height: 30,
+                              width: 30,
+                              decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: AppColors.whiteColor),
+                              child: const Center(
+                                  child: Icon(
+                                Icons.keyboard_double_arrow_down_outlined,
+                                color: AppColors.primaryColor,
+                              )),
+                            ),
+                          )
+                        : const Stack();
+                  },
+                  valueListenable: InboxControllers.scrollDownNotifier,
+                ))
+          ],
+        ),
+      ),
+    ));
   }
 
   ///pick file bottom sheet
@@ -680,163 +662,155 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
     showModalBottomSheet(
       backgroundColor: AppColors.primaryColor,
       context: context,
-      builder: (context) =>
-          Container(
-            height: 150.0, // Adjust height as needed
-            decoration: BoxDecoration(
-              color: AppColors.lightGraphColor
-              ,
-              borderRadius: BorderRadius.circular(16.0),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  // Image Circle
-                  InkWell(
-                    onTap: () async {
-                      // Handle image selection
+      builder: (context) => Container(
+        height: 150.0, // Adjust height as needed
+        decoration: BoxDecoration(
+          color: AppColors.lightGraphColor,
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              // Image Circle
+              InkWell(
+                onTap: () async {
+                  // Handle image selection
 
-                      final List<PlatformFile>? filesPicked = await PickFile
-                          .pickMultipleFiles(validImageExt, true);
+                  final List<PlatformFile>? filesPicked =
+                      await PickFile.pickMultipleFiles(validImageExt, true);
 
-
-                      if (filesPicked != null) {
-                        print("in filepickeddd");
-                        for (PlatformFile pf in filesPicked) {
-                          print(pf.extension);
-                          if (validImageExt.contains(pf.extension)) {
-                            print("here");
-                            images?.add(pf);
-                            print(images?.length);
-                            actualFiles.add(pf);
-                          }
-                        }
-                        allFiles = actualFiles;
-                        setState(() {});
-                        Navigator.pop(context);
+                  if (filesPicked != null) {
+                    print("in filepickeddd");
+                    for (PlatformFile pf in filesPicked) {
+                      print(pf.extension);
+                      if (validImageExt.contains(pf.extension)) {
+                        print("here");
+                        images?.add(pf);
+                        print(images?.length);
+                        actualFiles.add(pf);
                       }
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                            padding: const EdgeInsets.all(12.0),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.grey[350],
-                            )
-                            ,
-                            child: const Icon(
-                                Icons.image, color: Colors.black)),
-
-                        AppText("Images", style: Styles.circularStdRegular(
-                            context, fontSize: 12, fontWeight: FontWeight.w500))
-                      ],
-                    ),
-                  ),
-
-                  // Video Circle
-                  InkWell(
-                    onTap: () async {
-                      // Handle image selection
-
-                      final List<PlatformFile>? filesPicked = await PickFile
-                          .pickMultipleFiles(validVideExt, false);
-                      // final  List<PlatformFile> actualFiles =[];
-
-
-                      if (filesPicked != null) {
-                        print("in filepickeddd");
-                        for (PlatformFile pf in filesPicked) {
-                          print(pf.extension);
-                          if (validVideExt.contains(pf.extension)) {
-                            videos?.add(pf);
-                            print("inpicled videoss");
-                            print(videos?.length);
-                            var path = await getThumbnailFromVideo(pf.path
-                                .toString());
-                            PlatformFile? pff = PlatformFile(
-                                name: "thumbnail ${DateTime
-                                    .now()
-                                    .microsecondsSinceEpoch}", size: 10 * 1024 *
-                                3, path: path);
-                            print("actual  path${pff.path}");
-                            actualFiles.add(pff);
-                          }
-                        }
-                        allFiles = actualFiles;
-                        setState(() {});
-                        Navigator.pop(context);
-                      }
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-
-                            padding: const EdgeInsets.all(12.0),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.grey[350],
-                            ),
-                            child: const Icon(
-                                Icons.video_library, color: Colors.black)),
-                        AppText("Videos", style: Styles.circularStdRegular(
-                            context, fontSize: 12, fontWeight: FontWeight.w500))
-                      ],
-                    ),
-                  ),
-
-                  // Document Circle
-                  InkWell(
-                    onTap: () async {
-                      // Handle image selection
-
-                      final List<PlatformFile>? filesPicked = await PickFile
-                          .pickMultipleFiles(validDocExt, false);
-                      // final  List<PlatformFile> actualFiles =[];
-                      List<PlatformFile> actualDocsFiles = [];
-
-
-                      if (filesPicked != null) {
-                        print("in filepickeddd");
-                        for (PlatformFile pf in filesPicked) {
-                          if (validDocExt.contains(pf.extension)) {
-                            docs?.add(pf);
-                            print("docs selected");
-                            print(docs?.length);
-                            actualDocsFiles.add(pf);
-                          }
-                        }
-                        allFiles = actualDocsFiles;
-                        setState(() {});
-                        Navigator.pop(context);
-                      }
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-
-                            padding: const EdgeInsets.all(12.0),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.grey[350],
-                            ),
-                            child: const Icon(
-                                Icons.file_copy_outlined, color: Colors.black)),
-                        AppText("Documents", style: Styles.circularStdRegular(
-                            context, fontSize: 12, fontWeight: FontWeight.w500
-                        ))
-                      ],
-                    ),
-                  ),
-                ],
+                    }
+                    allFiles = actualFiles;
+                    setState(() {});
+                    Navigator.pop(context);
+                  }
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                        padding: const EdgeInsets.all(12.0),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.grey[350],
+                        ),
+                        child: const Icon(Icons.image, color: Colors.black)),
+                    AppText("Images",
+                        style: Styles.circularStdRegular(context,
+                            fontSize: 12, fontWeight: FontWeight.w500))
+                  ],
+                ),
               ),
-            ),
+
+              // Video Circle
+              InkWell(
+                onTap: () async {
+                  // Handle image selection
+
+                  final List<PlatformFile>? filesPicked =
+                      await PickFile.pickMultipleFiles(validVideExt, false);
+                  // final  List<PlatformFile> actualFiles =[];
+
+                  if (filesPicked != null) {
+                    print("in filepickeddd");
+                    for (PlatformFile pf in filesPicked) {
+                      print(pf.extension);
+                      if (validVideExt.contains(pf.extension)) {
+                        videos?.add(pf);
+                        print("inpicled videoss");
+                        print(videos?.length);
+                        var path =
+                            await getThumbnailFromVideo(pf.path.toString());
+                        PlatformFile? pff = PlatformFile(
+                            name:
+                                "thumbnail ${DateTime.now().microsecondsSinceEpoch}",
+                            size: 10 * 1024 * 3,
+                            path: path);
+                        print("actual  path${pff.path}");
+                        actualFiles.add(pff);
+                      }
+                    }
+                    allFiles = actualFiles;
+                    setState(() {});
+                    Navigator.pop(context);
+                  }
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                        padding: const EdgeInsets.all(12.0),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.grey[350],
+                        ),
+                        child: const Icon(Icons.video_library,
+                            color: Colors.black)),
+                    AppText("Videos",
+                        style: Styles.circularStdRegular(context,
+                            fontSize: 12, fontWeight: FontWeight.w500))
+                  ],
+                ),
+              ),
+
+              // Document Circle
+              InkWell(
+                onTap: () async {
+                  // Handle image selection
+
+                  final List<PlatformFile>? filesPicked =
+                      await PickFile.pickMultipleFiles(validDocExt, false);
+                  // final  List<PlatformFile> actualFiles =[];
+                  List<PlatformFile> actualDocsFiles = [];
+
+                  if (filesPicked != null) {
+                    print("in filepickeddd");
+                    for (PlatformFile pf in filesPicked) {
+                      if (validDocExt.contains(pf.extension)) {
+                        docs?.add(pf);
+                        print("docs selected");
+                        print(docs?.length);
+                        actualDocsFiles.add(pf);
+                      }
+                    }
+                    allFiles = actualDocsFiles;
+                    setState(() {});
+                    Navigator.pop(context);
+                  }
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                        padding: const EdgeInsets.all(12.0),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.grey[350],
+                        ),
+                        child: const Icon(Icons.file_copy_outlined,
+                            color: Colors.black)),
+                    AppText("Documents",
+                        style: Styles.circularStdRegular(context,
+                            fontSize: 12, fontWeight: FontWeight.w500))
+                  ],
+                ),
+              ),
+            ],
           ),
+        ),
+      ),
     );
   }
 
@@ -862,10 +836,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
           return File(message!.path!).readAsBytesSync();
         }, element);
 
-        Map<String, dynamic> addDto = {
-          "name": element?.name,
-          "buffer": buffer
-        };
+        Map<String, dynamic> addDto = {"name": element?.name, "buffer": buffer};
         imagesToSend.add(addDto);
       });
       // for (var i in images!) {
@@ -897,10 +868,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
           return File(message!.path!).readAsBytesSync();
         }, element);
 
-        Map<String, dynamic> addDto = {
-          "name": element?.name,
-          "buffer": buffer
-        };
+        Map<String, dynamic> addDto = {"name": element?.name, "buffer": buffer};
         vidToSend.add(addDto);
       });
       // for (var i in images!) {
@@ -931,10 +899,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
           return File(message!.path!).readAsBytesSync();
         }, element);
 
-        Map<String, dynamic> addDto = {
-          "name": element?.name,
-          "buffer": buffer
-        };
+        Map<String, dynamic> addDto = {"name": element?.name, "buffer": buffer};
         docsToSend.add(addDto);
       });
       // for (var i in images!) {
@@ -957,7 +922,6 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
     print("imagesDto length+${imagesToSend.length}");
     print("imagesDto length+${vidToSend.length}");
     print("imagesDto length+${docsToSend.length}");
-
 
     var messageToSend = {
       "sender": Data().user?.user?.id,
@@ -994,18 +958,16 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
           createdAt: DateTime.now()));
       InboxControllers.chatDetailData.notifyListeners();
       InboxRepo.socket?.emit('sendMessageToBusiness', messageToSend);
-    }
-    else if (allFiles.isNotEmpty && message.text.isEmpty) {
+    } else if (allFiles.isNotEmpty && message.text.isEmpty) {
       InboxRepo.socket?.emit('sendMessageToBusiness', messageToSend);
-    }
-
-    else {
+    } else {
       WidgetFunctions.instance.snackBar(context, text: "Can not be Empty");
     }
 
-    message.clear()
-    ;
-    if (images != null || videos != null || docs != null ||
+    message.clear();
+    if (images != null ||
+        videos != null ||
+        docs != null ||
         allFiles.isNotEmpty) {
       images?.clear();
       videos?.clear();
@@ -1013,14 +975,11 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       allFiles.clear();
       actualFiles.clear();
 
-
-      setState(() {
-
-      });
+      setState(() {});
     }
   }
 
-///get thumbnail for vide0
+  ///get thumbnail for vide0
   Future<String> getThumbnailFromVideo(String url) async {
     final fileName = await VideoThumbnail.thumbnailFile(
       video: url,
@@ -1034,30 +993,22 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
 
     String dir = path.dirname(file.path); // Get directory
     String newPath = path.join(dir,
-        'thumbnail_${DateTime
-            .now()
-            .millisecondsSinceEpoch}.jpg'); // Rename
+        'thumbnail_${DateTime.now().millisecondsSinceEpoch}.jpg'); // Rename
     file.renameSync(newPath);
 
     return newPath;
   }
 
-
-///scroll to bottom for first timee
+  ///scroll to bottom for first timee
   void scrollToBottom() {
-    if(initValue==1)
-      {
-    if (_scrollController.hasClients) {
-     // print("in scroll");
-      _scrollController.jumpTo(
+    if (initValue == 1) {
+      if (_scrollController.hasClients) {
+        // print("in scroll");
+        _scrollController.jumpTo(
           _scrollController.position.maxScrollExtent + 1200,
-          ); //immediate scroll
-      initValue=0;
-    }
-
+        ); //immediate scroll
+        initValue = 0;
       }
+    }
   }
 }
-
-
-

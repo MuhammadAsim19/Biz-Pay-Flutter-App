@@ -44,6 +44,7 @@ class _UpdateBusinessDetailsState extends State<UpdateBusinessDetails> {
     employ.add(widget.businessModel!.numberOfEmployes);
     countryList.add(widget.businessModel!.country);
     cityList.add(widget.businessModel!.city);
+    // privance.add(widget.businessModel!.privence);
 
     _assignData();
     // TODO: implement initState
@@ -166,6 +167,11 @@ class _UpdateBusinessDetailsState extends State<UpdateBusinessDetails> {
                                   value: country,
                                   validationText: 'Country Required',
                                   onChanged: (value) {
+                                    privanceName = null;
+                                    privance.clear();
+                                    cityList.clear();
+                                    city = null;
+
                                     context
                                         .read<GetAllCountryCubit>()
                                         .getCountryStates(
@@ -188,8 +194,8 @@ class _UpdateBusinessDetailsState extends State<UpdateBusinessDetails> {
                                   value: privanceName,
                                   validationText: 'Province/State Required',
                                   onChanged: (value) {
-                                    privanceName = value;
-                                    privanceName!.replaceAll('', '');
+                                    cityList.clear();
+                                    city = null;
                                     setState(() {});
 
                                     context
@@ -282,7 +288,8 @@ class _UpdateBusinessDetailsState extends State<UpdateBusinessDetails> {
   }
 
   _assignData() {
-    print("here is Business Description${widget.businessModel!.city}");
+    print("here is Business Privnce Name ${widget.businessModel!.privence}");
+    privanceName = widget.businessModel!.privence;
     city = widget.businessModel!.city;
     country = widget.businessModel!.country;
     employee = widget.businessModel!.numberOfEmployes;

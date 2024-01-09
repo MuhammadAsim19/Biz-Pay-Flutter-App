@@ -18,11 +18,36 @@ class AllBusinessCubit extends Cubit<AllBusinessState> {
     print('cubit call');
 
     try {
-      await AllBusiness.getBusiness().then((value) {
+      await AllBusiness.getBusiness(id: id).then((value) {
         if (value['Success']) {
           List<BusinessModel> business =
               List.from(value["body"].map((e) => BusinessModel.fromJson(e)));
           emit(AllBusinessLoaded(business: business));
+        } else {
+          emit(AllBusinessError(error: value['error']));
+        }
+      }).catchError((e) {
+        emit(AllBusinessError(error: 'Some Thing Wrong'));
+        throw e;
+      });
+    } catch (e) {
+      emit(AllBusinessError(error: e.toString()));
+      rethrow;
+    }
+  }
+
+  getByIdBusiness({String? id}) async {
+    await Future.delayed(Duration.zero);
+
+    emit(AllBusinessLoading());
+
+    print('cubit call');
+
+    try {
+      await AllBusiness.getBusiness(id: id).then((value) {
+        if (value['Success']) {
+          BusinessModel model = BusinessModel.fromJson(value['body']);
+          emit(BusinessByIdLoaded(business: model));
         } else {
           emit(AllBusinessError(error: value['error']));
         }
