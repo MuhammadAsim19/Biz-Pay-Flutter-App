@@ -112,7 +112,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       InboxControllers.blockedStatus.value = status;
       if (status == true) {
         // InboxControllers.blockedStatus.value = true;
-        if (data['blockedUser_id'] != "6579ea61d76f7a30f94f5c80") {
+        if (data['blockedUser_id'] != InboxControllers.chatDetailData.value.receiver.toString()) {
           SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
             InboxControllers.blockedString.value =
                 "Can not Chat You Have Blocked this User";
@@ -171,7 +171,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
         InboxControllers.blockedStatus.value = false;
       }
       if (InboxControllers.chatDetailData.value.blockedUser ==
-          "6579ea61d76f7a30f94f5c80") {
+          chTo.receiver.toString()) {
         SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
           InboxControllers.blockedStatus.value = true;
           InboxControllers.blockedString.value =
