@@ -10,8 +10,6 @@ import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/sign_up.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/BottomNavigation/Controller/BottomNavigationNotifier/bottom_navigation_notifier.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'dottedContainer.dart';
-
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key, this.fcmToken});
 
@@ -31,7 +29,6 @@ class LoginScreen extends StatelessWidget {
         "password": password.text,
         "fcm_token": fcmToken
       };
-
       context.read<LoginCubit>().loginUser(body: body);
     }
   }

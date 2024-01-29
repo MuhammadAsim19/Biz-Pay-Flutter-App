@@ -27,6 +27,7 @@ class AddBusiness extends StatelessWidget {
         return false;
       },
       child: Scaffold(
+        backgroundColor: AppColors.whiteColor,
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           centerTitle: true,
@@ -59,7 +60,7 @@ class AddBusiness extends StatelessWidget {
           ],
         ),
         body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.sp),
+          padding: EdgeInsets.symmetric(horizontal: 20.sp),
           child: Column(
             children: [
               10.y,

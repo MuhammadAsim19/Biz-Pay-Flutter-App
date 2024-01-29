@@ -5,6 +5,7 @@ import 'package:buysellbiz/Data/Services/Notification/notification_meta_data.dar
 import 'package:buysellbiz/Data/Services/Notification/notification_services.dart';
 import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/notification_shimmer.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Components/notification_tile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/notification_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/notification_state.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/read_notification_cubit.dart';
@@ -42,7 +43,7 @@ class _NotificationsState extends State<Notifications> {
               elevation: 0,
               centerTitle: true,
               leading: Padding(
-                padding: EdgeInsets.only(left: 24.0.sp),
+                padding: EdgeInsets.only(left: 20.0.sp),
                 child: const BackArrowWidget(),
               ),
               backgroundColor: AppColors.whiteColor,
@@ -96,106 +97,9 @@ class _NotificationsState extends State<Notifications> {
                                         }
                                         // TODO: implement listener
                                       },
-                                      child: InkWell(
-                                        onTap: () {
-                                          print(state
-                                              .notificationModel![index].id!);
-                                          if (state.notificationModel![index]
-                                                  .isRead !=
-                                              true) {
-                                            context
-                                                .read<ReadNotificationCubit>()
-                                                .readNotification(state
-                                                    .notificationModel![index]
-                                                    .id!);
-                                          }
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.all(15.sp),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.sp),
-                                              color: AppColors.whiteColor,
-                                              border: Border.all(
-                                                  color:
-                                                      AppColors.borderColor)),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              CachedImage(
-                                                  radius: 25.sp,
-                                                  isCircle: true,
-                                                  height: 50.h,
-                                                  width: 50.w,
-                                                  url:
-                                                      "${ApiConstant.baseUrl}${state.notificationModel![index].icon!}"),
-                                              15.x,
-                                              Expanded(
-                                                flex: 10,
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        AppText(
-                                                            state
-                                                                .notificationModel![
-                                                                    index]
-                                                                .type!,
-                                                            style: Styles
-                                                                .circularStdRegular(
-                                                                    context,
-                                                                    fontSize:
-                                                                        12.sp,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400)),
-                                                        const Spacer(),
-                                                        AppText(
-                                                            state
-                                                                .notificationModel![
-                                                                    index]
-                                                                .createdAt!
-                                                                .timeAgo(
-                                                                    numericDates:
-                                                                        false),
-                                                            style: Styles.circularStdRegular(
-                                                                context,
-                                                                fontSize: 12.sp,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                color: AppColors
-                                                                    .greyTextColor)),
-                                                      ],
-                                                    ),
-                                                    5.y,
-                                                    AppText(
-                                                        state
-                                                            .notificationModel![
-                                                                index]
-                                                            .message!,
-                                                        maxLine: 1,
-                                                        style: Styles
-                                                            .circularStdRegular(
-                                                                context,
-                                                                fontSize: 14.sp,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                color: AppColors
-                                                                    .greyTextColor)),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
+                                      child: NotificationTile(
+                                          data:
+                                              state.notificationModel![index]),
                                     );
                                   },
                                   separatorBuilder: (context, index) {

@@ -4,7 +4,7 @@ import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 class CategoryBusiness {
   static Future<Map<String, dynamic>> getCategoryBusiness(String catId) async {
     try {
-      return await ApiService.get("${ApiConstant.categouryBusiness}/$catId")
+      return await ApiService.get("${ApiConstant.categoryBusiness}/$catId")
           .then((value) {
         return value;
       }).catchError((e) {

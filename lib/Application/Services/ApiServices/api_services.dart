@@ -3,38 +3,14 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-//import 'dart:ffi';
-
-import 'package:buysellbiz/Data/AppData/app_preferences.dart';
 import 'package:buysellbiz/Data/AppData/data.dart';
-import 'package:buysellbiz/Domain/User/user_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
-
-import '../../../Data/AppData/user_data.dart';
 
 class ApiService {
-  // static Map<String, String> _authMiddleWare() {
-  //   return {
-  //             'Content-Type': 'application/json',
-  //           };
-  // print(us);
-  //
-  // return us != null
-  //     ? {
-  //         "Authorization": "Bearer $us",
-  //         //'Content-Type': 'application/x-www-form-urlencoded',
-  //         //'Content-Type': 'application/json'
-  //       }
-  //     : {
-  //         'Content-Type': 'application/json',
-  //       };
-  // }
-
   static Future<Map<String, dynamic>> get(String url,
       {Map<String, String>? headers}) async {
-    print(url);
-    print(headers.toString());
+    log(url);
+    log(headers.toString());
 
     try {
       http.Response res = await http.get(
@@ -47,7 +23,6 @@ class ApiService {
       }
       return {"Success": false, "error": res.body, "body": null};
     } on SocketException catch (e) {
-      print('in socet');
       // Handle SocketException here.
       return {
         "Success": false,
@@ -63,55 +38,17 @@ class ApiService {
     }
   }
 
-  // static getCat(String url, {Map<String, String>? header}) async {
-  //   try {
-  //     var request = http.Request('GET', Uri.parse(url));
-  //
-  //     request.headers.addAll(header ?? _authMiddleWare());
-  //
-  //     var response = await request.send().timeout(const Duration(seconds: 30));
-  //
-  //     if (response.statusCode == 200) {
-  //       // print();
-  //       return await response.stream.bytesToString();
-  //     } else if (response.statusCode == 401) {
-  //       print(response.reasonPhrase);
-  //       return 401;
-  //     }
-  //   } on SocketException catch (e) {
-  //     print('in socet');
-  //     // Handle SocketException here.
-  //     return {
-  //       "success": false,
-  //       "error": 'No Internet Connection',
-  //       "status": 30
-  //     };
-  //
-  //     print('SocketException: $e');
-  //     // You can display an error message to the user or perform other actions.
-  //   } on TimeoutException catch (e) {
-  //     print('in timeout');
-  //     // Handle SocketException here.
-  //     return {"success": false, "error": "Time Out", "status": 31};
-  //   } on HttpException catch (e) {
-  //     // Handle HttpException (e.g., invalid URL) here.
-  //     return {"success": false, "error": 'Invalid Request', "status": 32};
-  //   } catch (e) {
-  //     return Future.error(e);
-  //   }
-  // }
-
   static Future<Map<String, dynamic>> post(
       String url, Map<String, dynamic> body,
       {Map<String, String>? header}) async {
     log(url);
 
     try {
-      print("body in the repo ${body.toString()}");
+      log("body in the repo ${body.toString()}");
 
       var data = jsonEncode(body);
 
-      print(data.toString());
+      log(data.toString());
 
       http.Response res = await http
           .post(
@@ -120,7 +57,7 @@ class ApiService {
             body: body,
           )
           .timeout(const Duration(seconds: 30));
-      print("Response ${res.body}");
+      log("Response ${res.body}");
       if (res.statusCode == 200 || res.statusCode == 201) {
         Map<String, dynamic> decode = jsonDecode(res.body);
         return decode;
@@ -132,7 +69,6 @@ class ApiService {
         "body": res.body
       };
     } on SocketException catch (e) {
-      print('in socet');
       // Handle SocketException here.
       return {
         "Success": false,
@@ -503,6 +439,23 @@ class ApiService {
         "error": "${res.statusCode} ${res.reasonPhrase}",
         "body": null
       };
+    } on SocketException catch (e) {
+      print('in socet');
+      // Handle SocketException here.
+      return {
+        "Success": false,
+        "error": 'No Internet Connection',
+        "status": 30
+      };
+
+      // You can display an error message to the user or perform other actions.
+    } on TimeoutException catch (e) {
+      print('in timeout');
+      // Handle SocketException here.
+      return {"Success": false, "error": e.message, "status": 31};
+    } on HttpException catch (e) {
+      // Handle HttpException (e.g., invalid URL) here.
+      return {"Success": false, "error": e.message, "status": 32};
     } catch (e) {
       return Future.error(e);
     }

@@ -52,6 +52,6 @@ class SharedPrefs {
   }
 
   static clearUserData() async {
-    _preferences!.clear();
+    await _preferences!.clear();
   }
 }

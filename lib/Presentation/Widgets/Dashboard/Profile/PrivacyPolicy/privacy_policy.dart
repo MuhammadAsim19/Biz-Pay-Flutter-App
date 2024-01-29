@@ -32,9 +32,6 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
         ),
         body: BlocConsumer<PrivacyPolicyCubit, PrivacyPolicyState>(
           listener: (context, state) {
-            if (state is PrivacyPolicyLoading) {
-              LoadingDialog.showLoadingDialog(context);
-            }
             if (state is PrivacyPolicyError) {
               Navigator.pop(context);
               WidgetFunctions.instance.snackBar(context,
@@ -42,9 +39,6 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
             }
             if (state is PrivacyPolicyLoaded) {
               Navigator.pop(context);
-              WidgetFunctions.instance.snackBar(context,
-                  bgColor: AppColors.primaryColor,
-                  text: "PrivacyPolicy Successfully");
             }
           },
           builder: (context, state) {
@@ -70,7 +64,10 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                       );
                     })
                 : state is PrivacyPolicyLoading
-                    ? const SavedLoading()
+                    ? const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.0),
+                        child: SavedLoading(),
+                      )
                     : state is PrivacyPolicyError
                         ? Center(
                             child: AppText(

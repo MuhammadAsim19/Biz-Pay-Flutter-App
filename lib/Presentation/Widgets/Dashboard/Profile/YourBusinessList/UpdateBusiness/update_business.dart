@@ -40,6 +40,7 @@ class _UpdateBusinessState extends State<UpdateBusiness> {
         }
       },
       child: Scaffold(
+        backgroundColor: AppColors.whiteColor,
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           centerTitle: true,
@@ -72,7 +73,7 @@ class _UpdateBusinessState extends State<UpdateBusiness> {
           ],
         ),
         body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.sp),
+          padding: EdgeInsets.symmetric(horizontal: 20.sp),
           child: Column(
             children: [
               10.y,

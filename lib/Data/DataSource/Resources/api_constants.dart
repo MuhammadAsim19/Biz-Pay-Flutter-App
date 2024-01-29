@@ -1,15 +1,18 @@
 class ApiConstant {
-  static String baseUrl = 'http://192.168.1.11:9000';
+  // static String baseUrl = 'http://192.168.1.12:8000';
+
+  static String baseUrl = 'http://18.118.10.44:8000'; // Aws Url
   static String login = "$baseUrl/api/user/login";
   static String signUp = "$baseUrl/api/user/register";
-  static String socketBase = "192.168.1.11:9000";
+  static String socketBase = "192.168.1.12:8000";
   static String socialLoginUrl = '$baseUrl/api/user/continue_with_google';
   static String forgetEmail = '$baseUrl/api/user/forget_password/check_user';
   static String verifyOtp = '$baseUrl/api/user/forget_password/validate_otp';
   static String setPassword =
       '$baseUrl/api/user/forget_password/request_change_password';
   static String blockUser = "$baseUrl/block_user";
-  static String createBusinessUrl = "$baseUrl/createBusinessConversation";
+  static String createBusinessChatUrl = "$baseUrl/createBusinessConversation";
+  static String createBrokerChatUrl = "$baseUrl/createBrokerConversation";
 
   // static String blockUser = "$baseUrl/block_user";
   // static String createBusinessUrl = "$baseUrl/createBusinessConversation";
@@ -41,7 +44,8 @@ class ApiConstant {
   static String updateProfile = "$baseUrl/api/user/update_user/";
   static String privacyPolicy = "$baseUrl/api/privacy_and_terms";
   static String getAllNotification = "$baseUrl/api/user/getAllNotification";
-  static String categouryBusiness = "$baseUrl/api/business/filterByCategory";
+  static String categoryBusiness = "$baseUrl/api/business/filterByCategory";
   static String readNotification = "$baseUrl/api/user/readNotification";
   static String updateBusiness = "$baseUrl/api/business/update";
+  static String deleteBusiness = "$baseUrl/api/business/delete";
 }

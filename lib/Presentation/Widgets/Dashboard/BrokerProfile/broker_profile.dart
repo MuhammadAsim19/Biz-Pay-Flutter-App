@@ -3,6 +3,7 @@ import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/Brokers/broker_list_model.dart';
 import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_navigation.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Brokers/broker_by_id_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Brokers/brokers_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -243,6 +244,8 @@ class _BrokerProfileState extends State<BrokerProfile> {
                               width: 300.w,
                               height: 40.h,
                               onTap: () {
+                                ChatNavigation.initChatWithBroker(context,
+                                    model?.userInfo!.id ?? "", model?.id ?? "");
                                 // Navigate.to(
                                 //     context,
                                 //     ChatDetailsScreen(

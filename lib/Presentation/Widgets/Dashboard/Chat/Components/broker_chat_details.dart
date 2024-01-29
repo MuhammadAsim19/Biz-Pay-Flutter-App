@@ -19,16 +19,17 @@ import 'package:path/path.dart' as path;
 
 import 'message_container.dart';
 
-class ChatDetailsScreen extends StatefulWidget with ChangeNotifier {
-  ChatDetailsScreen({super.key, this.chatDto});
+class BrokerChatDetailsScreen extends StatefulWidget with ChangeNotifier {
+  BrokerChatDetailsScreen({super.key, this.chatDto});
 
   final ChatTileApiModel? chatDto;
 
   @override
-  State<ChatDetailsScreen> createState() => _ChatDetailsScreenState();
+  State<BrokerChatDetailsScreen> createState() =>
+      _BrokerChatDetailsScreenState();
 }
 
-class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
+class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
   final TextEditingController message = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
@@ -78,7 +79,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       "userId": Data().user?.user?.id,
 
       ///from shared prefs
-      "businessConversationId": widget.chatDto?.id
+      "brokerConversationId": widget.chatDto?.id
       // "brokerConversationId": widget.chatDto?.id
 
       ///from chatDto
@@ -134,21 +135,18 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       // InboxControllers.blockedStatus.notifyListeners();
     });
 
-    InboxRepo.socket!.emit('getBusinessChatDetails', dataGet);
+    InboxRepo.socket!.emit('getBrokerChatDetails', dataGet);
     InboxRepo.socket?.onError((e) {
       //  print(e);
     });
     InboxRepo.socket?.on('error', (data) {
-      // print("There is error ");
-      WidgetFunctions.instance.snackBar(context, text: data);
+      // WidgetFunctions.instance.snackBar(context, text: data);
       //print(data);
     });
 
-    print("Called ");
-
     ///full chat listener first time
-    InboxRepo.socket!.on('businessChatDetails', (data) {
-      print("bizness details");
+    InboxRepo.socket!.on('brokerChatDetails', (data) {
+      print("chat details");
       print(data);
 
       ChatTileApiModel chTo = ChatTileApiModel.fromJson(data);
@@ -187,7 +185,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
     });
 
     ///new message to  chat
-    InboxRepo.socket?.on("newMessageToBusiness", (data) {
+    InboxRepo.socket?.on("newMessageToBroker", (data) {
       //print("new message listener ");
       Message newMessageDto = Message.fromJson(data);
       //InboxControllers.chatDetailData.value.messages?.clear();
@@ -250,7 +248,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
   @override
   void dispose() {
     // TODO: implement dispose
-    InboxRepo.socket?.off("newMessageToBusiness");
+    InboxRepo.socket?.off("newMessageToBroker");
     InboxControllers.typingStatus.value = false;
     focusNode.dispose();
     _scrollController.dispose();
@@ -352,6 +350,8 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                       Expanded(
                         child: ValueListenableBuilder(
                           builder: (context, chatState, ss) {
+                            print("satege adbaj${chatState.messages}");
+
                             //List<Message>? messages =[];
                             var elements = [];
                             if (chatState.messages != null &&
@@ -375,7 +375,8 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                                     chatState.messages!.isNotEmpty
                                 ? FutureBuilder(
                                     builder: (context, dd) {
-                                      print("future isbuilding---");
+                                      print(
+                                          "future building---${dd.connectionState}");
                                       if (dd.connectionState ==
                                           ConnectionState.done) {
                                         scrollToBottom();
@@ -442,11 +443,18 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                                         style:
                                             Styles.circularStdMedium(context),
                                       ))
-                                    : const Center(
-                                        child: CircularProgressIndicator(
-                                          color: AppColors.primaryColor,
-                                        ),
-                                      );
+                                    : chatState.messages == null
+                                        ? Center(
+                                            child: AppText(
+                                            "No New Messages",
+                                            style: Styles.circularStdMedium(
+                                                context),
+                                          ))
+                                        : const Center(
+                                            child: CircularProgressIndicator(
+                                              color: AppColors.primaryColor,
+                                            ),
+                                          );
                           },
                           valueListenable: InboxControllers.chatDetailData,
                         ),
@@ -926,7 +934,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       "sender": Data().user?.user?.id,
       "receiver": InboxControllers.chatDetailData.value.receiver.toString(),
       //"receiver" : "6579f21c00996aa38f7c7a2b",
-      "businessConversationId": widget.chatDto?.id,
+      "brokerConversationId": widget.chatDto?.id,
       "content": message.text,
       "images": images != null ? imagesToSend : [],
       "videos": videos != null ? vidToSend : [],
@@ -956,9 +964,9 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
           content: message.text,
           createdAt: DateTime.now()));
       InboxControllers.chatDetailData.notifyListeners();
-      InboxRepo.socket?.emit('sendMessageToBusiness', messageToSend);
+      InboxRepo.socket?.emit('sendMessageToBroker', messageToSend);
     } else if (allFiles.isNotEmpty && message.text.isEmpty) {
-      InboxRepo.socket?.emit('sendMessageToBusiness', messageToSend);
+      InboxRepo.socket?.emit('sendMessageToBroker', messageToSend);
     } else {
       WidgetFunctions.instance.snackBar(context, text: "Can not be Empty");
     }

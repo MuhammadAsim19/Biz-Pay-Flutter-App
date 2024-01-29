@@ -103,6 +103,7 @@ class _CustomTextFieldWithOnTapState extends State<CustomTextFieldWithOnTap> {
               : Container(),
           Container(
             height: null,
+            width: MediaQuery.sizeOf(context).width * 0.9 - 8,
             decoration: BoxDecoration(
               boxShadow: widget.isShadowRequired! ? [AppShadow.normal()] : [],
               //border:Border.all(color: AppColors.lightGreyColor)
@@ -183,9 +184,9 @@ class _CustomTextFieldWithOnTapState extends State<CustomTextFieldWithOnTap> {
 
                 ///changess
                 contentPadding: widget.contentPadding ??
-                    const EdgeInsets.symmetric(
-                      vertical: 15,
-                      horizontal: 12,
+                    EdgeInsets.symmetric(
+                      vertical: 13.sp,
+                      horizontal: 12.sp,
                     ).r,
                 focusedErrorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(

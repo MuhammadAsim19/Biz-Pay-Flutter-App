@@ -95,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String fullName = Data.app.user!.user!.fullName ?? '';
+    String fullName = Data.app.user?.user?.fullName ?? '';
 
     return Scaffold(
       body: Column(

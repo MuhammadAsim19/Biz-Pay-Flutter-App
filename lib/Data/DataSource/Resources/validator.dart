@@ -6,11 +6,11 @@ class Validate {
     } else if (val.length < 6) {
       return 'Password must be at least 6 characters';
     } else if (!_containsUpperCase(val)) {
-      return 'Password must contain at least one uppercase letter';
+      return 'Password must contain one uppercase letter';
     } else if (!_containsNumber(val)) {
-      return 'Password must contain at least one number';
+      return 'Password must contain one number';
     } else if (!_containsSpecialCharacter(val)) {
-      return 'Password must contain at least one special character';
+      return 'Password must contain one special character';
     }
     return null;
   }
@@ -112,11 +112,9 @@ class Validate {
   static String? phone(String? val) {
     if (val!.isEmpty) {
       return 'Provide a phone number';
+    } else if (val.length < 8) {
+      return 'Length must be greater than 8';
     }
-    else if(val.length < 8)
-      {
-        return 'Length must be greater than 8';
-      }
     return null;
   }
 

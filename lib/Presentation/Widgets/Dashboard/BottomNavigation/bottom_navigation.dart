@@ -62,7 +62,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
     });
     AppInitializer.init();
     BottomNotifier.bottomPageController =
-        new PageController(initialPage: widget.initialPage ?? 0);
+        PageController(initialPage: widget.initialPage ?? 0);
     //BottomNotifier.bottomNavigationNotifier.value=widget.initialPage??0;
     BottomNotifier.checkExitTimes.value = 2;
     // TODO: implement initState

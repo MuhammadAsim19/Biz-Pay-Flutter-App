@@ -42,11 +42,26 @@ class InboxRepo {
     }
   }
 
-  Future<Map<String, dynamic>> createBuissness(
+  Future<Map<String, dynamic>> createBusiness(
       {required Map<String, dynamic> body}) async {
     try {
-      print("base crlf ${ApiConstant.createBusinessUrl}");
-      return await ApiService.post(ApiConstant.createBusinessUrl, body)
+      print("base crlf ${ApiConstant.createBusinessChatUrl}");
+      return await ApiService.post(ApiConstant.createBusinessChatUrl, body)
+          .then((value) {
+        return value;
+      }).catchError((e) {
+        throw e;
+      });
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> createBrokerChat(
+      {required Map<String, dynamic> body}) async {
+    try {
+      print("base crlf ${ApiConstant.createBrokerChatUrl}");
+      return await ApiService.post(ApiConstant.createBrokerChatUrl, body)
           .then((value) {
         return value;
       }).catchError((e) {

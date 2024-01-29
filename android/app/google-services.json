@@ -12,7 +12,20 @@
           "package_name": "com.buysellbiz.application.buysellbiz"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "163127970961-b0tbogb44p253lpmji2fe12vgh99erpv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.buysellbiz.application.buysellbiz",
+            "certificate_hash": "4b7b25e100250a13097799c8a755834aea83d6d1"
+          }
+        },
+        {
+          "client_id": "163127970961-51u8vo9ksg0kr0fnqjd7blvf2h1od1p8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCTJHynjIYRnQ4H5eab0hE0TcEVIYNxCNw"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "163127970961-51u8vo9ksg0kr0fnqjd7blvf2h1od1p8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

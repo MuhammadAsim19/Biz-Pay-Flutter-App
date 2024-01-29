@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
+import 'package:buysellbiz/Data/AppData/app_preferences.dart';
 import 'package:buysellbiz/Data/DataSource/Repository/Auth/sign_up_repo.dart';
+import 'package:buysellbiz/Domain/User/user_model.dart';
 import 'package:meta/meta.dart';
 
 part '../State/sign_up_state.dart';
@@ -13,8 +15,13 @@ class SignUpCubit extends Cubit<SignUpState> {
     emit(SignUpLoading());
 
     try {
-      await SignUpRepo.signUp(body: body).then((value) {
+      await SignUpRepo.signUp(body: body).then((value) async {
         if (value['Success'] == true) {
+          UserModel userData = UserModel.fromJson((value['body']));
+
+          await SharedPrefs.setUserLoginData(userRawData: userData);
+          await SharedPrefs.setLoginToken(value['body']['token']);
+
           emit(SignUpLoaded());
         } else {
           emit(SignUpError(error: value['error']));

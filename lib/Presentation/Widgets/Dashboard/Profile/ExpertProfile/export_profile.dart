@@ -33,7 +33,7 @@ class _ExportProfileState extends State<ExportProfile> {
   List services = ['Capital Raising', "IPO Advisory", 'Social Marketing'];
 
   List country = [];
-  List privance = [];
+  List stateList = [];
   List cityList = [];
 
   List industry = ['Automobile', "Education", 'Finance'];
@@ -47,27 +47,37 @@ class _ExportProfileState extends State<ExportProfile> {
     'Business Marketing'
   ];
 
-  List<String?> industryItem = [];
+  Map validate = {
+    "country": null,
+    "city": null,
+    "state": null,
+    "image": null,
+  };
 
-  List<String> educationCertificates = [];
-
-  List<String> servicesList = [];
+  List<String?> selectedIndustryItems = [];
+  List<String> selectedCertificates = [];
+  List<String> selectedServices = [];
 
   bool industryItemValid = false;
   bool educationCertificateValid = false;
   bool servicesListValid = false;
-
   bool imageValidator = false;
+
+  // bool stateValidation = false;
+  // bool countryValidation = false;
+  // bool cityValidation = false;
 
   String? countryName;
   String? cityVal;
 
-  String? profesionVal;
+  String? countryNameForPassing;
+
+  String? professionVal;
   String? cityName;
   String? yearsOfExpr;
   String? indus;
   String? service;
-  String? privanceName;
+  String? stateName;
 
   String? image;
 
@@ -80,7 +90,7 @@ class _ExportProfileState extends State<ExportProfile> {
     context.read<BusinessCategoryCubit>().getCategory();
     context.read<GetAllCountryCubit>().getCountry();
 
-    emailController.text = data!.user?.email! ?? "malik@gmail.com";
+    emailController.text = data?.user?.email! ?? "malik@gmail.com";
     // TODO: implement initState
     super.initState();
   }
@@ -191,10 +201,10 @@ class _ExportProfileState extends State<ExportProfile> {
                         return DropdownMenuItem(value: e, child: Text(e));
                       }).toList(),
                       hintText: 'Profession',
-                      value: profesionVal,
+                      value: professionVal,
                       validationText: 'Profession Required',
                       onChanged: (value) {
-                        profesionVal = value;
+                        professionVal = value;
                         setState(() {});
                       },
                     ),
@@ -219,7 +229,7 @@ class _ExportProfileState extends State<ExportProfile> {
                     MultiItemPicker(
                       validationText: 'Service Required',
                       onChange: (list) {
-                        servicesList = list;
+                        selectedServices = list;
                         setState(() {});
                       },
                       hintText: 'Select services',
@@ -251,7 +261,7 @@ class _ExportProfileState extends State<ExportProfile> {
                           return MultiItemPickerForCateg(
                             validationText: 'Industry Required',
                             onChange: (list, val) {
-                              industryItem = val;
+                              selectedIndustryItems = val;
                               setState(() {});
                             },
                             hintText: 'Category',
@@ -286,13 +296,11 @@ class _ExportProfileState extends State<ExportProfile> {
                     15.y,
                     BlocConsumer<GetAllCountryCubit, GetAllCountryState>(
                       listener: (context, state) {
-                        print(state);
                         if (state is GetAllCountryLoaded) {
-                          print("in listener${state.country}");
                           country = state.country!;
                         }
                         if (state is GetAllCountryStateLoaded) {
-                          privance = state.states!;
+                          stateList = state.states!;
                         }
                         if (state is GetAllCountryCityLoaded) {
                           cityList = state.city!;
@@ -301,70 +309,71 @@ class _ExportProfileState extends State<ExportProfile> {
                           WidgetFunctions.instance.showErrorSnackBar(
                               context: context, error: state.error);
                         }
+                        if (state is CityAndStateError) {
+                          WidgetFunctions.instance.showErrorSnackBar(
+                              context: context, error: state.error);
+                        }
                         // TODO: implement listener
                       },
                       builder: (context, state) {
                         return Column(
                           children: [
-                            CustomDropDownWidget(
-                              isBorderRequired: true,
-                              hMargin: 0,
-                              vMargin: 0,
-                              itemsMap: country.map((e) {
-                                return DropdownMenuItem(
-                                    value: e, child: Text(e));
+                            DropDownField(
+                              // value: countryName,
+                              // isBorderRequired: true,
+                              // hMargin: 0,
+                              // vMargin: 0,
+                              items: country.map((e) {
+                                return DropItem(
+                                  value: e,
+                                  label: e,
+                                );
                               }).toList(),
-                              hintText: 'Country',
-                              value: countryName,
-                              validationText: 'Country Required',
-                              onChanged: (value) {
+                              color: Colors.white,
+                              hints: 'Country',
+
+                              // hintText: 'Country',
+                              // value: countryName,
+                              errorText: validate['country'],
+                              onSelected: (value) {
+                                countryName = value;
+                                countryNameForPassing =
+                                    value.replaceAll(' ', '');
                                 context
                                     .read<GetAllCountryCubit>()
                                     .getCountryStates(
-                                        state: value, city: false);
-
-                                countryName = value;
+                                        countryName: countryName,
+                                        state: value,
+                                        city: false);
                                 setState(() {});
                               },
                             ),
-                            10.y,
-                            CustomDropDownWidget(
-                              isBorderRequired: true,
-                              hMargin: 0,
-                              vMargin: 0,
-                              itemsMap: privance.map((e) {
-                                return DropdownMenuItem(
-                                    value: e, child: Text(e));
+                            DropDownField(
+                              items: stateList.map((e) {
+                                return DropItem(value: e, label: e);
                               }).toList(),
-                              hintText: 'Province/State',
-                              value: privanceName,
-                              validationText: 'Province/State Required',
-                              onChanged: (value) {
-                                privanceName = value;
-                                privanceName!.replaceAll('', '');
+                              hints: 'Province/State',
+                              errorText: validate['state'],
+                              onSelected: (value) {
+                                stateName = value;
+                                // String modifiedText = value.replaceAll(' ', '');
                                 setState(() {});
 
                                 context
                                     .read<GetAllCountryCubit>()
                                     .getCountryStates(
                                         countryName: countryName,
-                                        state: value,
+                                        state: stateName,
                                         city: true);
                               },
                             ),
-                            10.y,
-                            CustomDropDownWidget(
-                              isBorderRequired: true,
-                              hMargin: 0,
-                              vMargin: 0,
-                              itemsMap: cityList.map((e) {
-                                return DropdownMenuItem(
-                                    value: e, child: Text(e));
+                            DropDownField(
+                              items: cityList.map((e) {
+                                return DropItem(value: e, label: e);
                               }).toList(),
-                              hintText: 'City',
-                              value: cityName,
-                              validationText: 'City Required',
-                              onChanged: (value) {
+                              hints: 'City',
+                              errorText: validate['city'],
+                              onSelected: (value) {
                                 cityName = value;
                                 setState(() {});
                               },
@@ -373,8 +382,7 @@ class _ExportProfileState extends State<ExportProfile> {
                         );
                       },
                     ),
-
-                    15.y,
+                    5.y,
                     CustomTextFieldWithOnTap(
                         validateText: "Zip Code Required",
                         prefixIcon: SvgPicture.asset(Assets.location),
@@ -390,7 +398,7 @@ class _ExportProfileState extends State<ExportProfile> {
                     MultiItemPicker(
                       validationText: "Education Certificate Required",
                       onChange: (list) {
-                        educationCertificates = list;
+                        selectedCertificates = list;
                       },
                       hintText: 'Education/certificate',
                       getList: education,
@@ -438,18 +446,10 @@ class _ExportProfileState extends State<ExportProfile> {
                 },
                 builder: (context, state) {
                   return CustomButton(
-                    onTap: state is BrokerProfileLoading
-                        ? () {}
-                        : () {
-                            if (_formKey.currentState!.validate()) {
-                              if (image != null) {
-                                _sendData();
-                              } else {
-                                WidgetFunctions.instance.showErrorSnackBar(
-                                    context: context, error: "Image Required");
-                              }
-                            }
-                          },
+                    // onTap: () {
+                    //   print('calling');
+                    // },
+                    onTap: callPublish,
                     text: state is BrokerProfileLoading
                         ? "Loading"
                         : 'Publish profile',
@@ -465,29 +465,61 @@ class _ExportProfileState extends State<ExportProfile> {
     );
   }
 
+  void callPublish() {
+    bool countryValidation = _validate(
+        errorText: 'Country Required', key: "country", val: countryName);
+    bool cityValidation =
+        _validate(errorText: 'City Required', key: "city", val: cityName);
+    bool stateValidation =
+        _validate(errorText: 'State Required', key: "state", val: stateName);
+    if (_formKey.currentState!.validate() &&
+        countryValidation == true &&
+        cityValidation == true &&
+        stateValidation == true) {
+      if (image != null) {
+        _sendData();
+      } else {
+        WidgetFunctions.instance
+            .showErrorSnackBar(context: context, error: "Image Required");
+      }
+    }
+  }
+
+  bool _validate({String? val, String? errorText, String? key}) {
+    if (val != null) {
+      validate[key] = null;
+      setState(() {});
+      return true;
+    } else {
+      validate[key] = errorText;
+      setState(() {});
+      return false;
+    }
+  }
+
   _sendData() {
     // print(industryItem.toString());
 
     var dataMap = {
       "firstName": firstNameController.text.trim(),
       "lastName": lastNameController.text.trim(),
-      "educationAndCertification": jsonEncode(educationCertificates),
+      "educationAndCertification": jsonEncode(selectedCertificates),
       "description": description.text.trim(),
       "website": website.text.trim(),
-      "designation": profesionVal,
+      "designation": professionVal,
       "servingArea": jsonEncode(
         {
           "country": countryName,
-          "state": privanceName,
+          "state": stateName,
           "city": cityName,
           "zipcode": zipCode.text.trim(),
         },
       ),
-      "industries_served": jsonEncode(industryItem),
+      "industries_served": jsonEncode(selectedIndustryItems),
       "experties": jsonEncode({
-        "profession": profesionVal,
+        "profession": professionVal,
         "yearOfExperience": yearsOfExpr,
-        "services_offered": servicesList,
+        "services_offered": selectedServices,
       })
     };
 

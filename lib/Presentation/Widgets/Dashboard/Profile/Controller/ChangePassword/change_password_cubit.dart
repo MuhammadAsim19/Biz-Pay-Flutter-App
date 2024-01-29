@@ -11,7 +11,6 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
 
   changePassword(Map<String, dynamic> body) async {
     await Future.delayed(Duration.zero);
-
     emit(ChangePasswordLoading());
 
     try {

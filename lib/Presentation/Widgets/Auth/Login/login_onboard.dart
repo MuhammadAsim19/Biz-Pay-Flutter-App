@@ -91,7 +91,11 @@ class _LoginOnboardState extends State<LoginOnboard> {
                   isBorderRequired: true,
                   image: 'assets/images/email.svg',
                   onTap: () {
-                    Navigate.to(context, LoginScreen(fcmToken: fcmToken,));
+                    Navigate.to(
+                        context,
+                        LoginScreen(
+                          fcmToken: fcmToken,
+                        ));
                   },
                 ),
                 30.y,
@@ -141,10 +145,9 @@ class _LoginOnboardState extends State<LoginOnboard> {
                       var email = userData!.user?.email;
                       var name = userData!.user?.displayName;
                       var photoUrl = userData!.user?.photoURL;
-                      print(
-                          "${"email" + email.toString() + "name" +
-                              name}photo url:" +
-                              photoUrl);
+                      // print(
+                      //     "${"email" + email.toString() + "name" + name}photo url:" +
+                      //         photoUrl);
                       // sendToSocial(email,name,photoUrl,"apple");
                     }
                   },
@@ -154,35 +157,7 @@ class _LoginOnboardState extends State<LoginOnboard> {
                   textColor: AppColors.whiteColor,
                 ),
                 100.y,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    AppText(AppStrings.registerUS,
-                        style: Styles.circularStdBold(context,
-                            color: AppColors.greyColor)),
-                    5.x,
-                    AppText(AppStrings.appName,
-                        style: Styles.circularStdBold(context,
-                            color: AppColors.blackColor))
-                  ],
-                ),
                 10.y,
-                CustomTextFieldWithOnTap(
-                    controller: changeBaseUrl,
-                    hintText: ApiConstant.baseUrl,
-                    textInputType: TextInputType.text),
-                CustomButton(
-                    onTap: () {
-                      //LoadingDialog.showLoadingDialog(context);
-                      print(changeBaseUrl.text);
-                      setState(() {
-                        ApiConstant.baseUrl = changeBaseUrl.text;
-                      });
-                      WidgetFunctions.instance.snackBar(context,
-                          bgColor: Colors.amber,
-                          text: 'Changed Base Url to ${ApiConstant.baseUrl}');
-                    },
-                    text: "Change BaseUrl")
               ],
             ),
           ),

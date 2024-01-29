@@ -216,12 +216,14 @@ class _UpdatePriceLocationState extends State<UpdatePriceLocation> {
                 }
                 if (state is UpdateBusinessLoaded) {
                   Navigator.pop(context);
+                  Navigator.pop(context);
+                  Navigator.pop(context);
                   // CustomDialog.alertDialog(
                   //   context,
                   //   const AddSuccessDialog(),
                   // );
                   // Future.delayed(const Duration(seconds: 3));
-                  Navigate.toReplace(context, const YourBusiness());
+                  // Navigate.toReplace(context, const YourBusiness());
                 }
                 if (state is UpdateBusinessError) {
                   Navigator.pop(context);
@@ -236,6 +238,8 @@ class _UpdatePriceLocationState extends State<UpdatePriceLocation> {
                   onTap: () {
                     if (_formKey.currentState!.validate()) {
                       _addData();
+                      salePriceController.clear();
+                      finincialDetails.first.values.first.clear();
                     }
                   },
                   textFontWeight: FontWeight.w500,
@@ -281,8 +285,5 @@ class _UpdatePriceLocationState extends State<UpdatePriceLocation> {
         AddBusinessController.addBusiness.value.toJson();
     context.read<UpdateBusinessCubit>().updateBusinessById(
         images: images, data: mapData, bsId: currentModel.id);
-
-    salePriceController.clear();
-    finincialDetails.first.values.first.clear();
   }
 }

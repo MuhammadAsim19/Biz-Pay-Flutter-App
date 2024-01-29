@@ -31,13 +31,21 @@ class _UpdateBusinessDetailsState extends State<UpdateBusinessDetails> {
   AddBusinessModel? model;
   String? employee;
   bool uploadFiles = false;
+
+  Map validate = {
+    "country": null,
+    "city": null,
+    "state": null,
+    "image": null,
+  };
+
   List countryList = [];
-  List privance = [];
+  List stateList = [];
   List cityList = [];
   List employ = ["23", "22", "11", "32"];
-  String? country;
-  String? city;
-  String? privanceName;
+  String? countryName;
+  String? cityName;
+  String? stateName;
 
   @override
   void initState() {
@@ -137,7 +145,7 @@ class _UpdateBusinessDetailsState extends State<UpdateBusinessDetails> {
                               countryList = state.country!;
                             }
                             if (state is GetAllCountryStateLoaded) {
-                              privance = state.states!;
+                              stateList = state.states!;
                             }
                             if (state is GetAllCountryCityLoaded) {
                               cityList = state.city!;
@@ -164,20 +172,20 @@ class _UpdateBusinessDetailsState extends State<UpdateBusinessDetails> {
                                         value: e, child: Text(e));
                                   }).toList(),
                                   hintText: 'Country',
-                                  value: country,
+                                  value: countryName,
                                   validationText: 'Country Required',
                                   onChanged: (value) {
-                                    privanceName = null;
-                                    privance.clear();
+                                    stateName = null;
+                                    stateList.clear();
                                     cityList.clear();
-                                    city = null;
+                                    cityName = null;
 
                                     context
                                         .read<GetAllCountryCubit>()
                                         .getCountryStates(
                                             countryName: value, city: false);
                                     // cityController.text = value;
-                                    country = value;
+                                    countryName = value;
                                     setState(() {});
                                   },
                                 ),
@@ -186,22 +194,22 @@ class _UpdateBusinessDetailsState extends State<UpdateBusinessDetails> {
                                   isBorderRequired: true,
                                   hMargin: 0,
                                   vMargin: 0,
-                                  itemsMap: privance.map((e) {
+                                  itemsMap: stateList.map((e) {
                                     return DropdownMenuItem(
                                         value: e, child: Text(e));
                                   }).toList(),
                                   hintText: 'Province/State',
-                                  value: privanceName,
+                                  value: stateName,
                                   validationText: 'Province/State Required',
                                   onChanged: (value) {
                                     cityList.clear();
-                                    city = null;
+                                    cityName = null;
                                     setState(() {});
 
                                     context
                                         .read<GetAllCountryCubit>()
                                         .getCountryStates(
-                                            countryName: country,
+                                            countryName: countryName,
                                             state: value,
                                             city: true);
                                   },
@@ -216,10 +224,10 @@ class _UpdateBusinessDetailsState extends State<UpdateBusinessDetails> {
                                         value: e, child: Text(e));
                                   }).toList(),
                                   hintText: 'City',
-                                  value: city,
+                                  value: cityName,
                                   validationText: 'City Required',
                                   onChanged: (value) {
-                                    city = value;
+                                    cityName = value;
                                     // cityController.text = value;
                                     setState(() {});
                                   },
@@ -288,11 +296,11 @@ class _UpdateBusinessDetailsState extends State<UpdateBusinessDetails> {
   }
 
   _assignData() {
-    print("here is Business Privnce Name ${widget.businessModel!.privence}");
-    privanceName = widget.businessModel!.privence;
-    city = widget.businessModel!.city;
-    country = widget.businessModel!.country;
-    employee = widget.businessModel!.numberOfEmployes;
+    print("here is Business Privnce Name ${widget.businessModel!.zipcode}");
+    stateName = widget.businessModel?.privence;
+    cityName = widget.businessModel?.city;
+    countryName = widget.businessModel?.country;
+    employee = widget.businessModel?.numberOfEmployes;
     businessNameController.text = widget.businessModel?.name ?? "";
     businessHour.text = widget.businessModel?.businessHour ?? "";
     address.text = widget.businessModel!.address ?? "";
@@ -310,9 +318,9 @@ class _UpdateBusinessDetailsState extends State<UpdateBusinessDetails> {
       businessHour: businessHour.text.trim(),
       address: address.text.trim(),
       zipCode: zipCode.text.trim(),
-      country: country,
-      city: city,
-      state: privanceName,
+      country: countryName,
+      city: cityName,
+      state: stateName,
     );
   }
 }

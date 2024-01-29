@@ -112,10 +112,10 @@ class _VerifyOtpState extends State<VerifyOtp> {
                     onTap: () {
                       if (formKey.currentState!.validate()) {
                         if (time1 == null) {
-                          otpController.clear();
                           context.read<VerifyOtpCubit>().verify(
                               otpController.text.trim(), widget.userID!,
                               loading: false);
+                          otpController.clear();
                         } else {
                           WidgetFunctions.instance.snackBar(context,
                               bgColor: AppColors.primaryColor,

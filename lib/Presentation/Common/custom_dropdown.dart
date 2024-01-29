@@ -36,113 +36,109 @@ class CustomDropDownWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          //color: Colors.transparent,
-          boxShadow: isShadowRequired ? [AppShadow.normal()] : []),
-      padding: EdgeInsets.symmetric(vertical: vMargin, horizontal: hMargin).r,
-      child: ButtonTheme(
-        alignedDropdown: true,
-        child: DropdownButtonFormField(
-          borderRadius: BorderRadius.circular(15),
-          //autovalidateMode: AutovalidateMode.onUserInteraction,
-          menuMaxHeight: dropDownHeight,
-          validator: (value) {
-            if (value == null) {
-              return validationText;
-            } else {
-              return null;
-            }
-          },
-          decoration: InputDecoration(
-            fillColor: Colors.white,
-            filled: true,
-            prefixIconConstraints: BoxConstraints(
-              maxHeight: 50.h,
-              maxWidth: 50.w,
-              minHeight: 20.h,
-              minWidth: 23.w,
-            ),
-            prefixIcon: prefixIcon != null
-                ? Padding(
-                    padding: EdgeInsets.only(left: 15.sp),
-                    child: prefixIcon,
-                  )
-                : null,
-            errorMaxLines: 1,
-            contentPadding: EdgeInsets.only(
-              top: 10,
-              bottom: 15,
-              left: prefixIcon != null ? 8 : 6,
-              right: prefixIcon != null ? 10 : 12,
-            ),
+    return ButtonTheme(
+      alignedDropdown: true,
+      child: DropdownButtonFormField(
+        borderRadius: BorderRadius.circular(15),
+        //autovalidateMode: AutovalidateMode.onUserInteraction,
+        menuMaxHeight: dropDownHeight,
 
-            // EdgeInsets.symmetric(
-            //   vertical: 13,
-            //   horizontal: prefixIcon != null ? 10 : 6,
-            // ).r,
-            hintStyle: Styles.circularStdRegular(
-              context,
-              color: AppColors.blackColor,
-              fontSize: 14.sp,
-            ),
-            errorBorder: isBorderRequired
-                ? OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(borderRadius).r,
-                    borderSide: BorderSide(
-                      color: Colors.red,
-                      width: 0.4.sp,
-                    ))
-                : outlineInputBorder(),
-            enabledBorder: isBorderRequired
-                ? OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(borderRadius).r,
-                    borderSide: BorderSide(
-                      color: AppColors.lightGreyColor,
-                      width: 0.4.sp,
-                    ))
-                : outlineInputBorder(),
-            focusedBorder: isBorderRequired
-                ? OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(borderRadius).r,
-                    borderSide: BorderSide(
-                      color: AppColors.primaryColor,
-                      width: 0.4.sp,
-                    ))
-                : outlineInputBorder(),
-            focusedErrorBorder: isBorderRequired
-                ? OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(borderRadius).r,
-                    borderSide: BorderSide(
-                      width: 0.4.sp,
-                      color: AppColors.lightGreyColor,
-                    ))
-                : outlineInputBorder(),
+        validator: (value) {
+          if (value == null) {
+            return validationText;
+          } else {
+            return null;
+          }
+        },
+        decoration: InputDecoration(
+          fillColor: Colors.white,
+          filled: true,
+          prefixIconConstraints: BoxConstraints(
+            maxHeight: 50.h,
+            maxWidth: 50.w,
+            minHeight: 20.h,
+            minWidth: 23.w,
           ),
-          hint: Text(
-            hintText,
-            style: Styles.circularStdRegular(
-              context,
-              color: AppColors.blackColor,
-              fontSize: 14.sp,
-            ),
+          prefixIcon: prefixIcon != null
+              ? Padding(
+                  padding: EdgeInsets.only(left: 15.sp),
+                  child: prefixIcon,
+                )
+              : null,
+          errorMaxLines: 1,
+          contentPadding: EdgeInsets.only(
+            top: 10,
+            bottom: 15,
+            left: prefixIcon != null ? 8 : 6,
+            right: prefixIcon != null ? 10 : 12,
           ),
-          dropdownColor: Colors.white,
-          icon: Icon(
-            Icons.keyboard_arrow_down,
-            color: AppColors.greyColor,
-          ),
-          iconSize: 28.r,
-          isExpanded: true,
+
+          // EdgeInsets.symmetric(
+          //   vertical: 13,
+          //   horizontal: prefixIcon != null ? 10 : 6,
+          // ).r,
+          hintStyle: Styles.circularStdRegular(context,
+              color: FocusScope.of(context).hasFocus
+                  ? AppColors.lightGreyColor
+                  : AppColors.greyColor,
+              fontSize: Data().textScale > 1.0 ? 12.sp : 15.sp,
+              fontWeight: FontWeight.normal),
+          errorBorder: isBorderRequired
+              ? OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(borderRadius).r,
+                  borderSide: BorderSide(
+                    color: Colors.red,
+                    width: 0.4.sp,
+                  ))
+              : outlineInputBorder(),
+          enabledBorder: isBorderRequired
+              ? OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(borderRadius).r,
+                  borderSide: BorderSide(
+                    color: AppColors.lightGreyColor,
+                    width: 0.4.sp,
+                  ))
+              : outlineInputBorder(),
+          focusedBorder: isBorderRequired
+              ? OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(borderRadius).r,
+                  borderSide: BorderSide(
+                    color: AppColors.primaryColor,
+                    width: 0.4.sp,
+                  ))
+              : outlineInputBorder(),
+          focusedErrorBorder: isBorderRequired
+              ? OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(borderRadius).r,
+                  borderSide: BorderSide(
+                    width: 0.4.sp,
+                    color: AppColors.lightGreyColor,
+                  ))
+              : outlineInputBorder(),
+        ),
+        hint: Text(
+          hintText,
           style: Styles.circularStdRegular(
             context,
-            fontSize: 14.sp,
             color: AppColors.blackColor,
+            fontSize: 14.sp,
           ),
-          value: value,
-          onChanged: onChanged,
-          items: itemsMap,
         ),
+        dropdownColor: Colors.white,
+        icon: Icon(
+          Icons.keyboard_arrow_down,
+          color: AppColors.greyColor,
+        ),
+        iconSize: 28.r,
+        isExpanded: true,
+        style: Styles.circularStdRegular(
+          context,
+          fontSize: 14.sp,
+          color: AppColors.blackColor,
+        ),
+        value: value,
+        onChanged: onChanged,
+        items: itemsMap,
       ),
     );
   }
@@ -282,4 +278,133 @@ class _GeneralizedDropDownState extends State<GeneralizedDropDown> {
       ),
     );
   }
+}
+
+class DropDownField<T> extends StatelessWidget {
+  const DropDownField(
+      {required this.items,
+      super.key,
+      this.controller,
+      required this.hints,
+      this.icon,
+      this.initial,
+      this.onSelected,
+      this.width,
+      this.top = 8,
+      this.errorText,
+      this.title,
+      this.color,
+      this.searchEnable = true,
+      this.borderRadius = 25});
+
+  final List<DropItem<T>> items;
+  final TextEditingController? controller;
+  final String hints;
+  final IconData? icon;
+  final T? initial;
+  final String? title;
+  final void Function(T?)? onSelected;
+  final double? width;
+  final double top;
+  final String? errorText;
+  final Color? color;
+  final bool searchEnable;
+  final double? borderRadius;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          top.y,
+          if (title != null)
+            Padding(
+              padding: const EdgeInsets.only(left: 6, bottom: 6).r,
+              child: AppText(title!,
+                  style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                        fontSize: 13.sp,
+                        color: Colors.white70,
+                        fontWeight: FontWeight.w500,
+                      )),
+            ),
+          DropdownMenu<T>(
+              width: width ?? MediaQuery.sizeOf(context).width * 0.9 - 8,
+              enableFilter: true,
+              controller: controller,
+              hintText: hints,
+              errorText: errorText,
+              onSelected: onSelected,
+              initialSelection: initial,
+              // expandedInsets: EdgeInsets.symmetric(horizontal: 0, vertical: 3),
+              menuStyle: MenuStyle(
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    side: const BorderSide(
+                      color: AppColors.borderColor,
+                    ),
+                    borderRadius: BorderRadius.circular(12.r),
+                  )),
+                  backgroundColor: MaterialStateProperty.all(
+                    color ?? AppColors.whiteColor,
+                  )),
+              textStyle: Styles.circularStdRegular(context,
+                  color: AppColors.blackColor,
+                  fontSize: Data().textScale > 1.0 ? 12.sp : 15.sp,
+                  fontWeight: FontWeight.normal),
+              selectedTrailingIcon: Icon(
+                Icons.keyboard_arrow_down,
+                color: AppColors.greyColor,
+                size: 28.sp,
+              ),
+              trailingIcon: Icon(
+                Icons.keyboard_arrow_down,
+                color: AppColors.greyColor,
+                size: 28.sp,
+              ),
+              requestFocusOnTap: searchEnable,
+              inputDecorationTheme: Theme.of(context)
+                  .inputDecorationTheme
+                  .copyWith(
+                    hintStyle: Styles.circularStdRegular(context,
+                        color: AppColors.blackColor,
+                        fontSize: Data().textScale > 1.0 ? 12.sp : 15.sp,
+                        fontWeight: FontWeight.normal),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 20),
+                    enabledBorder:
+                        outlineInputBorder(color: AppColors.blackColor),
+                    focusedBorder:
+                        outlineInputBorder(color: AppColors.primaryColor),
+                    errorBorder: outlineInputBorder(color: Colors.red),
+                    focusedErrorBorder: outlineInputBorder(color: Colors.red),
+                  ),
+              dropdownMenuEntries: items
+                  .map((e) =>
+                      DropdownMenuEntry<T>(value: e.value, label: e.label))
+                  .toList()),
+        ],
+      ),
+    );
+  }
+
+  OutlineInputBorder outlineInputBorder({Color? color}) {
+    return OutlineInputBorder(
+        borderRadius: BorderRadius.circular(borderRadius ?? 0.0).r,
+        borderSide: BorderSide(
+          color: color ?? AppColors.borderColor,
+          width: 0.4.sp,
+        ));
+  }
+}
+
+class DropItem<T> {
+  final String label;
+  final T value;
+
+  DropItem({
+    required this.label,
+    required this.value,
+  });
 }

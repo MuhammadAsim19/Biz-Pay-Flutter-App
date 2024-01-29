@@ -207,8 +207,7 @@ class _BusinessAddDetailsState extends State<BusinessAddDetails> {
                           prefixIcon: SvgPicture.asset(Assets.dropDownIcon),
                           hMargin: 0,
                           vMargin: 0,
-                          itemsMap:
-                              ["dummy owner", "dummy 2", "dummy 3"].map((e) {
+                          itemsMap: ["3", "2", "1"].map((e) {
                             return DropdownMenuItem(value: e, child: Text(e));
                           }).toList(),
                           hintText: "# of owner",
@@ -228,8 +227,7 @@ class _BusinessAddDetailsState extends State<BusinessAddDetails> {
                           isBorderRequired: true,
                           hMargin: 0,
                           vMargin: 0,
-                          itemsMap:
-                              ["dummy employee", "dummy 2", "dummy 3"].map((e) {
+                          itemsMap: ["1", "2", "3"].map((e) {
                             return DropdownMenuItem(value: e, child: Text(e));
                           }).toList(),
                           hintText: "# of employees",

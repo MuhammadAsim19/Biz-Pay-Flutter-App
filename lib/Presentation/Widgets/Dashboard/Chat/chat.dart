@@ -1,11 +1,7 @@
-
-
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-
 
 import '../../../../Data/DataSource/Resources/imports.dart';
 import 'Components/ChatModel/chat_tile_model.dart';
@@ -14,16 +10,14 @@ import 'Components/chat_tile.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-
 import 'Controllers/Repo/inboox_repo.dart';
 import 'Controllers/inboxControllers.dart';
 import 'Controllers/inboxmodel.dart';
 
-
 class ChatScreen extends StatefulWidget {
-  ChatScreen({super.key, this.backButton});
+  const ChatScreen({super.key, this.backButton});
 
-  bool? backButton;
+  final bool? backButton;
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -34,50 +28,50 @@ class _ChatScreenState extends State<ChatScreen> {
 
   int chip = 0;
 
-  List<ChatTileModel> chatData =[];
+  List<ChatTileModel> chatData = [];
 
-  List<ChatTileModel> brokers =[];
-@override
+  List<ChatTileModel> brokers = [];
+
+  @override
   void initState() {
-  InboxRepo().initSocket(context, Data().user?.user?.id);
+    InboxRepo().initSocket(context, Data().user?.user?.id);
 
-  // var data={
-  //   "userId" : "6579ea61d76f7a30f94f5c80"
-  // };
-  InboxRepo.socket?.on("allBusinessConversations", (data) {
-    print("chatTileData");
-    print((data));
-    InboxControllers.tileInboxData.value=List<ChatTileApiModel>.from(
-        data.map((x) => ChatTileApiModel.fromJson(x)));
+    // var data={
+    //   "userId" : "6579ea61d76f7a30f94f5c80"
+    // };
+    InboxRepo.socket?.on("allBusinessConversations", (data) {
+      print("chatTileData");
+      print((data));
+      InboxControllers.tileInboxData.value = List<ChatTileApiModel>.from(
+          data.map((x) => ChatTileApiModel.fromJson(x)));
+    });
 
-
-  });
-
-
-  //InboxRepo.socket.emit("getAllBusinessConversations", jsonEncode(data));
+    //InboxRepo.socket.emit("getAllBusinessConversations", jsonEncode(data));
 
     // TODO: implement initState
 
-
     super.initState();
   }
+
   @override
   void dispose() {
-  print("called");
-   InboxRepo.socket?.disconnect(); ///does not work on ios
-   InboxRepo.socket?.dispose();
-  // TODO: implement dispose
+    print("called");
+    InboxRepo.socket?.disconnect();
+
+    ///does not work on ios
+    InboxRepo.socket?.dispose();
+    // TODO: implement dispose
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: const Text('Chat'),
-        //  leading: const Icon(Icons.arrow_back),
+          //  leading: const Icon(Icons.arrow_back),
         ),
         backgroundColor: Colors.white,
         body: Padding(
@@ -161,24 +155,32 @@ class _ChatScreenState extends State<ChatScreen> {
               25.y,
               Expanded(
                 child: ValueListenableBuilder(
-                  builder: (context,chatState,ss) {
-                    return ListView.separated(
-                      physics: const BouncingScrollPhysics(),
-                      separatorBuilder: (context, index) {
-                        return SizedBox(
-                          height: 15.h,
-                        );
-                      },
-                      shrinkWrap: true,
-                      itemCount: chip == 0 ? chatState.length : brokers.length,
-                      itemBuilder: (context, index) {
-                        return ChatTile(
-                         // data: chip == 0 ? chatData[index] : brokers[index],
-                          tileData:  chatState[index],
-                        );
-                      },
-                    );
-                  }, valueListenable:   InboxControllers.tileInboxData,
+                  builder: (context, chatState, ss) {
+                    return chatState.isNotEmpty
+                        ? ListView.separated(
+                            physics: const BouncingScrollPhysics(),
+                            separatorBuilder: (context, index) {
+                              return SizedBox(
+                                height: 15.h,
+                              );
+                            },
+                            shrinkWrap: true,
+                            itemCount:
+                                chip == 0 ? chatState.length : brokers.length,
+                            itemBuilder: (context, index) {
+                              return ChatTile(
+                                // data: chip == 0 ? chatData[index] : brokers[index],
+                                tileData: chatState[index],
+                              );
+                            },
+                          )
+                        : Center(
+                            child: AppText(
+                            "No have a conversation",
+                            style: Styles.circularStdMedium(context),
+                          ));
+                  },
+                  valueListenable: InboxControllers.tileInboxData,
                 ),
               )
             ],

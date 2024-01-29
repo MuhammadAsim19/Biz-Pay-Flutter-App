@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:buysellbiz/Data/DataSource/Repository/Brokers/get_country.dart';
 import 'package:buysellbiz/Data/DataSource/Repository/Business/all_business_repo.dart';
@@ -15,8 +17,8 @@ class GetAllCountryCubit extends Cubit<GetAllCountryState> {
     try {
       await GetCountry.getCountryList().then((value) {
         if (value['Success']) {
-          List list = value['body'];
-          print(list.toString());
+          List<dynamic> list = value['body'];
+          // print(list.toString());
           // List<BusinessModel> business =
           // List.from(value["body"].map((e) => BusinessModel.fromJson(e)));
           emit(GetAllCountryLoaded(country: list));
@@ -38,7 +40,7 @@ class GetAllCountryCubit extends Cubit<GetAllCountryState> {
     // emit(GetAllCountryLoading());
 
     try {
-      await GetCountry.getCountryStates(countryName!, state ?? "", city!)
+      await GetCountry.getCountryStates(countryName ?? "", state ?? "", city!)
           .then((value) {
         if (value['Success']) {
           // List<BusinessModel> business =

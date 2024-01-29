@@ -22,21 +22,24 @@ class _PriceLocationState extends State<PriceLocation> {
   TextEditingController profileController = TextEditingController();
 
   TextEditingController revenueController = TextEditingController();
-
-  TextEditingController countryController = TextEditingController();
-
-  TextEditingController cityController = TextEditingController();
   TextEditingController zipCode = TextEditingController();
 
   TextEditingController addressController = TextEditingController();
 
+  Map validate = {
+    "country": null,
+    "city": null,
+    "state": null,
+    "image": null,
+  };
+
   List countryList = [];
-  List privance = [];
+  List stateList = [];
   List cityList = [];
 
-  String? country;
-  String? city;
-  String? privanceName;
+  String? countryName;
+  String? cityName;
+  String? stateName;
 
   int yearMi = 1;
 
@@ -60,6 +63,7 @@ class _PriceLocationState extends State<PriceLocation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.whiteColor,
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
@@ -157,7 +161,7 @@ class _PriceLocationState extends State<PriceLocation> {
                               countryList = state.country!;
                             }
                             if (state is GetAllCountryStateLoaded) {
-                              privance = state.states!;
+                              stateList = state.states!;
                             }
                             if (state is GetAllCountryCityLoaded) {
                               cityList = state.city!;
@@ -166,72 +170,70 @@ class _PriceLocationState extends State<PriceLocation> {
                               WidgetFunctions.instance.showErrorSnackBar(
                                   context: context, error: state.error);
                             }
+                            if (state is CityAndStateError) {
+                              WidgetFunctions.instance.showErrorSnackBar(
+                                  context: context, error: state.error);
+                            }
                             // TODO: implement listener
                           },
                           builder: (context, state) {
                             return Column(
                               children: [
-                                CustomDropDownWidget(
-                                  isBorderRequired: true,
-                                  hMargin: 0,
-                                  vMargin: 0,
-                                  itemsMap: countryList.map((e) {
-                                    return DropdownMenuItem(
-                                        value: e, child: Text(e));
+                                DropDownField(
+                                  // value: countryName,
+                                  // isBorderRequired: true,
+                                  // hMargin: 0,
+                                  // vMargin: 0,
+                                  items: countryList.map((e) {
+                                    return DropItem(
+                                      value: e,
+                                      label: e,
+                                    );
                                   }).toList(),
-                                  hintText: 'Country',
-                                  value: country,
-                                  validationText: 'Country Required',
-                                  onChanged: (value) {
+                                  color: Colors.white,
+                                  hints: 'Country',
+
+                                  // hintText: 'Country',
+                                  // value: countryName,
+                                  errorText: validate['country'],
+                                  onSelected: (value) {
+                                    countryName = value;
                                     context
                                         .read<GetAllCountryCubit>()
                                         .getCountryStates(
-                                            countryName: country, city: false);
-                                    countryController.text = '';
-                                    country = value;
+                                            countryName: countryName,
+                                            state: value,
+                                            city: false);
                                     setState(() {});
                                   },
                                 ),
-                                10.y,
-                                CustomDropDownWidget(
-                                  isBorderRequired: true,
-                                  hMargin: 0,
-                                  vMargin: 0,
-                                  itemsMap: privance.map((e) {
-                                    return DropdownMenuItem(
-                                        value: e, child: Text(e));
+                                DropDownField(
+                                  items: stateList.map((e) {
+                                    return DropItem(value: e, label: e);
                                   }).toList(),
-                                  hintText: 'Province/State',
-                                  value: privanceName,
-                                  validationText: 'Province/State Required',
-                                  onChanged: (value) {
-                                    privanceName = value;
-                                    privanceName!.replaceAll('', '');
+                                  hints: 'Province/State',
+                                  errorText: validate['state'],
+                                  onSelected: (value) {
+                                    stateName = value;
+                                    // String modifiedText = value.replaceAll(' ', '');
                                     setState(() {});
 
                                     context
                                         .read<GetAllCountryCubit>()
                                         .getCountryStates(
-                                            state: value,
-                                            countryName: country,
+                                            countryName: countryName,
+                                            state: stateName,
                                             city: true);
                                   },
                                 ),
-                                10.y,
-                                CustomDropDownWidget(
-                                  isBorderRequired: true,
-                                  hMargin: 0,
-                                  vMargin: 0,
-                                  itemsMap: cityList.map((e) {
-                                    return DropdownMenuItem(
-                                        value: e, child: Text(e));
+                                DropDownField(
+                                  items: cityList.map((e) {
+                                    return DropItem(value: e, label: e);
                                   }).toList(),
-                                  hintText: 'City',
-                                  value: city,
-                                  validationText: 'City Required',
-                                  onChanged: (value) {
-                                    city = value;
-                                    cityController.text = value;
+                                  hints: 'City',
+                                  errorText: validate['city'],
+                                  onSelected: (value) {
+                                    cityName = value;
                                     setState(() {});
                                   },
                                 ),
@@ -259,7 +261,6 @@ class _PriceLocationState extends State<PriceLocation> {
                             borderRadius: 40,
                             //height: 200.h,
                             //maxline: 10,
-
                             // isBorderRequired: false,
                             textInputType: TextInputType.text),
                       ],
@@ -272,13 +273,7 @@ class _PriceLocationState extends State<PriceLocation> {
             bottom: 10,
             left: 10,
             child: CustomButton(
-              onTap: () {
-                if (_formKey.currentState!.validate()) {
-                  AddNotifier.addPageController.jumpToPage(2);
-                  AddNotifier.addBusinessNotifier.value = 2;
-                  _addData();
-                }
-              },
+              onTap: _callData,
               textFontWeight: FontWeight.w500,
               borderRadius: 30,
               height: 56,
@@ -289,6 +284,36 @@ class _PriceLocationState extends State<PriceLocation> {
         ],
       ),
     );
+  }
+
+  void _callData() {
+    bool countryValidation = _validate(
+        errorText: 'Country Required', key: "country", val: countryName);
+    bool cityValidation =
+        _validate(errorText: 'City Required', key: "city", val: cityName);
+    bool stateValidation =
+        _validate(errorText: 'State Required', key: "state", val: stateName);
+
+    if (_formKey.currentState!.validate() &&
+        cityValidation &&
+        countryValidation &&
+        stateValidation) {
+      AddNotifier.addPageController.jumpToPage(2);
+      AddNotifier.addBusinessNotifier.value = 2;
+      _addData();
+    }
+  }
+
+  bool _validate({String? val, String? errorText, String? key}) {
+    if (val != null) {
+      validate[key] = null;
+      setState(() {});
+      return true;
+    } else {
+      validate[key] = errorText;
+      setState(() {});
+      return false;
+    }
   }
 
   _addData() {
@@ -306,17 +331,19 @@ class _PriceLocationState extends State<PriceLocation> {
       salesPrice: salePriceController.text.trim(),
       financialDetails: details,
       address: addressController.text.trim(),
-      city: cityController.text.trim(),
-      country: countryController.text.trim(),
+      city: cityName,
+      country: countryName,
       zipCode: zipCode.text.trim(),
+      state: stateName,
     );
 
     print(currentModel.documnets.toString());
 
     salePriceController.clear();
     addressController.clear();
-    cityController.clear();
-    countryController.clear();
+    countryName = null;
+    cityName = null;
+    stateName = null;
     zipCode.clear();
   }
 }

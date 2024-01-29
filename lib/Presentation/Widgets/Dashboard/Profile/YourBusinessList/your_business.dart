@@ -83,7 +83,7 @@ class _YourBusinessState extends State<YourBusiness> {
                             top: 20.sp),
                         itemCount: state.business!.length,
                         itemBuilder: (context, index) {
-                          return BussinesList(
+                          return BusinessList(
                             isFromAllBusiness: false,
                             index: index,
                             businessProducts: state.business,
@@ -100,7 +100,8 @@ class _YourBusinessState extends State<YourBusiness> {
                     : Center(
                         child: AppText(
                           'Data Not found',
-                          style: Styles.circularStdRegular(context),
+                          style: Styles.circularStdRegular(context,
+                              fontSize: 14.sp),
                         ),
                       ),
               );

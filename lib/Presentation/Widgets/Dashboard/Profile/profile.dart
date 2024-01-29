@@ -36,7 +36,7 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   10.y,
                   Text(
-                    Data.app.user!.user!.fullName ?? "",
+                    Data.app.user?.user?.fullName ?? "",
                     style: Styles.circularStdBold(context, fontSize: 20.sp),
                   ),
                   20.y,
