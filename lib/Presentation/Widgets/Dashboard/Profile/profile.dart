@@ -74,7 +74,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigate.to(context, YourBusiness());
+                          Navigate.to(context, const YourBusiness());
                         },
                         child: const CustomListTile(
                           title: AppStrings.listYourbis,

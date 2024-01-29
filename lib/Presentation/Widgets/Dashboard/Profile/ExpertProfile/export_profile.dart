@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:buysellbiz/Application/Services/PickerServices/picker_services.dart';
+import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/User/user_model.dart';
 import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
@@ -86,11 +87,12 @@ class _ExportProfileState extends State<ExportProfile> {
   @override
   void initState() {
     UserModel? data = Data().user;
-
     context.read<BusinessCategoryCubit>().getCategory();
     context.read<GetAllCountryCubit>().getCountry();
-
     emailController.text = data?.user?.email! ?? "malik@gmail.com";
+    firstNameController.text = data?.user?.firstName ?? "";
+    lastNameController.text = data?.user?.lastName ?? "";
+
     // TODO: implement initState
     super.initState();
   }
@@ -128,13 +130,8 @@ class _ExportProfileState extends State<ExportProfile> {
               20.y,
               Stack(
                 children: [
-                  image == null
-                      ? const AssetImageWidget(
-                          url: Assets.dummyImage2,
-                          radius: 60,
-                          isCircle: true,
-                        )
-                      : Container(
+                  image != null
+                      ? Container(
                           height: 110.sp,
                           width: 110.sp,
                           decoration: BoxDecoration(
@@ -142,7 +139,11 @@ class _ExportProfileState extends State<ExportProfile> {
                               image: DecorationImage(
                                   image: FileImage(File(image!)),
                                   fit: BoxFit.cover)),
-                        ),
+                        )
+                      : CachedImage(
+                          radius: 55.sp,
+                          url:
+                              "http://18.118.10.44:8000//assets/user_profile.png"),
                   Positioned(
                       top: 80.sp,
                       left: 75.sp,
@@ -166,6 +167,7 @@ class _ExportProfileState extends State<ExportProfile> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomTextFieldWithOnTap(
+                        readOnly: true,
                         validateText: 'First Name Required',
                         borderRadius: 40.r,
                         prefixIcon: SvgPicture.asset(Assets.profile),
@@ -173,6 +175,7 @@ class _ExportProfileState extends State<ExportProfile> {
                         hintText: 'First Name',
                         textInputType: TextInputType.name),
                     CustomTextFieldWithOnTap(
+                        readOnly: true,
                         validateText: "Last Name Required",
                         borderRadius: 40.r,
                         prefixIcon: SvgPicture.asset(Assets.profile),

@@ -6,6 +6,7 @@ import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/custom_date_picker.dart';
 import 'package:buysellbiz/Presentation/Common/widget_functions.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/Login/login.dart';
+import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/Controllers/agree_to_privacy.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/Controllers/hide_show_password.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/Controllers/sign_up_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/BottomNavigation/Controller/BottomNavigationNotifier/bottom_navigation_notifier.dart';
@@ -42,20 +43,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   final formKey = GlobalKey<FormState>();
 
+  @override
+  void initState() {
+    AgreeToPrivacyAndTerms.agree.value = false;
+    // TODO: implement initState
+    super.initState();
+  }
+
   void _signUp() {
     print(phone.text);
 
     if (formKey.currentState!.validate()) {
-      var body = {
-        "firstName": firstName.text.trim(),
-        "lastName": lastName.text.trim(),
-        "email": email.text.trim(),
-        "phone": "$countryCode${phone.text.trim()}",
-        "password": password.text.trim(),
-        "dob": calender.text.trim(),
-      };
+      if (AgreeToPrivacyAndTerms.agree.value) {
+        var body = {
+          "firstName": firstName.text.trim(),
+          "lastName": lastName.text.trim(),
+          "email": email.text.trim(),
+          "phone": "$countryCode${phone.text.trim()}",
+          "password": password.text.trim(),
+          "dob": calender.text.trim(),
+        };
 
-      context.read<SignUpCubit>().createUser(body: body);
+        context.read<SignUpCubit>().createUser(body: body);
+      } else {
+        WidgetFunctions.instance
+            .snackBar(context, text: 'Check Terms and condition');
+      }
     }
   }
 
@@ -91,19 +104,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 30.y,
                 CustomTextFieldWithOnTap(
                     isBorderRequired: true,
-                    contentPadding: EdgeInsets.symmetric(vertical: 13.sp,horizontal: 12),
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 13.sp, horizontal: 12),
                     prefixIcon: SvgPicture.asset(Assets.person),
                     controller: firstName,
                     hintText: AppStrings.firstname,
                     textInputType: TextInputType.text,
-                    validator: (val){
-
+                    validator: (val) {
                       if (val!.isEmpty) {
                         return 'Please Add First Name';
                       }
-                      if(val.length<2)
-                      {
-
+                      if (val.length < 2) {
                         return 'First Name should be greater than 2';
                       }
                       return null;
@@ -112,28 +123,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 20.y,
                 CustomTextFieldWithOnTap(
                     isBorderRequired: true,
-                    contentPadding: EdgeInsets.symmetric(vertical: 13.sp,horizontal: 12),
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 13.sp, horizontal: 12),
                     prefixIcon: SvgPicture.asset(Assets.person),
                     controller: lastName,
                     hintText: AppStrings.lastName,
                     textInputType: TextInputType.text,
-                    validator: (val){
-
+                    validator: (val) {
                       if (val!.isEmpty) {
                         return 'Please Add Last Name';
                       }
-                      if(val.length<2)
-                        {
-
-                          return 'Last Name should be greater than 2';
-                        }
+                      if (val.length < 2) {
+                        return 'Last Name should be greater than 2';
+                      }
                       return null;
                     },
                     borderRadius: 25.sp),
                 20.y,
                 CustomTextFieldWithOnTap(
                     isBorderRequired: true,
-                    contentPadding: EdgeInsets.symmetric(vertical: 13.sp,horizontal: 12),
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 13.sp, horizontal: 12),
                     prefixIcon: SvgPicture.asset(Assets.email),
                     validator: Validate.email,
                     controller: email,
@@ -158,7 +168,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   isBorderRequired: true,
                   hintText: AppStrings.dob,
                   prefixIcon: SvgPicture.asset(Assets.calender),
-                  contentPadding: EdgeInsets.symmetric(vertical: 13.sp,horizontal: 12),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 13.sp, horizontal: 12),
 
                   // prefixIcon: ,
                 ),
@@ -182,7 +193,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     //     child: SvgPicture.asset(value == false
                     //         ? Assets.hidePassword
                     //         : Assets.showPass)),
-                    contentPadding: EdgeInsets.symmetric(vertical: 13.sp,horizontal: 12),
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 13.sp, horizontal: 12),
                     controller: password,
                     validator: Validate.password,
                     hintText: AppStrings.password,
@@ -207,7 +219,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     if (state is SignUpLoaded) {
                       Navigator.pop(context);
                       BottomNotifier.bottomNavigationNotifier.value = 0;
-                      WidgetFunctions.instance.snackBar(context,bgColor: AppColors.primaryColor,text: "Login Successfully");
+                      WidgetFunctions.instance.snackBar(context,
+                          bgColor: AppColors.primaryColor,
+                          text: "Login Successfully");
 
                       Navigate.toReplace(
                           context, const BottomNavigationScreen());

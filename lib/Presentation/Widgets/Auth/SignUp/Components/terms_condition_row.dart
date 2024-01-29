@@ -1,4 +1,5 @@
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
+import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/Controllers/agree_to_privacy.dart';
 
 class TermsAndConditionTextRow extends StatefulWidget {
   const TermsAndConditionTextRow({super.key});
@@ -19,12 +20,18 @@ class _TermsAndConditionTextRowState extends State<TermsAndConditionTextRow> {
       children: [
         SizedBox(
           height: 30.h,
-          child: Checkbox(
-            value: checked,
-            onChanged: (value) {
-              setState(() {
-                checked = value!;
-              });
+          child: ValueListenableBuilder(
+            valueListenable: AgreeToPrivacyAndTerms.agree,
+            builder: (context, value, child) {
+              return Checkbox(
+                value: value,
+                onChanged: (value) {
+                  AgreeToPrivacyAndTerms.agreeToPrivacy(version: '');
+                  // setState(() {
+                  //   checked = value!;
+                  // });
+                },
+              );
             },
           ),
         ),

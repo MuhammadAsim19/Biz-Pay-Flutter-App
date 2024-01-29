@@ -4,6 +4,9 @@ class ApiConstant {
   static String baseUrl = 'http://18.118.10.44:8000'; // Aws Url
   static String login = "$baseUrl/api/user/login";
   static String signUp = "$baseUrl/api/user/register";
+  static String agreeToPrivacy =
+      "$baseUrl/api/privacy_and_terms/agree_to_policy";
+
   static String socketBase = "192.168.1.12:8000";
   static String socialLoginUrl = '$baseUrl/api/user/continue_with_google';
   static String forgetEmail = '$baseUrl/api/user/forget_password/check_user';

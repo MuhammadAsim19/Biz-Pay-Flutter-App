@@ -2,6 +2,7 @@ import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/PrivacyAndPolicy/privacy_model.dart';
 
 import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
+import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/privacy_shimmer.dart';
 import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/saved_loading.dart';
 
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_appbar.dart';
@@ -37,9 +38,6 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
               WidgetFunctions.instance.snackBar(context,
                   bgColor: AppColors.primaryColor, text: state.error);
             }
-            if (state is PrivacyPolicyLoaded) {
-              Navigator.pop(context);
-            }
           },
           builder: (context, state) {
             return state is PrivacyPolicyLoaded
@@ -66,7 +64,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                 : state is PrivacyPolicyLoading
                     ? const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20.0),
-                        child: SavedLoading(),
+                        child: PrivacyPolicyShimmer(),
                       )
                     : state is PrivacyPolicyError
                         ? Center(

@@ -7,7 +7,7 @@ class BackArrowWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
         height: 30.h,
-        width: 30.w,
+        width: 25.w,
         child: InkWell(
             onTap: () {
               Navigator.pop(context);
