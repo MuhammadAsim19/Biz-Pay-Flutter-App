@@ -1,6 +1,7 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/validator.dart';
+import 'package:buysellbiz/Data/Services/firebase_services.dart';
 import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/custom_date_picker.dart';
@@ -43,9 +44,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   final formKey = GlobalKey<FormState>();
 
+  String? fcmToken;
+
+  getToken() async {
+    fcmToken = await FirebaseServices.getFcm();
+  }
+
   @override
   void initState() {
     AgreeToPrivacyAndTerms.agree.value = false;
+
+    getToken();
     // TODO: implement initState
     super.initState();
   }
@@ -62,6 +71,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           "phone": "$countryCode${phone.text.trim()}",
           "password": password.text.trim(),
           "dob": calender.text.trim(),
+          "fcm_token": fcmToken,
         };
 
         context.read<SignUpCubit>().createUser(body: body);

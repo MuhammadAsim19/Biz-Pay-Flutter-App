@@ -15,10 +15,13 @@ class ChatNavigation {
     //
     // }
     if (InboxRepo.socket == null && InboxRepo.socket?.connected == false) {
-      print("in  hereee");
+      print("in  here");
       InboxRepo().initSocket(context, Data().user?.user?.id);
+
+      // Navigate.to(context, ChatDetailsScreen(chatDto: chatTileApiModel,));
     }
-    print("user id${Data().user!.user!.id}");
+    print('pa else kda da adasdsada');
+
     var data = {
       "createdBy": Data().user?.user?.id, //"6579ea61d76f7a30f94f5c80"
       "createdFor": createdFor, //"6579f21c00996aa38f7c7a2b"
@@ -26,7 +29,6 @@ class ChatNavigation {
     };
     print("alldata");
     print(data);
-
     await InboxRepo().createBusiness(body: data).then((value) {
       print("valueeeeeeeeeeeeee");
       print(value);
@@ -41,6 +43,8 @@ class ChatNavigation {
       }
       // Navigate.to(context, ChatDetailsScreen(chatDto: chatTileApiModel,));
     });
+    print("user id${Data().user!.user!.id}");
+
 // InboxRepo.socket.onConnect((s){
 // print("here in on connect");
 //
@@ -91,6 +95,9 @@ class ChatNavigation {
       if (value['Success']) {
         ChatTileApiModel chatTileApiModel =
             ChatTileApiModel.fromJson(value['body']);
+
+        print("here is chat details ${chatTileApiModel.toJson()}");
+
         Navigate.to(
             context,
             BrokerChatDetailsScreen(

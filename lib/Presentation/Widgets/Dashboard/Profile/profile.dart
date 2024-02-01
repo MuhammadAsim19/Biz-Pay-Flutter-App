@@ -28,10 +28,15 @@ class ProfileScreen extends StatelessWidget {
           child: Column(
             children: [
               40.y,
-              CachedImage(
-                  radius: 55.sp,
-                  url:
-                      "${ApiConstant.baseUrl}${Data.app.user?.user!.profilePic}"),
+              Data.app.user?.user?.profilePic != null
+                  ? CachedImage(
+                      radius: 55.sp,
+                      url: Data.app.user!.user!.profilePic!.contains('https')
+                          ? "${Data.app.user?.user!.profilePic}"
+                          : "${ApiConstant.baseurl}${Data.app.user?.user!.profilePic}")
+                  : CachedImage(
+                      radius: 55.sp,
+                      url: "http://18.118.10.44:8000//assets/user_profile.png"),
               Column(
                 children: [
                   10.y,

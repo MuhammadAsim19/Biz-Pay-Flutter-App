@@ -98,7 +98,13 @@ class _MyAppState extends State<MyApp> {
           return MaterialApp(
             title: 'BuySellBiz',
             theme: ThemeData(
+                appBarTheme: const AppBarTheme(
+                    surfaceTintColor: AppColors.whiteColor,
+                    backgroundColor: AppColors.whiteColor),
+                bottomAppBarTheme: const BottomAppBarTheme(
+                    surfaceTintColor: Colors.transparent),
                 primaryColor: AppColors.primaryColor,
+                scaffoldBackgroundColor: AppColors.whiteColor,
                 bottomNavigationBarTheme: const BottomNavigationBarThemeData(
                     backgroundColor: Colors.transparent,
                     type: BottomNavigationBarType.shifting)),

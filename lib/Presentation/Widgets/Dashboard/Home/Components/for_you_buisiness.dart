@@ -21,6 +21,8 @@ class BusinessForYouWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("here is length ${businessProducts!.length}");
+
     return SizedBox(
       height: 280.h,
       child: businessProducts!.isNotEmpty
@@ -29,7 +31,7 @@ class BusinessForYouWidget extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
-                print("${businessProducts![index].id}");
+                print("this is id ${businessProducts![index].id}");
                 return GestureDetector(
                   onTap: () {
                     getData(businessProducts![index]);
@@ -54,7 +56,7 @@ class BusinessForYouWidget extends StatelessWidget {
                               topRadius: 10.sp,
                               isCircle: false,
                               url: businessProducts![index].images!.isNotEmpty
-                                  ? "${ApiConstant.baseUrl}${businessProducts![index].images!.first}"
+                                  ? "${ApiConstant.baseurl}${businessProducts![index].images!.first}"
                                   : '',
                               width: 245.w,
                               height: 170.h,
@@ -104,7 +106,10 @@ class BusinessForYouWidget extends StatelessWidget {
                                       onTap: () {
                                         chatTap(businessProducts![index]);
                                       },
-                                      child: const ChipWidget(),
+                                      child: const ChipWidget(
+                                        chipColor: AppColors.primaryColor,
+                                        textColor: AppColors.whiteColor,
+                                      ),
                                     ),
                                     // CustomButton(onTap: onTap, text: text)
                                     5.x

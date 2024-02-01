@@ -19,15 +19,14 @@ class UpdateProfileRepo {
       } else {
         return await ApiService.put(
           ApiConstant.updateProfile,
-          body!,
+          body ?? {},
         ).then((value) {
-          log(value.toString());
-
+          log("here is ${value.toString()}");
           return value;
         });
       }
     } catch (e) {
-      print(Future.error(e));
+      rethrow;
     }
   }
 }

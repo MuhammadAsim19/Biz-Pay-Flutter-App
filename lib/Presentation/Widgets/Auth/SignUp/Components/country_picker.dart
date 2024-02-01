@@ -7,12 +7,14 @@ class CountryPicker extends StatefulWidget {
   final bool isBorderRequired = true;
   final String? Function(String?) countrySelect;
   final String? Function(String?)? validator;
+  final String? initialSelection;
 
   const CountryPicker(
       {super.key,
       required this.controller,
       required this.onTapField,
       required this.countrySelect,
+      this.initialSelection,
       this.validator});
 
   @override
@@ -33,6 +35,8 @@ class _CountryPickerState extends State<CountryPicker> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.initialSelection);
+
     // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
     //   if (focusNode
     //       .hasFocus && widget.controller.text == '') {
@@ -56,7 +60,6 @@ class _CountryPickerState extends State<CountryPicker> {
           fillColor: AppColors.whiteColor,
           filled: true,
           hintText: 'Phone Number',
-
           prefixIcon: SizedBox(
             height: 40.h,
             width: 110.w,
@@ -65,7 +68,7 @@ class _CountryPickerState extends State<CountryPicker> {
                 Flexible(
                   flex: 3,
                   child: CountryCodePicker(
-                    initialSelection: '+1',
+                    initialSelection: widget.initialSelection ?? "+1",
                     onChanged: (value) {
                       code = value.dialCode ?? "";
                       widget.countrySelect(value.dialCode);

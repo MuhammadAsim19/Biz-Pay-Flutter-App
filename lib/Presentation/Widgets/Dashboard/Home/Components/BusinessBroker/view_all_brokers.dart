@@ -31,8 +31,8 @@ class ViewAllBrokers extends StatelessWidget {
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2, // Number of items per row
-                  crossAxisSpacing: 1.0, // Spacing between columns
-                  mainAxisSpacing: 1.0,
+                  crossAxisSpacing: 0.5, // Spacing between columns
+                  mainAxisSpacing: 10.5,
                   childAspectRatio: 0.75, // Spacing between rows
                 ),
                 itemCount: profileData!.length,
@@ -61,7 +61,7 @@ class ViewAllBrokers extends StatelessWidget {
                             isCircle: true,
                             radius: 40.sp,
                             url:
-                                "${ApiConstant.baseUrl}${profileData![index].userInfo!.profilePic}",
+                                "${ApiConstant.baseurl}${profileData![index].userInfo!.profilePic}",
                             height: 120.sp,
                             width: 120.sp,
                           ),
@@ -127,17 +127,15 @@ class ViewAllBrokers extends StatelessWidget {
                                           ? Row(
                                               children: [
                                                 ChipWidget(
+                                                  chipColor:
+                                                      AppColors.primaryColor,
+                                                  textColor:
+                                                      AppColors.whiteColor,
                                                   labelText: profileData![index]
                                                       .industriesServed![i]
                                                       .title,
                                                   width: null,
                                                   height: 30,
-                                                  style:
-                                                      Styles.circularStdRegular(
-                                                          context,
-                                                          fontSize: 10.sp,
-                                                          color: AppColors
-                                                              .whiteColor),
                                                 ),
                                                 2.x,
                                                 i == 1 ? 0.x : 5.x,

@@ -88,7 +88,7 @@ class _PublishWidgetState extends State<PublishWidget> {
                     },
                   ),
                   10.y,
-                  AppText('At least 8 photos to improve check for sale',
+                  AppText('At least 1 photos to improve check for sale',
                       style: Styles.circularStdRegular(context,
                           color: const Color(0xFFB0B0B0), fontSize: 14)),
                   AppText('Should be jpg, png, git format only',

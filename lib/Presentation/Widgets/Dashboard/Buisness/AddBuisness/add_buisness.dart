@@ -3,15 +3,29 @@ import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Components/business_details_add.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Components/price_location.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Components/publish.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/business_category_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/Controller/add_business_conntroller.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AddBusiness extends StatelessWidget {
+class AddBusiness extends StatefulWidget {
   const AddBusiness({super.key});
 
   @override
+  State<AddBusiness> createState() => _AddBusinessState();
+}
+
+class _AddBusinessState extends State<AddBusiness> {
+  @override
+  void initState() {
+    context.read<BusinessCategoryCubit>().getCategory();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      onPopInvoked: (val) async {
         print(AddNotifier.addBusinessNotifier.value);
         if (AddNotifier.addBusinessNotifier.value == 0) {
           AddNotifier.addPageController.removeListener(() {});
@@ -23,8 +37,6 @@ class AddBusiness extends StatelessWidget {
           AddNotifier.addBusinessNotifier.value = 1;
           AddNotifier.addPageController.jumpToPage(1);
         }
-
-        return false;
       },
       child: Scaffold(
         backgroundColor: AppColors.whiteColor,
@@ -48,9 +60,8 @@ class AddBusiness extends StatelessWidget {
                           color: AppColors.blackColor,
                         ),
                         onPressed: () {
+                          Navigator.of(context).pop(true);
                           // Handle icon tap event
-
-                          Navigate.pop(context);
                         },
                       )
                     : const SizedBox();

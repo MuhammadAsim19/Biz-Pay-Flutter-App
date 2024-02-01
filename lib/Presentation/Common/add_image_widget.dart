@@ -12,7 +12,11 @@ class AddImageWidget extends StatelessWidget {
   const AddImageWidget({
     super.key,
     required this.onTap,
-    this.addText, this.height, this.width, this.text, this.style,
+    this.addText,
+    this.height,
+    this.width,
+    this.text,
+    this.style,
   });
 
   @override
@@ -21,14 +25,14 @@ class AddImageWidget extends StatelessWidget {
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: SizedBox(
-        height: height?? (1.sw>500?100:76),
-        width:width??1.sw,
+        height: height ?? (1.sw > 500 ? 100 : 76),
+        width: width ?? 1.sw,
         child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(12)),
           child: DottedBorder(
             borderType: BorderType.RRect,
             radius: const Radius.circular(12).r,
-          //  padding: const EdgeInsets.symmetric(vertical: 35).r,
+            //  padding: const EdgeInsets.symmetric(vertical: 35).r,
             color: AppColors.greyColor,
             strokeWidth: 3,
             stackFit: StackFit.expand,
@@ -37,24 +41,28 @@ class AddImageWidget extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(12)),
               child: Container(
                 color: AppColors.dottedGreyColor,
-
                 child: Column(
-
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-
                     10.y,
-                    SvgPicture.asset(Assets.addImageIcon,height: 20,width: 20,),
+                    SvgPicture.asset(
+                      Assets.addImageIcon,
+                      height: 20,
+                      width: 20,
+                    ),
                     CustomSizedBox.height(4),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 6).r,
-                      child: AppText(
-                        text??"Uploads photos",
-                        style:style?? Styles.circularStdRegular(
-                          context,
-                          fontSize: 12.sp,
-                          color: AppColors.blackColor,
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 6).r,
+                        child: AppText(
+                          text ?? "Uploads photos",
+                          style: style ??
+                              Styles.circularStdRegular(
+                                context,
+                                fontSize: 12.sp,
+                                color: AppColors.blackColor,
+                              ),
                         ),
                       ),
                     ),

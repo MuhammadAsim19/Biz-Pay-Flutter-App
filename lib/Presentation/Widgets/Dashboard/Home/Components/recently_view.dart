@@ -41,8 +41,9 @@ class RecentlyViewWidget extends StatelessWidget {
                         CachedImage(
                           isCircle: false,
                           containerRadius: 10.sp,
+                          fit: BoxFit.cover,
                           url: businessProducts![index].images!.isNotEmpty
-                              ? "${ApiConstant.baseUrl}/${businessProducts![index].images!.first}"
+                              ? "${ApiConstant.baseurl}/${businessProducts![index].images!.first}"
                               : '',
                           width: 119.sp,
                           height: 120.h,

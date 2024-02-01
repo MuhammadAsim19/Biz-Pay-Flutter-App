@@ -45,7 +45,7 @@ class BusinessListContainer extends StatelessWidget {
                   containerRadius: 10.sp,
                   isCircle: false,
                   url:
-                      "${ApiConstant.baseUrl}/${businessProducts![index!].images!.first}",
+                      "${ApiConstant.baseurl}/${businessProducts![index!].images!.first}",
                   width: 119.sp,
                   height: 120.h,
                 ),

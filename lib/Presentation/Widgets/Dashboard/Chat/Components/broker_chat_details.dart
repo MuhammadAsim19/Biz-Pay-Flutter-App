@@ -20,7 +20,10 @@ import 'package:path/path.dart' as path;
 import 'message_container.dart';
 
 class BrokerChatDetailsScreen extends StatefulWidget with ChangeNotifier {
-  BrokerChatDetailsScreen({super.key, this.chatDto});
+  BrokerChatDetailsScreen({
+    super.key,
+    this.chatDto,
+  });
 
   final ChatTileApiModel? chatDto;
 
@@ -43,6 +46,7 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
   void initState() {
     super.initState();
     initValue = 1;
+    // InboxRepo().initSocket(context, Data().user?.user?.id);
 
     //
     // WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -79,7 +83,7 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
       "userId": Data().user?.user?.id,
 
       ///from shared prefs
-      "brokerConversationId": widget.chatDto?.id
+      "brokerConversationId": widget.chatDto?.id,
       // "brokerConversationId": widget.chatDto?.id
 
       ///from chatDto
@@ -146,7 +150,7 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
 
     ///full chat listener first time
     InboxRepo.socket!.on('brokerChatDetails', (data) {
-      print("chat details");
+      print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
       print(data);
 
       ChatTileApiModel chTo = ChatTileApiModel.fromJson(data);
@@ -291,7 +295,7 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
                           isCircle: true,
                           radius: 30.sp,
                           url:
-                              "${ApiConstant.baseUrl}${widget.chatDto!.profilePic}"),
+                              "${ApiConstant.baseurl}${widget.chatDto!.profilePic}"),
                       10.x,
                       Expanded(
                         flex: 3,
@@ -823,6 +827,10 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
 
   ///message sending logic
   _sendMessage(messageContent) async {
+    print(
+      InboxControllers.chatDetailData.value.receiver.toString(),
+    );
+
     List<Map<String, dynamic>> imagesToSend = [];
     List<Map<String, dynamic>> vidToSend = [];
     List<Map<String, dynamic>> docsToSend = [];

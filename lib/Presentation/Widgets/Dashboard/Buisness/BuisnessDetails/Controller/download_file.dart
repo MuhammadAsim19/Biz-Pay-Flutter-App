@@ -22,7 +22,7 @@ class DownloadFile {
       // "${saveDirectory.path}$fileName";
       // DioDownloader().savedPath.notifyListeners();
 
-      await DioDownloader().download(Dio(), '${ApiConstant.baseUrl}$file',
+      await DioDownloader().download(Dio(), '${ApiConstant.baseurl}$file',
           "${saveDirectory.path}$fileName");
 
       await OpenFile.open(savedPath.value);

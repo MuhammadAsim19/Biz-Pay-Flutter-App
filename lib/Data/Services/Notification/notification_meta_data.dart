@@ -6,7 +6,10 @@ import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/Services/Notification/notification_services.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/BrokerProfile/broker_profile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/buisness_details.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/broker_chat_details.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_details.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Controllers/Repo/inboox_repo.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Controllers/inboxmodel.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -72,7 +75,7 @@ class NotificationMetaData {
   }
 
   ///HANDLING THE REMOTE MESSAGE FOR NAVIGATION
-  void handleMessage(String action, String info, {BuildContext? context}) {
+  void handleMessage(String action, var info, {BuildContext? context}) {
     //print(message.data['info']);
     // if (message.notification != null) {
     //   String payloadData = message.data['info'].toString();
@@ -80,15 +83,12 @@ class NotificationMetaData {
     //   print(payloadData.toString());
     // }
 
-    print('here is the data of notifications ');
-
     if (Data.app.token != null) {
       if (action != '') {
         handelNavigation(context, action, info);
       } else {
         if (routeNotifier.value != 'Notification') {
           print('action is null the notification screen called');
-
           Navigator.push(context!, MaterialPageRoute(
             builder: (context) {
               return const Notifications();
@@ -104,7 +104,7 @@ class NotificationMetaData {
     BuildContext context,
   ) {
     PayloadStream.instance.getPayload.listen((event) {
-      var data = jsonDecode(event);
+      Map<String, dynamic> data = jsonDecode(event);
       if (data['title'] != null) {
         handleMessage(data['click_action'], data['info'], context: context);
       }
@@ -113,6 +113,8 @@ class NotificationMetaData {
   }
 
   handelNavigation(BuildContext? context, String navigateTo, var info) {
+    InboxRepo().initSocket(context!, Data().user?.user?.id);
+
     List<Map<String, Widget>> navigationScreen = [
       {
         'BUSINES_CREATED': BusinessDetails(
@@ -131,7 +133,16 @@ class NotificationMetaData {
           initialPage: 2,
         )
       },
-      {'NEW_MESSEGE_TO_BUSIENSS_CHAT': ChatDetailsScreen()},
+      {
+        'NEW_MESSEGE_TO_BUSIENSS_CHAT': ChatDetailsScreen(
+          chatDto: ChatTileApiModel.fromRawJson(info),
+        )
+      },
+      {
+        'NEW_MESSEGE_TO_BROKER_CHAT': BrokerChatDetailsScreen(
+          chatDto: ChatTileApiModel.fromRawJson(info),
+        )
+      },
       {
         'BROKER_CREATED': BrokerProfile(
           id: info,

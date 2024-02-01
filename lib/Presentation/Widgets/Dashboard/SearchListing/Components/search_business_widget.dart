@@ -45,7 +45,7 @@ class SearchBusinessWidget extends StatelessWidget {
                           CachedImage(
                               isCircle: false,
                               url:
-                                  "${ApiConstant.baseUrl}${businessProducts![index].images!.first}",
+                                  "${ApiConstant.baseurl}${businessProducts![index].images!.first}",
                               width: 380,
                               height: 153.h),
                           //  10.x,

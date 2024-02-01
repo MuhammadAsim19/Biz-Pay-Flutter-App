@@ -73,6 +73,8 @@ class _ExportProfileState extends State<ExportProfile> {
 
   String? countryNameForPassing;
 
+  UserModel? data;
+
   String? professionVal;
   String? cityName;
   String? yearsOfExpr;
@@ -86,12 +88,14 @@ class _ExportProfileState extends State<ExportProfile> {
 
   @override
   void initState() {
-    UserModel? data = Data().user;
+    data = Data().user;
     context.read<BusinessCategoryCubit>().getCategory();
     context.read<GetAllCountryCubit>().getCountry();
     emailController.text = data?.user?.email! ?? "malik@gmail.com";
     firstNameController.text = data?.user?.firstName ?? "";
     lastNameController.text = data?.user?.lastName ?? "";
+
+    // image = data?.user?.profilePic ?? "";
 
     // TODO: implement initState
     super.initState();
@@ -99,6 +103,8 @@ class _ExportProfileState extends State<ExportProfile> {
 
   @override
   Widget build(BuildContext context) {
+    print(image);
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -128,37 +134,24 @@ class _ExportProfileState extends State<ExportProfile> {
           child: Column(
             children: [
               20.y,
-              Stack(
-                children: [
-                  image != null
-                      ? Container(
-                          height: 110.sp,
-                          width: 110.sp,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  image: FileImage(File(image!)),
-                                  fit: BoxFit.cover)),
-                        )
-                      : CachedImage(
+              data?.user?.profilePic != null
+                  ? SizedBox(
+                      height: 110.sp,
+                      width: 110.sp,
+                      child: CachedImage(
+                          radius: 55.sp,
+                          url: data!.user!.profilePic!.contains('https')
+                              ? "${data?.user?.profilePic}"
+                              : "${ApiConstant.baseurl}${data?.user?.profilePic}"),
+                    )
+                  : SizedBox(
+                      height: 110.sp,
+                      width: 110.sp,
+                      child: CachedImage(
                           radius: 55.sp,
                           url:
                               "http://18.118.10.44:8000//assets/user_profile.png"),
-                  Positioned(
-                      top: 80.sp,
-                      left: 75.sp,
-                      child: SvgPicture.asset(Assets.blueElipse)),
-                  Positioned(
-                      top: 87.sp,
-                      left: 83.sp,
-                      child: InkWell(
-                          onTap: () async {
-                            image = await PickFile.pickSingleImage();
-                            setState(() {});
-                          },
-                          child: SvgPicture.asset(Assets.edit))),
-                ],
-              ),
+                    ),
               20.y,
               Form(
                 key: _formKey,
@@ -479,12 +472,7 @@ class _ExportProfileState extends State<ExportProfile> {
         countryValidation == true &&
         cityValidation == true &&
         stateValidation == true) {
-      if (image != null) {
-        _sendData();
-      } else {
-        WidgetFunctions.instance
-            .showErrorSnackBar(context: context, error: "Image Required");
-      }
+      _sendData();
     }
   }
 
@@ -528,6 +516,6 @@ class _ExportProfileState extends State<ExportProfile> {
 
     context
         .read<BrokerProfileCubit>()
-        .createBroker(body: dataMap, imagePath: image!);
+        .createBroker(body: dataMap, imagePath: image);
   }
 }

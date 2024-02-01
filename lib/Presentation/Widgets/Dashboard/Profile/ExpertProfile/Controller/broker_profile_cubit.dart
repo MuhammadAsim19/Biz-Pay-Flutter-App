@@ -9,8 +9,7 @@ part 'broker_profile_state.dart';
 class BrokerProfileCubit extends Cubit<BrokerProfileState> {
   BrokerProfileCubit() : super(BrokerProfileInitial());
 
-  createBroker(
-      {required Map<String, dynamic> body, required String imagePath}) async {
+  createBroker({required Map<String, dynamic> body, String? imagePath}) async {
     emit(BrokerProfileLoading());
 
     try {

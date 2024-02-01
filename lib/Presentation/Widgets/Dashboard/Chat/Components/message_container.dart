@@ -1,6 +1,3 @@
-
-
-
 import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
@@ -33,45 +30,45 @@ import 'package:path/path.dart' as path;
 import 'package:cached_network_image/cached_network_image.dart';
 
 class MessageContainer extends StatelessWidget {
-  const MessageContainer({super.key, this.modelData,  this.chatDto, this.senderId, this.index});
+  const MessageContainer(
+      {super.key, this.modelData, this.chatDto, this.senderId, this.index});
 
   final ChatMessageModel? modelData;
-  final  Message? chatDto;
+  final Message? chatDto;
   final String? senderId;
   final int? index;
-  static ValueNotifier<Map<int,String>> savedPath=ValueNotifier({});
+  static ValueNotifier<Map<int, String>> savedPath = ValueNotifier({});
 
   @override
   Widget build(BuildContext context) {
-   // print("http://192.168.1.17:9000${chatDto!.images![0]}");
+    // print("http://192.168.1.17:9000${chatDto!.images![0]}");
     return SingleChildScrollView(
       child: Align(
         alignment: chatDto!.sender == senderId
             ? Alignment.centerRight
             : Alignment.centerLeft,
         child: Container(
-         // height: 1.sh/5,
+          // height: 1.sh/5,
           width: 260,
           margin: EdgeInsets.only(top: 10.sp),
-          color:  chatDto!.images!.isNotEmpty?
-
-               AppColors.borderColor:null,
+          color: chatDto!.images!.isNotEmpty ? AppColors.borderColor : null,
           child: Column(
             //crossAxisAlignment: CrossAxisAlignment.start,
 
             children: [
-              chatDto!.images!.isNotEmpty || chatDto!.videos!.isNotEmpty?  10.y:2.y,
+              chatDto!.images!.isNotEmpty || chatDto!.videos!.isNotEmpty
+                  ? 10.y
+                  : 2.y,
 
               ///images show
-              chatDto!.images!.isNotEmpty?
-
-                  Align(
+              chatDto!.images!.isNotEmpty
+                  ? Align(
                       alignment: chatDto!.sender == senderId
                           ? Alignment.centerRight
                           : Alignment.centerLeft,
-
-                      child: Container(height: 250,width: 250,
-
+                      child: Container(
+                        height: 250,
+                        width: 250,
                         color: chatDto!.sender != senderId
                             ? AppColors.chatColor
                             : AppColors.borderColor,
@@ -79,284 +76,327 @@ class MessageContainer extends StatelessWidget {
                           scrollDirection: Axis.vertical,
                           child: Center(
                             child: Wrap(
-                             //alignment: WrapAlignment.spaceEvenly,
-                            //runSpacing: 2,
-                              spacing: 2,
-                            alignment: WrapAlignment.spaceEvenly,
+                                //alignment: WrapAlignment.spaceEvenly,
+                                //runSpacing: 2,
+                                spacing: 2,
+                                alignment: WrapAlignment.spaceEvenly,
 
-                            //verticalDirection: VerticalDirection.up,
+                                //verticalDirection: VerticalDirection.up,
 
-                            children: chatDto!.images!.length<=4?chatDto!.images!.map((e) {
-                            print("${ApiConstant.baseUrl}$e");
-                              return GestureDetector(
-                                onTap: (){
-                                  Navigate.to(context, ImagePreview(imageUrl: "${ApiConstant.baseUrl}$e"));
-                                },
-                                child: CachedImage(url: "${ApiConstant.baseUrl}$e",fit: BoxFit.fill
-                                  ,isCircle: false,
-                                height: chatDto!.images!.length>2?null:250,
-                                  width: chatDto!.images!.length>1?110:250,
-                                ),
-                              );
-
-                            }).toList():
-                            chatDto!.images!.take(4).map((e) {
-                              print("${ApiConstant.baseUrl}$e");
-                              int index=chatDto!.images!.indexOf(e);
-
-                              return Stack(
-                                children: [
-                                  GestureDetector(
-                                    onTap: (){
-                                      Navigate.to(context, ImagePreview(imageUrl: "${ApiConstant.baseUrl}$e"));
-                                    },
-                                    child: CachedImage(url: "${ApiConstant.baseUrl}$e",fit: BoxFit.fill
-                                      ,isCircle: false,
-                                      height: chatDto!.images!.length>2?null:250,
-                                      width: chatDto!.images!.length>1?110:250,
-                                    ),
-                                  ),
-                                  Positioned(
-                                      top:0,
-                                      bottom:0,
-
-                              left: 0,
-                              right: 0
-                              ,
-                                      child: BackdropFilter(
-
-
-                                          filter: ImageFilter.blur(),
-                                          child: Center(child: AppText("+ ${chatDto!.images!.length-4}",style: Styles.circularStdMedium(context,fontSize: 20,color: AppColors.whiteColor),))))
-                                ],
-                              );
-
-                            }).toList()
-
-                                              ),
-                          ),
-                        ),))
-                  :const SizedBox(),
-              chatDto!.images!.isNotEmpty || chatDto!.videos!.isNotEmpty?  10.y:2.y,
-              ///videos show
-              chatDto!.videos!.isNotEmpty?
-
-              Align(
-                  alignment: chatDto!.sender == senderId
-                      ? Alignment.centerRight
-                      : Alignment.centerLeft,
-
-                  child: Container(height: chatDto!.images!.isNotEmpty? 120:250,width: 250,
-
-                    color: chatDto!.sender != senderId
-                        ? AppColors.chatColor
-                        : AppColors.borderColor,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: SizedBox(
-                        height: chatDto!.images!.isNotEmpty? 100: 250,
-                        width: 250,
-                        child: Center(
-                          child: Wrap(
-                            //alignment: WrapAlignment.spaceEvenly,
-                            //runSpacing: 2,
-                            spacing: 2,
-                            alignment: WrapAlignment.spaceEvenly,
-
-                            //verticalDirection: VerticalDirection.up,
-
-                            children: chatDto!.videos!.map((e) {
-                              print("${ApiConstant.baseUrl}$e");
-
-
-                              return FutureBuilder(
-                                builder: (context,dd) {
-                                  if (dd.connectionState == ConnectionState.waiting) {
-                                    return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,)); // Show a loading indicator
-                                  }
-                                  else if (dd.hasError) {
-                                    return const Center(child: Icon(Icons.play_circle_outline)); // Show an error message
-                                  }
-                                  else {
-
-                                    PlatformFile? pff = PlatformFile(name: "thumbnail ${DateTime.now().microsecondsSinceEpoch}", size: 10 *1024 *3,path: dd.data);
-
-                                    return GestureDetector(
-                                      onTap: (){
-
-                                          Navigate.to(context,VideoPreview(url: "${ApiConstant.baseUrl}$e"));
-                                        },
-                                      child: Stack(
-                                        children: [
-                                          Container(
-                                            color: AppColors.productTileColor,
-                                            height: 250,
-                                            child:  Image.file(
-                                                File(pff.path!),
-                                                fit: BoxFit.fill,
-                                              ),
+                                children: chatDto!.images!.length <= 4
+                                    ? chatDto!.images!.map((e) {
+                                        print("${ApiConstant.baseurl}$e");
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Navigate.to(
+                                                context,
+                                                ImagePreview(
+                                                    imageUrl:
+                                                        "${ApiConstant.baseurl}$e"));
+                                          },
+                                          child: CachedImage(
+                                            url: "${ApiConstant.baseurl}$e",
+                                            fit: BoxFit.fill,
+                                            isCircle: false,
+                                            height: chatDto!.images!.length > 2
+                                                ? null
+                                                : 250,
+                                            width: chatDto!.images!.length > 1
+                                                ? 110
+                                                : 250,
                                           ),
-                                          Positioned(
-                                              top: 0,
-                                              left: 0,
-                                              right: 0,
-                                              bottom: 0,
-                                              child: Icon(Icons.play_circle,size:50.sp,color: AppColors.primaryColor,))
-                                        ],
-                                      ),
-                                    );
-                                  }
-                                  // else{
-                                  //   return const CircularProgressIndicator(color: AppColors.primaryColor,);
-                                  //
-                                  // }
-                                }, future: getThumbnailFromVideo("${ApiConstant.baseUrl}$e"),
-                              );
+                                        );
+                                      }).toList()
+                                    : chatDto!.images!.take(4).map((e) {
+                                        print("${ApiConstant.baseurl}$e");
+                                        int index = chatDto!.images!.indexOf(e);
 
-
-
-                            }).toList(),
-
+                                        return Stack(
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigate.to(
+                                                    context,
+                                                    ImagePreview(
+                                                        imageUrl:
+                                                            "${ApiConstant.baseurl}$e"));
+                                              },
+                                              child: CachedImage(
+                                                url: "${ApiConstant.baseurl}$e",
+                                                fit: BoxFit.fill,
+                                                isCircle: false,
+                                                height:
+                                                    chatDto!.images!.length > 2
+                                                        ? null
+                                                        : 250,
+                                                width:
+                                                    chatDto!.images!.length > 1
+                                                        ? 110
+                                                        : 250,
+                                              ),
+                                            ),
+                                            Positioned(
+                                                top: 0,
+                                                bottom: 0,
+                                                left: 0,
+                                                right: 0,
+                                                child: BackdropFilter(
+                                                    filter: ImageFilter.blur(),
+                                                    child: Center(
+                                                        child: AppText(
+                                                      "+ ${chatDto!.images!.length - 4}",
+                                                      style: Styles
+                                                          .circularStdMedium(
+                                                              context,
+                                                              fontSize: 20,
+                                                              color: AppColors
+                                                                  .whiteColor),
+                                                    ))))
+                                          ],
+                                        );
+                                      }).toList()),
                           ),
                         ),
-                      ),
-                    ),))
-                  :const SizedBox(),
-              chatDto!.images!.isNotEmpty || chatDto!.videos!.isNotEmpty?  10.y:2.y,
-           ///Docs show
-              ValueListenableBuilder(
-                builder: (context,downloadValue,ss) {
+                      ))
+                  : const SizedBox(),
+              chatDto!.images!.isNotEmpty || chatDto!.videos!.isNotEmpty
+                  ? 10.y
+                  : 2.y,
 
-                  return chatDto!.docs!.isNotEmpty?
-
-
-
-                  Align(
+              ///videos show
+              chatDto!.videos!.isNotEmpty
+                  ? Align(
                       alignment: chatDto!.sender == senderId
                           ? Alignment.centerRight
                           : Alignment.centerLeft,
+                      child: Container(
+                        height: chatDto!.images!.isNotEmpty ? 120 : 250,
+                        width: 250,
+                        color: chatDto!.sender != senderId
+                            ? AppColors.chatColor
+                            : AppColors.borderColor,
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: SizedBox(
+                            height: chatDto!.images!.isNotEmpty ? 100 : 250,
+                            width: 250,
+                            child: Center(
+                              child: Wrap(
+                                //alignment: WrapAlignment.spaceEvenly,
+                                //runSpacing: 2,
+                                spacing: 2,
+                                alignment: WrapAlignment.spaceEvenly,
 
-                      child: GestureDetector(
-                        onTap: ()
-                        async {
-                  //savedPath="sdasd";
+                                //verticalDirection: VerticalDirection.up,
 
+                                children: chatDto!.videos!.map((e) {
+                                  print("${ApiConstant.baseurl}$e");
 
-                          final result= await OpenFile.open(savedPath.value[index!.toInt()]??"");
-                          if(result.type ==ResultType.fileNotFound)
-                            {
-                              //print("hereeeeeeeeeee");
-                            //  final dire = await AppPermissions.prepareSaveDir();
-                          //XFile(chatDto?.docs![0],name: "testing").saveTo(dire.path);
-                         // savedPath=dire.path+"testing";
+                                  return FutureBuilder(
+                                    builder: (context, dd) {
+                                      if (dd.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return const Center(
+                                            child: CircularProgressIndicator(
+                                          color: AppColors.primaryColor,
+                                        )); // Show a loading indicator
+                                      } else if (dd.hasError) {
+                                        return const Center(
+                                            child: Icon(Icons
+                                                .play_circle_outline)); // Show an error message
+                                      } else {
+                                        PlatformFile? pff = PlatformFile(
+                                            name:
+                                                "thumbnail ${DateTime.now().microsecondsSinceEpoch}",
+                                            size: 10 * 1024 * 3,
+                                            path: dd.data);
 
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Navigate.to(
+                                                context,
+                                                VideoPreview(
+                                                    url:
+                                                        "${ApiConstant.baseurl}$e"));
+                                          },
+                                          child: Stack(
+                                            children: [
+                                              Container(
+                                                color:
+                                                    AppColors.productTileColor,
+                                                height: 250,
+                                                child: Image.file(
+                                                  File(pff.path!),
+                                                  fit: BoxFit.fill,
+                                                ),
+                                              ),
+                                              Positioned(
+                                                  top: 0,
+                                                  left: 0,
+                                                  right: 0,
+                                                  bottom: 0,
+                                                  child: Icon(
+                                                    Icons.play_circle,
+                                                    size: 50.sp,
+                                                    color:
+                                                        AppColors.primaryColor,
+                                                  ))
+                                            ],
+                                          ),
+                                        );
+                                      }
+                                      // else{
+                                      //   return const CircularProgressIndicator(color: AppColors.primaryColor,);
+                                      //
+                                      // }
+                                    },
+                                    future: getThumbnailFromVideo(
+                                        "${ApiConstant.baseurl}$e"),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ))
+                  : const SizedBox(),
+              chatDto!.images!.isNotEmpty || chatDto!.videos!.isNotEmpty
+                  ? 10.y
+                  : 2.y,
 
+              ///Docs show
+              ValueListenableBuilder(
+                builder: (context, downloadValue, ss) {
+                  return chatDto!.docs!.isNotEmpty
+                      ? Align(
+                          alignment: chatDto!.sender == senderId
+                              ? Alignment.centerRight
+                              : Alignment.centerLeft,
+                          child: GestureDetector(
+                            onTap: () async {
+                              //savedPath="sdasd";
 
-                          print("This is download path ${ApiConstant.baseUrl}${chatDto?.docs![0]}");
-                              //savedPath= await FileDownloader.download(chatDto?.docs![0]);
-                          //var tempDir = await getTemporaryDirectory();
-                          final  String fileName=extractFilenameFromUrl(chatDto!.docs![0]);
-                          //ApiConstant
+                              final result = await OpenFile.open(
+                                  savedPath.value[index!.toInt()] ?? "");
+                              if (result.type == ResultType.fileNotFound) {
+                                //print("hereeeeeeeeeee");
+                                //  final dire = await AppPermissions.prepareSaveDir();
+                                //XFile(chatDto?.docs![0],name: "testing").saveTo(dire.path);
+                                // savedPath=dire.path+"testing";
 
+                                print(
+                                    "This is download path ${ApiConstant.baseurl}${chatDto?.docs![0]}");
+                                //savedPath= await FileDownloader.download(chatDto?.docs![0]);
+                                //var tempDir = await getTemporaryDirectory();
+                                final String fileName =
+                                    extractFilenameFromUrl(chatDto!.docs![0]);
+                                //ApiConstant
 
-                          bool? perm=await DioDownloader().checkPermission();
-                          print(perm.toString()+"ppepeppe");
-                         if(perm ==true) {
-                           Directory saveDirectory=await DioDownloader.prepareSaveDir();
-                           savedPath.value[index!.toInt()]="${saveDirectory.path}$fileName";
-                          // DioDownloader().savedPath.notifyListeners();
+                                bool? perm =
+                                    await DioDownloader().checkPermission();
+                                print(perm.toString() + "ppepeppe");
+                                if (perm == true) {
+                                  Directory saveDirectory =
+                                      await DioDownloader.prepareSaveDir();
+                                  savedPath.value[index!.toInt()] =
+                                      "${saveDirectory.path}$fileName";
+                                  // DioDownloader().savedPath.notifyListeners();
 
-                           print("${savedPath.value[index]}saveeedddddddd");
+                                  print(
+                                      "${savedPath.value[index]}saveeedddddddd");
 
-                           await DioDownloader().download(Dio(), '${ApiConstant.baseUrl}${chatDto?.docs![0]}', "${saveDirectory.path}$fileName");
-                   // Timer.periodic(Duration(), (timer) { });
-                           //Timer.periodic(Duration(seconds: ), (timer) { })
-                           await OpenFile.open(savedPath.value[index]);
-                          savedPath.notifyListeners();
+                                  await DioDownloader().download(
+                                      Dio(),
+                                      '${ApiConstant.baseurl}${chatDto?.docs![0]}',
+                                      "${saveDirectory.path}$fileName");
+                                  // Timer.periodic(Duration(), (timer) { });
+                                  //Timer.periodic(Duration(seconds: ), (timer) { })
+                                  await OpenFile.open(savedPath.value[index]);
+                                  savedPath.notifyListeners();
+                                } else {
+                                  WidgetFunctions.instance.snackBar(context,
+                                      text: "Please grant Permission",
+                                      bgColor: AppColors.primaryColor);
+                                }
+                              } else {}
+                              //print(result.type);
+                            },
+                            child: Container(
+                              height: 50,
+                              color: chatDto!.sender != senderId
+                                  ? AppColors.chatColor
+                                  : AppColors.borderColor,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  // const AssetImageWidget(url:"assets/images/docimage.jpeg",height: 30,width: 30, ),
+                                  const Icon(Icons.picture_as_pdf_outlined),
+                                  Expanded(
+                                    child: AppText(
+                                        extractFilenameFromUrl(
+                                            chatDto!.docs![0]),
+                                        maxLine: 3,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: Styles.circularStdMedium(context,
+                                            fontSize: 12)),
+                                  ),
+                                  savedPath.value[index!.toInt()] == null
+                                      ? const Icon(Icons.download)
+                                      : const SizedBox()
+                                ],
+                              ),
+                            ),
+                          ))
+                      : const SizedBox();
+                },
+                valueListenable: savedPath,
+              ),
+              chatDto!.images!.isNotEmpty || chatDto!.videos!.isNotEmpty
+                  ? 10.y
+                  : 4.y,
 
-                         }
-                         else{
-                           WidgetFunctions.instance.snackBar(context,text: "Please grant Permission",bgColor: AppColors.primaryColor);
-                         }
-
-
-
-
-
-                            }
-                          else{
-
-
-                          }
-                          //print(result.type);
-
-                        },
-                        child: Container(height: 50,
-
+              ///content messages
+              chatDto!.content != null && chatDto!.content!.isNotEmpty
+                  ? Align(
+                      alignment: chatDto!.sender == senderId
+                          ? Alignment.centerRight
+                          : Alignment.centerLeft,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 10.sp, horizontal: 20.sp),
+                        decoration: BoxDecoration(
+                          borderRadius: chatDto!.sender != senderId
+                              ? BorderRadius.only(
+                                  bottomRight: Radius.circular(10.sp),
+                                  topLeft: Radius.circular(10.sp),
+                                  topRight: Radius.circular(10.sp))
+                              : BorderRadius.only(
+                                  topLeft: Radius.circular(10.sp),
+                                  topRight: Radius.circular(10.sp),
+                                  bottomLeft: Radius.circular(10.sp),
+                                ),
                           color: chatDto!.sender != senderId
                               ? AppColors.chatColor
-                              : AppColors.borderColor,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                           // const AssetImageWidget(url:"assets/images/docimage.jpeg",height: 30,width: 30, ),
-                            const Icon(Icons.picture_as_pdf_outlined),
-                            Expanded(
-                              child: AppText(extractFilenameFromUrl(chatDto!.docs![0]),
-                                  maxLine: 3,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: Styles.circularStdMedium(context,fontSize: 12)),
-                            ),
-                           savedPath.value[index!.toInt()]==null? const Icon(Icons.download):const SizedBox()
-
-
-
-                          ],),),
-                      ))
-                      :const SizedBox();
-                }, valueListenable:savedPath,
-              ),
-              chatDto!.images!.isNotEmpty || chatDto!.videos!.isNotEmpty?  10.y:4.y,
-           ///content messages
-              chatDto!.content !=  null  && chatDto!.content!.isNotEmpty ?   Align(
-                alignment: chatDto!.sender == senderId
-                    ? Alignment.centerRight
-                    : Alignment.centerLeft,
-                child: Container(
-
-
-                  padding: EdgeInsets.symmetric(vertical: 10.sp, horizontal: 20.sp),
-                  decoration: BoxDecoration(
-                    borderRadius: chatDto!.sender != senderId
-                        ? BorderRadius.only(
-                            bottomRight: Radius.circular(10.sp),
-                            topLeft: Radius.circular(10.sp),
-                            topRight: Radius.circular(10.sp))
-                        : BorderRadius.only(
-                            topLeft: Radius.circular(10.sp),
-                            topRight: Radius.circular(10.sp),
-                            bottomLeft: Radius.circular(10.sp),
-                          ),
-                    color: chatDto!.sender != senderId
-                        ? AppColors.chatColor
-                        : AppColors.primaryColor,
-                  ),
-                  child:
-                       Text(chatDto!.content ?? "",
-                          textScaleFactor: 1,
-                          style: Styles.circularStdRegular(context,
-                              color: chatDto!.sender != senderId
-                                  ? AppColors.blackColor
-                                  : AppColors.whiteColor)),
-                ),
-              ):const SizedBox(),
-              chatDto!.images!.isNotEmpty || chatDto!.videos!.isNotEmpty?  10.y:5.y,
+                              : AppColors.primaryColor,
+                        ),
+                        child: Text(chatDto!.content ?? "",
+                            textScaleFactor: 1,
+                            style: Styles.circularStdRegular(context,
+                                color: chatDto!.sender != senderId
+                                    ? AppColors.blackColor
+                                    : AppColors.whiteColor)),
+                      ),
+                    )
+                  : const SizedBox(),
+              chatDto!.images!.isNotEmpty || chatDto!.videos!.isNotEmpty
+                  ? 10.y
+                  : 5.y,
               Align(
                 alignment: chatDto!.sender != senderId
                     ? Alignment.topLeft
                     : Alignment.topRight,
-                child: AppText(chatDto!.createdAt!.toHourAndMinutes
-                  ,
+                child: AppText(chatDto!.createdAt!.toHourAndMinutes,
                     style: Styles.circularStdRegular(context,
                         color: AppColors.greyTextColor,
                         fontSize: 12.sp,
@@ -371,18 +411,17 @@ class MessageContainer extends StatelessWidget {
 
   Future<String> getThumbnailFromVideo(String url) async {
     final fileName = await VideoThumbnail.thumbnailFile(
-      video: url,
-      thumbnailPath: (await getTemporaryDirectory()).path,
-      imageFormat: ImageFormat.JPEG,
-      maxWidth: 250,
-      maxHeight: 130,
-      quality: 20
-    );
-    print("here"+fileName.toString());
+        video: url,
+        thumbnailPath: (await getTemporaryDirectory()).path,
+        imageFormat: ImageFormat.JPEG,
+        maxWidth: 250,
+        maxHeight: 130,
+        quality: 20);
+    print("here" + fileName.toString());
 
     final file = File(fileName!);
     print("hereeee${file.path}");
-    print("hereeee${file}");// Your file path
+    print("hereeee${file}"); // Your file path
     String dir = path.dirname(file.path); // Get directory
     String newPath = path.join(dir,
         'thumbnail_${DateTime.now().millisecondsSinceEpoch}.jpg'); // Rename

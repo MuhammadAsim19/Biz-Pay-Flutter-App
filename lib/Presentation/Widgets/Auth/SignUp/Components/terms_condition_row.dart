@@ -26,10 +26,10 @@ class _TermsAndConditionTextRowState extends State<TermsAndConditionTextRow> {
               return Checkbox(
                 value: value,
                 onChanged: (value) {
-                  AgreeToPrivacyAndTerms.agreeToPrivacy(version: '');
-                  // setState(() {
-                  //   checked = value!;
-                  // });
+                  setState(() {
+                    checked = value!;
+                  });
+                  AgreeToPrivacyAndTerms.agree.value = value!;
                 },
               );
             },

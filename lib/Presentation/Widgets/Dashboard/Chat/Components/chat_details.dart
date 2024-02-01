@@ -42,7 +42,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
   void initState() {
     super.initState();
     initValue = 1;
-
+    // InboxRepo().initSocket(context, Data().user?.user?.id);
     //
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   // Scroll to the end when the widgets are fully painted and visible
@@ -72,19 +72,19 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       }
     });
 
-    ///replace userIdValue with storyId
-    ///
     var dataGet = {
       "userId": Data().user?.user?.id,
 
       ///from shared prefs
-      "businessConversationId": widget.chatDto?.id
+      "businessConversationId": widget.chatDto?.id,
       // "brokerConversationId": widget.chatDto?.id
 
       ///from chatDto
     };
 
     InboxRepo.socket?.on('user_online_status', (data) {
+      print('Online Emitting>>>>>>>>>>>>>>>>>');
+
       // print("Online Status");
       String recId = InboxControllers.chatDetailData.value.receiver.toString();
 
@@ -100,6 +100,8 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       // print(data);
     });
     InboxRepo.socket?.on('block_user', (data) {
+      print("block User emiting");
+
       // Handle the event data
       //print("blocked  called");
       //print(data);
@@ -134,10 +136,15 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       // InboxControllers.blockedStatus.notifyListeners();
     });
 
-    InboxRepo.socket!.emit('getBusinessChatDetails', dataGet);
+    print("here is the data$dataGet");
+
+    print("emiting>>>>>>>>>>>>>>>>>>");
     InboxRepo.socket?.onError((e) {
-      //  print(e);
+      print(e);
     });
+
+    InboxRepo.socket!.emit('getBusinessChatDetails', dataGet);
+
     InboxRepo.socket?.on('error', (data) {
       // print("There is error ");
       WidgetFunctions.instance.snackBar(context, text: data);
@@ -148,7 +155,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
 
     ///full chat listener first time
     InboxRepo.socket!.on('businessChatDetails', (data) {
-      print("bizness details");
+      print("bizness details>>>>>>>>>>>>>>>>>>>>>>>>>>>");
       print(data);
 
       ChatTileApiModel chTo = ChatTileApiModel.fromJson(data);
@@ -213,6 +220,9 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       InboxControllers.typingStatus.notifyListeners();
       print(data);
     });
+
+    ///replace userIdValue with storyId
+    ///
 
     _scrollController.addListener(() {
       // print("scroll listening");
@@ -292,8 +302,11 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                       CachedImage(
                           isCircle: true,
                           radius: 30.sp,
-                          url:
-                              "${ApiConstant.baseUrl}${widget.chatDto!.profilePic}"),
+                          url: widget.chatDto!.profilePic != null
+                              ? widget.chatDto!.profilePic!.contains('https')
+                                  ? "${widget.chatDto!.profilePic}"
+                                  : "${ApiConstant.baseurl}${widget.chatDto!.profilePic}"
+                              : ""),
                       10.x,
                       Expanded(
                         flex: 3,
@@ -314,6 +327,15 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                                 fontSize: 12.sp,
                                 color: AppColors.greyTextColor,
                               ),
+                            ),
+                            ValueListenableBuilder(
+                              builder: (context, typingState, ss) {
+                                return AppText(
+                                  typingState ? "Typing..." : "",
+                                  style: Styles.circularStdRegular(context),
+                                );
+                              },
+                              valueListenable: InboxControllers.typingStatus,
                             ),
                             ValueListenableBuilder(
                               builder: (context, cStatus, ss) {
@@ -443,10 +465,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                                             Styles.circularStdMedium(context),
                                       ))
                                     : const Center(
-                                        child: CircularProgressIndicator(
-                                          color: AppColors.primaryColor,
-                                        ),
-                                      );
+                                        child: CircularProgressIndicator());
                           },
                           valueListenable: InboxControllers.chatDetailData,
                         ),
@@ -588,35 +607,19 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
               ),
             ),
 
-            ///typing text
-            Positioned(
-                bottom: 120,
-                //top: 0,
-                left: 30,
-                right: 0,
-                child: ValueListenableBuilder(
-                  builder: (context, typingState, ss) {
-                    return AppText(
-                      typingState ? "Typing..." : "",
-                      style: Styles.circularStdRegular(context),
-                    );
-                  },
-                  valueListenable: InboxControllers.typingStatus,
-                )),
-
             ///loader
-            Positioned(
-                top: 0,
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: isLoading == true
-                    ? const Center(
-                        child: CircularProgressIndicator(
-                          color: AppColors.primaryColor,
-                        ),
-                      )
-                    : const Stack()),
+            // Positioned(
+            //     top: 0,
+            //     bottom: 0,
+            //     left: 0,
+            //     right: 0,
+            //     child: isLoading == true
+            //         ? const Center(
+            //             child: CircularProgressIndicator(
+            //               color: AppColors.primaryColor,
+            //             ),
+            //           )
+            //         : const Stack()),
 
             ///scroll container  scroll indicator
             Positioned(

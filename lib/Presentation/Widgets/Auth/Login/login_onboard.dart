@@ -37,7 +37,7 @@ class _LoginOnboardState extends State<LoginOnboard> {
     getToken();
 
     // TODO: implement initState
-    changeBaseUrl.text = ApiConstant.baseUrl;
+    changeBaseUrl.text = ApiConstant.baseurl;
     super.initState();
   }
 
@@ -184,8 +184,8 @@ class _LoginOnboardState extends State<LoginOnboard> {
         };
         context.read<SocialLoginCubit>().setDataOfSocialToServer(data);
       } else {
-        WidgetFunctions.instance
-            .snackBar(context, text: 'Login Cancelled', bgColor: Colors.orange);
+        WidgetFunctions.instance.snackBar(context,
+            text: 'Login Cancelled', bgColor: AppColors.primaryColor);
       }
     }
   }

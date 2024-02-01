@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Application/Services/PickerServices/picker_services.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
@@ -9,14 +8,10 @@ import 'package:buysellbiz/Domain/User/user_model.dart';
 import 'package:buysellbiz/Presentation/Common/ContextWidgets/common_diaolg_widget.dart';
 import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
-import 'package:buysellbiz/Presentation/Common/custom_date_picker.dart';
-import 'package:buysellbiz/Presentation/Common/custom_dropdown.dart';
 import 'package:buysellbiz/Presentation/Common/dialog.dart';
-import 'package:buysellbiz/Presentation/Widgets/Auth/Login/login.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/Components/country_picker.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_appbar.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Controller/UpdateProfile/update_profile_cubit.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/DeleteAccount/delete_account_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/Controller/get_all_country_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/delete_account.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -54,13 +49,15 @@ class _PersonalInformationState extends State<PersonalInformation> {
   @override
   void initState() {
     userData = Data.app.user;
-    // context.read<GetAllCountryCubit>().getCountry();
+    context.read<GetAllCountryCubit>().getCountry();
     firstNameController.text = userData?.user!.firstName ?? "";
     lastNameController.text = userData?.user!.lastName ?? "";
     emailController.text = userData?.user!.email ?? "";
     calendarController.text = userData?.user!.dob ?? "";
     countryName = userData?.user!.country ?? "";
     phone.text = userData?.user!.phoneNumber ?? "";
+    countryName = userData!.user!.country;
+
     // countryList.add(userData!.user?.country ?? "");
     //
     // // countryList.add(countryName);
@@ -70,6 +67,8 @@ class _PersonalInformationState extends State<PersonalInformation> {
 
   @override
   Widget build(BuildContext context) {
+    print(userData?.user!.phoneNumber);
+
     return Scaffold(
       appBar: const CustomAppBar(
         title: AppStrings.personalLinfo,
@@ -96,11 +95,15 @@ class _PersonalInformationState extends State<PersonalInformation> {
                           ),
                         )
                       : userData?.user?.profilePic != null
-                          ? CachedImage(
-                              radius: 60,
-                              isCircle: true,
-                              url:
-                                  "${ApiConstant.baseUrl}/${userData!.user!.profilePic}")
+                          ? SizedBox(
+                              height: 110.sp,
+                              width: 110.sp,
+                              child: CachedImage(
+                                  radius: 60,
+                                  isCircle: true,
+                                  url:
+                                      "${ApiConstant.baseurl}/${userData!.user!.profilePic}"),
+                            )
                           : const AssetImageWidget(
                               url: Assets.dummyImage2,
                               radius: 60,
@@ -156,17 +159,26 @@ class _PersonalInformationState extends State<PersonalInformation> {
                         hintText: 'gabriel.example@gmail.com',
                         readOnly: true,
                         textInputType: TextInputType.emailAddress),
-                    10.y,
-                    CountryPicker(
-                      countrySelect: (value) {
-                        countryCode = value!;
-                        print(value);
-                        setState(() {});
-                      },
-                      controller: phone,
-                      validator: Validate.phone,
-                      onTapField: false,
-                    ),
+                    userData?.user?.phoneNumber != null
+                        ? CustomTextFieldWithOnTap(
+                            validateText: 'Email Required',
+                            suffixIcon: SvgPicture.asset(Assets.blueCheck),
+                            borderRadius: 40.r,
+                            prefixIcon: SvgPicture.asset(Assets.call),
+                            controller: phone,
+                            hintText: '+1 2392302303',
+                            readOnly: true,
+                            textInputType: TextInputType.emailAddress)
+                        : CountryPicker(
+                            countrySelect: (value) {
+                              countryCode = value!;
+                              print(value);
+                              setState(() {});
+                            },
+                            controller: phone,
+                            validator: Validate.phone,
+                            onTapField: false,
+                          ),
                     10.y,
                     // BlocConsumer<GetAllCountryCubit, GetAllCountryState>(
                     //   listener: (context, state) {
@@ -249,7 +261,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
                   textColor: AppColors.whiteColor,
                 ),
               ),
-              10.y,
+              15.y,
               GestureDetector(
                 onTap: () {
                   Navigate.to(context, DeleteAccount());
@@ -270,7 +282,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
     var data = {
       'firstName': firstNameController.text.trim(),
       'lastName': lastNameController.text.trim(),
-      'phone': phone.text.trim(),
+      'phone': "$countryCode${phone.text.trim()}",
     };
     context.read<UpdateProfileCubit>().updateProfile(body: data, image: image);
   }

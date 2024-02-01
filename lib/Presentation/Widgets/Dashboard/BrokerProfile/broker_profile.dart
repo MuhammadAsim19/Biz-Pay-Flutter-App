@@ -3,6 +3,7 @@ import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/Brokers/broker_list_model.dart';
 import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
+import 'package:buysellbiz/Presentation/Common/chip_widget.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_navigation.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Brokers/broker_by_id_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Brokers/brokers_cubit.dart';
@@ -99,7 +100,7 @@ class _BrokerProfileState extends State<BrokerProfile> {
                                     CachedImage(
                                       isCircle: true,
                                       url:
-                                          "${ApiConstant.baseUrl}/${model?.userInfo?.profilePic}",
+                                          "${ApiConstant.baseurl}/${model?.userInfo?.profilePic}",
                                       height: 108.h,
                                       width: 120.w,
                                     ),
@@ -167,7 +168,7 @@ class _BrokerProfileState extends State<BrokerProfile> {
                                     runSpacing: 12.sp,
                                     children: model!.experties!.servicesOffered!
                                         .map((e) {
-                                      return BrokerChipWidget(
+                                      return ChipWidget(
                                         labelText: e,
                                       );
                                     }).toList(),
@@ -186,7 +187,7 @@ class _BrokerProfileState extends State<BrokerProfile> {
                                     spacing: 20.sp,
                                     runSpacing: 12.sp,
                                     children: model!.industriesServed!.map((e) {
-                                      return BrokerChipWidget(
+                                      return ChipWidget(
                                         labelText: e.title,
                                       );
                                     }).toList(),
@@ -207,7 +208,7 @@ class _BrokerProfileState extends State<BrokerProfile> {
                                     spacing: 20.sp,
                                     runSpacing: 12.sp,
                                     children: model!.certificates!.map((e) {
-                                      return BrokerChipWidget(
+                                      return ChipWidget(
                                         labelText: e,
                                       );
                                     }).toList(),
@@ -244,8 +245,10 @@ class _BrokerProfileState extends State<BrokerProfile> {
                               width: 300.w,
                               height: 40.h,
                               onTap: () {
+                                print(model?.toJson());
+
                                 ChatNavigation.initChatWithBroker(context,
-                                    model?.userInfo!.id ?? "", model?.id ?? "");
+                                    model?.userInfo?.id ?? "", model?.id ?? "");
                                 // Navigate.to(
                                 //     context,
                                 //     ChatDetailsScreen(
@@ -304,39 +307,6 @@ class _BrokerProfileState extends State<BrokerProfile> {
               )),
         ),
       ],
-    );
-  }
-}
-
-class BrokerChipWidget extends StatelessWidget {
-  final double? height;
-  final double? width;
-  final String? labelText;
-  final Color? chipColor;
-  final TextStyle? style;
-
-  const BrokerChipWidget({
-    super.key,
-    this.height,
-    this.width,
-    this.labelText,
-    this.chipColor,
-    this.style,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: height ?? 30.sp,
-      width: width,
-      child: Chip(
-        backgroundColor: AppColors.lightBlueColor,
-        label: AppText(
-          labelText ?? 'Chat',
-          style: style ??
-              Styles.circularStdRegular(context, color: AppColors.blackColor),
-        ),
-      ),
     );
   }
 }

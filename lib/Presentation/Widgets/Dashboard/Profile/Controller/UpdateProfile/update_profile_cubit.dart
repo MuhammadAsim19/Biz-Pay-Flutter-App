@@ -27,6 +27,7 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
 
           SharedPrefs.setUserLoginData(userRawData: userModel);
           SharedPrefs.getUserLoginData();
+          AppInitializer.init();
           emit(UpdateProfileLoaded());
         } else {
           emit(UpdateProfileError(error: value['error']));

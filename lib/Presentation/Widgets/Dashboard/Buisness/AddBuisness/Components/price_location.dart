@@ -64,224 +64,201 @@ class _PriceLocationState extends State<PriceLocation> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.whiteColor,
-      resizeToAvoidBottomInset: false,
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
+      // resizeToAvoidBottomInset: false,
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Form(
+            key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                AppText("Sale  price",
+                    style: Styles.circularStdMedium(context, fontSize: 20)),
+
+                CustomTextFieldWithOnTap(
+                    validateText: 'Sale Price Required',
+                    controller: salePriceController,
+                    hintText: 'Sale price (\$USD)',
+                    borderRadius: 40,
+
+                    // isBorderRequired: false,
+                    textInputType: TextInputType.number),
                 20.y,
-                Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                AppText("Financial detail",
+                    style: Styles.circularStdMedium(context, fontSize: 20)),
+
+                /// reveenue text
+
+                finincialDetails.isNotEmpty
+                    ? ListView.separated(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        separatorBuilder: (context, index) {
+                          return 1.y;
+                        },
+                        itemBuilder: (context, index) {
+                          return CustomTextFieldWithOnTap(
+                              validateText:
+                                  "${finincialDetails[index].keys.first} is Required ",
+                              controller: finincialDetails[index].values.first,
+                              hintText: finincialDetails[index].keys.first,
+                              borderRadius: 40,
+                              //height: 200.h,
+                              //maxline: 10,
+
+                              // isBorderRequired: false,
+                              textInputType: TextInputType.number);
+                        },
+                        itemCount: finincialDetails.length)
+                    : const SizedBox.shrink(),
+
+                CustomButton(
+                  onTap: () {
+                    finincialDetails.add(
+                      {
+                        "Revenue ${DateTime.now().year - yearMi} (USD)":
+                            TextEditingController()
+                      },
+                    );
+                    finincialDetails.add(
+                      {
+                        "Profit ${DateTime.now().year - yearMi} (USD)":
+                            TextEditingController()
+                      },
+                    );
+
+                    yearMi++;
+                    setState(() {});
+                  },
+                  text: "+ Add previous year 2022",
+                  width: 180.sp,
+                  height: 40.0,
+                  textSize: 12,
+                  borderRadius: 40,
+                  textFontWeight: FontWeight.w500,
+                ),
+                10.y,
+                AppText("Location",
+                    style: Styles.circularStdMedium(context, fontSize: 20)),
+                10.y,
+                BlocConsumer<GetAllCountryCubit, GetAllCountryState>(
+                  listener: (context, state) {
+                    print(state);
+                    if (state is GetAllCountryLoaded) {
+                      print("in listener${state.country}");
+                      countryList = state.country!;
+                    }
+                    if (state is GetAllCountryStateLoaded) {
+                      stateList = state.states!;
+                    }
+                    if (state is GetAllCountryCityLoaded) {
+                      cityList = state.city!;
+                    }
+                    if (state is GetAllCountryError) {
+                      WidgetFunctions.instance.showErrorSnackBar(
+                          context: context, error: state.error);
+                    }
+                    if (state is CityAndStateError) {
+                      WidgetFunctions.instance.showErrorSnackBar(
+                          context: context, error: state.error);
+                    }
+                    // TODO: implement listener
+                  },
+                  builder: (context, state) {
+                    return Column(
                       children: [
-                        AppText("Sale  price",
-                            style: Styles.circularStdMedium(context,
-                                fontSize: 20)),
-
-                        CustomTextFieldWithOnTap(
-                            validateText: 'Sale Price Required',
-                            controller: salePriceController,
-                            hintText: 'Sale price (\$USD)',
-                            borderRadius: 40,
-
-                            // isBorderRequired: false,
-                            textInputType: TextInputType.number),
-                        20.y,
-                        AppText("Financial detail",
-                            style: Styles.circularStdMedium(context,
-                                fontSize: 20)),
-
-                        /// reveenue text
-
-                        finincialDetails.isNotEmpty
-                            ? ListView.separated(
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                separatorBuilder: (context, index) {
-                                  return 1.y;
-                                },
-                                itemBuilder: (context, index) {
-                                  return CustomTextFieldWithOnTap(
-                                      validateText:
-                                          "${finincialDetails[index].keys.first} is Required ",
-                                      controller:
-                                          finincialDetails[index].values.first,
-                                      hintText:
-                                          finincialDetails[index].keys.first,
-                                      borderRadius: 40,
-                                      //height: 200.h,
-                                      //maxline: 10,
-
-                                      // isBorderRequired: false,
-                                      textInputType: TextInputType.number);
-                                },
-                                itemCount: finincialDetails.length)
-                            : const SizedBox.shrink(),
-
-                        CustomButton(
-                          onTap: () {
-                            finincialDetails.add(
-                              {
-                                "Revenue ${DateTime.now().year - yearMi} (USD)":
-                                    TextEditingController()
-                              },
+                        DropDownField(
+                          // value: countryName,
+                          // isBorderRequired: true,
+                          // hMargin: 0,
+                          // vMargin: 0,
+                          items: countryList.map((e) {
+                            return DropItem(
+                              value: e,
+                              label: e,
                             );
-                            finincialDetails.add(
-                              {
-                                "Profit ${DateTime.now().year - yearMi} (USD)":
-                                    TextEditingController()
-                              },
-                            );
+                          }).toList(),
+                          color: Colors.white,
+                          hints: 'Country',
 
-                            yearMi++;
+                          // hintText: 'Country',
+                          // value: countryName,
+                          errorText: validate['country'],
+                          onSelected: (value) {
+                            countryName = value;
+                            context.read<GetAllCountryCubit>().getCountryStates(
+                                countryName: countryName,
+                                state: value,
+                                city: false);
                             setState(() {});
                           },
-                          text: "+ Add previous year 2022",
-                          width: 180.sp,
-                          height: 40.0,
-                          textSize: 12,
-                          borderRadius: 40,
-                          textFontWeight: FontWeight.w500,
                         ),
-                        10.y,
-                        AppText("Location",
-                            style: Styles.circularStdMedium(context,
-                                fontSize: 20)),
-                        10.y,
+                        DropDownField(
+                          items: stateList.map((e) {
+                            return DropItem(value: e, label: e);
+                          }).toList(),
+                          hints: 'Province/State',
+                          errorText: validate['state'],
+                          onSelected: (value) {
+                            stateName = value;
+                            // String modifiedText = value.replaceAll(' ', '');
+                            setState(() {});
 
-                        BlocConsumer<GetAllCountryCubit, GetAllCountryState>(
-                          listener: (context, state) {
-                            print(state);
-                            if (state is GetAllCountryLoaded) {
-                              print("in listener${state.country}");
-                              countryList = state.country!;
-                            }
-                            if (state is GetAllCountryStateLoaded) {
-                              stateList = state.states!;
-                            }
-                            if (state is GetAllCountryCityLoaded) {
-                              cityList = state.city!;
-                            }
-                            if (state is GetAllCountryError) {
-                              WidgetFunctions.instance.showErrorSnackBar(
-                                  context: context, error: state.error);
-                            }
-                            if (state is CityAndStateError) {
-                              WidgetFunctions.instance.showErrorSnackBar(
-                                  context: context, error: state.error);
-                            }
-                            // TODO: implement listener
-                          },
-                          builder: (context, state) {
-                            return Column(
-                              children: [
-                                DropDownField(
-                                  // value: countryName,
-                                  // isBorderRequired: true,
-                                  // hMargin: 0,
-                                  // vMargin: 0,
-                                  items: countryList.map((e) {
-                                    return DropItem(
-                                      value: e,
-                                      label: e,
-                                    );
-                                  }).toList(),
-                                  color: Colors.white,
-                                  hints: 'Country',
-
-                                  // hintText: 'Country',
-                                  // value: countryName,
-                                  errorText: validate['country'],
-                                  onSelected: (value) {
-                                    countryName = value;
-                                    context
-                                        .read<GetAllCountryCubit>()
-                                        .getCountryStates(
-                                            countryName: countryName,
-                                            state: value,
-                                            city: false);
-                                    setState(() {});
-                                  },
-                                ),
-                                DropDownField(
-                                  items: stateList.map((e) {
-                                    return DropItem(value: e, label: e);
-                                  }).toList(),
-                                  hints: 'Province/State',
-                                  errorText: validate['state'],
-                                  onSelected: (value) {
-                                    stateName = value;
-                                    // String modifiedText = value.replaceAll(' ', '');
-                                    setState(() {});
-
-                                    context
-                                        .read<GetAllCountryCubit>()
-                                        .getCountryStates(
-                                            countryName: countryName,
-                                            state: stateName,
-                                            city: true);
-                                  },
-                                ),
-                                DropDownField(
-                                  items: cityList.map((e) {
-                                    return DropItem(value: e, label: e);
-                                  }).toList(),
-                                  hints: 'City',
-                                  errorText: validate['city'],
-                                  onSelected: (value) {
-                                    cityName = value;
-                                    setState(() {});
-                                  },
-                                ),
-                              ],
-                            );
+                            context.read<GetAllCountryCubit>().getCountryStates(
+                                countryName: countryName,
+                                state: stateName,
+                                city: true);
                           },
                         ),
-
-                        10.y,
-                        CustomTextFieldWithOnTap(
-                            validateText: 'Address Required',
-                            controller: addressController,
-                            hintText: 'Address',
-                            borderRadius: 40,
-                            height: 56,
-                            //maxline: 10,
-
-                            // isBorderRequired: false,
-                            textInputType: TextInputType.text),
-                        10.y,
-                        CustomTextFieldWithOnTap(
-                            validateText: "Zip Code Required",
-                            controller: zipCode,
-                            hintText: 'Zip Code',
-                            borderRadius: 40,
-                            //height: 200.h,
-                            //maxline: 10,
-                            // isBorderRequired: false,
-                            textInputType: TextInputType.text),
+                        DropDownField(
+                          items: cityList.map((e) {
+                            return DropItem(value: e, label: e);
+                          }).toList(),
+                          hints: 'City',
+                          errorText: validate['city'],
+                          onSelected: (value) {
+                            cityName = value;
+                            setState(() {});
+                          },
+                        ),
                       ],
-                    )),
-                60.y
+                    );
+                  },
+                ),
+
+                10.y,
+                CustomTextFieldWithOnTap(
+                    validateText: 'Address Required',
+                    controller: addressController,
+                    hintText: 'Address',
+                    borderRadius: 40,
+                    height: 56,
+                    //maxline: 10,
+
+                    // isBorderRequired: false,
+                    textInputType: TextInputType.text),
+                10.y,
+                CustomTextFieldWithOnTap(
+                    validateText: "Zip Code Required",
+                    controller: zipCode,
+                    hintText: 'Zip Code',
+                    borderRadius: 40,
+                    //height: 200.h,
+                    //maxline: 10,
+                    // isBorderRequired: false,
+                    textInputType: TextInputType.text),
+                30.y,
+                CustomButton(
+                  onTap: _callData,
+                  textFontWeight: FontWeight.w500,
+                  borderRadius: 30,
+                  height: 56,
+                  width: 1.sw / 0.50,
+                  text: 'Next',
+                ),
+                20.y,
               ],
-            ),
-          ),
-          Positioned(
-            bottom: 10,
-            left: 10,
-            child: CustomButton(
-              onTap: _callData,
-              textFontWeight: FontWeight.w500,
-              borderRadius: 30,
-              height: 56,
-              width: 1.sw / 1.25,
-              text: 'Next',
-            ),
-          )
-        ],
+            )),
       ),
     );
   }

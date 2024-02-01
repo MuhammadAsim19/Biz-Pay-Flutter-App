@@ -157,17 +157,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         _search(value);
                       },
                       prefixIcon: SvgPicture.asset(Assets.searchIcon),
-                      suffixIcon: Container(
-                        margin: const EdgeInsets.only(right: 5),
-                        child: GeneralizedDropDown(
-                          items: countryList,
-                          selectedValue: countryList[0],
-                          onChanged: (v) {
-                            _searchByCountry(v);
-                            print(v);
-                          },
-                        ),
-                      ),
+                      // suffixIcon: Container(
+                      //   margin: const EdgeInsets.only(right: 5),
+                      //   child: GeneralizedDropDown(
+                      //     items: countryList,
+                      //     selectedValue: countryList[0],
+                      //     onChanged: (v) {
+                      //       _searchByCountry(v);
+                      //       print(v);
+                      //     },
+                      //   ),
+                      // ),
                       hintText: 'Search for business',
                       textInputType: TextInputType.text,
                     ))
@@ -616,18 +616,18 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  _searchByCountry(String query) {
-    query = query;
-    print(query);
-    setState(() {
-      allBusinessSearch =
-          allBusiness!.where((item) => item.country == query).toList();
-      onlineBusinessSearch =
-          onlineBusiness!.where((item) => item.country == query).toList();
-      recentlyViewedSearch =
-          recentlyAdded!.where((item) => item.country == query).toList();
-      recentlyAddedSearch =
-          recentlyViewed!.where((item) => item.country == query).toList();
-    });
-  }
+// _searchByCountry(String query) {
+//   query = query;
+//   print(query);
+//   setState(() {
+//     allBusinessSearch =
+//         allBusiness!.where((item) => item.country == query).toList();
+//     onlineBusinessSearch =
+//         onlineBusiness!.where((item) => item.country == query).toList();
+//     recentlyViewedSearch =
+//         recentlyAdded!.where((item) => item.country == query).toList();
+//     recentlyAddedSearch =
+//         recentlyViewed!.where((item) => item.country == query).toList();
+//   });
+// }
 }

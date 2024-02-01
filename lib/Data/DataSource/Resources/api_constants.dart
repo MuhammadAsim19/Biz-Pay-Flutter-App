@@ -1,54 +1,53 @@
 class ApiConstant {
-  // static String baseUrl = 'http://192.168.1.12:8000';
+  static String baseurl = 'http://192.168.1.15:8000';
 
-  static String baseUrl = 'http://18.118.10.44:8000'; // Aws Url
-  static String login = "$baseUrl/api/user/login";
-  static String signUp = "$baseUrl/api/user/register";
+  // static String baseUrl = 'http://18.118.10.44:8000'; // Aws Url
+  static String login = "$baseurl/api/user/login";
+  static String signUp = "$baseurl/api/user/register";
   static String agreeToPrivacy =
-      "$baseUrl/api/privacy_and_terms/agree_to_policy";
-
-  static String socketBase = "192.168.1.12:8000";
-  static String socialLoginUrl = '$baseUrl/api/user/continue_with_google';
-  static String forgetEmail = '$baseUrl/api/user/forget_password/check_user';
-  static String verifyOtp = '$baseUrl/api/user/forget_password/validate_otp';
+      "$baseurl/api/privacy_and_terms/agree_to_policy";
+  static String socketBase = "192.168.1.15:8000";
+  static String socialLoginUrl = '$baseurl/api/user/continue_with_google';
+  static String forgetEmail = '$baseurl/api/user/forget_password/check_user';
+  static String verifyOtp = '$baseurl/api/user/forget_password/validate_otp';
   static String setPassword =
-      '$baseUrl/api/user/forget_password/request_change_password';
-  static String blockUser = "$baseUrl/block_user";
-  static String createBusinessChatUrl = "$baseUrl/createBusinessConversation";
-  static String createBrokerChatUrl = "$baseUrl/createBrokerConversation";
+      '$baseurl/api/user/forget_password/request_change_password';
+  static String blockUser = "$baseurl/block_user";
+  static String createBusinessChatUrl = "$baseurl/createBusinessConversation";
+  static String createBrokerChatUrl = "$baseurl/createBrokerConversation";
 
   // static String blockUser = "$baseUrl/block_user";
   // static String createBusinessUrl = "$baseUrl/createBusinessConversation";
-  static String changePassword = '$baseUrl/api/user/changePassword';
-  static String allCountry = '$baseUrl/countries';
-  static String stateOfCountry = '$baseUrl/states';
-  static String stateCity = '$baseUrl/cities';
+  static String changePassword = '$baseurl/api/user/changePassword';
+  static String allCountry = '$baseurl/countries';
+  static String stateOfCountry = '$baseurl/states';
+  static String stateCity = '$baseurl/cities';
 
   /// Business Apis
-  static String getAllBusiness = "$baseUrl/api/business";
-  static String getBusinessById = "$baseUrl/api/business/details";
-  static String getAllCateg = "$baseUrl/api/category/get_titles";
-  static String catg = "$baseUrl/api/business/filterByCategory/";
-  static String recentlyAddedBusiness = "$baseUrl/api/business/recently_added";
-  static String category = "$baseUrl/api/category";
-  static String brokerList = "$baseUrl/api/broker";
-  static String brokerById = "$baseUrl/api/broker/info";
-  static String switchTOBroker = "$baseUrl/api/broker/switch_to_broker";
-  static String recentlyViewBusiness = "$baseUrl/api/user/get_recentlyViewed";
-  static String addToRecentlyViewed = "$baseUrl/api/user/add_to_recentlyViewed";
-  static String wishList = "$baseUrl/api/user/businesses_wishlist";
-  static String addBusiness = "$baseUrl/api/business/create";
+  static String getAllBusiness = "$baseurl/api/business";
+  static String getBusinessById = "$baseurl/api/business/details";
+  static String getAllCateg = "$baseurl/api/category/get_titles";
+  static String catg = "$baseurl/api/business/filterByCategory/";
+  static String recentlyAddedBusiness = "$baseurl/api/business/recently_added";
+  static String category = "$baseurl/api/category";
+  static String brokerList = "$baseurl/api/broker";
+  static String brokerById = "$baseurl/api/broker/info";
+  static String switchTOBroker = "$baseurl/api/broker/switch_to_broker";
+  static String recentlyViewBusiness = "$baseurl/api/user/get_recentlyViewed";
+  static String addToRecentlyViewed = "$baseurl/api/user/add_to_recentlyViewed";
+  static String wishList = "$baseurl/api/user/businesses_wishlist";
+  static String addBusiness = "$baseurl/api/business/create";
   static String checkBusinessesWishlist =
-      "$baseUrl/api/user/check_businesses_wishlist";
-  static String userBusiness = "$baseUrl/api/user/get/businessess";
-  static String toggleWishlist = "$baseUrl/api/user/toggle_wishlist";
-  static String customerSupport = "$baseUrl/api/user/needs_support";
-  static String deleteAccount = "$baseUrl /api/user/delete_user";
-  static String updateProfile = "$baseUrl/api/user/update_user/";
-  static String privacyPolicy = "$baseUrl/api/privacy_and_terms";
-  static String getAllNotification = "$baseUrl/api/user/getAllNotification";
-  static String categoryBusiness = "$baseUrl/api/business/filterByCategory";
-  static String readNotification = "$baseUrl/api/user/readNotification";
-  static String updateBusiness = "$baseUrl/api/business/update";
-  static String deleteBusiness = "$baseUrl/api/business/delete";
+      "$baseurl/api/user/check_businesses_wishlist";
+  static String userBusiness = "$baseurl/api/user/get/businessess";
+  static String toggleWishlist = "$baseurl/api/user/toggle_wishlist";
+  static String customerSupport = "$baseurl/api/user/needs_support";
+  static String deleteAccount = "$baseurl /api/user/delete_user";
+  static String updateProfile = "$baseurl/api/user/update_user/";
+  static String privacyPolicy = "$baseurl/api/privacy_and_terms";
+  static String getAllNotification = "$baseurl/api/user/getAllNotification";
+  static String categoryBusiness = "$baseurl/api/business/filterByCategory";
+  static String readNotification = "$baseurl/api/user/readNotification";
+  static String updateBusiness = "$baseurl/api/business/update";
+  static String deleteBusiness = "$baseurl/api/business/delete";
 }

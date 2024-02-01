@@ -5,16 +5,15 @@ class ChipWidget extends StatelessWidget {
   final double? width;
   final String? labelText;
   final Color? chipColor;
-  final TextStyle? style;
+  final Color? textColor;
 
-  const ChipWidget({
-    super.key,
-    this.height,
-    this.width,
-    this.labelText,
-    this.chipColor,
-    this.style,
-  });
+  const ChipWidget(
+      {super.key,
+      this.height,
+      this.width,
+      this.labelText,
+      this.chipColor,
+      this.textColor});
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +23,15 @@ class ChipWidget extends StatelessWidget {
           height: height ?? 30.sp,
           width: width,
           child: Chip(
-            backgroundColor: AppColors.primaryColor,
-            side: const BorderSide(color: Colors.transparent),
+            padding: EdgeInsets.only(bottom: 2.sp, left: 5.sp, right: 5.sp),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.sp),
+                side: const BorderSide(color: Colors.transparent)),
+            backgroundColor: chipColor ?? AppColors.chipColor,
             label: AppText(
               labelText ?? 'Chat',
-              style: style ??
-                  Styles.circularStdRegular(context,
-                      color: AppColors.whiteColor),
+              style: Styles.circularStdRegular(context,
+                  color: textColor ?? AppColors.blackColor, fontSize: 13.sp),
             ),
           ),
         ),

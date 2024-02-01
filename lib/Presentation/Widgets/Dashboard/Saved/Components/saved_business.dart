@@ -68,7 +68,7 @@ class _SavedListBusinessState extends State<SavedListBusiness> {
                                       child: CachedImage(
                                         isCircle: false,
                                         url:
-                                            "${ApiConstant.baseUrl}${data.images!.first}",
+                                            "${ApiConstant.baseurl}${data.images!.first}",
                                         width: 119.sp,
                                         height: 120.h,
                                       ),

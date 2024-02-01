@@ -1,14 +1,9 @@
-import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-
+import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/broker_chat_details.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_details.dart';
 import '../../../../Data/DataSource/Resources/imports.dart';
 import 'Components/ChatModel/chat_tile_model.dart';
 import 'Components/chat_tile.dart';
-
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import 'Controllers/Repo/inboox_repo.dart';
 import 'Controllers/inboxControllers.dart';
@@ -28,22 +23,39 @@ class _ChatScreenState extends State<ChatScreen> {
 
   int chip = 0;
 
-  List<ChatTileModel> chatData = [];
+  // List<ChatTileModel> chatData = [];
 
   List<ChatTileModel> brokers = [];
 
   @override
   void initState() {
     InboxRepo().initSocket(context, Data().user?.user?.id);
-
     // var data={
     //   "userId" : "6579ea61d76f7a30f94f5c80"
     // };
     InboxRepo.socket?.on("allBusinessConversations", (data) {
-      print("chatTileData");
-      print((data));
-      InboxControllers.tileInboxData.value = List<ChatTileApiModel>.from(
+      InboxControllers.businessChatLoading.value = 1;
+      InboxControllers.businessChatLoading.notifyListeners();
+
+      // print("chatTileData");
+      // print((data));
+      print('Event trigger ');
+      InboxControllers.businessChatTile.value = List<ChatTileApiModel>.from(
           data.map((x) => ChatTileApiModel.fromJson(x)));
+
+      InboxControllers.brokerChatTile.notifyListeners();
+    });
+
+    InboxRepo.socket?.on("allBrokerConversations", (data) {
+      print('Event trigger ');
+
+      // print("chatTileData");
+      // print((data));
+      InboxControllers.businessChatLoading.value = 1;
+      InboxControllers.businessChatLoading.notifyListeners();
+      InboxControllers.brokerChatTile.value = List<ChatTileApiModel>.from(
+          data.map((x) => ChatTileApiModel.fromJson(x)));
+      InboxControllers.brokerChatTile.notifyListeners();
     });
 
     //InboxRepo.socket.emit("getAllBusinessConversations", jsonEncode(data));
@@ -55,7 +67,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void dispose() {
-    print("called");
+    // print("called");
     InboxRepo.socket?.disconnect();
 
     ///does not work on ios
@@ -69,8 +81,12 @@ class _ChatScreenState extends State<ChatScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           automaticallyImplyLeading: false,
-          title: const Text('Chat'),
+          title: AppText(
+            'Chat',
+            style: Styles.circularStdMedium(context, fontSize: 18.sp),
+          ),
           //  leading: const Icon(Icons.arrow_back),
         ),
         backgroundColor: Colors.white,
@@ -154,35 +170,53 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
               25.y,
               Expanded(
-                child: ValueListenableBuilder(
-                  builder: (context, chatState, ss) {
-                    return chatState.isNotEmpty
-                        ? ListView.separated(
-                            physics: const BouncingScrollPhysics(),
-                            separatorBuilder: (context, index) {
-                              return SizedBox(
-                                height: 15.h,
-                              );
-                            },
-                            shrinkWrap: true,
-                            itemCount:
-                                chip == 0 ? chatState.length : brokers.length,
-                            itemBuilder: (context, index) {
-                              return ChatTile(
-                                // data: chip == 0 ? chatData[index] : brokers[index],
-                                tileData: chatState[index],
-                              );
-                            },
-                          )
-                        : Center(
-                            child: AppText(
-                            "No have a conversation",
-                            style: Styles.circularStdMedium(context),
-                          ));
-                  },
-                  valueListenable: InboxControllers.tileInboxData,
-                ),
-              )
+                  child: ValueListenableBuilder(
+                builder: (context, chatState, ss) {
+                  return InboxControllers.businessChatLoading.value == 1
+                      ? chatState.isNotEmpty
+                          ? ListView.separated(
+                              physics: const BouncingScrollPhysics(),
+                              separatorBuilder: (context, index) {
+                                return SizedBox(
+                                  height: 15.h,
+                                );
+                              },
+                              shrinkWrap: true,
+                              itemCount: chatState.length,
+                              itemBuilder: (context, index) {
+                                // print(chatState[0].toJson());
+
+                                return InkWell(
+                                  onTap: () {
+                                    Navigate.to(
+                                        context,
+                                        chip == 0
+                                            ? ChatDetailsScreen(
+                                                chatDto: chatState[index])
+                                            : BrokerChatDetailsScreen(
+                                                chatDto: chatState[index],
+                                              ));
+                                  },
+                                  child: ChatTile(
+                                    // data: chip == 0 ? chatData[index] : brokers[index],
+                                    tileData: chatState[index],
+                                  ),
+                                );
+                              },
+                            )
+                          : Center(
+                              child: AppText(
+                              "No have a conversation",
+                              style: Styles.circularStdMedium(context),
+                            ))
+                      : const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                },
+                valueListenable: chip == 0
+                    ? InboxControllers.businessChatTile
+                    : InboxControllers.brokerChatTile,
+              ))
             ],
           ),
         ),

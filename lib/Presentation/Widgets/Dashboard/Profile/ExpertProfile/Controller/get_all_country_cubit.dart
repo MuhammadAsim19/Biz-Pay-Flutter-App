@@ -43,6 +43,8 @@ class GetAllCountryCubit extends Cubit<GetAllCountryState> {
       await GetCountry.getCountryStates(countryName ?? "", state ?? "", city!)
           .then((value) {
         if (value['Success']) {
+          print(value['body']);
+
           // List<BusinessModel> business =
           // List.from(value["body"].map((e) => BusinessModel.fromJson(e)));
           if (city == false) {

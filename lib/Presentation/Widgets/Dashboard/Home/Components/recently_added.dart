@@ -51,8 +51,9 @@ class RecentlyAdded extends StatelessWidget {
                             CachedImage(
                               isCircle: false,
                               topRadius: 10.sp,
+                              fit: BoxFit.cover,
                               url: businessProducts![index].images!.isNotEmpty
-                                  ? "${ApiConstant.baseUrl}${businessProducts![index].images!.first}"
+                                  ? "${ApiConstant.baseurl}${businessProducts![index].images!.first}"
                                   : "",
                               width: 245.w,
                               height: 170.h,
@@ -95,7 +96,10 @@ class RecentlyAdded extends StatelessWidget {
                                       onTap: () {
                                         chatTap(businessProducts![index]);
                                       },
-                                      child: const ChipWidget(),
+                                      child: const ChipWidget(
+                                        textColor: AppColors.whiteColor,
+                                        chipColor: AppColors.primaryColor,
+                                      ),
                                     ),
                                     // CustomButton(onTap: onTap, text: text)
                                     8.x
