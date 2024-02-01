@@ -10,11 +10,12 @@ class ChatNavigation {
   /// chat creating with business
   static getToChatDetails(
       BuildContext context, String createdFor, String businessId) async {
+   print("socket value ");
     print(InboxRepo.socket != null);
     // if(InboxRepo.socket.connected==false) {
     //
     // }
-    if (InboxRepo.socket == null && InboxRepo.socket?.connected == false) {
+    if (InboxRepo.isConnected.value==false) {
       print("in  here");
       InboxRepo().initSocket(context, Data().user?.user?.id);
 
@@ -76,7 +77,7 @@ class ChatNavigation {
     // if(InboxRepo.socket.connected==false) {
     //
     // }
-    if (InboxRepo.socket == null || InboxRepo.socket?.connected == false) {
+    if (InboxRepo.isConnected.value==false) {
       print("in  hereee");
       InboxRepo().initSocket(context, Data().user?.user?.id);
     }

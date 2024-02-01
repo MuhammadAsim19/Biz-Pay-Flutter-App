@@ -71,7 +71,7 @@ class _ChatScreenState extends State<ChatScreen> {
     InboxRepo.socket?.disconnect();
 
     ///does not work on ios
-    InboxRepo.socket?.dispose();
+    //InboxRepo.socket?.dispose();
     // TODO: implement dispose
     super.dispose();
   }
