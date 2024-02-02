@@ -228,9 +228,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       ///
                       ,
                       10.y,
-                      AppText("Recently View",
-                          style:
-                              Styles.circularStdMedium(context, fontSize: 18)),
+                      Row(
+                        children: [
+                          AppText("Recently Viewed",
+                              style: Styles.circularStdMedium(context,
+                                  fontSize: 18)),
+                          const Spacer(),
+                          _viewAllBusiness(
+                              data: recentlyViewed,
+                              businessType: 'Recently Viewed'),
+                        ],
+                      ),
                       5.y,
                       BlocConsumer<RecentlyViewedCubit, RecentlyViewedState>(
                         listener: (context, state) {
@@ -312,10 +320,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                       },
                                     )
                                   : state is RecentlyAddedError
-                                      ? AppText(
-                                          state.error!,
-                                          style: Styles.circularStdRegular(
-                                              context),
+                                      ? Center(
+                                          child: AppText(
+                                            state.error!,
+                                            style: Styles.circularStdRegular(
+                                                context),
+                                          ),
                                         )
                                       : const SizedBox.shrink();
                         },
@@ -331,14 +341,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           const Spacer(),
                           InkWell(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                builder: (context) {
-                                  return ViewAllBrokers(
-                                    profileData: brokers,
-                                    getData: (val) {},
-                                  );
-                                },
-                              ));
+                              brokers != null
+                                  ? Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) {
+                                        return ViewAllBrokers(
+                                          profileData: brokers,
+                                          getData: (val) {},
+                                        );
+                                      },
+                                    ))
+                                  : null;
                             },
                             child: AppText("View all",
                                 style: Styles.circularStdRegular(context,
@@ -491,16 +503,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ));
                                       },
                                       chatTap: (BusinessModel val) {
-                                        BottomNotifier.bottomPageController!
-                                            .jumpToPage(2);
-                                        BottomNotifier
-                                            .bottomNavigationNotifier.value = 2;
+                                        if (val.createdBy != null) {
+                                          ChatNavigation.getToChatDetails(
+                                              context,
+                                              val.createdBy!.id!,
+                                              val.id!);
+                                        }
                                       },
                                     )
                                   : state is AllBusinessError
                                       ? Center(
                                           child: AppText(state.error!,
-                                              style: Styles.circularStdMedium(
+                                              style: Styles.circularStdRegular(
                                                   context)),
                                         )
                                       : const SizedBox.shrink();
@@ -543,10 +557,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ));
                                   },
                                   chatTap: (BusinessModel val) {
-                                    BottomNotifier.bottomPageController!
-                                        .jumpToPage(2);
-                                    BottomNotifier
-                                        .bottomNavigationNotifier.value = 2;
+                                    if (val.createdBy != null) {
+                                      ChatNavigation.getToChatDetails(
+                                          context, val.createdBy!.id!, val.id!);
+                                    }
                                   },
                                 )
                               : state is OnlineBusinessLoading
@@ -602,14 +616,16 @@ class _HomeScreenState extends State<HomeScreen> {
   _viewAllBusiness({List<BusinessModel>? data, String? businessType}) {
     return InkWell(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(
-          builder: (context) {
-            return ViewAllBusiness(
-              model: data,
-              businessRow: businessType,
-            );
-          },
-        ));
+        data != null
+            ? Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return ViewAllBusiness(
+                    model: data,
+                    businessRow: businessType,
+                  );
+                },
+              ))
+            : null;
       },
       child: AppText("View all",
           style: Styles.circularStdRegular(context, fontSize: 14)),

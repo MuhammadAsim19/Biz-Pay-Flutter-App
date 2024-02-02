@@ -25,9 +25,11 @@ class RecentlyAddedCubit extends Cubit<RecentlyAddedState> {
           emit(RecentlyAddedLoaded(data: business));
         } else {
           emit(RecentlyAddedError(error: value['error']));
+          print('>>>>>>>>>>>>>>>>>>>>>>>>>>>$value');
         }
       }).catchError((e) {
         emit(RecentlyAddedError(error: e.toString()));
+        throw e;
       });
     } catch (e) {
       emit(RecentlyAddedError(error: e.toString()));

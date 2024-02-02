@@ -11,6 +11,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetai
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/bussiness_wishlist_api_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/download_file.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/State/business_wishlistapi_state.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_navigation.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/chat.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Saved/Controller/saved_listing_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -401,12 +402,11 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                 //              BottomNotifier.bottomNavigationNotifier.value=2;
                                 //
                                 // Navigate.toReplace(context, const BottomNavigationScreen(initialPage: 2,));
-
-                                Navigate.to(
-                                    context,
-                                    const ChatScreen(
-                                      backButton: true,
-                                    ));
+                                print(value.createdBy?.toJson());
+                                if (value.createdBy != null) {
+                                  ChatNavigation.getToChatDetails(
+                                      context, value.createdBy!.id!, value.id!);
+                                }
                               },
                               leadingIcon: Assets.messageWhiteIcon,
                               leadingSvgIcon: true,

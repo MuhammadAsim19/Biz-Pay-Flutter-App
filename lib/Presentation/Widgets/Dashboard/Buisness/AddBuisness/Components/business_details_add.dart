@@ -351,18 +351,23 @@ class _BusinessAddDetailsState extends State<BusinessAddDetails> {
               onTap: () {
                 if (_formKey.currentState!.validate()) {
                   if (upload != null) {
-                    print(advantages);
-
-                    if (advantages.isNotEmpty) {
-                      AddNotifier.addPageController.jumpToPage(1);
-                      AddNotifier.addBusinessNotifier.value = 1;
-                      _addData();
-                      log("Here is the data of notifier${AddBusinessController.addBusiness.value.advantages.toString()}");
-                      uploadFiles = false;
-                      setState(() {});
+                    print(upload!.extension);
+                    if (upload!.extension == "pdf") {
+                      print(advantages);
+                      if (advantages.isNotEmpty) {
+                        AddNotifier.addPageController.jumpToPage(1);
+                        AddNotifier.addBusinessNotifier.value = 1;
+                        _addData();
+                        log("Here is the data of notifier${AddBusinessController.addBusiness.value.advantages.toString()}");
+                        uploadFiles = false;
+                        setState(() {});
+                      } else {
+                        WidgetFunctions.instance.snackBar(context,
+                            text: 'Add at least one advantage');
+                      }
                     } else {
-                      WidgetFunctions.instance.snackBar(context,
-                          text: 'Add at least one advantage');
+                      WidgetFunctions.instance
+                          .snackBar(context, text: 'Upload only pdf files');
                     }
                   } else {
                     uploadFiles = true;

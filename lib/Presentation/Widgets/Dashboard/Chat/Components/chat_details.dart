@@ -41,6 +41,9 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
   @override
   void initState() {
     super.initState();
+
+    InboxRepo().initSocket(context, Data.app.user?.user?.id);
+
     initValue = 1;
     // InboxRepo().initSocket(context, Data().user?.user?.id);
     //
@@ -147,7 +150,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
 
     InboxRepo.socket?.on('error', (data) {
       // print("There is error ");
-      WidgetFunctions.instance.snackBar(context, text: data);
+      // WidgetFunctions.instance.snackBar(context, text: data);
       //print(data);
     });
 

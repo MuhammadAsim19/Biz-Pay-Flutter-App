@@ -41,10 +41,10 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   }
 
   init(BuildContext context) {
-    NotificationMetaData().foregroundNotificationHandler(context: context);
+    NotificationMetaData().foregroundNotificationHandler();
     NotificationMetaData().setContext(context);
     NotificationMetaData().notificationPayload(context);
-    NotificationMetaData().backgroundNotificationOnTapHandler(context: context);
+    NotificationMetaData().backgroundNotificationOnTapHandler();
     NotificationMetaData().terminatedFromOnTapStateHandler(
         context: context, payLoadData: widget.message);
   }
@@ -125,11 +125,11 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
                 print(x);
                 BottomNotifier.bottomNavigationNotifier.value = x;
               },
-              children: [
-                const HomeScreen(),
-                const SavedListing(),
+              children: const [
+                HomeScreen(),
+                SavedListing(),
                 ChatScreen(),
-                const ProfileScreen()
+                ProfileScreen()
               ],
             ),
           ),

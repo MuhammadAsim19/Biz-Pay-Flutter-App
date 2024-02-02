@@ -35,7 +35,7 @@ class User {
   final String? phoneNumber;
   final String? lastName;
   final String? country;
-
+  final OtpModel? otpModel;
   final String? profilePic;
   final String? firstName;
   final String? fullName;
@@ -55,6 +55,7 @@ class User {
   final int? v;
 
   User({
+    this.otpModel,
     this.firstName,
     this.fullName,
     this.email,
@@ -83,6 +84,9 @@ class User {
   String toRawJson() => json.encode(toJson());
 
   factory User.fromJson(Map<String, dynamic> json) => User(
+        otpModel: json["registerationOTP"] == null
+            ? null
+            : OtpModel.fromJson(json["registerationOTP"]),
         firstName: json["firstName"],
         dob: json["dob"],
         phoneNumber: json['phone'] == "null" ? null : json['phone'],
@@ -145,5 +149,42 @@ class User {
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
         "__v": v,
+      };
+}
+
+class OtpModel {
+  final int? otp;
+  final DateTime? aeneratedAt;
+  final DateTime? expiresAt;
+  final bool? isVerified;
+
+  OtpModel({
+    this.otp,
+    this.aeneratedAt,
+    this.expiresAt,
+    this.isVerified,
+  });
+
+  factory OtpModel.fromRawJson(String str) =>
+      OtpModel.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory OtpModel.fromJson(Map<String, dynamic> json) => OtpModel(
+        otp: json["otp"],
+        aeneratedAt: json["aeneratedAt"] == null
+            ? null
+            : DateTime.parse(json["aeneratedAt"]),
+        expiresAt: json["expiresAt"] == null
+            ? null
+            : DateTime.parse(json["expiresAt"]),
+        isVerified: json["isVerified"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "otp": otp,
+        "aeneratedAt": aeneratedAt?.toIso8601String(),
+        "expiresAt": expiresAt?.toIso8601String(),
+        "isVerified": isVerified,
       };
 }

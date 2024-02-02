@@ -9,6 +9,7 @@ import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/custom_textfield_with_on_tap.dart';
 import 'package:buysellbiz/Presentation/Common/dialog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/Login/login.dart';
+import 'package:buysellbiz/Presentation/Widgets/Auth/Login/login_onboard.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_appbar.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_list_tile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/delete_dialog.dart';
@@ -191,7 +192,7 @@ class DeleteAccount extends StatelessWidget {
                       Future.delayed(const Duration(seconds: 2), () {
                         SharedPrefs.clearUserData();
                         Navigator.pop(context);
-                        Navigate.toReplaceAll(context, LoginScreen());
+                        Navigate.toReplaceAll(context, const LoginOnboard());
                       });
                     }
                     if (state is DeleteAccountError) {

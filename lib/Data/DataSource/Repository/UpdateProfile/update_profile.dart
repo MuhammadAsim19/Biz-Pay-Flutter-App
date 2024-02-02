@@ -7,6 +7,8 @@ class UpdateProfileRepo {
   static Future updateProfile(
       {Map<String, dynamic>? body, String? images}) async {
     try {
+      print(images);
+
       if (images != null) {
         return await ApiService.putMultiPart(
                 ApiConstant.updateProfile, body!, [images],

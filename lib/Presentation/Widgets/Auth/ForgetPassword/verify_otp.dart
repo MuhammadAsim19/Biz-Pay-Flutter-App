@@ -11,19 +11,22 @@ import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/Controllers/
 import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/Controllers/verify_otp_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/set_password.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/sign_up.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/BottomNavigation/Controller/BottomNavigationNotifier/bottom_navigation_notifier.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class VerifyOtp extends StatefulWidget {
-  VerifyOtp({super.key, this.userID, this.email});
+class VerifyOtpScreen extends StatefulWidget {
+  const VerifyOtpScreen(
+      {super.key, this.userID, this.email, this.isFromSignUp});
 
-  String? userID;
-  String? email;
+  final String? userID;
+  final String? email;
+  final bool? isFromSignUp;
 
   @override
-  State<VerifyOtp> createState() => _VerifyOtpState();
+  State<VerifyOtpScreen> createState() => _VerifyOtpScreenState();
 }
 
-class _VerifyOtpState extends State<VerifyOtp> {
+class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   TextEditingController otpController = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
@@ -99,11 +102,17 @@ class _VerifyOtpState extends State<VerifyOtp> {
                         text: state.error, bgColor: AppColors.primaryColor);
                   }
                   if (state is VerifyOtpLoaded) {
-                    Navigate.toReplace(
-                        context,
-                        SetPassword(
-                          resetToken: state.otpToken,
-                        ));
+                    if (widget.isFromSignUp == true) {
+                      BottomNotifier.bottomNavigationNotifier.value = 0;
+                      Navigate.toReplace(
+                          context, const BottomNavigationScreen());
+                    } else {
+                      Navigate.toReplace(
+                          context,
+                          SetPassword(
+                            resetToken: state.otpToken,
+                          ));
+                    }
                   }
                   // TODO: implement listener
                 },
@@ -113,7 +122,9 @@ class _VerifyOtpState extends State<VerifyOtp> {
                       if (formKey.currentState!.validate()) {
                         if (time1 == null) {
                           context.read<VerifyOtpCubit>().verify(
-                              otpController.text.trim(), widget.userID!,
+                              otpController.text.trim(),
+                              widget.userID!,
+                              widget.isFromSignUp!,
                               loading: false);
                           otpController.clear();
                         } else {

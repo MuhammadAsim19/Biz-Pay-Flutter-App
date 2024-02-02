@@ -49,7 +49,8 @@ class CategoryList extends StatelessWidget {
                               height: 30.sp,
                             )
                           : CachedImage(
-                              url: category.icon!,
+                              url:
+                                  "${ApiConstant.baseurl}${category.icon ?? ""}",
                               radius: 20.sp,
                             )),
                 ),

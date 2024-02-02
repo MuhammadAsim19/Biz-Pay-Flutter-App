@@ -29,7 +29,7 @@ class _AddBusinessState extends State<AddBusiness> {
         print(AddNotifier.addBusinessNotifier.value);
         if (AddNotifier.addBusinessNotifier.value == 0) {
           AddNotifier.addPageController.removeListener(() {});
-          Navigate.pop(context);
+          // Navigate.pop(context);
         } else if (AddNotifier.addBusinessNotifier.value == 1) {
           AddNotifier.addBusinessNotifier.value = 0;
           AddNotifier.addPageController.jumpToPage(0);

@@ -238,8 +238,6 @@ class _UpdatePriceLocationState extends State<UpdatePriceLocation> {
                   onTap: () {
                     if (_formKey.currentState!.validate()) {
                       _addData();
-                      salePriceController.clear();
-                      finincialDetails.first.values.first.clear();
                     }
                   },
                   textFontWeight: FontWeight.w500,

@@ -5,12 +5,20 @@ import 'package:buysellbiz/Data/Services/Notification/notification_meta_data.dar
 import 'package:buysellbiz/Data/Services/Notification/notification_services.dart';
 import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/notification_shimmer.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/BrokerProfile/broker_profile.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/buisness_details.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/broker_chat_details.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_details.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Controllers/Repo/inboox_repo.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Controllers/inboxmodel.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Components/notification_tile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/notification_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/notification_state.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/read_notification_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/read_notification_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'Components/notification_model.dart';
 
 class Notifications extends StatefulWidget {
   const Notifications({
@@ -74,6 +82,8 @@ class _NotificationsState extends State<Notifications> {
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemBuilder: (context, index) {
+                                    NotificationModel data =
+                                        state.notificationModel![index];
                                     log(state.notificationModel![index].id!);
                                     return BlocListener<ReadNotificationCubit,
                                         ReadNotificationState>(
@@ -97,9 +107,19 @@ class _NotificationsState extends State<Notifications> {
                                         }
                                         // TODO: implement listener
                                       },
-                                      child: NotificationTile(
-                                          data:
-                                              state.notificationModel![index]),
+                                      child: InkWell(
+                                        onTap: () {
+                                          if (data.isRead != true) {
+                                            context
+                                                .read<ReadNotificationCubit>()
+                                                .readNotification(data.id!);
+                                          }
+                                          // _navigation(data.)
+                                        },
+                                        child: NotificationTile(
+                                            data: state
+                                                .notificationModel![index]),
+                                      ),
                                     );
                                   },
                                   separatorBuilder: (context, index) {
@@ -128,5 +148,61 @@ class _NotificationsState extends State<Notifications> {
         ),
       ),
     );
+  }
+
+  _navigation(String navigateTo, var info) {
+    switch (navigateTo) {
+      case "NEW_BUSINESS_CREATED":
+        navigate(
+            context,
+            BusinessDetails(
+              isFromNotification: true,
+              id: info,
+            ));
+      case "BUSINES_UPDATED":
+        navigate(
+            context,
+            BusinessDetails(
+              id: info,
+            ));
+
+      case 'BUSINES_CHAT_STARTED':
+        const BottomNavigationScreen(
+          initialPage: 2,
+        );
+      case 'NEW_MESSEGE_TO_BROKER_CHAT':
+        InboxRepo().initSocket(context, Data().user?.user?.id);
+        navigate(
+            context,
+            BrokerChatDetailsScreen(
+              chatDto: ChatTileApiModel.fromRawJson(info),
+            ));
+
+      case 'NEW_MESSEGE_TO_BUSIENSS_CHAT':
+        InboxRepo().initSocket(context, Data().user?.user?.id);
+        navigate(
+            context,
+            ChatDetailsScreen(
+              chatDto: ChatTileApiModel.fromRawJson(info),
+            ));
+      case 'BROKER_PROFILE_CREATED':
+        navigate(
+            context,
+            BrokerProfile(
+              id: info,
+            ));
+
+      default:
+        // Handle unknown navigateTo values, maybe return a default screen or throw an error.
+        navigate(context, const Notifications());
+    }
+  }
+
+  navigate(BuildContext context, Widget navigation) {
+    Navigator.push(context, MaterialPageRoute(
+      builder: (context) {
+        return navigation;
+      },
+    ));
   }
 }

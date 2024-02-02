@@ -10,12 +10,12 @@ class ChatNavigation {
   /// chat creating with business
   static getToChatDetails(
       BuildContext context, String createdFor, String businessId) async {
-   print("socket value ");
+    print("socket value ");
     print(InboxRepo.socket != null);
     // if(InboxRepo.socket.connected==false) {
     //
     // }
-    if (InboxRepo.isConnected.value==false) {
+    if (InboxRepo.isConnected.value == false) {
       print("in  here");
       InboxRepo().initSocket(context, Data().user?.user?.id);
 
@@ -41,7 +41,10 @@ class ChatNavigation {
             ChatDetailsScreen(
               chatDto: chatTileApiModel,
             ));
+      } else {
+        WidgetFunctions.instance.snackBar(context, text: value['error']);
       }
+
       // Navigate.to(context, ChatDetailsScreen(chatDto: chatTileApiModel,));
     });
     print("user id${Data().user!.user!.id}");
@@ -77,7 +80,7 @@ class ChatNavigation {
     // if(InboxRepo.socket.connected==false) {
     //
     // }
-    if (InboxRepo.isConnected.value==false) {
+    if (InboxRepo.isConnected.value == false) {
       print("in  hereee");
       InboxRepo().initSocket(context, Data().user?.user?.id);
     }
@@ -104,6 +107,8 @@ class ChatNavigation {
             BrokerChatDetailsScreen(
               chatDto: chatTileApiModel,
             ));
+      } else {
+        WidgetFunctions.instance.snackBar(context, text: value['error']);
       }
       // Navigate.to(context, ChatDetailsScreen(chatDto: chatTileApiModel,));
     });

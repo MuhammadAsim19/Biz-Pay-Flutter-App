@@ -17,7 +17,10 @@ class AllBusiness {
   }
 
   static Future<Map<String, dynamic>> recentlyAdded() async {
-    return await ApiService.get(ApiConstant.recentlyAddedBusiness);
+    var headers = {"Authorization": " ${Data.app.token}"};
+
+    return await ApiService.get(ApiConstant.recentlyAddedBusiness,
+        headers: headers);
   }
 
   static Future<Map<String, dynamic>> yourBusinessList() async {

@@ -21,16 +21,17 @@ class SignUpCubit extends Cubit<SignUpState> {
 
           await SharedPrefs.setUserLoginData(userRawData: userData);
           await SharedPrefs.setLoginToken(value['body']['token']);
-
-          emit(SignUpLoaded());
+          emit(SignUpLoaded(userModel: userData));
         } else {
           emit(SignUpError(error: value['error']));
         }
       }).catchError((e) {
         emit(SignUpError(error: 'Some Thing Wrong'));
+        throw e;
       });
     } catch (e) {
       emit(SignUpError(error: e.toString()));
+      rethrow;
     }
   }
 }

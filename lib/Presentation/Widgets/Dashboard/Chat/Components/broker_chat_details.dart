@@ -46,7 +46,6 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
   void initState() {
     super.initState();
     initValue = 1;
-    // InboxRepo().initSocket(context, Data().user?.user?.id);
 
     //
     // WidgetsBinding.instance.addPostFrameCallback((_) {

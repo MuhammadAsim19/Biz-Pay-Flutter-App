@@ -8,6 +8,10 @@ class InboxControllers {
       ValueNotifier([]);
   static ValueNotifier<List<ChatTileApiModel>> brokerChatTile =
       ValueNotifier([]);
+  static ValueNotifier<List<ChatTileApiModel>> businessSearchChatTile =
+      ValueNotifier([]);
+  static ValueNotifier<List<ChatTileApiModel>> brokerSearchChatTile =
+      ValueNotifier([]);
 
   static ValueNotifier<ChatTileApiModel> chatDetailData =
       ValueNotifier(ChatTileApiModel());

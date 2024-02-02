@@ -1,11 +1,12 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
+import 'package:buysellbiz/Data/DataSource/Repository/Auth/verify_otp.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/validator.dart';
 import 'package:buysellbiz/Data/Services/firebase_services.dart';
 import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/custom_date_picker.dart';
-import 'package:buysellbiz/Presentation/Common/widget_functions.dart';
+import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/verify_otp.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/Login/login.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/Controllers/agree_to_privacy.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/Controllers/hide_show_password.dart';
@@ -228,13 +229,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     }
                     if (state is SignUpLoaded) {
                       Navigator.pop(context);
-                      BottomNotifier.bottomNavigationNotifier.value = 0;
-                      WidgetFunctions.instance.snackBar(context,
-                          bgColor: AppColors.primaryColor,
-                          text: "Login Successfully");
-
                       Navigate.toReplace(
-                          context, const BottomNavigationScreen());
+                          context,
+                          VerifyOtpScreen(
+                            userID: state.userModel?.user?.id,
+                            email: state.userModel?.user?.email,
+                            isFromSignUp: true,
+                          ));
                     }
                     // TODO: implement listener
                   },

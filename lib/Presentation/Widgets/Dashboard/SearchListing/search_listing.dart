@@ -5,7 +5,9 @@ import 'package:buysellbiz/Presentation/Common/ContextWidgets/bottom_sheet.dart'
 import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/business_shimmer.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/buisness_details.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Category/Controller/category_business_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_navigation.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/chat.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/Controller/get_all_country_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/SearchListing/Components/filter_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
@@ -23,7 +25,7 @@ class SearchListing extends StatefulWidget {
 }
 
 class _SearchListingState extends State<SearchListing> {
-  final List<String> countryList = ["CountryA", "China", "PAKISTAN"];
+  List<dynamic>? countryList = [];
 
   final List<String> priceList = [
     "0-1000\$",
@@ -47,7 +49,7 @@ class _SearchListingState extends State<SearchListing> {
   @override
   void initState() {
     context.read<CategoryBusinessCubit>().getCategoryBusiness(widget.id);
-
+    context.read<GetAllCountryCubit>().getCountry();
     super.initState();
   }
 
@@ -92,39 +94,49 @@ class _SearchListingState extends State<SearchListing> {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
-              child: Row(
-                children: [
-                  // 10.x,
-                  WidgetFunctions.instance.dropDown(context,
-                      values: countryList,
-                      titles: countryList,
-                      placeholder: "Country", onChange: (c) {
-                    _filterByCountry(c.toString());
-                  }, width: 110),
-                  10.x,
-                  // WidgetFunctions.instance.dropDown(context,
-                  //     values: categoryList,
-                  //     titles: categoryList,
-                  //     placeholder: "Categories",
-                  //     onChange: (c) {},
-                  //     width: 120),
-                  // 10.x,
-                  FilterButtons(
-                      value: 'Price',
-                      onTap: () {
-                        _filterBottomSheet((value) {
-                          _filterByPrice(value);
-                        });
-                      }),
-                  10.x,
-                  FilterButtons(
-                      value: 'Revenue',
-                      onTap: () {
-                        _filterBottomSheet((value) {
-                          _filterByRevenue(value);
-                        });
-                      }),
-                ],
+              child: BlocConsumer<GetAllCountryCubit, GetAllCountryState>(
+                listener: (context, state) {
+                  if (state is GetAllCountryLoaded) {
+                    countryList = state.country;
+                  }
+                  // TODO: implement listener
+                },
+                builder: (context, state) {
+                  return Row(
+                    children: [
+                      // 10.x,
+                      WidgetFunctions.instance.dropDown(context,
+                          values: countryList,
+                          titles: countryList,
+                          placeholder: "Country", onChange: (c) {
+                        _filterByCountry(c.toString());
+                      }, width: 110),
+                      10.x,
+                      // WidgetFunctions.instance.dropDown(context,
+                      //     values: categoryList,
+                      //     titles: categoryList,
+                      //     placeholder: "Categories",
+                      //     onChange: (c) {},
+                      //     width: 120),
+                      // 10.x,
+                      FilterButtons(
+                          value: 'Price',
+                          onTap: () {
+                            _filterBottomSheet((value) {
+                              _filterByPrice(value);
+                            });
+                          }),
+                      10.x,
+                      FilterButtons(
+                          value: 'Revenue',
+                          onTap: () {
+                            _filterBottomSheet((value) {
+                              _filterByRevenue(value);
+                            });
+                          }),
+                    ],
+                  );
+                },
               ),
             ),
 
@@ -169,17 +181,20 @@ class _SearchListingState extends State<SearchListing> {
                                         ));
                                   },
                                   chatTap: (BusinessModel val) {
+                                    ChatNavigation.getToChatDetails(
+                                        context, val.createdBy!.id!, val.id!);
+
                                     //BottomNotifier.bottomPageController.removeListener(() { });
                                     // BottomNotifier.bottomPageController=PageController(initialPage: 2);
                                     // BottomNotifier.bottomNavigationNotifier.value=2;
                                     //
                                     // Navigate.toReplace(context, const BottomNavigationScreen(initialPage: 2,));
 
-                                    Navigate.to(
-                                        context,
-                                        ChatScreen(
-                                          backButton: true,
-                                        ));
+                                    // Navigate.to(
+                                    //     context,
+                                    //     ChatScreen(
+                                    //       backButton: true,
+                                    //     ));
                                   },
                                 ),
                               ),

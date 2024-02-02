@@ -63,7 +63,8 @@ class VerifyEmail extends StatelessWidget {
                         email.clear();
                         Navigate.to(
                             context,
-                            VerifyOtp(
+                            VerifyOtpScreen(
+                              isFromSignUp: false,
                               userID: state.userId,
                               email: email.text.trim(),
                             ));

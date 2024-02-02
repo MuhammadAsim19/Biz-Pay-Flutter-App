@@ -9,7 +9,8 @@ import 'package:http/http.dart' as http;
 
 class InboxRepo {
   static IO.Socket? socket;
-static ValueNotifier<bool> isConnected=ValueNotifier(false);
+  static ValueNotifier<bool> isConnected = ValueNotifier(false);
+
   initSocket(BuildContext context, storyId) {
     try {
       print("here");
@@ -27,18 +28,14 @@ static ValueNotifier<bool> isConnected=ValueNotifier(false);
 
       socket?.onConnect((_) {
         print('connected to websocket');
-        isConnected.value=true;
+        isConnected.value = true;
         isConnected.notifyListeners();
-
         //
       });
       socket?.onDisconnect((data) {
-
-      print("Disconnectd from web socket");
-      isConnected.value=false;
-      isConnected.notifyListeners();
-
-
+        print("Disconnectd from web socket");
+        isConnected.value = false;
+        isConnected.notifyListeners();
       });
 
       return 200;

@@ -34,6 +34,9 @@ class BusinessForYouWidget extends StatelessWidget {
                 print("this is id ${businessProducts![index].id}");
                 return GestureDetector(
                   onTap: () {
+                    print('tapped');
+                    print(
+                        "Da Ogre ch null khu na da${businessProducts![index]}");
                     getData(businessProducts![index]);
                   },
                   child: Container(

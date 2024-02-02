@@ -43,6 +43,7 @@ class SearchBusinessWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           CachedImage(
+                              fit: BoxFit.cover,
                               isCircle: false,
                               url:
                                   "${ApiConstant.baseurl}${businessProducts![index].images!.first}",
@@ -88,7 +89,10 @@ class SearchBusinessWidget extends StatelessWidget {
                                         onTap: () {
                                           chatTap(businessProducts![index]);
                                         },
-                                        child: const ChipWidget(),
+                                        child: const ChipWidget(
+                                          chipColor: AppColors.primaryColor,
+                                          textColor: AppColors.whiteColor,
+                                        ),
                                       ),
                                     ],
                                   ),

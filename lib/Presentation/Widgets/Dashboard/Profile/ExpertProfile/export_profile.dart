@@ -385,7 +385,7 @@ class _ExportProfileState extends State<ExportProfile> {
                         borderRadius: 40.r,
                         controller: zipCode,
                         hintText: 'Zip Code',
-                        textInputType: TextInputType.text),
+                        textInputType: TextInputType.phone),
                     20.y,
                     AppText(AppStrings.education,
                         style: Styles.circularStdMedium(context,

@@ -32,7 +32,7 @@ class NotificationMetaData {
   }
 
   ///foreground Notification handler  stream is listen
-  void foregroundNotificationHandler({BuildContext? context}) {
+  void foregroundNotificationHandler() {
     FirebaseMessaging.onMessage.listen((e) {
       final id = dM.Random().nextInt(2000);
       print("OnMessage ${e.notification!.title}");
@@ -48,7 +48,7 @@ class NotificationMetaData {
   }
 
   ///backgroundNotification when tap this function will be called'' By background it means the resume state of android/iOS LIFECYCLE
-  void backgroundNotificationOnTapHandler({BuildContext? context}) {
+  void backgroundNotificationOnTapHandler() {
     FirebaseMessaging.onMessageOpenedApp.listen((e) async {
       var data = e.notification!.title;
       handleMessage(e.data['click_action'], e.data['info'],
@@ -94,6 +94,8 @@ class NotificationMetaData {
               return const Notifications();
             },
           ));
+        } else {
+          WidgetFunctions.instance.snackBar(context!, text: 'In Notification ');
         }
       }
     } else {}
@@ -106,6 +108,7 @@ class NotificationMetaData {
     PayloadStream.instance.getPayload.listen((event) {
       Map<String, dynamic> data = jsonDecode(event);
       if (data['title'] != null) {
+        print(data['click_action']);
         handleMessage(data['click_action'], data['info'], context: context);
       }
       // Navigate.to(context, Notifications());
@@ -113,60 +116,117 @@ class NotificationMetaData {
   }
 
   handelNavigation(BuildContext? context, String navigateTo, var info) {
-    InboxRepo().initSocket(context!, Data().user?.user?.id);
+    print("here is the action${navigateTo}");
 
-    List<Map<String, Widget>> navigationScreen = [
-      {
-        'BUSINES_CREATED': BusinessDetails(
-          isFromNotification: true,
-          id: info,
-        )
-      },
-      {'': const Notifications()},
-      {
-        'BUSINES_UPDATED': BusinessDetails(
-          id: info,
-        )
-      },
-      {
-        'BUSINES_CHAT_STARTED': const BottomNavigationScreen(
-          initialPage: 2,
-        )
-      },
-      {
-        'NEW_MESSEGE_TO_BUSIENSS_CHAT': ChatDetailsScreen(
-          chatDto: ChatTileApiModel.fromRawJson(info),
-        )
-      },
-      {
-        'NEW_MESSEGE_TO_BROKER_CHAT': BrokerChatDetailsScreen(
-          chatDto: ChatTileApiModel.fromRawJson(info),
-        )
-      },
-      {
-        'BROKER_CREATED': BrokerProfile(
-          id: info,
-        )
-      },
-      {
-        'BROKER_CHAT_STARTED': const BottomNavigationScreen(
-          initialPage: 2,
-        )
-      },
-    ];
+    // List<Map<String, Widget>> navigationScreen = [
+    //   {
+    //     'NEW_BUSINESS_CREATED': BusinessDetails(
+    //       isFromNotification: true,
+    //       id: info,
+    //     )
+    //   },
+    //   {'': const Notifications()},
+    //   {
+    //     'BUSINES_UPDATED': BusinessDetails(
+    //       id: info,
+    //     )
+    //   },
+    //   {
+    //     'BUSINES_CHAT_STARTED': const BottomNavigationScreen(
+    //       initialPage: 2,
+    //     )
+    //   },
+    //   {
+    //     'BROKER_CREATED': BrokerProfile(
+    //       id: info,
+    //     )
+    //   },
+    //   {
+    //     'NEW_MESSEGE_TO_BUSIENSS_CHAT': ChatDetailsScreen(
+    //       chatDto: ChatTileApiModel.fromRawJson(info),
+    //     )
+    //   },
+    //   {
+    //     'NEW_MESSEGE_TO_BROKER_CHAT': BrokerChatDetailsScreen(
+    //       chatDto: ChatTileApiModel.fromRawJson(info),
+    //     )
+    //   },
+    //   {
+    //     'BROKER_CHAT_STARTED': const BottomNavigationScreen(
+    //       initialPage: 2,
+    //     )
+    //   },
+    // ];
 
     if (context != null) {
-      for (Map<String, Widget> i in navigationScreen) {
-        if (i.containsKey(navigateTo)) {
-          Navigator.push(context, MaterialPageRoute(
-            builder: (context) {
-              return i[navigateTo]!;
-            },
-          ));
-        }
+      print('here is business id$info');
+
+      switch (navigateTo) {
+        case "NEW_BUSINESS_CREATED":
+          _navigate(
+              context,
+              BusinessDetails(
+                isFromNotification: true,
+                id: info,
+              ));
+        case "BUSINES_UPDATED":
+          _navigate(
+              context,
+              BusinessDetails(
+                id: info,
+              ));
+
+        case 'BUSINES_CHAT_STARTED':
+          const BottomNavigationScreen(
+            initialPage: 2,
+          );
+        case 'NEW_MESSEGE_TO_BROKER_CHAT':
+          InboxRepo().initSocket(context, Data().user?.user?.id);
+          _navigate(
+              context,
+              BrokerChatDetailsScreen(
+                chatDto: ChatTileApiModel.fromRawJson(info),
+              ));
+
+        case 'NEW_MESSEGE_TO_BUSIENSS_CHAT':
+          InboxRepo().initSocket(context, Data().user?.user?.id);
+
+          _navigate(
+              context,
+              ChatDetailsScreen(
+                chatDto: ChatTileApiModel.fromRawJson(info),
+              ));
+        case 'BROKER_PROFILE_CREATED':
+          _navigate(
+              context,
+              BrokerProfile(
+                id: info,
+              ));
+
+        default:
+          // Handle unknown navigateTo values, maybe return a default screen or throw an error.
+          _navigate(context,
+              const Notifications()); // Or throw an error, depending on your requirements.
       }
+
+      // for (Map<String, Widget> i in navigationScreen) {
+      //   print("here is i${i}");
+      //
+      //   if (i.containsKey(navigateTo)) {
+      //     print(navigateTo);
+
+      //   }
+      // }
     } else {
       print('context not found');
     }
+  }
+
+  _navigate(BuildContext context, Widget navigation) {
+    Navigator.push(context, MaterialPageRoute(
+      builder: (context) {
+        return navigation;
+      },
+    ));
   }
 }

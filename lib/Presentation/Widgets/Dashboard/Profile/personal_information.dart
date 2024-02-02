@@ -56,7 +56,8 @@ class _PersonalInformationState extends State<PersonalInformation> {
     calendarController.text = userData?.user!.dob ?? "";
     countryName = userData?.user!.country ?? "";
     phone.text = userData?.user!.phoneNumber ?? "";
-    countryName = userData!.user!.country;
+    countryCode = "+1";
+    // countryName = userData!.user!.country;
 
     // countryList.add(userData!.user?.country ?? "");
     //
@@ -67,7 +68,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
 
   @override
   Widget build(BuildContext context) {
-    print(userData?.user!.phoneNumber);
+    print(userData?.user!.profilePic);
 
     return Scaffold(
       appBar: const CustomAppBar(
@@ -159,9 +160,10 @@ class _PersonalInformationState extends State<PersonalInformation> {
                         hintText: 'gabriel.example@gmail.com',
                         readOnly: true,
                         textInputType: TextInputType.emailAddress),
-                    userData?.user?.phoneNumber != null
+                    userData?.user?.phoneNumber != null &&
+                            userData!.user!.phoneNumber!.isNotEmpty
                         ? CustomTextFieldWithOnTap(
-                            validateText: 'Email Required',
+                            validateText: 'Phone Required',
                             suffixIcon: SvgPicture.asset(Assets.blueCheck),
                             borderRadius: 40.r,
                             prefixIcon: SvgPicture.asset(Assets.call),
@@ -228,6 +230,10 @@ class _PersonalInformationState extends State<PersonalInformation> {
                               'You’ve successfully updated your profile!',
                         ),
                         barrierDismissible: true);
+                    // Future.delayed(const Duration(seconds: 2), () {
+                    //   Navigator.pop(context);
+                    //   Navigator.pop(context);
+                    // });
                   }
                   if (state is UpdateProfileError) {
                     WidgetFunctions.instance.showErrorSnackBar(
@@ -279,10 +285,15 @@ class _PersonalInformationState extends State<PersonalInformation> {
   }
 
   _update() {
+    print("here is image ${image}");
+    print(countryCode);
+
     var data = {
       'firstName': firstNameController.text.trim(),
       'lastName': lastNameController.text.trim(),
-      'phone': "$countryCode${phone.text.trim()}",
+      'phone': userData?.user?.phoneNumber == null
+          ? "$countryCode${phone.text.trim()}"
+          : phone.text.trim(),
     };
     context.read<UpdateProfileCubit>().updateProfile(body: data, image: image);
   }

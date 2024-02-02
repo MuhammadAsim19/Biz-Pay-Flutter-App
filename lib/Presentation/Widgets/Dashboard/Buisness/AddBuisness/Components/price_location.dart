@@ -246,7 +246,7 @@ class _PriceLocationState extends State<PriceLocation> {
                     //height: 200.h,
                     //maxline: 10,
                     // isBorderRequired: false,
-                    textInputType: TextInputType.text),
+                    textInputType: TextInputType.number),
                 30.y,
                 CustomButton(
                   onTap: _callData,

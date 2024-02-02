@@ -1,10 +1,12 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
+import 'package:buysellbiz/Data/DataSource/Repository/Auth/verify_otp.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/validator.dart';
 import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/widget_functions.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/verify_email.dart';
+import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/verify_otp.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/Login/Controllers/login_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/sign_up.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/BottomNavigation/Controller/BottomNavigationNotifier/bottom_navigation_notifier.dart';
@@ -123,9 +125,18 @@ class LoginScreen extends StatelessWidget {
                           text: "Login Successfully");
 
                       BottomNotifier.bottomNavigationNotifier.value = 0;
-
-                      Navigate.toReplaceAll(
-                          context, const BottomNavigationScreen());
+                      if (state.userData?.user?.otpModel?.isVerified == true) {
+                        Navigate.toReplaceAll(
+                            context, const BottomNavigationScreen());
+                      } else {
+                        Navigate.to(
+                            context,
+                            VerifyOtpScreen(
+                              isFromSignUp: true,
+                              userID: state.userData?.user?.id,
+                              email: state.userData?.user?.email,
+                            ));
+                      }
                     }
                   },
                   builder: (context, state) {

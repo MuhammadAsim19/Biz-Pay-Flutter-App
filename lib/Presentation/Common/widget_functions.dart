@@ -64,7 +64,7 @@ class WidgetFunctions {
   dropDown(
     BuildContext context, {
     required List? values,
-    required List<String>? titles,
+    required List? titles,
     String heading = "title",
     String placeholder = 'select',
     double? paddingVert = 25,

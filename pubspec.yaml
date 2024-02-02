@@ -97,6 +97,7 @@ dependencies:
   syncfusion_flutter_sliders: ^22.2.12
   grouped_list: ^5.1.2
   flutter_local_notifications: ^16.3.0
+  firebase_dynamic_links: ^5.4.8
 #  cached_video_player: 2.0.4
 
 

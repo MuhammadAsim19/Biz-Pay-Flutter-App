@@ -1,8 +1,7 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
+import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/broker_chat_details.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_details.dart';
-import '../../../../Data/DataSource/Resources/imports.dart';
-import 'Components/ChatModel/chat_tile_model.dart';
 import 'Components/chat_tile.dart';
 
 import 'Controllers/Repo/inboox_repo.dart';
@@ -23,9 +22,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
   int chip = 0;
 
-  // List<ChatTileModel> chatData = [];
-
-  List<ChatTileModel> brokers = [];
+  List<ChatTileApiModel> businessChatData = [];
+  List<ChatTileApiModel> brokers = [];
 
   @override
   void initState() {
@@ -34,16 +32,20 @@ class _ChatScreenState extends State<ChatScreen> {
     //   "userId" : "6579ea61d76f7a30f94f5c80"
     // };
     InboxRepo.socket?.on("allBusinessConversations", (data) {
+      print('here is check');
+
       InboxControllers.businessChatLoading.value = 1;
       InboxControllers.businessChatLoading.notifyListeners();
 
       // print("chatTileData");
       // print((data));
       print('Event trigger ');
-      InboxControllers.businessChatTile.value = List<ChatTileApiModel>.from(
+      List<ChatTileApiModel> chatsData = List<ChatTileApiModel>.from(
           data.map((x) => ChatTileApiModel.fromJson(x)));
-
-      InboxControllers.brokerChatTile.notifyListeners();
+      InboxControllers.businessChatTile.value = chatsData;
+      InboxControllers.businessSearchChatTile.value = chatsData;
+      InboxControllers.businessChatTile.notifyListeners();
+      InboxControllers.businessSearchChatTile.notifyListeners();
     });
 
     InboxRepo.socket?.on("allBrokerConversations", (data) {
@@ -53,8 +55,12 @@ class _ChatScreenState extends State<ChatScreen> {
       // print((data));
       InboxControllers.businessChatLoading.value = 1;
       InboxControllers.businessChatLoading.notifyListeners();
-      InboxControllers.brokerChatTile.value = List<ChatTileApiModel>.from(
+
+      List<ChatTileApiModel> brokerChats = List<ChatTileApiModel>.from(
           data.map((x) => ChatTileApiModel.fromJson(x)));
+      InboxControllers.brokerChatTile.value = brokerChats;
+      InboxControllers.brokerSearchChatTile.value = brokerChats;
+      InboxControllers.brokerSearchChatTile.notifyListeners();
       InboxControllers.brokerChatTile.notifyListeners();
     });
 
@@ -78,6 +84,9 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(businessChatData.toString());
+    print(brokers.toString());
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -109,6 +118,9 @@ class _ChatScreenState extends State<ChatScreen> {
                   borderRadius: 40,
                   controller: controller,
                   hintText: AppStrings.seerchChat,
+                  onChanged: (value) {
+                    _searchData(query: value);
+                  },
                   textInputType: TextInputType.text),
               15.y,
               Row(
@@ -222,5 +234,40 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
       ),
     );
+  }
+
+  _searchData({required String query}) {
+    print(query);
+    if (chip == 0) {
+      if (query.isNotEmpty && query != "") {
+        InboxControllers.businessChatTile.value = InboxControllers
+            .businessSearchChatTile.value
+            .where((element) =>
+                element.username!.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+        InboxControllers.businessChatTile.notifyListeners();
+      } else {
+        print('in Else');
+
+        InboxControllers.businessChatTile.value =
+            InboxControllers.businessSearchChatTile.value;
+        InboxControllers.businessChatTile.notifyListeners();
+      }
+    } else {
+      if (query.isNotEmpty && query != "") {
+        InboxControllers.brokerChatTile.value = InboxControllers
+            .brokerSearchChatTile.value
+            .where((element) =>
+                element.username!.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+        InboxControllers.brokerChatTile.notifyListeners();
+      } else {
+        print('in Else');
+
+        InboxControllers.brokerChatTile.value =
+            InboxControllers.brokerSearchChatTile.value;
+        InboxControllers.brokerChatTile.notifyListeners();
+      }
+    }
   }
 }

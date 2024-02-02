@@ -58,9 +58,12 @@ class BusinessListContainer extends StatelessWidget {
                     10.y,
                     Row(
                       children: [
-                        AppText(businessProducts![index!].address!,
-                            style: Styles.circularStdRegular(context,
-                                color: AppColors.lightGreyColor)),
+                        Expanded(
+                          child: AppText(businessProducts![index!].address!,
+                              maxLine: 1,
+                              style: Styles.circularStdRegular(context,
+                                  color: AppColors.lightGreyColor)),
+                        ),
                       ],
                     ),
                     5.y,

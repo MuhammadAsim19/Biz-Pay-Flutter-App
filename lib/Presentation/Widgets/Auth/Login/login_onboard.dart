@@ -62,6 +62,7 @@ class _LoginOnboardState extends State<LoginOnboard> {
                   duration: const Duration(milliseconds: 400));
             }
             if (state is SocialLoginError) {
+              Navigator.pop(context);
               WidgetFunctions.instance.snackBar(context,
                   bgColor: AppColors.primaryColor, text: state.message);
             }
