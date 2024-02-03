@@ -69,69 +69,56 @@ class _NotificationsState extends State<Notifications> {
             builder: (context, state) {
               log(state.toString());
               return state is NotificationLoaded
-                  ? SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 1.sh,
-                              width: 1.sw,
-                              child: ListView.separated(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    NotificationModel data =
-                                        state.notificationModel![index];
-                                    log(state.notificationModel![index].id!);
-                                    return BlocListener<ReadNotificationCubit,
-                                        ReadNotificationState>(
-                                      listener: (context, state) {
-                                        if (state is ReadNotificationLoading) {
-                                          LoadingDialog.showLoadingDialog(
-                                              context);
-                                        }
-                                        if (state is ReadNotificationLoaded) {
-                                          Navigator.pop(context);
-                                          context
-                                              .read<NotificationCubit>()
-                                              .getNotificationCubitData();
-                                        }
-                                        if (state is ReadNotificationError) {
-                                          Navigator.pop(context);
-                                          WidgetFunctions.instance
-                                              .showErrorSnackBar(
-                                                  context: context,
-                                                  error: state.error);
-                                        }
-                                        // TODO: implement listener
-                                      },
-                                      child: InkWell(
-                                        onTap: () {
-                                          if (data.isRead != true) {
-                                            context
-                                                .read<ReadNotificationCubit>()
-                                                .readNotification(data.id!);
-                                          }
-                                          // _navigation(data.)
-                                        },
-                                        child: NotificationTile(
-                                            data: state
-                                                .notificationModel![index]),
-                                      ),
-                                    );
-                                  },
-                                  separatorBuilder: (context, index) {
-                                    return SizedBox(
-                                      height: 20.h,
-                                    );
-                                  },
-                                  itemCount: state.notificationModel!.length),
-                            ),
-                          ],
-                        ),
-                      ),
+                  ? SizedBox(
+                      height: 1.sh,
+                      width: 1.sw,
+                      child: ListView.separated(
+                          padding: EdgeInsets.symmetric(horizontal: 20.sp),
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            NotificationModel data =
+                                state.notificationModel![index];
+                            log(state.notificationModel![index].id!);
+                            return BlocListener<ReadNotificationCubit,
+                                ReadNotificationState>(
+                              listener: (context, state) {
+                                if (state is ReadNotificationLoading) {
+                                  LoadingDialog.showLoadingDialog(context);
+                                }
+                                if (state is ReadNotificationLoaded) {
+                                  Navigator.pop(context);
+                                  context
+                                      .read<NotificationCubit>()
+                                      .getNotificationCubitData();
+                                }
+                                if (state is ReadNotificationError) {
+                                  Navigator.pop(context);
+                                  WidgetFunctions.instance.showErrorSnackBar(
+                                      context: context, error: state.error);
+                                }
+                                // TODO: implement listener
+                              },
+                              child: InkWell(
+                                onTap: () {
+                                  if (data.isRead != true) {
+                                    context
+                                        .read<ReadNotificationCubit>()
+                                        .readNotification(data.id!);
+                                  }
+                                  // _navigation(data.)
+                                },
+                                child: NotificationTile(
+                                    data: state.notificationModel![index]),
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return SizedBox(
+                              height: 20.h,
+                            );
+                          },
+                          itemCount: state.notificationModel!.length),
                     )
                   : state is NotificationLoading
                       ? const NotificationLoadingShimmer()

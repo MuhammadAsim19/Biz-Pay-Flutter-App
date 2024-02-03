@@ -25,6 +25,9 @@ class LoginCubit extends Cubit<LoginState> {
 
           await SharedPrefs.setUserLoginData(userRawData: userData);
           emit(LoginLoaded(userData: userData));
+          if (userData.user?.otpModel?.isVerified == true) {
+            SharedPrefs.setLoginToken(value['body']['token']);
+          }
           // SharedPrefs.getUserLoginData();
         } else {
           print(value['error']);

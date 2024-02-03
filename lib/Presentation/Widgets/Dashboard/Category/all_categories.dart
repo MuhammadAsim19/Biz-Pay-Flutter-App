@@ -127,7 +127,7 @@ class AllCategory extends StatelessWidget {
                           context,
                           SearchListing(
                               title: categoryData![index].title ?? "",
-                              id: categoryData![index].id!));
+                              id: categoryData![index].id ?? ""));
                     },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -137,7 +137,7 @@ class AllCategory extends StatelessWidget {
                           backgroundColor: Color(color),
                           child: Center(
                               child: CachedImage(
-                            url: category.icon!,
+                            url: "${ApiConstant.baseurl}${category.icon}",
                             radius: 20.sp,
                           )),
                         ),

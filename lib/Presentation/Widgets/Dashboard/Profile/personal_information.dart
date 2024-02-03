@@ -68,8 +68,6 @@ class _PersonalInformationState extends State<PersonalInformation> {
 
   @override
   Widget build(BuildContext context) {
-    print(userData?.user!.profilePic);
-
     return Scaffold(
       appBar: const CustomAppBar(
         title: AppStrings.personalLinfo,
@@ -164,7 +162,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
                             userData!.user!.phoneNumber!.isNotEmpty
                         ? CustomTextFieldWithOnTap(
                             validateText: 'Phone Required',
-                            suffixIcon: SvgPicture.asset(Assets.blueCheck),
+                            // suffixIcon: SvgPicture.asset(Assets.blueCheck),
                             borderRadius: 40.r,
                             prefixIcon: SvgPicture.asset(Assets.call),
                             controller: phone,

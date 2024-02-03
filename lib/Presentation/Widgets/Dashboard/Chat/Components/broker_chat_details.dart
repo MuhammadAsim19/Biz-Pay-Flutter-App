@@ -302,20 +302,11 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
+                            10.y,
                             AppText(widget.chatDto!.username ?? "",
                                 style: Styles.circularStdBold(context,
                                     fontSize: 18.sp,
                                     fontWeight: FontWeight.w500)),
-                            AppText(
-                              widget.chatDto!.businessReff?.name ?? "",
-                              maxLine: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: Styles.circularStdMedium(
-                                context,
-                                fontSize: 12.sp,
-                                color: AppColors.greyTextColor,
-                              ),
-                            ),
                             ValueListenableBuilder(
                               builder: (context, cStatus, ss) {
                                 return AppText(
@@ -327,6 +318,15 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
                               valueListenable:
                                   InboxControllers.connectivityStatus,
                             ),
+                            ValueListenableBuilder(
+                              builder: (context, typingState, ss) {
+                                return AppText(
+                                  typingState ? "Typing..." : "",
+                                  style: Styles.circularStdRegular(context),
+                                );
+                              },
+                              valueListenable: InboxControllers.typingStatus,
+                            )
                           ],
                         ),
                       ),
@@ -380,6 +380,11 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
                                     builder: (context, dd) {
                                       print(
                                           "future building---${dd.connectionState}");
+                                      // if (dd.connectionState ==
+                                      //     ConnectionState.waiting) {
+                                      //   return const Center(
+                                      //       child: CircularProgressIndicator());
+                                      // }
                                       if (dd.connectionState ==
                                           ConnectionState.done) {
                                         scrollToBottom();
@@ -446,18 +451,11 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
                                         style:
                                             Styles.circularStdMedium(context),
                                       ))
-                                    : chatState.messages == null
-                                        ? Center(
-                                            child: AppText(
-                                            "No New Messages",
-                                            style: Styles.circularStdMedium(
-                                                context),
-                                          ))
-                                        : const Center(
-                                            child: CircularProgressIndicator(
-                                              color: AppColors.primaryColor,
-                                            ),
-                                          );
+                                    : const Center(
+                                        child: CircularProgressIndicator(
+                                          color: AppColors.primaryColor,
+                                        ),
+                                      );
                           },
                           valueListenable: InboxControllers.chatDetailData,
                         ),
@@ -565,10 +563,8 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
                                     onTap: () {
                                       _sendMessage(message.text);
                                     },
-                                    child: Container(
-                                        margin: EdgeInsets.only(right: 10.sp),
-                                        child: SvgPicture.asset(
-                                            'assets/images/send.svg')),
+                                    child: SvgPicture.asset(
+                                        'assets/images/send.svg'),
                                   ),
                                   borderRadius: 40.sp,
                                   controller: message,
@@ -598,22 +594,6 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
                 valueListenable: InboxControllers.blockedStatus,
               ),
             ),
-
-            ///typing text
-            Positioned(
-                bottom: 120,
-                //top: 0,
-                left: 30,
-                right: 0,
-                child: ValueListenableBuilder(
-                  builder: (context, typingState, ss) {
-                    return AppText(
-                      typingState ? "Typing..." : "",
-                      style: Styles.circularStdRegular(context),
-                    );
-                  },
-                  valueListenable: InboxControllers.typingStatus,
-                )),
 
             ///loader
             Positioned(
