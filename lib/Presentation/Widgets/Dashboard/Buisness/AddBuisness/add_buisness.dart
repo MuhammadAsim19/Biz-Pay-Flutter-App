@@ -1,8 +1,10 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
+import 'package:buysellbiz/Presentation/Common/dialog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Components/business_details_add.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Components/price_location.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Components/publish.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Components/quit_dailog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/business_category_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/Controller/add_business_conntroller.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,12 +27,14 @@ class _AddBusinessState extends State<AddBusiness> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
+      canPop: false,
       onPopInvoked: (val) async {
         print(AddNotifier.addBusinessNotifier.value);
         if (AddNotifier.addBusinessNotifier.value == 0) {
+          // CustomDialog.dialog(context, const ConfirmDeleteDialog());
           AddNotifier.addPageController.removeListener(() {});
-          // Navigate.pop(context);
         } else if (AddNotifier.addBusinessNotifier.value == 1) {
+          CustomDialog.dialog(context, const ConfirmDeleteDialog());
           AddNotifier.addBusinessNotifier.value = 0;
           AddNotifier.addPageController.jumpToPage(0);
         } else {
@@ -60,7 +64,7 @@ class _AddBusinessState extends State<AddBusiness> {
                           color: AppColors.blackColor,
                         ),
                         onPressed: () {
-                          Navigator.of(context).pop(true);
+                          CustomDialog.dialog(context, ConfirmDeleteDialog());
                           // Handle icon tap event
                         },
                       )

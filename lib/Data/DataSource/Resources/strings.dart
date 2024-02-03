@@ -89,11 +89,17 @@ class AppStrings {
   static const String termsAndconditions = 'Terms and Conditions';
   static const String deleteAccount = 'Delete Account';
   static const String customerSupport = 'Customer Support';
+  static const String confirmation = 'Confirmation';
+
   static const String passwordChangedsuccessfully =
       'Password change successfully';
   static const String youHavesuccessfully =
       'you have successfully changed password';
   static const String areYousure = 'Are you sure want to logout of the app';
+  static const String areYouSureToDelete =
+      'Are you sure want to delete account';
+  static const String areYouSureToCancelBusiness =
+      'Are you sure want to cancel business';
 
   // static const String login = 'Login';
   static const String cancel = 'Cancel';

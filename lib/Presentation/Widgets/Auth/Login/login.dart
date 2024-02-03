@@ -2,6 +2,7 @@ import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Repository/Auth/verify_otp.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/validator.dart';
+import 'package:buysellbiz/Data/Services/firebase_services.dart';
 import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/widget_functions.dart';
@@ -12,27 +13,46 @@ import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/sign_up.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/BottomNavigation/Controller/BottomNavigationNotifier/bottom_navigation_notifier.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key, this.fcmToken});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key, this.fcmToken});
 
   final String? fcmToken;
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final email = TextEditingController();
+
   final password = TextEditingController();
 
   ValueNotifier<bool> showHidePassword = ValueNotifier(false);
 
   final formKey = GlobalKey<FormState>();
 
+  String? fcmToken;
+
+  getToken() async {
+    fcmToken = await FirebaseServices.getFcm();
+  }
+
   void _login(BuildContext context) {
     if (formKey.currentState!.validate()) {
       var body = {
         "email": email.text,
         "password": password.text,
-        "fcm_token": fcmToken
+        "fcm_token": fcmToken ?? "",
       };
       context.read<LoginCubit>().loginUser(body: body);
     }
+  }
+
+  @override
+  void initState() {
+    getToken();
+    // TODO: implement initState
+    super.initState();
   }
 
   @override
@@ -119,16 +139,19 @@ class LoginScreen extends StatelessWidget {
                           bgColor: AppColors.primaryColor, text: state.error);
                     }
                     if (state is LoginLoaded) {
+                      print(state.userData?.user?.toJson());
+
                       Navigator.pop(context);
-                      WidgetFunctions.instance.snackBar(context,
-                          bgColor: AppColors.primaryColor,
-                          text: "Login Successfully");
+                      // WidgetFunctions.instance.snackBar(context,
+                      //     bgColor: AppColors.primaryColor,
+                      //     text: "Login Successfully");
 
                       BottomNotifier.bottomNavigationNotifier.value = 0;
                       if (state.userData?.user?.otpModel?.isVerified == true) {
                         Navigate.toReplaceAll(
                             context, const BottomNavigationScreen());
                       } else {
+                        print(state.userData?.user?.id);
                         Navigate.to(
                             context,
                             VerifyOtpScreen(

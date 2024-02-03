@@ -1,5 +1,5 @@
 class ApiConstant {
-  // static String baseurl = 'http://192.168.100.7:8000';
+  // static String baseurl = 'http://192.168.1.21:8000';
 
   static String baseurl = 'http://18.118.10.44:8000'; // Aws Url
   static String login = "$baseurl/api/user/login";

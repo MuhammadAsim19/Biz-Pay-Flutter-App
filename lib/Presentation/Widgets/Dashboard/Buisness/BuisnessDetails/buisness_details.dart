@@ -394,30 +394,32 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                               ],
                             ),
                           ),
-                          Positioned(
-                            bottom: 10,
-                            left: 10,
-                            child: CustomButton(
-                              onTap: () async {
-                                //              BottomNotifier.bottomNavigationNotifier.value=2;
-                                //
-                                // Navigate.toReplace(context, const BottomNavigationScreen(initialPage: 2,));
-                                print(value.createdBy?.toJson());
-                                if (value.createdBy != null) {
-                                  ChatNavigation.getToChatDetails(
-                                      context, value.createdBy!.id!, value.id!);
-                                }
-                              },
-                              leadingIcon: Assets.messageWhiteIcon,
-                              leadingSvgIcon: true,
-                              imageWidth: 18.sp,
-                              textFontWeight: FontWeight.w500,
-                              borderRadius: 30,
-                              height: 56,
-                              width: 1.sw / 1.25,
-                              text: 'Chat',
-                            ),
-                          )
+                          value.createdBy?.id != Data.app.user?.user?.id
+                              ? Positioned(
+                                  bottom: 10,
+                                  left: 10,
+                                  child: CustomButton(
+                                    onTap: () async {
+                                      //              BottomNotifier.bottomNavigationNotifier.value=2;
+                                      //
+                                      // Navigate.toReplace(context, const BottomNavigationScreen(initialPage: 2,));
+                                      print(value.createdBy?.toJson());
+                                      if (value.createdBy != null) {
+                                        ChatNavigation.getToChatDetails(context,
+                                            value.createdBy!.id!, value.id!);
+                                      }
+                                    },
+                                    leadingIcon: Assets.messageWhiteIcon,
+                                    leadingSvgIcon: true,
+                                    imageWidth: 18.sp,
+                                    textFontWeight: FontWeight.w500,
+                                    borderRadius: 30,
+                                    height: 56,
+                                    width: 1.sw / 1.25,
+                                    text: 'Chat',
+                                  ),
+                                )
+                              : const SizedBox(),
                         ],
                       ),
                     );

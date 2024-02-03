@@ -246,7 +246,7 @@ class _BrokerProfileState extends State<BrokerProfile> {
                               height: 40.h,
                               onTap: () {
                                 print(model?.toJson());
-
+                                print('${model?.userInfo?.id}${model?.id}');
                                 ChatNavigation.initChatWithBroker(context,
                                     model?.userInfo?.id ?? "", model?.id ?? "");
                                 // Navigate.to(

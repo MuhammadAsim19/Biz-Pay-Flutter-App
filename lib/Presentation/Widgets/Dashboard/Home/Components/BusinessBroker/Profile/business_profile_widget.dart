@@ -77,7 +77,7 @@ class BusinessProfileWidget extends StatelessWidget {
                   15.y,
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    physics: const NeverScrollableScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       mainAxisSize: MainAxisSize.min,
