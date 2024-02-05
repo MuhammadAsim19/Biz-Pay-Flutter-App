@@ -27,16 +27,26 @@ class ChatDetailsScreen extends StatefulWidget with ChangeNotifier {
   @override
   State<ChatDetailsScreen> createState() => _ChatDetailsScreenState();
 }
+bool? isLoading = false;
+List<PlatformFile>? images = [];
+List<PlatformFile>? docs = [];
+List<PlatformFile>? videos = [];
+List<PlatformFile>? audios;
+List<PlatformFile> allFiles = [];
+List<PlatformFile> actualFiles = [];
+List<String> validImageExt = ["jpg", "jpeg", "png", "webp", "heic"];
+List<String> validVideExt = ["mp4", "avi", "mpeg", "wmv", "mkv"];
+List<String> validDocExt = ["pdf", "docx", "xlsx", "pptx"];
+final TextEditingController message = TextEditingController();
+final ScrollController _scrollController = ScrollController();
 
+//final ScrollController _scrollController2 = ScrollController();
+FocusNode focusNode = FocusNode();
+
+
+int initValue = 0;
 class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
-  final TextEditingController message = TextEditingController();
-  final ScrollController _scrollController = ScrollController();
 
-  //final ScrollController _scrollController2 = ScrollController();
-  FocusNode focusNode = FocusNode();
-
-  bool? isLoading = false;
-  int initValue = 0;
 
   @override
   void initState() {
@@ -273,15 +283,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
     super.dispose();
   }
 
-  List<PlatformFile>? images = [];
-  List<PlatformFile>? docs = [];
-  List<PlatformFile>? videos = [];
-  List<PlatformFile>? audios;
-  List<PlatformFile> allFiles = [];
-  List<PlatformFile> actualFiles = [];
-  List<String> validImageExt = ["jpg", "jpeg", "png", "webp", "heic"];
-  List<String> validVideExt = ["mp4", "avi", "mpeg", "wmv", "mkv"];
-  List<String> validDocExt = ["pdf", "docx", "xlsx", "pptx"];
+
 
   @override
   Widget build(BuildContext context) {
@@ -872,15 +874,23 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
         isLoading = true;
       });
       await Future.forEach(videos as Iterable<PlatformFile?>, (element) async {
-        final Uint8List buffer = await compute((PlatformFile? message) async {
-          return await File(message!.path!).readAsBytes().whenComplete(() {
+        // final Uint8List buffer = await compute((PlatformFile? message) async {
+        //   return await File(message!.path!).readAsBytes().whenComplete(() {
+        //
+        //    });
+        // }, element);
+        await File(element!.path!).readAsBytes().then((value) {
+          print("buffer length --->");
 
-           });
-        }, element);
-        print("buffer length --->");
-        print(buffer.length);
-        Map<String, dynamic> addDto = {"name": element?.name, "buffer": buffer};
-        vidToSend.add(addDto);
+          print(value.length);
+          Map<String, dynamic> addDto = {"name": element?.name, "buffer": value};
+          vidToSend.add(addDto);
+
+
+        });
+
+
+
       }).whenComplete(() {
         setState(() {
           isLoading = false;

@@ -218,7 +218,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             )
                           : Center(
                               child: AppText(
-                              "No have a conversation",
+                              "No Conversation Found",
                               style: Styles.circularStdMedium(context),
                             ))
                       : const Center(

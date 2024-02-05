@@ -6,7 +6,7 @@ class ApiConstant {
   static String signUp = "$baseurl/api/user/register";
   static String agreeToPrivacy =
       "$baseurl/api/privacy_and_terms/agree_to_policy";
-  static String socketBase = "18.118.10.44:8000";
+  static String socketBase = "192.168.1.10:8000";
   static String socialLoginUrl = '$baseurl/api/user/continue_with_google';
   static String forgetEmail = '$baseurl/api/user/forget_password/check_user';
   static String verifyOtp = '$baseurl/api/user/forget_password/validate_otp';
