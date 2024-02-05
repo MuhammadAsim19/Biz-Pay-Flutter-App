@@ -1,7 +1,7 @@
 class ApiConstant {
   static String baseurl = 'http://192.168.1.10:8000';
 
-  //static String baseurl = 'http://18.118.10.44:8000'; // Aws Url
+  // static String baseurl = 'http://18.118.10.44:8000'; // Aws Url
   static String login = "$baseurl/api/user/login";
   static String signUp = "$baseurl/api/user/register";
   static String agreeToPrivacy =

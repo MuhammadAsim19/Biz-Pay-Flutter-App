@@ -16,6 +16,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controll
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/notification_state.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/read_notification_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/read_notification_state.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/personal_information.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'Components/notification_model.dart';
@@ -101,6 +102,10 @@ class _NotificationsState extends State<Notifications> {
                               },
                               child: InkWell(
                                 onTap: () {
+                                  if (data.clickAction != "") {
+                                    _navigation(
+                                        data.clickAction ?? "", data.info);
+                                  }
                                   if (data.isRead != true) {
                                     context
                                         .read<ReadNotificationCubit>()
@@ -138,6 +143,14 @@ class _NotificationsState extends State<Notifications> {
   }
 
   _navigation(String navigateTo, var info) {
+    // PASSWORD_UPDATED
+    // NEEDS_SUPPORT
+    // USER_REPORTED
+    // USER_REGISTERED
+    // NEW_BUSINESS_CREATED
+    // BUSIENESS_UPDATED
+    // BROKER_PROFILE_CREATED
+
     switch (navigateTo) {
       case "NEW_BUSINESS_CREATED":
         navigate(
@@ -146,13 +159,15 @@ class _NotificationsState extends State<Notifications> {
               isFromNotification: true,
               id: info,
             ));
+
       case "BUSINES_UPDATED":
         navigate(
             context,
             BusinessDetails(
               id: info,
             ));
-
+      case "PROFILE_UPDATED":
+        navigate(context, const PersonalInformation());
       case 'BUSINES_CHAT_STARTED':
         const BottomNavigationScreen(
           initialPage: 2,
@@ -181,7 +196,7 @@ class _NotificationsState extends State<Notifications> {
 
       default:
         // Handle unknown navigateTo values, maybe return a default screen or throw an error.
-        navigate(context, const Notifications());
+        null;
     }
   }
 

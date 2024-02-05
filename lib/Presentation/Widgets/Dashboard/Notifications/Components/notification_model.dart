@@ -2,6 +2,7 @@ import 'dart:convert';
 
 class NotificationModel {
   final String? id;
+  final String? clickAction;
   final String? message;
   final dynamic createdBy;
   final CreatedFor? createdFor;
@@ -32,6 +33,7 @@ class NotificationModel {
     this.category,
     this.subCategory,
     this.childSubCategory,
+    this.clickAction,
     this.business,
     this.notifyId,
     this.createdAt,
@@ -46,6 +48,7 @@ class NotificationModel {
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) =>
       NotificationModel(
+        clickAction: json['click_action'] ?? "",
         id: json["_id"],
         message: json["message"],
         createdBy: json["createdBy"],
@@ -72,6 +75,7 @@ class NotificationModel {
       );
 
   Map<String, dynamic> toJson() => {
+        "click_action": clickAction,
         "_id": id,
         "message": message,
         "createdBy": createdBy,

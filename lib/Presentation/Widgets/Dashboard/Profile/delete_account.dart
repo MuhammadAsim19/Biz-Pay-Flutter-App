@@ -13,6 +13,7 @@ import 'package:buysellbiz/Presentation/Widgets/Auth/Login/login_onboard.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_appbar.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_list_tile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/delete_dialog.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/logout_dialog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/DeleteAccount/delete_account_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/PrivacyAndTerms/Components/privacy_and_terms_tile.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -203,7 +204,8 @@ class DeleteAccount extends StatelessWidget {
                   },
                   child: CustomButton(
                     onTap: () {
-                      context.read<DeleteAccountCubit>().deleteAccount();
+                      CustomDialog.dialog(context, const ConfirmDeleteDialog(),
+                          barrierDismissible: true);
                     },
                     text: 'Delete Account',
                     borderRadius: 50.r,

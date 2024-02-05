@@ -951,7 +951,8 @@ print(buffer.length);
       "content": message.text,
       "images": images != null ? imagesToSend : [],
       "videos": videos != null ? vidToSend : [],
-      "docs": docs != null ? docsToSend : []
+      "docs": docs != null ? docsToSend : [],
+      "createdAt": DateTime.now().toString(),
     };
     // if(allFiles.isEmpty)
     // {
@@ -979,6 +980,8 @@ print(buffer.length);
       InboxControllers.chatDetailData.notifyListeners();
       InboxRepo.socket?.emit('sendMessageToBusiness', messageToSend);
     } else if (allFiles.isNotEmpty && message.text.isEmpty) {
+      print(messageToSend.toString());
+
       InboxRepo.socket?.emit('sendMessageToBusiness', messageToSend);
     } else {
       WidgetFunctions.instance.snackBar(context, text: "Can not be Empty");

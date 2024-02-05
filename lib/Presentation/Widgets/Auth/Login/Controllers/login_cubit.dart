@@ -10,7 +10,7 @@ class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginInitial());
 
   loginUser({required Map<String, dynamic> body}) async {
-    print('cubit calll');
+    print('cubit call');
 
     await Future.delayed(const Duration(microseconds: 25));
 
@@ -22,6 +22,8 @@ class LoginCubit extends Cubit<LoginState> {
 
         if (value['Success'] == true) {
           UserModel userData = UserModel.fromJson((value['body']));
+
+          print(userData.toJson());
 
           await SharedPrefs.setUserLoginData(userRawData: userData);
           emit(LoginLoaded(userData: userData));

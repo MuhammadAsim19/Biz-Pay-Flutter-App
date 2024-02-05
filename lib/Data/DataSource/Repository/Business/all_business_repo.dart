@@ -5,15 +5,17 @@ import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 
 class AllBusiness {
+  static var headers = {"Authorization": " ${Data.app.token}"};
+
   static Future<Map<String, dynamic>> getBusiness({String? id}) async {
     String apiUrl = id == null
         ? ApiConstant.getAllBusiness
         : "${ApiConstant.getBusinessById}/$id";
-    return await ApiService.get(apiUrl);
+    return await ApiService.get(apiUrl, headers: headers);
   }
 
   static Future<Map<String, dynamic>> onlineBusiness() async {
-    return await ApiService.get(ApiConstant.getAllBusiness);
+    return await ApiService.get(ApiConstant.getAllBusiness, headers: headers);
   }
 
   static Future<Map<String, dynamic>> recentlyAdded() async {

@@ -55,9 +55,10 @@ class _PublishWidgetState extends State<PublishWidget> {
           }
           if (state is AddBusinessLoaded) {
             Navigator.pop(context);
-            // CustomDialog.dialog(context, const AddSuccessDialog(),
-            //     barrierDismissible: false);
-            // Future.delayed(const Duration(seconds: 3));
+            CustomDialog.dialog(context, const AddSuccessDialog(),
+                barrierDismissible: false);
+            Future.delayed(const Duration(microseconds: 20));
+            Navigator.pop(context);
             Navigator.pop(context);
           }
           if (state is AddBusinessError) {
