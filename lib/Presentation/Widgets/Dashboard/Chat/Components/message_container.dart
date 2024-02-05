@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
-
 import 'package:buysellbiz/Application/Services/Downloader/DioDownloads/downloaderDio.dart';
 import 'package:buysellbiz/Application/Services/Downloader/file_downloader.dart';
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
@@ -19,9 +18,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:open_file_plus/open_file_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
-
 import 'ChatModel/chat_message_model.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -63,101 +60,102 @@ class MessageContainer extends StatelessWidget {
               ///images show
               chatDto!.images!.isNotEmpty
                   ? Align(
-                      alignment: chatDto!.sender == senderId
-                          ? Alignment.centerRight
-                          : Alignment.centerLeft,
-                      child: Container(
-                        height: 250,
-                        width: 250,
-                        color: chatDto!.sender != senderId
-                            ? AppColors.chatColor
-                            : AppColors.borderColor,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.vertical,
-                          child: Center(
-                            child: Wrap(
-                                //alignment: WrapAlignment.spaceEvenly,
-                                //runSpacing: 2,
-                                spacing: 2,
-                                alignment: WrapAlignment.spaceEvenly,
+                  alignment: chatDto!.sender == senderId
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
+                  child: Container(
+                    height: 250,
+                    width: 250,
+                    color: chatDto!.sender != senderId
+                        ? AppColors.chatColor
+                        : AppColors.borderColor,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: Center(
+                        child: Wrap(
+                          //alignment: WrapAlignment.spaceEvenly,
+                          //runSpacing: 2,
+                            spacing: 2,
+                            alignment: WrapAlignment.spaceEvenly,
 
-                                //verticalDirection: VerticalDirection.up,
+                            //verticalDirection: VerticalDirection.up,
 
-                                children: chatDto!.images!.length <= 4
-                                    ? chatDto!.images!.map((e) {
-                                        print("${ApiConstant.baseurl}$e");
-                                        return GestureDetector(
-                                          onTap: () {
-                                            Navigate.to(
-                                                context,
-                                                ImagePreview(
-                                                    imageUrl:
-                                                        "${ApiConstant.baseurl}$e"));
-                                          },
-                                          child: CachedImage(
-                                            url: "${ApiConstant.baseurl}$e",
-                                            fit: BoxFit.fill,
-                                            isCircle: false,
-                                            height: chatDto!.images!.length > 2
-                                                ? null
-                                                : 250,
-                                            width: chatDto!.images!.length > 1
-                                                ? 110
-                                                : 250,
-                                          ),
-                                        );
-                                      }).toList()
-                                    : chatDto!.images!.take(4).map((e) {
-                                        print("${ApiConstant.baseurl}$e");
-                                        int index = chatDto!.images!.indexOf(e);
+                            children: chatDto!.images!.length <= 4
+                                ? chatDto!.images!.map((e) {
+                              print("${ApiConstant.baseurl}$e");
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigate.to(
+                                      context,
+                                      ImagePreview(
+                                          imageUrl:
+                                          "${ApiConstant.baseurl}$e"));
+                                },
+                                child: CachedImage(
+                                  url: "${ApiConstant.baseurl}$e",
+                                  fit: BoxFit.fill,
+                                  isCircle: false,
+                                  height: chatDto!.images!.length > 2
+                                      ? null
+                                      : 250,
+                                  width: chatDto!.images!.length > 1
+                                      ? 110
+                                      : 250,
+                                ),
+                              );
+                            }).toList()
+                                : chatDto!.images!.take(4).map((e) {
+                              print("${ApiConstant.baseurl}$e");
+                              int index = chatDto!.images!.indexOf(e);
 
-                                        return Stack(
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () {
-                                                Navigate.to(
+                              return Stack(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigate.to(
+                                          context,
+                                          ImagePreview(
+                                              imageUrl:
+                                              "${ApiConstant.baseurl}$e"));
+                                    },
+                                    child: CachedImage(
+                                      url: "${ApiConstant.baseurl}$e",
+                                      fit: BoxFit.fill,
+                                      isCircle: false,
+                                      height:
+                                      chatDto!.images!.length > 2
+                                          ? null
+                                          : 250,
+                                      width:
+                                      chatDto!.images!.length > 1
+                                          ? 110
+                                          : 250,
+                                    ),
+                                  ),
+                                  Positioned(
+                                      top: 0,
+                                      bottom: 0,
+                                      left: 0,
+                                      right: 0,
+                                      child: BackdropFilter(
+                                          filter: ImageFilter.blur(),
+                                          child: Center(
+                                              child: AppText(
+                                                "+ ${chatDto!.images!.length -
+                                                    4}",
+                                                style: Styles
+                                                    .circularStdMedium(
                                                     context,
-                                                    ImagePreview(
-                                                        imageUrl:
-                                                            "${ApiConstant.baseurl}$e"));
-                                              },
-                                              child: CachedImage(
-                                                url: "${ApiConstant.baseurl}$e",
-                                                fit: BoxFit.fill,
-                                                isCircle: false,
-                                                height:
-                                                    chatDto!.images!.length > 2
-                                                        ? null
-                                                        : 250,
-                                                width:
-                                                    chatDto!.images!.length > 1
-                                                        ? 110
-                                                        : 250,
-                                              ),
-                                            ),
-                                            Positioned(
-                                                top: 0,
-                                                bottom: 0,
-                                                left: 0,
-                                                right: 0,
-                                                child: BackdropFilter(
-                                                    filter: ImageFilter.blur(),
-                                                    child: Center(
-                                                        child: AppText(
-                                                      "+ ${chatDto!.images!.length - 4}",
-                                                      style: Styles
-                                                          .circularStdMedium(
-                                                              context,
-                                                              fontSize: 20,
-                                                              color: AppColors
-                                                                  .whiteColor),
-                                                    ))))
-                                          ],
-                                        );
-                                      }).toList()),
-                          ),
-                        ),
-                      ))
+                                                    fontSize: 20,
+                                                    color: AppColors
+                                                        .whiteColor),
+                                              ))))
+                                ],
+                              );
+                            }).toList()),
+                      ),
+                    ),
+                  ))
                   : const SizedBox(),
               chatDto!.images!.isNotEmpty || chatDto!.videos!.isNotEmpty
                   ? 10.y
@@ -166,99 +164,101 @@ class MessageContainer extends StatelessWidget {
               ///videos show
               chatDto!.videos!.isNotEmpty
                   ? Align(
-                      alignment: chatDto!.sender == senderId
-                          ? Alignment.centerRight
-                          : Alignment.centerLeft,
-                      child: Container(
-                        height: chatDto!.images!.isNotEmpty ? 120 : 250,
+                  alignment: chatDto!.sender == senderId
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
+                  child: Container(
+                    height: chatDto!.images!.isNotEmpty ? 120 : 250,
+                    width: 250,
+                    color: chatDto!.sender != senderId
+                        ? AppColors.chatColor
+                        : AppColors.borderColor,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: SizedBox(
+                        height: chatDto!.images!.isNotEmpty ? 100 : 250,
                         width: 250,
-                        color: chatDto!.sender != senderId
-                            ? AppColors.chatColor
-                            : AppColors.borderColor,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.vertical,
-                          child: SizedBox(
-                            height: chatDto!.images!.isNotEmpty ? 100 : 250,
-                            width: 250,
-                            child: Center(
-                              child: Wrap(
-                                //alignment: WrapAlignment.spaceEvenly,
-                                //runSpacing: 2,
-                                spacing: 2,
-                                alignment: WrapAlignment.spaceEvenly,
+                        child: Center(
+                          child: Wrap(
+                            //alignment: WrapAlignment.spaceEvenly,
+                            //runSpacing: 2,
+                            spacing: 2,
+                            alignment: WrapAlignment.spaceEvenly,
 
-                                //verticalDirection: VerticalDirection.up,
+                            //verticalDirection: VerticalDirection.up,
 
-                                children: chatDto!.videos!.map((e) {
-                                  print("${ApiConstant.baseurl}$e");
+                            children: chatDto!.videos!.map((e) {
+                              print("${ApiConstant.baseurl}$e");
 
-                                  return FutureBuilder(
-                                    builder: (context, dd) {
-                                      if (dd.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return const Center(
-                                            child: CircularProgressIndicator(
+                              return FutureBuilder(
+                                builder: (context, dd) {
+                                  if (dd.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const Center(
+                                        child: CircularProgressIndicator(
                                           color: AppColors.primaryColor,
                                         )); // Show a loading indicator
-                                      } else if (dd.hasError) {
-                                        return const Center(
-                                            child: Icon(Icons
-                                                .play_circle_outline)); // Show an error message
-                                      } else {
-                                        PlatformFile? pff = PlatformFile(
-                                            name:
-                                                "thumbnail ${DateTime.now().microsecondsSinceEpoch}",
-                                            size: 10 * 1024 * 3,
-                                            path: dd.data);
+                                  } else if (dd.hasError) {
+                                    return const Center(
+                                        child: Icon(Icons
+                                            .play_circle_outline)); // Show an error message
+                                  } else {
+                                    PlatformFile? pff = PlatformFile(
+                                        name:
+                                        "thumbnail ${DateTime
+                                            .now()
+                                            .microsecondsSinceEpoch}",
+                                        size: 10 * 1024 * 3,
+                                        path: dd.data);
 
-                                        return GestureDetector(
-                                          onTap: () {
-                                            Navigate.to(
-                                                context,
-                                                VideoPreview(
-                                                    url:
-                                                        "${ApiConstant.baseurl}$e"));
-                                          },
-                                          child: Stack(
-                                            children: [
-                                              Container(
-                                                color:
-                                                    AppColors.productTileColor,
-                                                height: 250,
-                                                child: Image.file(
-                                                  File(pff.path!),
-                                                  fit: BoxFit.fill,
-                                                ),
-                                              ),
-                                              Positioned(
-                                                  top: 0,
-                                                  left: 0,
-                                                  right: 0,
-                                                  bottom: 0,
-                                                  child: Icon(
-                                                    Icons.play_circle,
-                                                    size: 50.sp,
-                                                    color:
-                                                        AppColors.primaryColor,
-                                                  ))
-                                            ],
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Navigate.to(
+                                            context,
+                                            VideoPreview(
+                                                url:
+                                                "${ApiConstant.baseurl}$e"));
+                                      },
+                                      child: Stack(
+                                        children: [
+                                          Container(
+                                            color:
+                                            AppColors.productTileColor,
+                                            height: 250,
+                                            child: Image.file(
+                                              File(pff.path!),
+                                              fit: BoxFit.fill,
+                                            ),
                                           ),
-                                        );
-                                      }
-                                      // else{
-                                      //   return const CircularProgressIndicator(color: AppColors.primaryColor,);
-                                      //
-                                      // }
-                                    },
-                                    future: getThumbnailFromVideo(
-                                        "${ApiConstant.baseurl}$e"),
-                                  );
-                                }).toList(),
-                              ),
-                            ),
+                                          Positioned(
+                                              top: 0,
+                                              left: 0,
+                                              right: 0,
+                                              bottom: 0,
+                                              child: Icon(
+                                                Icons.play_circle,
+                                                size: 50.sp,
+                                                color:
+                                                AppColors.primaryColor,
+                                              ))
+                                        ],
+                                      ),
+                                    );
+                                  }
+                                  // else{
+                                  //   return const CircularProgressIndicator(color: AppColors.primaryColor,);
+                                  //
+                                  // }
+                                },
+                                future: getThumbnailFromVideo(
+                                    "${ApiConstant.baseurl}$e"),
+                              );
+                            }).toList(),
                           ),
                         ),
-                      ))
+                      ),
+                    ),
+                  ))
                   : const SizedBox(),
               chatDto!.images!.isNotEmpty || chatDto!.videos!.isNotEmpty
                   ? 10.y
@@ -269,85 +269,86 @@ class MessageContainer extends StatelessWidget {
                 builder: (context, downloadValue, ss) {
                   return chatDto!.docs!.isNotEmpty
                       ? Align(
-                          alignment: chatDto!.sender == senderId
-                              ? Alignment.centerRight
-                              : Alignment.centerLeft,
-                          child: GestureDetector(
-                            onTap: () async {
-                              //savedPath="sdasd";
+                      alignment: chatDto!.sender == senderId
+                          ? Alignment.centerRight
+                          : Alignment.centerLeft,
+                      child: GestureDetector(
+                        onTap: () async {
+                          //savedPath="sdasd";
 
-                              final result = await OpenFile.open(
-                                  savedPath.value[index!.toInt()] ?? "");
-                              if (result.type == ResultType.fileNotFound) {
-                                //print("hereeeeeeeeeee");
-                                //  final dire = await AppPermissions.prepareSaveDir();
-                                //XFile(chatDto?.docs![0],name: "testing").saveTo(dire.path);
-                                // savedPath=dire.path+"testing";
+                          final result = await OpenFile.open(
+                              savedPath.value[index!.toInt()] ?? "");
+                          if (result.type == ResultType.fileNotFound) {
+                            //print("hereeeeeeeeeee");
+                            //  final dire = await AppPermissions.prepareSaveDir();
+                            //XFile(chatDto?.docs![0],name: "testing").saveTo(dire.path);
+                            // savedPath=dire.path+"testing";
 
-                                print(
-                                    "This is download path ${ApiConstant.baseurl}${chatDto?.docs![0]}");
-                                //savedPath= await FileDownloader.download(chatDto?.docs![0]);
-                                //var tempDir = await getTemporaryDirectory();
-                                final String fileName =
-                                    extractFilenameFromUrl(chatDto!.docs![0]);
-                                //ApiConstant
+                            print(
+                                "This is download path ${ApiConstant
+                                    .baseurl}${chatDto?.docs![0]}");
+                            //savedPath= await FileDownloader.download(chatDto?.docs![0]);
+                            //var tempDir = await getTemporaryDirectory();
+                            final String fileName =
+                            extractFilenameFromUrl(chatDto!.docs![0]);
+                            //ApiConstant
 
-                                bool? perm =
-                                    await DioDownloader().checkPermission();
-                                print(perm.toString() + "ppepeppe");
-                                if (perm == true) {
-                                  Directory saveDirectory =
-                                      await DioDownloader.prepareSaveDir();
-                                  savedPath.value[index!.toInt()] =
-                                      "${saveDirectory.path}$fileName";
-                                  // DioDownloader().savedPath.notifyListeners();
+                            bool? perm =
+                            await DioDownloader().checkPermission();
+                            print(perm.toString() + "ppepeppe");
+                            if (perm == true) {
+                              Directory saveDirectory =
+                              await DioDownloader.prepareSaveDir();
+                              savedPath.value[index!.toInt()] =
+                              "${saveDirectory.path}$fileName";
+                              // DioDownloader().savedPath.notifyListeners();
 
-                                  print(
-                                      "${savedPath.value[index]}saveeedddddddd");
+                              print(
+                                  "${savedPath.value[index]}saveeedddddddd");
 
-                                  await DioDownloader().download(
-                                      Dio(),
-                                      '${ApiConstant.baseurl}${chatDto?.docs![0]}',
-                                      "${saveDirectory.path}$fileName");
-                                  // Timer.periodic(Duration(), (timer) { });
-                                  //Timer.periodic(Duration(seconds: ), (timer) { })
-                                  await OpenFile.open(savedPath.value[index]);
-                                  savedPath.notifyListeners();
-                                } else {
-                                  WidgetFunctions.instance.snackBar(context,
-                                      text: "Please grant Permission",
-                                      bgColor: AppColors.primaryColor);
-                                }
-                              } else {}
-                              //print(result.type);
-                            },
-                            child: Container(
-                              height: 50,
-                              color: chatDto!.sender != senderId
-                                  ? AppColors.chatColor
-                                  : AppColors.borderColor,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  // const AssetImageWidget(url:"assets/images/docimage.jpeg",height: 30,width: 30, ),
-                                  const Icon(Icons.picture_as_pdf_outlined),
-                                  Expanded(
-                                    child: AppText(
-                                        extractFilenameFromUrl(
-                                            chatDto!.docs![0]),
-                                        maxLine: 3,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: Styles.circularStdMedium(context,
-                                            fontSize: 12)),
-                                  ),
-                                  savedPath.value[index!.toInt()] == null
-                                      ? const Icon(Icons.download)
-                                      : const SizedBox()
-                                ],
+                              await DioDownloader().download(
+                                  Dio(),
+                                  '${ApiConstant.baseurl}${chatDto?.docs![0]}',
+                                  "${saveDirectory.path}$fileName");
+                              // Timer.periodic(Duration(), (timer) { });
+                              //Timer.periodic(Duration(seconds: ), (timer) { })
+                              await OpenFile.open(savedPath.value[index]);
+                              savedPath.notifyListeners();
+                            } else {
+                              WidgetFunctions.instance.snackBar(context,
+                                  text: "Please grant Permission",
+                                  bgColor: AppColors.primaryColor);
+                            }
+                          } else {}
+                          //print(result.type);
+                        },
+                        child: Container(
+                          height: 50,
+                          color: chatDto!.sender != senderId
+                              ? AppColors.chatColor
+                              : AppColors.borderColor,
+                          child: Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceEvenly,
+                            children: [
+                              // const AssetImageWidget(url:"assets/images/docimage.jpeg",height: 30,width: 30, ),
+                              const Icon(Icons.picture_as_pdf_outlined),
+                              Expanded(
+                                child: AppText(
+                                    extractFilenameFromUrl(
+                                        chatDto!.docs![0]),
+                                    maxLine: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Styles.circularStdMedium(context,
+                                        fontSize: 12)),
                               ),
-                            ),
-                          ))
+                              savedPath.value[index!.toInt()] == null
+                                  ? const Icon(Icons.download)
+                                  : const SizedBox()
+                            ],
+                          ),
+                        ),
+                      ))
                       : const SizedBox();
                 },
                 valueListenable: savedPath,
@@ -359,35 +360,35 @@ class MessageContainer extends StatelessWidget {
               ///content messages
               chatDto!.content != null && chatDto!.content!.isNotEmpty
                   ? Align(
-                      alignment: chatDto!.sender == senderId
-                          ? Alignment.centerRight
-                          : Alignment.centerLeft,
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 10.sp, horizontal: 20.sp),
-                        decoration: BoxDecoration(
-                          borderRadius: chatDto!.sender != senderId
-                              ? BorderRadius.only(
-                                  bottomRight: Radius.circular(10.sp),
-                                  topLeft: Radius.circular(10.sp),
-                                  topRight: Radius.circular(10.sp))
-                              : BorderRadius.only(
-                                  topLeft: Radius.circular(10.sp),
-                                  topRight: Radius.circular(10.sp),
-                                  bottomLeft: Radius.circular(10.sp),
-                                ),
+                alignment: chatDto!.sender == senderId
+                    ? Alignment.centerRight
+                    : Alignment.centerLeft,
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                      vertical: 10.sp, horizontal: 20.sp),
+                  decoration: BoxDecoration(
+                    borderRadius: chatDto!.sender != senderId
+                        ? BorderRadius.only(
+                        bottomRight: Radius.circular(10.sp),
+                        topLeft: Radius.circular(10.sp),
+                        topRight: Radius.circular(10.sp))
+                        : BorderRadius.only(
+                      topLeft: Radius.circular(10.sp),
+                      topRight: Radius.circular(10.sp),
+                      bottomLeft: Radius.circular(10.sp),
+                    ),
+                    color: chatDto!.sender != senderId
+                        ? AppColors.chatColor
+                        : AppColors.primaryColor,
+                  ),
+                  child: Text(chatDto!.content ?? "",
+                      textScaleFactor: 1,
+                      style: Styles.circularStdRegular(context,
                           color: chatDto!.sender != senderId
-                              ? AppColors.chatColor
-                              : AppColors.primaryColor,
-                        ),
-                        child: Text(chatDto!.content ?? "",
-                            textScaleFactor: 1,
-                            style: Styles.circularStdRegular(context,
-                                color: chatDto!.sender != senderId
-                                    ? AppColors.blackColor
-                                    : AppColors.whiteColor)),
-                      ),
-                    )
+                              ? AppColors.blackColor
+                              : AppColors.whiteColor)),
+                ),
+              )
                   : const SizedBox(),
               chatDto!.images!.isNotEmpty || chatDto!.videos!.isNotEmpty
                   ? 10.y
@@ -424,7 +425,9 @@ class MessageContainer extends StatelessWidget {
     print("hereeee${file}"); // Your file path
     String dir = path.dirname(file.path); // Get directory
     String newPath = path.join(dir,
-        'thumbnail_${DateTime.now().millisecondsSinceEpoch}.jpg'); // Rename
+        'thumbnail_${DateTime
+            .now()
+            .millisecondsSinceEpoch}.jpg'); // Rename
     file.renameSync(newPath);
 
     return newPath;
@@ -440,7 +443,9 @@ class MessageContainer extends StatelessWidget {
 
       // If there's a query string, remove it
       if (filename.contains('?')) {
-        filename = filename.split('?').first;
+        filename = filename
+            .split('?')
+            .first;
       }
 
       // Return the filename
