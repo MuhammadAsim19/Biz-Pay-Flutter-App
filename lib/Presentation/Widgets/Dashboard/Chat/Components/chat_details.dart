@@ -611,18 +611,18 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
             ),
 
             ///loader
-            // Positioned(
-            //     top: 0,
-            //     bottom: 0,
-            //     left: 0,
-            //     right: 0,
-            //     child: isLoading == true
-            //         ? const Center(
-            //             child: CircularProgressIndicator(
-            //               color: AppColors.primaryColor,
-            //             ),
-            //           )
-            //         : const Stack()),
+            Positioned(
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: isLoading == true
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors.primaryColor,
+                        ),
+                      )
+                    : const Stack()),
 
             ///scroll container  scroll indicator
             Positioned(
@@ -837,12 +837,17 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
         isLoading = true;
       });
       await Future.forEach(images as Iterable<PlatformFile?>, (element) async {
-        final Uint8List buffer = await compute((PlatformFile? message) {
-          return File(message!.path!).readAsBytesSync();
+        final Uint8List buffer = await compute((PlatformFile? message) async {
+          return await File(message!.path!).readAsBytes();
         }, element);
-
+        print("buffer length --->");
+        print(buffer.length);
         Map<String, dynamic> addDto = {"name": element?.name, "buffer": buffer};
         imagesToSend.add(addDto);
+      }).whenComplete(() {
+        setState(() {
+          isLoading = false;
+        });
       });
       // for (var i in images!) {
       //   final Uint8List buffer = await compute((PlatformFile? message)   {
@@ -857,9 +862,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       //   imagesToSend.add(addDto);
       // }
       //isLoading=false;
-      setState(() {
-        isLoading = false;
-      });
+
     }
 
     ///videoos
@@ -869,12 +872,21 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
         isLoading = true;
       });
       await Future.forEach(videos as Iterable<PlatformFile?>, (element) async {
-        final Uint8List buffer = await compute((PlatformFile? message) {
-          return File(message!.path!).readAsBytesSync();
-        }, element);
+        final Uint8List buffer = await compute((PlatformFile? message) async {
+          return await File(message!.path!).readAsBytes().whenComplete(() {
 
+           });
+        }, element);
+        print("buffer length --->");
+        print(buffer.length);
         Map<String, dynamic> addDto = {"name": element?.name, "buffer": buffer};
         vidToSend.add(addDto);
+      }).whenComplete(() {
+        setState(() {
+          isLoading = false;
+        });
+
+        
       });
       // for (var i in images!) {
       //   final Uint8List buffer = await compute((PlatformFile? message)   {
@@ -889,9 +901,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       //   imagesToSend.add(addDto);
       // }
       //isLoading=false;
-      setState(() {
-        isLoading = false;
-      });
+
     }
 
     ///docs
@@ -900,12 +910,19 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
         isLoading = true;
       });
       await Future.forEach(docs as Iterable<PlatformFile?>, (element) async {
-        final Uint8List buffer = await compute((PlatformFile? message) {
-          return File(message!.path!).readAsBytesSync();
+        final Uint8List buffer = await compute((PlatformFile? message) async {
+          return await File(message!.path!).readAsBytes();
         }, element);
-
+print("buffer length --->");
+print(buffer.length);
         Map<String, dynamic> addDto = {"name": element?.name, "buffer": buffer};
         docsToSend.add(addDto);
+      }).whenComplete(() {
+
+        setState(() {
+          isLoading = false;
+        });
+
       });
       // for (var i in images!) {
       //   final Uint8List buffer = await compute((PlatformFile? message)   {
@@ -920,9 +937,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       //   imagesToSend.add(addDto);
       // }
       //isLoading=false;
-      setState(() {
-        isLoading = false;
-      });
+
     }
     print("imagesDto length+${imagesToSend.length}");
     print("imagesDto length+${vidToSend.length}");
