@@ -47,7 +47,7 @@ class ConfirmDeleteDialog extends StatelessWidget {
                   Navigator.pop(context);
                   Navigator.pop(context);
                 },
-                text: "Yas Sure",
+                text: "Yes Sure",
                 textSize: 14.sp,
                 height: 45.h,
                 width: 105.w,

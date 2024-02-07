@@ -69,7 +69,7 @@ class RecentlyAdded extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 5.y,
-                                AppText(businessProducts![index].address!,
+                                AppText("${businessProducts![index].city!},${businessProducts![index].country!}",
                                     style: Styles.circularStdRegular(context,
                                         color: AppColors.lightGreyColor,
                                         fontSize: 14.sp)),

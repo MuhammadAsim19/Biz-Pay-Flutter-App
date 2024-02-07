@@ -63,6 +63,7 @@ class BusinessForYouWidget extends StatelessWidget {
                                   : '',
                               width: 245.w,
                               height: 170.h,
+                              fit: BoxFit.cover,
                             ),
                             // Positioned(
                             //     // bottom: 0,
@@ -84,7 +85,7 @@ class BusinessForYouWidget extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 10.y,
-                                AppText(businessProducts![index].address!,
+                                AppText("${businessProducts![index].city!},${businessProducts![index].country!}",
                                     style: Styles.circularStdRegular(context,
                                         color: AppColors.lightGreyColor,
                                         fontSize: 14.sp)),

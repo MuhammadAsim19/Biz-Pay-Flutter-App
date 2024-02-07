@@ -350,29 +350,31 @@ class _BusinessAddDetailsState extends State<BusinessAddDetails> {
             CustomButton(
               onTap: () {
                 if (_formKey.currentState!.validate()) {
-                  if (upload != null) {
-                    print(upload!.extension);
-                    if (upload!.extension == "pdf") {
-                      print(advantages);
-                      if (advantages.isNotEmpty) {
-                        AddNotifier.addPageController.jumpToPage(1);
-                        AddNotifier.addBusinessNotifier.value = 1;
-                        _addData();
-                        log("Here is the data of notifier${AddBusinessController.addBusiness.value.advantages.toString()}");
-                        uploadFiles = false;
-                        setState(() {});
-                      } else {
-                        WidgetFunctions.instance.snackBar(context,
-                            text: 'Add at least one advantage');
-                      }
-                    } else {
-                      WidgetFunctions.instance
-                          .snackBar(context, text: 'Upload only pdf files');
-                    }
-                  } else {
-                    uploadFiles = true;
+
+                  if (advantages.isNotEmpty) {
+                    AddNotifier.addPageController.jumpToPage(1);
+                    AddNotifier.addBusinessNotifier.value = 1;
+                    _addData();
+                    log("Here is the data of notifier${AddBusinessController.addBusiness.value.advantages.toString()}");
+                    uploadFiles = false;
                     setState(() {});
+                  } else {
+                    WidgetFunctions.instance.snackBar(context,
+                        text: 'Add at least one advantage');
                   }
+                  // if (upload != null) {
+                  //   print(upload!.extension);
+                  //   if (upload!.extension == "pdf") {
+                  //     print(advantages);
+                  //
+                  //   } else {
+                  //     WidgetFunctions.instance
+                  //         .snackBar(context, text: 'Upload only pdf files');
+                  //   }
+                  // } else {
+                  //   uploadFiles = true;
+                  //   setState(() {});
+                  // }
                 }
               },
               textFontWeight: FontWeight.w500,
@@ -403,7 +405,7 @@ class _BusinessAddDetailsState extends State<BusinessAddDetails> {
       businessHour: businessHour.text.trim(),
       registrationNumber: registrationNumber.text.trim(),
       advantages: advantages,
-      documnets: [upload!.path],
+      documnets: upload!=null?[upload!.path]:[],
     );
   }
 }
