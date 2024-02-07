@@ -38,10 +38,13 @@ class NotificationMetaData {
       print("OnMessage ${e.notification!.title}");
       log("checking logs for messages on message ${e.messageId}  ${e.category}  ${e.from}  ${e.messageType}   ${e.contentAvailable}  data  ${e.data.entries}  title: ${e.ttl}");
       //print();
-
+    if(e.data['click_action']=='NEW_MESSEGE_TO_BUSIENSS_CHAT' ||  e.data['click_action']=='NEW_MESSEGE_TO_BROKER_CHAT'){}
+    else
+      {
       NotificationServices().showNotification(
           id, e.notification!.title!, e.notification!.body!,
           payload: jsonEncode(e.data));
+      }
     }).onError((error) {
       print("checking logs $error");
     });
@@ -115,7 +118,7 @@ class NotificationMetaData {
     });
   }
 
-  handelNavigation(BuildContext? context, String navigateTo, var info) {
+  handelNavigation(BuildContext? context, String navigateTo, var info,{bool? isFromTerminated}) {
     print("here is the action${navigateTo}");
 
     // List<Map<String, Widget>> navigationScreen = [
@@ -181,7 +184,10 @@ class NotificationMetaData {
             initialPage: 2,
           );
         case 'NEW_MESSEGE_TO_BROKER_CHAT':
-          InboxRepo().initSocket(context, Data().user?.user?.id);
+
+          if(isFromTerminated!=null) {
+            InboxRepo().initSocket(context, Data().user?.user?.id);
+          }
           _navigate(
               context,
               BrokerChatDetailsScreen(
@@ -189,7 +195,9 @@ class NotificationMetaData {
               ));
 
         case 'NEW_MESSEGE_TO_BUSIENSS_CHAT':
-          InboxRepo().initSocket(context, Data().user?.user?.id);
+          if(isFromTerminated!=null) {
+            InboxRepo().initSocket(context, Data().user?.user?.id);
+          }
 
           _navigate(
               context,

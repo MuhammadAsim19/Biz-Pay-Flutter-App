@@ -5,14 +5,17 @@ import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/AppData/app_initializer.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/Services/Notification/notification_meta_data.dart';
+import 'package:buysellbiz/Data/Services/Notification/notification_services.dart';
 import 'package:buysellbiz/Presentation/Common/no_internet_connection.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/add_buisness.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/Controller/add_business_conntroller.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Controllers/Repo/inboox_repo.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/chat.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/home.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/profile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Saved/saved_listing.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/scheduler.dart';
 
 import 'Controller/BottomNavigationNotifier/bottom_navigation_notifier.dart';
 
@@ -39,14 +42,63 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
       },
     );
   }
+late final AppLifecycleListener _listener;
+late AppLifecycleState? _state;
+final List<String> _states = <String>[];
+  init(BuildContext context) async {
+    InboxRepo().initSocket(context, Data().user?.user?.id);
 
-  init(BuildContext context) {
+    await NotificationServices().permission();
+    //InboxRepo().initSocket(context, Data().user?.user?.id);
     NotificationMetaData().foregroundNotificationHandler();
     NotificationMetaData().setContext(context);
     NotificationMetaData().notificationPayload(context);
     NotificationMetaData().backgroundNotificationOnTapHandler();
     NotificationMetaData().terminatedFromOnTapStateHandler(
         context: context, payLoadData: widget.message);
+
+     _state = SchedulerBinding.instance.lifecycleState;
+    _listener = AppLifecycleListener(
+      onShow: () => _handleTransition('show'),
+      onResume: () => _handleTransition('resume'),
+      onHide: () => _handleTransition('hide'),
+      onInactive: () => _handleTransition('inactive'),
+      onPause: () => _handleTransition('pause'),
+      onDetach: () => _handleTransition('detach'),
+      onRestart: () => _handleTransition('restart'),
+      // This fires for each state change. Callbacks above fire only for
+      // specific state transitions.
+      onStateChange: _handleStateChange,
+    );
+  }
+  void _handleStateChange(AppLifecycleState state) {
+    // setState(() {
+    //   _state = state;
+    // });
+    print(state);
+    // WidgetFunctions
+    //     .instance.snackBar(context,text: state.name,bgColor: AppColors.primaryColor);
+  }
+  void _handleTransition(String name) {
+    // setState(() {
+    //   _states.add(name);
+    // });
+    print("state name$name");
+    if(name=="resume")
+    {
+     // InboxRepo().initSocket(context, Data().user!.user!.id);
+
+      // WidgetFunctions
+      //   .instance.snackBar(context,text: name,bgColor: AppColors.primaryColor);
+
+    }
+    if(name=='inactive')
+      {
+       // InboxRepo.socket?.disconnect();
+       print('inActive state called');
+
+      }
+
   }
 
   @override

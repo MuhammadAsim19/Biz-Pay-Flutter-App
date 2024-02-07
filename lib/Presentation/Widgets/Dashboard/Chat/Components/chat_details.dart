@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:buysellbiz/Application/Services/PickerServices/picker_services.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
@@ -12,8 +13,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
+
 import 'package:path_provider/path_provider.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+
 import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:path/path.dart' as path;
 
@@ -27,41 +30,38 @@ class ChatDetailsScreen extends StatefulWidget with ChangeNotifier {
   @override
   State<ChatDetailsScreen> createState() => _ChatDetailsScreenState();
 }
-bool? isLoading = false;
-List<PlatformFile>? images = [];
-List<PlatformFile>? docs = [];
-List<PlatformFile>? videos = [];
-List<PlatformFile>? audios;
-List<PlatformFile> allFiles = [];
-List<PlatformFile> actualFiles = [];
-List<String> validImageExt = ["jpg", "jpeg", "png", "webp", "heic"];
-List<String> validVideExt = ["mp4", "avi", "mpeg", "wmv", "mkv"];
-List<String> validDocExt = ["pdf", "docx", "xlsx", "pptx"];
-final TextEditingController message = TextEditingController();
-final ScrollController _scrollController = ScrollController();
 
-//final ScrollController _scrollController2 = ScrollController();
-FocusNode focusNode = FocusNode();
+
 
 
 int initValue = 0;
 class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
 
+  final TextEditingController message = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+  bool? isLoading = false;
+  bool isFromFiles=false;
+  List<PlatformFile>? images = [];
+  List<PlatformFile>? docs = [];
+  List<PlatformFile>? videos = [];
+  List<PlatformFile>? audios;
+  List<PlatformFile> allFiles = [];
+  List<PlatformFile> actualFiles = [];
+  List<String> validImageExt = ["jpg", "jpeg", "png", "webp", "heic"];
+  List<String> validVideExt = ["mp4", "avi", "mpeg", "wmv", "mkv"];
+  List<String> validDocExt = ["pdf", "docx", "xlsx", "pptx"];
 
+//final ScrollController _scrollController2 = ScrollController();
+  FocusNode focusNode = FocusNode();
   @override
   void initState() {
-    super.initState();
 
-    InboxRepo().initSocket(context, Data.app.user?.user?.id);
+
+
+
 
     initValue = 1;
-    // InboxRepo().initSocket(context, Data().user?.user?.id);
-    //
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   // Scroll to the end when the widgets are fully painted and visible
-    //   //_scrollController.animateTo(_scrollController.position.maxScrollExtent+100);
-    //   checkIfListViewAttached();
-    // });
+
 
     ///for typing  keyboard
     focusNode.addListener(() {
@@ -76,7 +76,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
 
         InboxRepo.socket?.emit("isTyping", data);
       } else {
-        //print("keyBoard is closed");
+        print("keyBoard is closed");
         var data = {
           "status": false,
           "reciever": InboxControllers.chatDetailData.value.receiver
@@ -95,23 +95,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       ///from chatDto
     };
 
-    InboxRepo.socket?.on('user_online_status', (data) {
-      print('Online Emitting>>>>>>>>>>>>>>>>>');
 
-      // print("Online Status");
-      String recId = InboxControllers.chatDetailData.value.receiver.toString();
-
-      List<dynamic> allUsers = data;
-      if (allUsers.contains(recId)) {
-        InboxControllers.connectivityStatus.value = true;
-      } else {
-        InboxControllers.connectivityStatus.value = false;
-      }
-
-      // print("${InboxControllers.connectivityStatus.value}valueeeeeeee");
-      InboxControllers.connectivityStatus.notifyListeners();
-      // print(data);
-    });
     InboxRepo.socket?.on('block_user', (data) {
       print("block User emiting");
 
@@ -127,13 +111,13 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
             InboxControllers.chatDetailData.value.receiver.toString()) {
           SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
             InboxControllers.blockedString.value =
-                "Can not Chat You Have Blocked this User";
+                "Can not Chat You Have been Blocked by this User";
             InboxControllers.blockedString.notifyListeners();
             InboxControllers.blockedStatus.notifyListeners();
           });
         } else {
           InboxControllers.blockedString.value =
-              "Can not Chat You Have been Blocked by this User";
+              "Can not Chat You Have Blocked this User";
 
           // InboxControllers.blockedStatus.value = false;
           InboxControllers.blockedString.notifyListeners();
@@ -156,59 +140,83 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       print(e);
     });
 
-    InboxRepo.socket!.emit('getBusinessChatDetails', dataGet);
+    InboxRepo.socket?.emit('getBusinessChatDetails', dataGet);
 
     InboxRepo.socket?.on('error', (data) {
       // print("There is error ");
-      // WidgetFunctions.instance.snackBar(context, text: data);
+      WidgetFunctions.instance.snackBar(context, text: data.toString());
       //print(data);
     });
 
     print("Called ");
 
     ///full chat listener first time
-    InboxRepo.socket!.on('businessChatDetails', (data) {
+    InboxRepo.socket?.on('businessChatDetails', (data) {
       print("bizness details>>>>>>>>>>>>>>>>>>>>>>>>>>>");
       print(data);
 
       ChatTileApiModel chTo = ChatTileApiModel.fromJson(data);
       InboxControllers.chatDetailData.value = chTo;
       InboxControllers.chatDetailData.notifyListeners();
-      if (chTo.blockedUser.toString() == chTo.receiver.toString()) {
-        print(InboxControllers.chatDetailData.value.blockedUser);
-        print(InboxControllers.chatDetailData.value.receiver);
-        print("inside the condition");
+      if(chTo.blockedUser!=null)
+        {
 
-        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          InboxControllers.blockedStatus.value = true;
-          InboxControllers.blockedString.value =
-              "Can not Chat You Have Blocked this User";
-          InboxControllers.blockedString.notifyListeners();
-          InboxControllers.blockedStatus.notifyListeners();
-        });
-      } else {
-        InboxControllers.blockedStatus.value = false;
-      }
-      if (InboxControllers.chatDetailData.value.blockedUser ==
-          "6579ea61d76f7a30f94f5c80") {
-        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          InboxControllers.blockedStatus.value = true;
-          InboxControllers.blockedString.value =
-              "Can not Chat You Have been Blocked by this User";
-          InboxControllers.blockedString.notifyListeners();
-          InboxControllers.blockedStatus.notifyListeners();
-        });
-      } else {
-        InboxControllers.blockedStatus.value = false;
-      }
+          if (InboxControllers.chatDetailData.value.blockedUser ==
+              Data().user?.user?.id) {
+            SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+              InboxControllers.blockedStatus.value = true;
+              InboxControllers.blockedString.value =
+              "Can not Chat You have been Blocked by this User";
+              InboxControllers.blockedString.notifyListeners();
+              InboxControllers.blockedStatus.notifyListeners();
+            });
+          } else {
+            InboxControllers.blockedStatus.value = true;
+            InboxControllers.blockedString.value =
+            "Can not Chat You have  Blocked  this User";
+         //   InboxControllers.blockedStatus.value = false;
+          }
+        }
+      else
+        {
+
+          InboxControllers.blockedStatus.value = false;
+        }
+      // if (chTo.blockedUser.toString() == chTo.receiver.toString()) {
+      //   print(InboxControllers.chatDetailData.value.blockedUser);
+      //   print(InboxControllers.chatDetailData.value.receiver);
+      //   print("inside the condition");
+      //
+      //   SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      //     InboxControllers.blockedStatus.value = true;
+      //     InboxControllers.blockedString.value =
+      //         "Can not Chat You have been Blocked by this User";
+      //     InboxControllers.blockedString.notifyListeners();
+      //     InboxControllers.blockedStatus.notifyListeners();
+      //   });
+      // } else {
+      //   InboxControllers.blockedStatus.value = false;
+      // }
+      // if (InboxControllers.chatDetailData.value.blockedUser ==
+      //     Data().user?.user?.id) {
+      //   SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      //     InboxControllers.blockedStatus.value = true;
+      //     InboxControllers.blockedString.value =
+      //         "Can not Chat You have Blocked this User";
+      //     InboxControllers.blockedString.notifyListeners();
+      //     InboxControllers.blockedStatus.notifyListeners();
+      //   });
+      // } else {
+      //   InboxControllers.blockedStatus.value = false;
+      // }
 
       InboxControllers.blockedString.notifyListeners();
       InboxControllers.blockedStatus.notifyListeners();
     });
 
     ///new message to  chat
-    InboxRepo.socket?.on("newMessageToBusiness", (data) {
-      //print("new message listener ");
+    InboxRepo.socket?.on('newMessageToBusiness', (data) {
+      print("new message listener $data");
       Message newMessageDto = Message.fromJson(data);
       //InboxControllers.chatDetailData.value.messages?.clear();
       ChatTileApiModel dto = InboxControllers.chatDetailData.value;
@@ -218,9 +226,22 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       InboxControllers.chatDetailData.value = dto;
 
       InboxControllers.chatDetailData.notifyListeners();
+  print("scroll offset");
+   print(_scrollController.offset );
+
+
+      if(InboxControllers.chatDetailData.value.messages!.length>6)
+      {InboxControllers.scrollDownNotifier.value = true;}
+      // int scrollMax = (_scrollController.position.maxScrollExtent.toInt());
+      // int scrollOff = (_scrollController.offset.toInt());
+      // int diff = scrollMax - scrollOff;
+      // if(diff>50)
+      // {
+      //   InboxControllers.scrollDownNotifier.value = true;
+      // }
       //_scrollController.jumpTo(_scrollController.position.maxScrollExtent+80);
 
-      print(data);
+     // print(data);
     });
 
     ///block _ user listener
@@ -236,7 +257,6 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
 
     ///replace userIdValue with storyId
     ///
-
     _scrollController.addListener(() {
       // print("scroll listening");
 
@@ -246,7 +266,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       int diff = scrollMax - scrollOff;
       print(diff);
 
-      if (diff > 250) {
+      if (diff > 50) {
         //  print("in condition of scroll");
         if (InboxControllers.scrollDownNotifier.value != true) {
           InboxControllers.scrollDownNotifier.value = true;
@@ -257,11 +277,15 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
         }
       }
     });
+
+    super.initState();
+
   }
 
   ///formatting date  for grouped header list chip
   String _formatDate(DateTime date) {
     // Format date as desired (e.g., "MMM dd, yyyy")
+    //date=date.toLocal();
     if (date.day == DateTime.now().day &&
         date.year == DateTime.now().year &&
         date.month == DateTime.now().month) {
@@ -277,6 +301,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
     InboxControllers.typingStatus.value = false;
     focusNode.dispose();
     _scrollController.dispose();
+    InboxControllers.blockedStatus.value=false;
     InboxControllers.chatDetailData.value = ChatTileApiModel();
     InboxControllers.scrollDownNotifier.value = false;
     //InboxRepo.socket.clearListeners();
@@ -409,7 +434,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                                       }
                                       return GroupedListView<dynamic, String>(
                                         //key: InboxControllers.scrollGroupedKey,
-                                        //shrinkWrap: true,
+                                       // shrinkWrap: true,
                                         //  cacheExtent: 20,
 
                                         controller: _scrollController,
@@ -417,7 +442,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                                         elements: elements,
                                         groupBy: (element) => _formatDate(
                                             DateTime.parse(
-                                                element['createdAt'])),
+                                                element['createdAt']).toLocal()),
                                         // groupComparator: (value1, value2) =>
                                         //     value2.compareTo(value1),
 
@@ -511,7 +536,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                               children: [
                                 allFiles.isNotEmpty
                                     ? SizedBox(
-                                        height: 120.h,
+                                        height: 110.h,
                                         width: 1.sw,
                                         child: ListView.separated(
                                           // shrinkWrap: true,
@@ -574,14 +599,24 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                                       },
                                       child: SvgPicture.asset(
                                           'assets/images/attach.svg')),
-                                  suffixIcon: GestureDetector(
-                                    onTap: () {
-                                      _sendMessage(message.text);
-                                    },
-                                    child: Container(
-                                        margin: EdgeInsets.only(right: 10.sp),
+                                  suffixIcon:Container(
+                                    margin: const EdgeInsets.only(right: 10),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        _sendMessage(message.text);
+                                      },
+                                      child: Material(
+                                        //elevation: 0.9,
+                                        color: Colors.transparent,
+
                                         child: SvgPicture.asset(
-                                            'assets/images/send.svg')),
+                                          'assets/images/send.svg',
+                                          height: 30,
+                                          width: 30,
+                                        ),
+
+                                      ),
+                                    ),
                                   ),
                                   borderRadius: 40.sp,
                                   controller: message,
@@ -644,8 +679,9 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                             child: Container(
                               height: 30,
                               width: 30,
-                              decoration: const BoxDecoration(
+                              decoration:  BoxDecoration(
                                   shape: BoxShape.circle,
+                                  border: Border.all(color: AppColors.primaryColor,width: 1.3),
                                   color: AppColors.whiteColor),
                               child: const Center(
                                   child: Icon(
@@ -721,56 +757,56 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                 ),
               ),
 
-              // Video Circle
-              InkWell(
-                onTap: () async {
-                  // Handle image selection
-
-                  final List<PlatformFile>? filesPicked =
-                      await PickFile.pickMultipleFiles(validVideExt, false);
-                  // final  List<PlatformFile> actualFiles =[];
-
-                  if (filesPicked != null) {
-                    print("in filepickeddd");
-                    for (PlatformFile pf in filesPicked) {
-                      print(pf.extension);
-                      if (validVideExt.contains(pf.extension)) {
-                        videos?.add(pf);
-                        print("inpicled videoss");
-                        print(videos?.length);
-                        var path =
-                            await getThumbnailFromVideo(pf.path.toString());
-                        PlatformFile? pff = PlatformFile(
-                            name:
-                                "thumbnail ${DateTime.now().microsecondsSinceEpoch}",
-                            size: 10 * 1024 * 3,
-                            path: path);
-                        print("actual  path${pff.path}");
-                        actualFiles.add(pff);
-                      }
-                    }
-                    allFiles = actualFiles;
-                    setState(() {});
-                    Navigator.pop(context);
-                  }
-                },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                        padding: const EdgeInsets.all(12.0),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.grey[350],
-                        ),
-                        child: const Icon(Icons.video_library,
-                            color: Colors.black)),
-                    AppText("Videos",
-                        style: Styles.circularStdRegular(context,
-                            fontSize: 12, fontWeight: FontWeight.w500))
-                  ],
-                ),
-              ),
+              /// Video Circle
+              // InkWell(
+              //   onTap: () async {
+              //     // Handle image selection
+              //
+              //     final List<PlatformFile>? filesPicked =
+              //         await PickFile.pickMultipleFiles(validVideExt, false);
+              //     // final  List<PlatformFile> actualFiles =[];
+              //
+              //     if (filesPicked != null) {
+              //       print("in filepickeddd");
+              //       for (PlatformFile pf in filesPicked) {
+              //         print(pf.extension);
+              //         if (validVideExt.contains(pf.extension)) {
+              //           videos?.add(pf);
+              //           print("inpicled videoss");
+              //           print(videos?.length);
+              //           var path =
+              //               await getThumbnailFromVideo(pf.path.toString());
+              //           PlatformFile? pff = PlatformFile(
+              //               name:
+              //                   "thumbnail ${DateTime.now().microsecondsSinceEpoch}",
+              //               size: 10 * 1024 * 3,
+              //               path: path);
+              //           print("actual  path${pff.path}");
+              //           actualFiles.add(pff);
+              //         }
+              //       }
+              //       allFiles = actualFiles;
+              //       setState(() {});
+              //       Navigator.pop(context);
+              //     }
+              //   },
+              //   child: Column(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: [
+              //       Container(
+              //           padding: const EdgeInsets.all(12.0),
+              //           decoration: BoxDecoration(
+              //             shape: BoxShape.circle,
+              //             color: Colors.grey[350],
+              //           ),
+              //           child: const Icon(Icons.video_library,
+              //               color: Colors.black)),
+              //       AppText("Videos",
+              //           style: Styles.circularStdRegular(context,
+              //               fontSize: 12, fontWeight: FontWeight.w500))
+              //     ],
+              //   ),
+              // ),
 
               // Document Circle
               InkWell(
@@ -827,16 +863,19 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
     List<Map<String, dynamic>> vidToSend = [];
     List<Map<String, dynamic>> docsToSend = [];
     List<PlatformFile> vidThumbs = [];
+
+
     for (var i in allFiles) {
-      if (i.path!.contains("thumbnail") == true) {
+      if (i.path?.contains("thumbnail") == true) {
         vidThumbs.add(i);
       }
     }
 
     ///images
-    if (images != null) {
+    if (images!=null && images!.isNotEmpty) {
       setState(() {
         isLoading = true;
+        isFromFiles=true;
       });
       await Future.forEach(images as Iterable<PlatformFile?>, (element) async {
         final Uint8List buffer = await compute((PlatformFile? message) async {
@@ -847,10 +886,26 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
         Map<String, dynamic> addDto = {"name": element?.name, "buffer": buffer};
         imagesToSend.add(addDto);
       }).whenComplete(() {
+        var messageToSend = {
+          "sender": Data().user?.user?.id,
+          "receiver": InboxControllers.chatDetailData.value.receiver.toString(),
+          //"receiver" : "6579f21c00996aa38f7c7a2b",
+          "businessConversationId": widget.chatDto?.id,
+          "content": message.text,
+          "images": images != null ? imagesToSend : [],
+          "videos": videos != null ? vidToSend : [],
+          "docs": docs != null ? docsToSend : [],
+          "createdAt": DateTime.now().toLocal().toIso8601String(),
+        };
+        sendMessageFinal(messageToSend);
         setState(() {
           isLoading = false;
+          //isFromFiles=false;
         });
+
+
       });
+
       // for (var i in images!) {
       //   final Uint8List buffer = await compute((PlatformFile? message)   {
       //
@@ -867,57 +922,158 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
 
     }
 
-    ///videoos
-    if (videos != null && videos!.isNotEmpty && vidThumbs.isNotEmpty) {
-      print("here in videoss");
-      setState(() {
-        isLoading = true;
-      });
-      await Future.forEach(videos as Iterable<PlatformFile?>, (element) async {
-        // final Uint8List buffer = await compute((PlatformFile? message) async {
-        //   return await File(message!.path!).readAsBytes().whenComplete(() {
-        //
-        //    });
-        // }, element);
-        await File(element!.path!).readAsBytes().then((value) {
-          print("buffer length --->");
-
-          print(value.length);
-          Map<String, dynamic> addDto = {"name": element?.name, "buffer": value};
-          vidToSend.add(addDto);
-
-
-        });
-
-
-
-      }).whenComplete(() {
-        setState(() {
-          isLoading = false;
-        });
-
-        
-      });
-      // for (var i in images!) {
-      //   final Uint8List buffer = await compute((PlatformFile? message)   {
-      //
-      //     return File(message!.path!).readAsBytesSync();
-      //
-      //   },i);
-      //   Map<String, dynamic> addDto = {
-      //     "name": i.name,
-      //     "buffer":buffer
-      //   };
-      //   imagesToSend.add(addDto);
-      // }
-      //isLoading=false;
-
-    }
+ //    ///videoos
+ //    if (videos != null && videos!.isNotEmpty && vidThumbs.isNotEmpty) {
+ //      print("here in videoss");
+ //      setState(() {
+ //        isLoading = true;
+ //         isFromFiles=true;
+ //      });
+ //
+ //      var element=videos?[0];
+ //      Uint8List? bufferBytes=element!.bytes;
+ //      print("sizezzzz");
+ //      print(bufferBytes);
+ //      await  File(element!.path!).readAsBytes().then((buffer) {
+ //        print("original file size>> ");
+ //        print(buffer.length);
+ // double megabytes=bytesToMegabytes(buffer.length);
+ //
+ //
+ // if(megabytes < 6 )
+ //   {
+ //     print("buffer length --->");
+ //     print(buffer.length);
+ //
+ //     Map<String, dynamic> addDto = {"name": element?.name, "buffer": buffer};
+ //     vidToSend.add(addDto);
+ //     setState(() {
+ //       isLoading = false;
+ //       // isFromFiles=false;
+ //     });
+ //   }
+ //
+ // else
+ //   {
+ //     setState(() {
+ //       isLoading = false;
+ //       // isFromFiles=false;
+ //     });
+ //     WidgetFunctions.instance.snackBar(context,text: 'Video Size Exceeded 5 mb ');
+ //   }
+ //
+ //
+ //
+ //      }).whenComplete((){
+ //
+ //        if(vidToSend.isEmpty)
+ //          {}
+ //        else {
+ //          var messageToSend = {
+ //            "sender": Data().user?.user?.id,
+ //            "receiver": InboxControllers.chatDetailData.value.receiver
+ //                .toString(),
+ //            //"receiver" : "6579f21c00996aa38f7c7a2b",
+ //            "businessConversationId": widget.chatDto?.id,
+ //            "content": message.text,
+ //            "images": images != null ? imagesToSend : [],
+ //            "videos": videos != null ? vidToSend : [],
+ //            "docs": docs != null ? docsToSend : [],
+ //            "createdAt": DateTime.now().toString(),
+ //          };
+ //          sendMessageFinal(messageToSend);
+ //          WidgetFunctions.instance.snackBar(context, text: "Video Sent!");
+ //        }
+ //      });
+ //    //   final LightCompressor _lightCompressor = LightCompressor();
+ //    //   _lightCompressor.onProgressUpdated.listen((event) {
+ //    //
+ //    //     print(event);
+ //    //
+ //    //   });
+ //    //   await _lightCompressor.compressVideo(
+ //    //    path:element!.path!,
+ //    //     videoQuality: VideoQuality.medium,
+ //    //     android: AndroidConfig(isSharedStorage: true, saveAt: SaveAt.Movies),
+ //    //     ios: IOSConfig(saveInGallery: true),
+ //    //
+ //    //     video: Video(videoName: 'compressed${DateTime.now().millisecond}'),
+ //    //      // It's false by default
+ //    //   ).then((md) async {
+ //    //
+ //    //     if (md is OnSuccess) {
+ //    //       final String outputFile = md.destinationPath;
+ //    //       // use the file
+ //    //
+ //    //       print("filesize>>>>");
+ //    //       // print(md?.filesize);
+ //    //
+ //    //
+ //    //
+ //    //
+ //    //
+ //    //
+ //    //
+ //    //     }
+ //    //
+ //    //     else if (md is OnFailure) {
+ //    //       // failure message
+ //    //       print(md.message);
+ //    //
+ //    //     } else if (md is OnCancelled) {
+ //    //       print(md.isCancelled);
+ //    //     }
+ //    //
+ //    //
+ //    //
+ //    //
+ //    // });
+ //
+ //
+ //
+ //      // await Future.forEach(videos as Iterable<PlatformFile?>, (element) async {
+ //      //
+ //      //   // final Uint8List buffer = await compute((PlatformFile? message) async {
+ //      //   //   return await File(message!.path!).readAsBytes();
+ //      //   // }, element);
+ //      //   // print("buffer length --->");
+ //      //   // print(buffer.length);
+ //      //   // Map<String, dynamic> addDto = {"name": element?.name, "buffer": buffer};
+ //      //   // vidToSend.add(addDto);
+ //      //
+ //      //
+ //      //
+ //      // }).whenComplete(() {
+ //      //
+ //      //
+ //      //   setState(() {
+ //      //     isLoading = false;
+ //      //   });
+ //      // });
+ //      //
+ //      // for (var i in images!) {
+ //      //   final Uint8List buffer = await compute((PlatformFile? message)   {
+ //      //
+ //      //     return File(message!.path!).readAsBytesSync();
+ //      //
+ //      //   },i);
+ //      //   Map<String, dynamic> addDto = {
+ //      //     "name": i.name,
+ //      //     "buffer":buffer
+ //      //   };
+ //      //   imagesToSend.add(addDto);
+ //      // }
+ //      // isLoading=false;
+ //
+ //    }
 
     ///docs
-    if (docs != null) {
+    if (docs != null && docs!.isNotEmpty) {
+
+
       setState(() {
         isLoading = true;
+        isFromFiles=true;
       });
       await Future.forEach(docs as Iterable<PlatformFile?>, (element) async {
         final Uint8List buffer = await compute((PlatformFile? message) async {
@@ -931,8 +1087,21 @@ print(buffer.length);
 
         setState(() {
           isLoading = false;
+        //  isFromFiles=false;
         });
 
+        var messageToSend = {
+          "sender": Data().user?.user?.id,
+          "receiver": InboxControllers.chatDetailData.value.receiver.toString(),
+          //"receiver" : "6579f21c00996aa38f7c7a2b",
+          "businessConversationId": widget.chatDto?.id,
+          "content": message.text,
+          "images": images != null ? imagesToSend : [],
+          "videos": videos != null ? vidToSend : [],
+          "docs": docs != null ? docsToSend : [],
+          "createdAt": DateTime.now().toLocal().toIso8601String(),
+        };
+        sendMessageFinal(messageToSend);
       });
       // for (var i in images!) {
       //   final Uint8List buffer = await compute((PlatformFile? message)   {
@@ -949,21 +1118,34 @@ print(buffer.length);
       //isLoading=false;
 
     }
-    print("imagesDto length+${imagesToSend.length}");
-    print("imagesDto length+${vidToSend.length}");
-    print("imagesDto length+${docsToSend.length}");
+    if(isFromFiles==false)
+      {
+        var messageToSend = {
+          "sender": Data().user?.user?.id,
+          "receiver": InboxControllers.chatDetailData.value.receiver.toString(),
+          //"receiver" : "6579f21c00996aa38f7c7a2b",
+          "businessConversationId": widget.chatDto?.id,
+          "content": message.text,
+          "images": images != null ? imagesToSend : [],
+          "videos": videos != null ? vidToSend : [],
+          "docs": docs != null ? docsToSend : [],
+          "createdAt": DateTime.now().toLocal().toIso8601String(),
+        };
+        sendMessageFinal(messageToSend);
 
-    var messageToSend = {
-      "sender": Data().user?.user?.id,
-      "receiver": InboxControllers.chatDetailData.value.receiver.toString(),
-      //"receiver" : "6579f21c00996aa38f7c7a2b",
-      "businessConversationId": widget.chatDto?.id,
-      "content": message.text,
-      "images": images != null ? imagesToSend : [],
-      "videos": videos != null ? vidToSend : [],
-      "docs": docs != null ? docsToSend : [],
-      "createdAt": DateTime.now().toString(),
-    };
+       setState(() {
+         isFromFiles==false;
+       });
+      }
+    print("imagesDto length+${imagesToSend.length}");
+    print("vidDto length+${vidToSend.length}");
+    print("DocsDto length+${docsToSend.length}");
+    print("imagesDto length+${images?.length}");
+    print("videoDto length+${videos?.length}");
+    print("docsDtooo length+${docs?.length}");
+
+
+
     // if(allFiles.isEmpty)
     // {
     //   print("in here");
@@ -977,6 +1159,21 @@ print(buffer.length);
     //   }
     // ]
 
+
+
+    // if (images != null ||
+    //     videos != null ||
+    //     docs != null ||
+    //     allFiles.isNotEmpty) {
+    //
+    //
+    //
+    // }
+  }
+  sendMessageFinal(messageToSend)
+  {
+
+  //  InboxRepo.socket?.emit('sendMessageToBusiness', messageToSend);
     if (allFiles.isEmpty && message.text.isNotEmpty) {
       InboxControllers.chatDetailData.value.messages?.add(Message(
           id: widget.chatDto?.id,
@@ -986,30 +1183,45 @@ print(buffer.length);
           videos: [],
           docs: [],
           content: message.text,
-          createdAt: DateTime.now()));
+          createdAt: DateTime.now().toUtc()));
       InboxControllers.chatDetailData.notifyListeners();
+      // if(_scrollController.hasClients){
+      // int scrollMax = (_scrollController.position.maxScrollExtent.toInt());
+      // int scrollOff = (_scrollController.offset.toInt());
+      // int diff = scrollMax - scrollOff;
+      // if(diff>50)
+      // {
+      //   InboxControllers.scrollDownNotifier.value = true;
+      // }
+      // }
+
+      if(InboxControllers.chatDetailData.value.messages!.length>6)
+      {InboxControllers.scrollDownNotifier.value = true;}
       InboxRepo.socket?.emit('sendMessageToBusiness', messageToSend);
-    } else if (allFiles.isNotEmpty && message.text.isEmpty) {
+    }
+    else if (allFiles.isNotEmpty || message.text.isNotEmpty) {
       print(messageToSend.toString());
 
       InboxRepo.socket?.emit('sendMessageToBusiness', messageToSend);
+      //InboxRepo.socket?.sendBuffer=messageToSend['videos'][0]['buffer'];
+      //InboxRepo.socket?.emitBuffered();
+      //if(isLoading)
+
     } else {
       WidgetFunctions.instance.snackBar(context, text: "Can not be Empty");
     }
 
+    message.text="";
     message.clear();
-    if (images != null ||
-        videos != null ||
-        docs != null ||
-        allFiles.isNotEmpty) {
-      images?.clear();
-      videos?.clear();
-      docs?.clear();
-      allFiles.clear();
-      actualFiles.clear();
+    images=[];
+    videos=[];
+    docs=[];
+    // allFiles.clear();
+    allFiles=[];
+    actualFiles=[];
+    // actualFiles.clear();
+    setState(() {});
 
-      setState(() {});
-    }
   }
 
   ///get thumbnail for vide0
@@ -1034,7 +1246,29 @@ print(buffer.length);
 
   ///scroll to bottom for first timee
   void scrollToBottom() {
+
     if (initValue == 1) {
+      InboxRepo.socket?.on('user_online_status', (data) {
+        print('Online Emitting>>>>>>>>>>>>>>>>>');
+
+        // print("Online Status");
+        String recId = InboxControllers.chatDetailData.value.receiver.toString();
+
+        print("allUserss");
+
+        print(recId);
+        List<dynamic> allUsers = data;
+        print(allUsers);
+        if (allUsers.contains(recId)) {
+          InboxControllers.connectivityStatus.value = true;
+        } else {
+          InboxControllers.connectivityStatus.value = false;
+        }
+
+        // print("${InboxControllers.connectivityStatus.value}valueeeeeeee");
+        InboxControllers.connectivityStatus.notifyListeners();
+        // print(data);
+      });
       if (_scrollController.hasClients) {
         // print("in scroll");
         _scrollController.jumpTo(
@@ -1042,6 +1276,11 @@ print(buffer.length);
         ); //immediate scroll
         initValue = 0;
       }
+
+
     }
+  }
+  double bytesToMegabytes(int bytes) {
+    return bytes / (1024 * 1024);
   }
 }

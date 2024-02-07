@@ -136,9 +136,8 @@ class AllCategory extends StatelessWidget {
                           radius: 30,
                           backgroundColor: Color(color),
                           child: Center(
-                              child: CachedImage(
-                            url: "${ApiConstant.baseurl}${category.icon}",
-                            radius: 20.sp,
+                              child: SvgPicture.network(
+                             "${ApiConstant.baseurl}/${category.icon}",
                           )),
                         ),
                         const SizedBox(

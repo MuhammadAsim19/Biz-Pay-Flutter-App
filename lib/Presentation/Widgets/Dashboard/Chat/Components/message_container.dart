@@ -397,7 +397,7 @@ class MessageContainer extends StatelessWidget {
                 alignment: chatDto!.sender != senderId
                     ? Alignment.topLeft
                     : Alignment.topRight,
-                child: AppText(chatDto!.createdAt!.toHourAndMinutes,
+                child: AppText(chatDto!.createdAt!.toLocal().toHourAndMinutes,
                     style: Styles.circularStdRegular(context,
                         color: AppColors.greyTextColor,
                         fontSize: 12.sp,

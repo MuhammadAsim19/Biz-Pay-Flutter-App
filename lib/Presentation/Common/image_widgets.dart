@@ -79,6 +79,7 @@ class CachedImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       imageUrl: url,
+      useOldImageOnUrlChange: true,
       placeholder: (context, url) => isCircle!
           ? Container(
               width: width,
@@ -143,3 +144,43 @@ class CachedImage extends StatelessWidget {
     );
   }
 }
+
+
+class InboxImage extends StatelessWidget {
+  final String url;
+  final double? scale;
+  final double? radius;
+  final bool? isCircle;
+  final double? containerRadius;
+  final double? bottomRadius;
+  final double? topRadius;
+  final BoxFit? fit;
+  final double? width;
+  final double? height;
+
+  const InboxImage({
+    super.key,
+    required this.url,
+    this.scale = 1,
+    this.radius = 50,
+    this.isCircle = true,
+    this.containerRadius = 0,
+    this.topRadius,
+    this.bottomRadius,
+    this.fit = BoxFit.fill,
+    this.height,
+    this.width,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return
+    Image.network(
+url,
+width: width,
+height: height,
+fit: fit,
+);
+  }
+}
+

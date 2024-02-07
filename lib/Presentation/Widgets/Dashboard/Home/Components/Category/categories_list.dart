@@ -12,6 +12,7 @@ class CategoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return SizedBox(
       width: 1.sw,
 //height: 200,
@@ -30,7 +31,7 @@ class CategoryList extends StatelessWidget {
               itemBuilder: (context, index) {
                 final category = categoryData![index];
                 final color = int.parse("0xff${category.backgroundcolor!}");
-
+                print("${ApiConstant.baseurl}${category.icon ?? ""}");
                 return GestureDetector(
                   onTap: () {
                     getData(category, index);
@@ -49,10 +50,10 @@ class CategoryList extends StatelessWidget {
                                     width: 30.sp,
                                     height: 30.sp,
                                   )
-                                : CachedImage(
-                                    url:
+                                : SvgPicture.network(
+
                                         "${ApiConstant.baseurl}${category.icon ?? ""}",
-                                    radius: 20.sp,
+
                                   )),
                       ),
                       const SizedBox(

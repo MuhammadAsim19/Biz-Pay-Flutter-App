@@ -88,22 +88,24 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
       ///from chatDto
     };
 
-    InboxRepo.socket?.on('user_online_status', (data) {
-      // print("Online Status");
-      String recId = InboxControllers.chatDetailData.value.receiver.toString();
-
-      List<dynamic> allUsers = data;
-      if (allUsers.contains(recId)) {
-        InboxControllers.connectivityStatus.value = true;
-      } else {
-        InboxControllers.connectivityStatus.value = false;
-      }
-
-      // print("${InboxControllers.connectivityStatus.value}valueeeeeeee");
-      InboxControllers.connectivityStatus.notifyListeners();
-      // print(data);
-    });
+    // InboxRepo.socket?.on('user_online_status', (data) {
+    //   // print("Online Status");
+    //   String recId = InboxControllers.chatDetailData.value.receiver.toString();
+    //
+    //   List<dynamic> allUsers = data;
+    //   if (allUsers.contains(recId)) {
+    //     InboxControllers.connectivityStatus.value = true;
+    //   } else {
+    //     InboxControllers.connectivityStatus.value = false;
+    //   }
+    //
+    //   // print("${InboxControllers.connectivityStatus.value}valueeeeeeee");
+    //   InboxControllers.connectivityStatus.notifyListeners();
+    //   // print(data);
+    // });
     InboxRepo.socket?.on('block_user', (data) {
+      print("block User emiting");
+
       // Handle the event data
       //print("blocked  called");
       //print(data);
@@ -116,13 +118,13 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
             InboxControllers.chatDetailData.value.receiver.toString()) {
           SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
             InboxControllers.blockedString.value =
-                "Can not Chat You Have Blocked this User";
+            "Can not Chat You Have been Blocked by this User";
             InboxControllers.blockedString.notifyListeners();
             InboxControllers.blockedStatus.notifyListeners();
           });
         } else {
           InboxControllers.blockedString.value =
-              "Can not Chat You Have been Blocked by this User";
+          "Can not Chat You Have Blocked this User";
 
           // InboxControllers.blockedStatus.value = false;
           InboxControllers.blockedString.notifyListeners();
@@ -155,31 +157,28 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
       ChatTileApiModel chTo = ChatTileApiModel.fromJson(data);
       InboxControllers.chatDetailData.value = chTo;
       InboxControllers.chatDetailData.notifyListeners();
-      if (chTo.blockedUser.toString() == chTo.receiver.toString()) {
-        print(InboxControllers.chatDetailData.value.blockedUser);
-        print(InboxControllers.chatDetailData.value.receiver);
-        print("inside the condition");
+      if(chTo.blockedUser!=null)
+      {
 
-        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        if (InboxControllers.chatDetailData.value.blockedUser ==
+            Data().user?.user?.id) {
+          SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+            InboxControllers.blockedStatus.value = true;
+            InboxControllers.blockedString.value =
+            "Can not Chat You have been Blocked by this User";
+            InboxControllers.blockedString.notifyListeners();
+            InboxControllers.blockedStatus.notifyListeners();
+          });
+        } else {
           InboxControllers.blockedStatus.value = true;
           InboxControllers.blockedString.value =
-              "Can not Chat You Have Blocked this User";
-          InboxControllers.blockedString.notifyListeners();
-          InboxControllers.blockedStatus.notifyListeners();
-        });
-      } else {
-        InboxControllers.blockedStatus.value = false;
+          "Can not Chat You have  Blocked  this User";
+          //   InboxControllers.blockedStatus.value = false;
+        }
       }
-      if (InboxControllers.chatDetailData.value.blockedUser ==
-          "6579ea61d76f7a30f94f5c80") {
-        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          InboxControllers.blockedStatus.value = true;
-          InboxControllers.blockedString.value =
-              "Can not Chat You Have been Blocked by this User";
-          InboxControllers.blockedString.notifyListeners();
-          InboxControllers.blockedStatus.notifyListeners();
-        });
-      } else {
+      else
+      {
+
         InboxControllers.blockedStatus.value = false;
       }
 
@@ -197,10 +196,20 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
       // InboxControllers.chatDetailData.value.messages?.clear();
       // await  Future.delayed(const Duration(milliseconds: 20));
       InboxControllers.chatDetailData.value = dto;
-
+     // InboxControllers.scrollDownNotifier.value = true;
       InboxControllers.chatDetailData.notifyListeners();
+      // int scrollMax = (_scrollController.position.maxScrollExtent.toInt());
+      // int scrollOff = (_scrollController.offset.toInt());
+      // int diff = scrollMax - scrollOff;
+      // if(diff>50)
+      //   {
+      //     InboxControllers.scrollDownNotifier.value = true;
+      //   }
+      if(InboxControllers.chatDetailData.value.messages!.length>6)
+      {InboxControllers.scrollDownNotifier.value = true;}
       //_scrollController.jumpTo(_scrollController.position.maxScrollExtent+80);
-
+      //print("scroll offset");
+      //print(_scrollController.position.minScrollExtent );
       print(data);
     });
 
@@ -224,7 +233,7 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
       int diff = scrollMax - scrollOff;
       print(diff);
 
-      if (diff > 250) {
+      if (diff > 50) {
         //  print("in condition of scroll");
         if (InboxControllers.scrollDownNotifier.value != true) {
           InboxControllers.scrollDownNotifier.value = true;
@@ -251,10 +260,12 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
   @override
   void dispose() {
     // TODO: implement dispose
+   // InboxRepo.socket?.off("newMessageToBroker");
     InboxRepo.socket?.off("newMessageToBroker");
     InboxControllers.typingStatus.value = false;
     focusNode.dispose();
     _scrollController.dispose();
+    InboxControllers.blockedStatus.value=false;
     InboxControllers.chatDetailData.value = ChatTileApiModel();
     InboxControllers.scrollDownNotifier.value = false;
     //InboxRepo.socket.clearListeners();
@@ -399,7 +410,7 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
                                         elements: elements,
                                         groupBy: (element) => _formatDate(
                                             DateTime.parse(
-                                                element['createdAt'])),
+                                                element['createdAt']).toLocal()),
                                         // groupComparator: (value1, value2) =>
                                         //     value2.compareTo(value1),
 
@@ -496,7 +507,7 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
                               children: [
                                 allFiles.isNotEmpty
                                     ? SizedBox(
-                                        height: 120.h,
+                                        height: 110.h,
                                         width: 1.sw,
                                         child: ListView.separated(
                                           // shrinkWrap: true,
@@ -559,12 +570,24 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
                                       },
                                       child: SvgPicture.asset(
                                           'assets/images/attach.svg')),
-                                  suffixIcon: GestureDetector(
-                                    onTap: () {
-                                      _sendMessage(message.text);
-                                    },
-                                    child: SvgPicture.asset(
-                                        'assets/images/send.svg'),
+                                  suffixIcon: Container(
+                                    margin: const EdgeInsets.only(right: 10),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        _sendMessage(message.text);
+                                      },
+                                      child: Material(
+                                        //elevation: 0.9,
+                                        color: Colors.transparent,
+
+                                        child: SvgPicture.asset(
+                                            'assets/images/send.svg',
+                                        height: 30,
+                                          width: 30,
+                                        ),
+
+                                      ),
+                                    ),
                                   ),
                                   borderRadius: 40.sp,
                                   controller: message,
@@ -627,8 +650,9 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
                             child: Container(
                               height: 30,
                               width: 30,
-                              decoration: const BoxDecoration(
+                              decoration:  BoxDecoration(
                                   shape: BoxShape.circle,
+                                  border: Border.all(color: AppColors.primaryColor,width: 1.3),
                                   color: AppColors.whiteColor),
                               child: const Center(
                                   child: Icon(
@@ -704,56 +728,56 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
                 ),
               ),
 
-              // Video Circle
-              InkWell(
-                onTap: () async {
-                  // Handle image selection
-
-                  final List<PlatformFile>? filesPicked =
-                      await PickFile.pickMultipleFiles(validVideExt, false);
-                  // final  List<PlatformFile> actualFiles =[];
-
-                  if (filesPicked != null) {
-                    print("in filepickeddd");
-                    for (PlatformFile pf in filesPicked) {
-                      print(pf.extension);
-                      if (validVideExt.contains(pf.extension)) {
-                        videos?.add(pf);
-                        print("inpicled videoss");
-                        print(videos?.length);
-                        var path =
-                            await getThumbnailFromVideo(pf.path.toString());
-                        PlatformFile? pff = PlatformFile(
-                            name:
-                                "thumbnail ${DateTime.now().microsecondsSinceEpoch}",
-                            size: 10 * 1024 * 3,
-                            path: path);
-                        print("actual  path${pff.path}");
-                        actualFiles.add(pff);
-                      }
-                    }
-                    allFiles = actualFiles;
-                    setState(() {});
-                    Navigator.pop(context);
-                  }
-                },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                        padding: const EdgeInsets.all(12.0),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.grey[350],
-                        ),
-                        child: const Icon(Icons.video_library,
-                            color: Colors.black)),
-                    AppText("Videos",
-                        style: Styles.circularStdRegular(context,
-                            fontSize: 12, fontWeight: FontWeight.w500))
-                  ],
-                ),
-              ),
+              // // Video Circle
+              // InkWell(
+              //   onTap: () async {
+              //     // Handle image selection
+              //
+              //     final List<PlatformFile>? filesPicked =
+              //         await PickFile.pickMultipleFiles(validVideExt, false);
+              //     // final  List<PlatformFile> actualFiles =[];
+              //
+              //     if (filesPicked != null) {
+              //       print("in filepickeddd");
+              //       for (PlatformFile pf in filesPicked) {
+              //         print(pf.extension);
+              //         if (validVideExt.contains(pf.extension)) {
+              //           videos?.add(pf);
+              //           print("inpicled videoss");
+              //           print(videos?.length);
+              //           var path =
+              //               await getThumbnailFromVideo(pf.path.toString());
+              //           PlatformFile? pff = PlatformFile(
+              //               name:
+              //                   "thumbnail ${DateTime.now().microsecondsSinceEpoch}",
+              //               size: 10 * 1024 * 3,
+              //               path: path);
+              //           print("actual  path${pff.path}");
+              //           actualFiles.add(pff);
+              //         }
+              //       }
+              //       allFiles = actualFiles;
+              //       setState(() {});
+              //       Navigator.pop(context);
+              //     }
+              //   },
+              //   child: Column(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: [
+              //       Container(
+              //           padding: const EdgeInsets.all(12.0),
+              //           decoration: BoxDecoration(
+              //             shape: BoxShape.circle,
+              //             color: Colors.grey[350],
+              //           ),
+              //           child: const Icon(Icons.video_library,
+              //               color: Colors.black)),
+              //       AppText("Videos",
+              //           style: Styles.circularStdRegular(context,
+              //               fontSize: 12, fontWeight: FontWeight.w500))
+              //     ],
+              //   ),
+              // ),
 
               // Document Circle
               InkWell(
@@ -925,7 +949,8 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
       "content": message.text,
       "images": images != null ? imagesToSend : [],
       "videos": videos != null ? vidToSend : [],
-      "docs": docs != null ? docsToSend : []
+      "docs": docs != null ? docsToSend : [],
+      "createdAt": DateTime.now().toLocal().toIso8601String(),
     };
     // if(allFiles.isEmpty)
     // {
@@ -949,28 +974,37 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
           videos: [],
           docs: [],
           content: message.text,
-          createdAt: DateTime.now()));
+          createdAt: DateTime.now().toUtc()));
       InboxControllers.chatDetailData.notifyListeners();
+     // print("viewporttttt");
+     // print( _scrollController.position.viewportDimension );
+
+      // int scrollMax = (_scrollController.position.maxScrollExtent.toInt());
+      // int scrollOff = (_scrollController.offset.toInt());
+      // int diff = scrollMax - scrollOff;
+      // if(diff>50)
+      // {
+      //   InboxControllers.scrollDownNotifier.value = true;
+      // }
+      if(InboxControllers.chatDetailData.value.messages!.length>6)
+      {InboxControllers.scrollDownNotifier.value = true;}
       InboxRepo.socket?.emit('sendMessageToBroker', messageToSend);
-    } else if (allFiles.isNotEmpty && message.text.isEmpty) {
+    } else if (allFiles.isNotEmpty || message.text.isNotEmpty) {
       InboxRepo.socket?.emit('sendMessageToBroker', messageToSend);
     } else {
       WidgetFunctions.instance.snackBar(context, text: "Can not be Empty");
     }
 
+    message.text="";
     message.clear();
-    if (images != null ||
-        videos != null ||
-        docs != null ||
-        allFiles.isNotEmpty) {
-      images?.clear();
-      videos?.clear();
-      docs?.clear();
-      allFiles.clear();
-      actualFiles.clear();
-
-      setState(() {});
-    }
+    images=[];
+    videos=[];
+    docs=[];
+    // allFiles.clear();
+    allFiles=[];
+    actualFiles=[];
+    // actualFiles.clear();
+    setState(() {});
   }
 
   ///get thumbnail for vide0
@@ -995,6 +1029,27 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
 
   ///scroll to bottom for first timee
   void scrollToBottom() {
+    InboxRepo.socket?.on('user_online_status', (data) {
+      print('Online Emitting>>>>>>>>>>>>>>>>>');
+
+      // print("Online Status");
+      String recId = InboxControllers.chatDetailData.value.receiver.toString();
+
+      print("allUserss");
+
+      print(recId);
+      List<dynamic> allUsers = data;
+      print(allUsers);
+      if (allUsers.contains(recId)) {
+        InboxControllers.connectivityStatus.value = true;
+      } else {
+        InboxControllers.connectivityStatus.value = false;
+      }
+
+      // print("${InboxControllers.connectivityStatus.value}valueeeeeeee");
+      InboxControllers.connectivityStatus.notifyListeners();
+      // print(data);
+    });
     if (initValue == 1) {
       if (_scrollController.hasClients) {
         // print("in scroll");
@@ -1003,6 +1058,7 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
         ); //immediate scroll
         initValue = 0;
       }
+
     }
   }
 }

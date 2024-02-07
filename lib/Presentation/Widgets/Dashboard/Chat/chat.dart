@@ -27,10 +27,13 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void initState() {
-    InboxRepo().initSocket(context, Data().user?.user?.id);
+    //InboxRepo().initSocket(context, Data().user?.user?.id);
     // var data={
     //   "userId" : "6579ea61d76f7a30f94f5c80"
     // };
+    print('here is check');
+    print(InboxRepo.isConnected.value);
+    InboxRepo.socket?.emit("getAllBusinessConversations", {'userId':Data().user!.user!.id!});
     InboxRepo.socket?.on("allBusinessConversations", (data) {
       print('here is check');
 
@@ -47,7 +50,7 @@ class _ChatScreenState extends State<ChatScreen> {
       InboxControllers.businessChatTile.notifyListeners();
       InboxControllers.businessSearchChatTile.notifyListeners();
     });
-
+    InboxRepo.socket?.emit("getAllBrokerConversations", {'userId':Data().user!.user!.id!});
     InboxRepo.socket?.on("allBrokerConversations", (data) {
       print('Event trigger ');
 
@@ -74,7 +77,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void dispose() {
     // print("called");
-    InboxRepo.socket?.disconnect();
+  //  InboxRepo.socket?.disconnect();
 
     ///does not work on ios
     //InboxRepo.socket?.dispose();

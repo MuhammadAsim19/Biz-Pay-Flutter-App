@@ -83,6 +83,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     init(widget.message);
+
     // TODO: implement initState
     super.initState();
   }
