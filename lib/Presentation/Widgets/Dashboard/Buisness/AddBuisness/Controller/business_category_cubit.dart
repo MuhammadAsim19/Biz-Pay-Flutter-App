@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:buysellbiz/Data/DataSource/Repository/Business/all_business_repo.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
@@ -18,6 +20,9 @@ class BusinessCategoryCubit extends Cubit<BusinessCategoryState> {
         if (value['Success']) {
           List<BusinessCategory> business =
               List.from(value["body"].map((e) => BusinessCategory.fromJson(e)));
+
+          log(business.toString());
+
           emit(BusinessCategoryLoaded(list: business));
         } else {
           emit(BusinessCategoryError(error: value['error']));

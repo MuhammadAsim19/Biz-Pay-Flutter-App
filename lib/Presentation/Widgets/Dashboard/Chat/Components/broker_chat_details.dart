@@ -32,6 +32,8 @@ class BrokerChatDetailsScreen extends StatefulWidget with ChangeNotifier {
       _BrokerChatDetailsScreenState();
 }
 
+bool? isLoading = false;
+
 class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
   final TextEditingController message = TextEditingController();
   final ScrollController _scrollController = ScrollController();
@@ -39,7 +41,6 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
   //final ScrollController _scrollController2 = ScrollController();
   FocusNode focusNode = FocusNode();
 
-  bool? isLoading = false;
   int initValue = 0;
 
   @override

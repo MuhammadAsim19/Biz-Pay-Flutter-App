@@ -31,7 +31,7 @@ class NotificationTile extends StatelessWidget {
               isCircle: true,
               height: 50.h,
               width: 50.w,
-              url: "${ApiConstant.baseurl}${data?.icon!}"),
+              url: "${ApiConstant.baseurl}/${data?.icon!}"),
           15.x,
           Expanded(
             flex: 10,
