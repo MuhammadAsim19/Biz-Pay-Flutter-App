@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "163127970961-b0tbogb44p253lpmji2fe12vgh99erpv.apps.googleusercontent.com",
+          "client_id": "163127970961-cekve4edep38fb6609ul8q0uivd3htjg.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.buysellbiz.application.buysellbiz",
-            "certificate_hash": "4b7b25e100250a13097799c8a755834aea83d6d1"
+            "certificate_hash": "a03ff80ea2fb02bd39a5d94c57d1a41381d780cc"
           }
         },
         {
