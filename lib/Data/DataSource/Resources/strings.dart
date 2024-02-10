@@ -87,7 +87,7 @@ class AppStrings {
   static const String newPassword = 'New Password';
   static const String privacyPolicy = 'Privacy Policy';
   static const String termsAndconditions = 'Terms and Conditions';
-  static const String deleteAccount = 'Delete Account';
+  static const String deleteAccount = 'Account Deletion';
   static const String customerSupport = 'Customer Support';
   static const String confirmation = 'Confirmation';
 
@@ -97,7 +97,7 @@ class AppStrings {
       'you have successfully changed password';
   static const String areYousure = 'Are you sure want to logout of the app';
   static const String areYouSureToDelete =
-      'Are you sure want to delete account';
+      'Before proceeding, we need to confirm. By continuing, you\'ll be directed to the website to complete the account deletion process.';
   static const String areYouSureToCancelBusiness =
       'Are you sure want to cancel business';
 

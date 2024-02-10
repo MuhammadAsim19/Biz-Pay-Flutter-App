@@ -3,6 +3,7 @@ import 'package:buysellbiz/Data/AppData/app_preferences.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/delete_web_view.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/DeleteAccount/delete_account_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -68,7 +69,8 @@ class ConfirmDeleteDialog extends StatelessWidget {
           Padding(
             padding: EdgeInsets.all(3.sp),
             child: AppText(AppStrings.areYouSureToDelete,
-                maxLine: 2,
+                maxLine: 4,
+                textAlign: TextAlign.center,
                 style: Styles.circularStdRegular(context,
                     fontSize: 16.sp, color: AppColors.greyMedium)),
           ),
@@ -89,12 +91,16 @@ class ConfirmDeleteDialog extends StatelessWidget {
               const Spacer(),
               CustomButton(
                 onTap: () {
-                  Navigator.pop(context);
-                  context.read<DeleteAccountCubit>().deleteAccount();
+                  Navigator.pushReplacement(context, MaterialPageRoute(
+                    builder: (context) {
+                      return const DeleteWebView();
+                    },
+                  ));
+                  // context.read<DeleteAccountCubit>().deleteAccount();
                   // SharedPrefs.clearUserData();
                   // Navigate.toReplaceAll(context, const LoginOnboard());
                 },
-                text: AppStrings.deleteAccount,
+                text: "Proceed",
                 textSize: 14.sp,
                 height: 45.h,
                 width: 125.w,
