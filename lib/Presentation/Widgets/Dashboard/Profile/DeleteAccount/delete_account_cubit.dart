@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:buysellbiz/Data/DataSource/Repository/Auth/delete_account.dart';
 import 'package:meta/meta.dart';
@@ -9,7 +11,7 @@ class DeleteAccountCubit extends Cubit<DeleteAccountState> {
 
   deleteAccount() async {
     await Future.delayed(Duration.zero);
-
+log("change");
     emit(DeleteAccountLoading());
 
     try {

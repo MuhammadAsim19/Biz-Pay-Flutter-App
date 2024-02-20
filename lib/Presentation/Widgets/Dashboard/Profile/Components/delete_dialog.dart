@@ -15,7 +15,7 @@ class DeleteDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 380,
+      width: 380.sp,
       height: 255.sp,
       decoration: ShapeDecoration(
         color: Colors.white,
