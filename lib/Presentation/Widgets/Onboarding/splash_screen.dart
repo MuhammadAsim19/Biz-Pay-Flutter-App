@@ -81,14 +81,9 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: FadeTransition(
-          opacity: _animation,
-          child: Center(
-            child:
-                AssetImageWidget(url: Assets.logo, height: 500.h, width: 500.w),
-          ),
-        ),
+      body: FadeTransition(
+        opacity: _animation,
+        child: AssetImageWidget(url: Assets.logo, height: 1.sh, width: 1.sw),
       ),
     );
   }
