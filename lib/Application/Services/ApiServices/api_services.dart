@@ -5,6 +5,7 @@ import 'dart:io';
 
 import 'package:buysellbiz/Data/AppData/data.dart';
 import 'package:http/http.dart' as http;
+//import 'package:cupertino_http/cupertino_http.dart' as c_http;
 
 class ApiService {
   static Future<Map<String, dynamic>> get(String url,
@@ -13,6 +14,7 @@ class ApiService {
     log(headers.toString());
 
     try {
+
       http.Response res = await http.get(
         Uri.parse(url),
         headers: headers,

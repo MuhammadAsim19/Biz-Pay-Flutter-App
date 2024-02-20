@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:buysellbiz/Application/Services/ApiServices/api_services.dart';
+import 'package:buysellbiz/Data/AppData/data.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -53,7 +54,9 @@ class InboxRepo {
       {required Map<String, dynamic> body}) async {
     try {
       print("base crlf ${ApiConstant.createBusinessChatUrl}");
-      return await ApiService.post(ApiConstant.createBusinessChatUrl, body)
+      final headers = {'authorization': '${Data().token}'};
+      print(headers);
+      return await ApiService.post(ApiConstant.createBusinessChatUrl, body,header: headers)
           .then((value) {
         return value;
       }).catchError((e) {
@@ -68,7 +71,9 @@ class InboxRepo {
       {required Map<String, dynamic> body}) async {
     try {
       print("base crlf ${ApiConstant.createBrokerChatUrl}");
-      return await ApiService.post(ApiConstant.createBrokerChatUrl, body)
+      final headers = {'authorization': '${Data().token}'};
+      print(headers);
+      return await ApiService.post(ApiConstant.createBrokerChatUrl, body,header: headers)
           .then((value) {
         return value;
       }).catchError((e) {

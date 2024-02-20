@@ -304,7 +304,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
     InboxControllers.blockedStatus.value=false;
     InboxControllers.chatDetailData.value = ChatTileApiModel();
     InboxControllers.scrollDownNotifier.value = false;
-    //InboxRepo.socket.clearListeners();
+    //InboxRepo.socket?.clearListeners();
     super.dispose();
   }
 

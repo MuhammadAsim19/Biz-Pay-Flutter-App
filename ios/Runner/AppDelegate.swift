@@ -1,7 +1,8 @@
 import UIKit
 import Flutter
-import flutter_downloader
+//import flutter_downloader
 import FirebaseCore
+import flutter_local_notifications
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
@@ -10,21 +11,21 @@ import FirebaseCore
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
 
-    GeneratedPluginRegistrant.register(with: self)
-    if #available(iOS 10.0, *) {
-        UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
-    }
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.alert, .badge, .sound])
-    }
+      GeneratedPluginRegistrant.register(with: self)
+//         FlutterDownloaderPlugin.setPluginRegistrantCallback(registerPlugins)
+         FlutterLocalNotificationsPlugin.setPluginRegistrantCallback { (registry) in
+             GeneratedPluginRegistrant.register(with: registry)}
+           if #available(iOS 10.0, *) {
+                   UNUserNotificationCenter.current().delegate = self as UNUserNotificationCenterDelegate
+                 }
 
-    FlutterDownloaderPlugin.setPluginRegistrantCallback(registerPlugins)
+//    FlutterDownloaderPlugin.setPluginRegistrantCallback(registerPlugins)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }
 
-private func registerPlugins(registry: FlutterPluginRegistry) {
-    if (!registry.hasPlugin("FlutterDownloaderPlugin")) {
-        FlutterDownloaderPlugin.register(with: registry.registrar(forPlugin: "FlutterDownloaderPlugin")!)
-    }
-}
+//private func registerPlugins(registry: FlutterPluginRegistry) {
+//    if (!registry.hasPlugin("FlutterDownloaderPlugin")) {
+//        FlutterDownloaderPlugin.register(with: registry.registrar(forPlugin: "FlutterDownloaderPlugin")!)
+//    }
+//}

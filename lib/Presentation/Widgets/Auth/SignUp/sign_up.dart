@@ -69,9 +69,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
           "firstName": firstName.text.trim(),
           "lastName": lastName.text.trim(),
           "email": email.text.trim(),
-          "phone": "$countryCode${phone.text.trim()}",
+          "phone": phone.text.isEmpty?"":"$countryCode${phone.text.trim()}",
           "password": password.text.trim(),
-          "dob": calender.text.trim(),
+          "dob":calender.text.isEmpty? "" : calender.text.trim(),
           "fcm_token": fcmToken,
         };
 

@@ -26,7 +26,7 @@ class NotificationMetaData {
 
   void messagingInitiation() async {
     // String? fcmToken = await FirebaseMessaging.instance.getToken();
-    await Firebase.initializeApp();
+   // await Firebase.initializeApp();
     await FirebaseMessaging.instance.getNotificationSettings();
     // log('FCM Token:$fcmToken');
   }

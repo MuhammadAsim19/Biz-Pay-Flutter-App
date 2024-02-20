@@ -3,15 +3,18 @@ import 'dart:io';
 import 'package:buysellbiz/Application/Services/Connectivity/connectivity_service.dart';
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/AppData/app_initializer.dart';
+import 'package:buysellbiz/Data/AppData/app_preferences.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/Services/Notification/notification_meta_data.dart';
 import 'package:buysellbiz/Data/Services/Notification/notification_services.dart';
+import 'package:buysellbiz/Presentation/Common/dialog.dart';
 import 'package:buysellbiz/Presentation/Common/no_internet_connection.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/add_buisness.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/Controller/add_business_conntroller.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Controllers/Repo/inboox_repo.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/chat.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/home.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/logout_dialog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/profile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Saved/saved_listing.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -32,44 +35,44 @@ class BottomNavigationScreen extends StatefulWidget {
 class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   //final PageController pageController = PageController(initialPage: 0);
 
-  connection() async {
-    AppConnectivity.connectionChanged(
-      onConnected: () {
-        // Navigator.of(context).pop();
-      },
-      onDisconnected: () {
-        Navigate.to(context, const NoInternetConnection());
-      },
-    );
-  }
+
 late final AppLifecycleListener _listener;
 late AppLifecycleState? _state;
 final List<String> _states = <String>[];
   init(BuildContext context) async {
-    InboxRepo().initSocket(context, Data().user?.user?.id);
+    await AppInitializer.init().whenComplete(() async {
+      InboxRepo().initSocket(context, Data().user?.user?.id);
 
-    await NotificationServices().permission();
-    //InboxRepo().initSocket(context, Data().user?.user?.id);
-    NotificationMetaData().foregroundNotificationHandler();
-    NotificationMetaData().setContext(context);
-    NotificationMetaData().notificationPayload(context);
-    NotificationMetaData().backgroundNotificationOnTapHandler();
-    NotificationMetaData().terminatedFromOnTapStateHandler(
-        context: context, payLoadData: widget.message);
+      await NotificationServices().permission().whenComplete(() {
+        NotificationMetaData().foregroundNotificationHandler();
+        NotificationMetaData().setContext(context);
+        NotificationMetaData().notificationPayload(context);
+        NotificationMetaData().backgroundNotificationOnTapHandler();
+        NotificationMetaData().terminatedFromOnTapStateHandler(
+            context: context, payLoadData: widget.message);
 
-     _state = SchedulerBinding.instance.lifecycleState;
-    _listener = AppLifecycleListener(
-      onShow: () => _handleTransition('show'),
-      onResume: () => _handleTransition('resume'),
-      onHide: () => _handleTransition('hide'),
-      onInactive: () => _handleTransition('inactive'),
-      onPause: () => _handleTransition('pause'),
-      onDetach: () => _handleTransition('detach'),
-      onRestart: () => _handleTransition('restart'),
-      // This fires for each state change. Callbacks above fire only for
-      // specific state transitions.
-      onStateChange: _handleStateChange,
-    );
+        _state = SchedulerBinding.instance.lifecycleState;
+        _listener = AppLifecycleListener(
+          onShow: () => _handleTransition('show'),
+          onResume: () => _handleTransition('resume'),
+          onHide: () => _handleTransition('hide'),
+          onInactive: () => _handleTransition('inactive'),
+          onPause: () => _handleTransition('pause'),
+          onDetach: () => _handleTransition('detach'),
+          onRestart: () => _handleTransition('restart'),
+          // This fires for each state change. Callbacks above fire only for
+          // specific state transitions.
+          onStateChange: _handleStateChange,
+        );
+
+
+      });
+      //InboxRepo().initSocket(context, Data().user?.user?.id);
+
+
+    });
+
+
   }
   void _handleStateChange(AppLifecycleState state) {
     // setState(() {
@@ -103,16 +106,19 @@ final List<String> _states = <String>[];
 
   @override
   void initState() {
-    AppInitializer.init();
-    connection();
-    init(context);
-    // BottomNotifier.bottomPageController=pageContr oller;
-    ///do not remove new keyword flutter is confused
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // executes after build
-      BottomNotifier.bottomNavigationNotifier.value = 0;
-    });
-    AppInitializer.init();
+
+    if(SharedPrefs.getUserToken() !=null) {
+
+      //connection();
+      init(context);
+      // BottomNotifier.bottomPageController=pageContr oller;
+      ///do not remove new keyword flutter is confused
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        // executes after build
+        BottomNotifier.bottomNavigationNotifier.value = 0;
+      });
+      //AppInitializer.init();
+    }
     BottomNotifier.bottomPageController =
         PageController(initialPage: widget.initialPage ?? 0);
     //BottomNotifier.bottomNavigationNotifier.value=widget.initialPage??0;
@@ -157,8 +163,18 @@ final List<String> _states = <String>[];
             shape: const CircleBorder(),
             onPressed: () {
               //code to execute on button press
-              AddNotifier.addBusinessNotifier.value = 0;
-              Navigate.to(context, const AddBusiness());
+              if(Data.app?.user?.user?.id!=null) {
+                AddNotifier.addBusinessNotifier.value = 0;
+                Navigate.to(context, const AddBusiness());
+              }
+              else
+                {
+                  CustomDialog.dialog(
+                      barrierDismissible: true,
+                      context,
+                      const GuestDialog());
+
+                }
             },
             child: const Icon(
               Icons.add,
@@ -229,10 +245,22 @@ final List<String> _states = <String>[];
                     ///Saved
                     GestureDetector(
                       onTap: () {
+
+                        if(SharedPrefs.getUserToken()!=null)
+                          {
                         if (state != 1) {
                           BottomNotifier.bottomPageController!.jumpToPage(1);
                           BottomNotifier.bottomNavigationNotifier.value = 1;
                         }
+                          }
+                        else
+                          {
+                            CustomDialog.dialog(
+                                barrierDismissible: true,
+                                context,
+                                const GuestDialog());
+
+                          }
                       },
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -254,10 +282,18 @@ final List<String> _states = <String>[];
                     ///Chat
                     GestureDetector(
                       onTap: () {
+                        if(SharedPrefs.getUserToken()!=null){
                         if (state != 2) {
                           BottomNotifier.bottomPageController!.jumpToPage(2);
                           BottomNotifier.bottomNavigationNotifier.value = 2;
-                        }
+                        }}
+                        else
+                          {
+                            CustomDialog.dialog(
+                                barrierDismissible: true,
+                                context,
+                                const GuestDialog());
+                          }
                       },
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -278,10 +314,20 @@ final List<String> _states = <String>[];
                     ///Profile
                     GestureDetector(
                       onTap: () {
+                        if(SharedPrefs.getUserToken()!=null){
                         if (state != 3) {
                           BottomNotifier.bottomPageController!.jumpToPage(3);
                           BottomNotifier.bottomNavigationNotifier.value = 3;
                         }
+                        }
+                        else
+                          {
+                            CustomDialog.dialog(
+                                barrierDismissible: true,
+                                context,
+                                const GuestDialog());
+
+                          }
                       },
                       child: Column(
                         mainAxisSize: MainAxisSize.min,

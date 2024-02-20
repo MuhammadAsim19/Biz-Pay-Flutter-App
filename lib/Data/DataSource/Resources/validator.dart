@@ -110,11 +110,11 @@ class Validate {
 
   ///Phone Number Validation
   static String? phone(String? val) {
-    if (val!.isEmpty) {
-      return 'Provide a phone number';
-    } else if (val.length < 8) {
-      return 'Length must be greater than 8';
-    }
+    // if (val!.isEmpty) {
+    //   return 'Provide a phone number';
+    // } else if (val.length < 8) {
+    //   return 'Length must be greater than 8';
+    // }
     return null;
   }
 
@@ -237,9 +237,9 @@ class Validate {
 
   ///DOB
   static String? dob(String? v) {
-    if (v!.isEmpty) {
-      return 'Please enter DOB';
-    }
+    // if (v!.isEmpty) {
+    //   return 'Please enter DOB';
+    // }
     return null;
   }
 

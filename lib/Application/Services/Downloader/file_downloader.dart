@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:buysellbiz/Data/AppData/app_permision.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
+// import 'package:flutter_downloader/flutter_downloader.dart';
 
 import 'package:path_provider/path_provider.dart';
 
@@ -58,60 +58,60 @@ class FileDownloader {
   //   }
   // }
 
-  static Future download(String url) async {
-    // final directory = await getExternalStorageDirectory();
-    // final directory = await getExternalStorageDirectory();
-    if (Platform.isIOS) {
-      Directory? directory = await getApplicationDocumentsDirectory();
-      final myFilePath = '${directory.path}/bizpay';
-
-      final myImgDir = await Directory(myFilePath).create();
-      // print(myImgDir);
-      final taskId = await FlutterDownloader.enqueue(
-        url: url,
-        headers: {},
-        // optional: header send with url (auth token etc)
-        savedDir: myImgDir.path,
-        showNotification: false,
-        // show download progress in status bar (for Android)
-        openFileFromNotification: true,
-        // click on notification to open downloaded file (for Android)
-        saveInPublicStorage: true,
-      );
-      print(taskId);
-    } else {
-      await AppPermissions.hasStoragePermission(onSuccess: () async {
-        List<Directory>? directory = await getExternalStorageDirectories(
-            type: StorageDirectory.downloads);
-        final myFilePath = '${directory![0].path}/buysell';
-        final dire = await AppPermissions.prepareSaveDir();
-print(dire);
-        final myImgDir = await Directory(myFilePath).create();
-        // print(myImgDir);
-        final taskId = await FlutterDownloader.enqueue(
-          url: url,
-          headers: {},
-          // optional: header send with url (auth token etc)
-          savedDir: dire.path,
-          showNotification: false,
-          //  showNotification: true,
-          // show download progress in status bar (for Android)
-          openFileFromNotification: true,
-          // click on notification to open downloaded file (for Android)
-          //saveInPublicStorage: true,
-        );
-        if (taskId != null) {
-          print("task is... downloaded");
-          print(taskId);
-          await FlutterDownloader.open(taskId: taskId);
-          return dire.path;
-
-        }
-
-
-      });
-    }
-  }
+//   static Future download(String url) async {
+//     // final directory = await getExternalStorageDirectory();
+//     // final directory = await getExternalStorageDirectory();
+//     if (Platform.isIOS) {
+//       Directory? directory = await getApplicationDocumentsDirectory();
+//       final myFilePath = '${directory.path}/bizpay';
+//
+//       final myImgDir = await Directory(myFilePath).create();
+//       // print(myImgDir);
+//       final taskId = await FlutterDownloader.enqueue(
+//         url: url,
+//         headers: {},
+//         // optional: header send with url (auth token etc)
+//         savedDir: myImgDir.path,
+//         showNotification: false,
+//         // show download progress in status bar (for Android)
+//         openFileFromNotification: true,
+//         // click on notification to open downloaded file (for Android)
+//         saveInPublicStorage: true,
+//       );
+//       print(taskId);
+//     } else {
+//       await AppPermissions.hasStoragePermission(onSuccess: () async {
+//         List<Directory>? directory = await getExternalStorageDirectories(
+//             type: StorageDirectory.downloads);
+//         final myFilePath = '${directory![0].path}/buysell';
+//         final dire = await AppPermissions.prepareSaveDir();
+// print(dire);
+//         final myImgDir = await Directory(myFilePath).create();
+//         // print(myImgDir);
+//         final taskId = await FlutterDownloader.enqueue(
+//           url: url,
+//           headers: {},
+//           // optional: header send with url (auth token etc)
+//           savedDir: dire.path,
+//           showNotification: false,
+//           //  showNotification: true,
+//           // show download progress in status bar (for Android)
+//           openFileFromNotification: true,
+//           // click on notification to open downloaded file (for Android)
+//           //saveInPublicStorage: true,
+//         );
+//         if (taskId != null) {
+//           print("task is... downloaded");
+//           print(taskId);
+//           await FlutterDownloader.open(taskId: taskId);
+//           return dire.path;
+//
+//         }
+//
+//
+//       });
+//     }
+//   }
   static Future<File?> tempFilePath(Uint8List data) async {
     File? file;
     if (Platform.isIOS) {

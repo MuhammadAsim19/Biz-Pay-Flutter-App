@@ -1,4 +1,5 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
+import 'package:buysellbiz/Data/AppData/app_preferences.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/Services/firebase_services.dart';
 import 'package:buysellbiz/Domain/Brokers/broker_list_model.dart';
@@ -9,6 +10,7 @@ import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/business_shimmer.
 import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/category_loading.dart';
 import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/recently_viewd_bussines_loading.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
+import 'package:buysellbiz/Presentation/Common/dialog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/BrokerProfile/broker_profile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/buisness_details.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/ViewAllBusiness/view_all_business.dart';
@@ -24,6 +26,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Broker
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/OnlineBusiness/online_business_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/RecentlyView/recently_viewed_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/notifications.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/logout_dialog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/export_profile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/SearchListing/search_listing.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -70,7 +73,9 @@ class _HomeScreenState extends State<HomeScreen> {
     context.read<AllBusinessCubit>().getBusiness();
     context.read<RecentlyAddedCubit>().getRecentBusiness();
     context.read<CategoryCubit>().getCategory();
-    context.read<RecentlyViewedCubit>().getRecentBusiness();
+    if(SharedPrefs.getUserToken()!=null) {
+      context.read<RecentlyViewedCubit>().getRecentBusiness();
+    }
     context.read<OnlineBusinessCubit>().getBusiness();
     context.read<BrokersCubit>().getBrokers();
 
@@ -127,7 +132,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       const Spacer(),
                       GestureDetector(
                         onTap: () {
-                          Navigate.to(context, const Notifications());
+                          if(
+                          SharedPrefs.getUserToken()!=null
+                          ){
+                          Navigate.to(context, const Notifications());}
+                          else
+                            {
+                              CustomDialog.dialog(
+                                  barrierDismissible: true,
+                                  context,
+                                  const GuestDialog());
+
+                            }
                         },
                         child: Container(
                             margin: EdgeInsets.only(right: 23.sp),
@@ -221,8 +237,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       ///recently view
                       ///
                       ,
-                      10.y,
-                      Row(
+                      SharedPrefs.getUserToken()!=null? 10.y:0.y,
+
+
+                      SharedPrefs.getUserToken()!=null? Row(
                         children: [
                           AppText("Recently Viewed",
                               style: Styles.circularStdMedium(context,
@@ -232,9 +250,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               data: recentlyViewed,
                               businessType: 'Recently Viewed'),
                         ],
-                      ),
-                      5.y,
-                      BlocConsumer<RecentlyViewedCubit, RecentlyViewedState>(
+                      ):const SizedBox(height: 0,width: 0,),
+                      SharedPrefs.getUserToken()!=null?5.y:0.y,
+                      SharedPrefs.getUserToken()!=null?   BlocConsumer<RecentlyViewedCubit, RecentlyViewedState>(
                         listener: (context, state) {
                           if (state is RecentlyViewedLoaded) {
                             recentlyViewedSearch = state.business;
@@ -265,7 +283,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         )
                                       : const SizedBox.shrink();
                         },
-                      ),
+                      ):0.x,
 
                       ///Recently Added
                       19.y,

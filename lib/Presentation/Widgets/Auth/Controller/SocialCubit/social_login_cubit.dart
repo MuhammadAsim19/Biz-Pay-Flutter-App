@@ -24,7 +24,8 @@ class SocialLoginCubit extends Cubit<SocialLoginState> {
           // var  check= null;
           print("here is the user data ${value['body']['user']}");
           UserModel userData = UserModel.fromJson((value['body']));
-          await SharedPrefs.setUserLoginData(userRawData: userData);
+
+          await SharedPrefs.setUserLoginData(userRawData: value['body']);
           await SharedPrefs.setLoginToken(value['body']['token']);
           //print("here3");
           emit(SocialLoginSuccess(data: userData));
@@ -32,11 +33,11 @@ class SocialLoginCubit extends Cubit<SocialLoginState> {
           emit(SocialLoginError(message: value['error']));
         }
       }).catchError((error) {
-        //throw error;
+        throw error;
         emit(SocialLoginError(message: error.toString()));
       });
     } catch (e) {
-      //rethrow;
+      rethrow;
     }
   }
 }

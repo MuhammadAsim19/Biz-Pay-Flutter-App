@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Repository/AppleRepo/apple_repo.dart';
 import 'package:buysellbiz/Data/DataSource/Repository/GoogleRepo/google_repo.dart';
@@ -30,11 +32,16 @@ class _LoginOnboardState extends State<LoginOnboard> {
 
   getToken() async {
     fcmToken = await FirebaseServices.getFcm();
+
+    print("fcmmmmmm-----"+fcmToken.toString());
+    setState(() {
+
+    });
   }
 
   @override
   void initState() {
-    getToken();
+    //getToken();
 
     // TODO: implement initState
     changeBaseUrl.text = ApiConstant.baseurl;
@@ -45,6 +52,23 @@ class _LoginOnboardState extends State<LoginOnboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.whiteColor,
+
+      appBar: AppBar(
+
+        actions: [
+
+          CustomButton(
+              verticalMargin: 5,
+              horizontalMargin: 10,
+              onTap: (){
+
+            Navigate.to(context, const BottomNavigationScreen());
+          }, text: "Skip"
+          ),
+          10.x,
+
+        ],
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 20.sp),
         child: BlocListener<SocialLoginCubit, SocialLoginState>(
@@ -127,6 +151,7 @@ class _LoginOnboardState extends State<LoginOnboard> {
                 AuthButtons(
                   color: AppColors.lightBlueColor,
                   onTap: () {
+                    getToken();
                     _onGoogle();
                   },
                   height: 45.h,
@@ -136,27 +161,47 @@ class _LoginOnboardState extends State<LoginOnboard> {
                   image: 'assets/images/google.svg',
                 ),
                 30.y,
-                AuthButtons(
+           Platform.isIOS?     AuthButtons(
                   color: AppColors.blackColor,
                   height: 45.h,
                   width: 330.w,
                   onTap: () async {
-                    var userData = await AppleRepo.getAppleLoginData(context);
-                    if (userData != null) {
-                      var email = userData!.user?.email;
-                      var name = userData!.user?.displayName;
-                      var photoUrl = userData!.user?.photoURL;
-                      // print(
-                      //     "${"email" + email.toString() + "name" + name}photo url:" +
-                      //         photoUrl);
-                      // sendToSocial(email,name,photoUrl,"apple");
-                    }
+                    getToken();
+                     await AppleRepo.getAppleLoginData(context).then((userData) {
+print(userData);
+
+                       if (userData != null) {
+                         var email = userData.user?.email??"";
+                         var name = userData.user?.displayName??"";
+                         var photoUrl = userData.user?.photoURL??"";
+                         print(
+                             "${"email" + email.toString() + "name" + name}photo url:" +
+                                 photoUrl);
+                         // sendToSocial(email,name,photoUrl,"apple");
+
+                         final data = {
+                           "email": email,
+                           "fullname": name,
+                           "photoURL": photoUrl,
+                           "phoneNumber": userData.user?.phoneNumber??"",
+                           "fcm_token": fcmToken,
+                           "provider":"APPLE"
+                         };
+                         context.read<SocialLoginCubit>().setDataOfSocialToServer(data);
+                       }
+                       else {
+                         WidgetFunctions.instance.snackBar(context,
+                             text: 'Login Cancelled', bgColor: AppColors.primaryColor);
+                       }
+
+                     });
+
                   },
                   text: AppStrings.continueWithApple,
                   isBorderRequired: false,
                   image: 'assets/images/apple.svg',
                   textColor: AppColors.whiteColor,
-                ),
+                ):const SizedBox(height: 0,width: 0,),
                 100.y,
                 10.y,
               ],
@@ -182,6 +227,7 @@ class _LoginOnboardState extends State<LoginOnboard> {
           "photoURL": user?.photoURL.toString(),
           "phoneNumber": user?.phoneNumber.toString(),
           "fcm_token": fcmToken,
+          "provider":"GOOGLE"
         };
         context.read<SocialLoginCubit>().setDataOfSocialToServer(data);
       } else {

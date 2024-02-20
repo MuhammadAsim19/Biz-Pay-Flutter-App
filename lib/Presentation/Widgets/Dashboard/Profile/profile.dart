@@ -102,16 +102,17 @@ class ProfileScreen extends StatelessWidget {
                             trailing: Assets.down,
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigate.to(context, PrivacyPolicy());
-                          },
-                          child: const CustomListTile(
-                            title: AppStrings.privacyPol,
-                            leadingicon: Assets.document,
-                            trailing: Assets.down,
-                          ),
-                        ),
+                        ///Privacy policy
+                        // GestureDetector(
+                        //   onTap: () {
+                        //     Navigate.to(context, PrivacyPolicy());
+                        //   },
+                        //   child: const CustomListTile(
+                        //     title: AppStrings.privacyPol,
+                        //     leadingicon: Assets.document,
+                        //     trailing: Assets.down,
+                        //   ),
+                        // ),
                         GestureDetector(
                           onTap: () {
                             Navigate.to(context, TermsAndConditions());

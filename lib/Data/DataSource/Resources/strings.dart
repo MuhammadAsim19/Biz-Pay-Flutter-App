@@ -27,7 +27,7 @@ class AppStrings {
   static String firstname = 'First Name';
   static String lastName = 'Last Name';
   static String number = 'Phone number';
-  static String dob = 'Date of birth';
+  static String dob = 'Date of birth (Optional)';
   static String haveAccount = 'Already have an account?';
   static String verifyEmail = 'Verify email';
   static String resendOtp = 'Resend Otp';

@@ -1,9 +1,14 @@
+import 'dart:io';
+
+import 'package:buysellbiz/Application/Services/Connectivity/connectivity_service.dart';
+import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/AppData/app_initializer.dart';
 import 'package:buysellbiz/Data/AppData/app_preferences.dart';
 import 'package:buysellbiz/Data/AppData/data.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/Services/Notification/notification_meta_data.dart';
 import 'package:buysellbiz/Data/Services/firebase_services.dart';
+import 'package:buysellbiz/Presentation/Common/no_internet_connection.dart';
 import 'package:buysellbiz/Presentation/Widgets/Onboarding/onboarding.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -28,13 +33,24 @@ class _SplashScreenState extends State<SplashScreen>
 
     print(token);
   }
-
+  connection() async {
+    AppConnectivity.connectionChanged(
+      onConnected: () {
+        // Navigator.of(context).pop();
+      },
+      onDisconnected: () {
+        Navigate.to(context, const NoInternetConnection());
+      },
+    );
+  }
   @override
   void initState() {
     // init(context);
     super.initState();
     checkToken();
-
+   if(Platform.isIOS) {}else {
+     connection();
+   }
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 3),
@@ -53,7 +69,9 @@ class _SplashScreenState extends State<SplashScreen>
                 ? BottomNavigationScreen(
                     message: widget.message,
                   )
-                : const OnboardingScreen(),
+                : BottomNavigationScreen(
+              message: widget.message,
+            )
           ),
         );
       }
@@ -68,7 +86,7 @@ class _SplashScreenState extends State<SplashScreen>
           opacity: _animation,
           child: Center(
             child:
-                AssetImageWidget(url: Assets.logo, height: 100.h, width: 300.w),
+                AssetImageWidget(url: Assets.logo, height: 500.h, width: 500.w),
           ),
         ),
       ),

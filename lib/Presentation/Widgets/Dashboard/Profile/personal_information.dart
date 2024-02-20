@@ -71,6 +71,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
     return Scaffold(
       appBar: const CustomAppBar(
         title: AppStrings.personalLinfo,
+        leading: true,
       ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(

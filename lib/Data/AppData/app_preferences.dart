@@ -18,7 +18,7 @@ class SharedPrefs {
 
   ///UserData stored in json
   ///userRawData will be in map<String,dynamic>
-  static Future setUserLoginData({required UserModel userRawData}) async =>
+  static Future setUserLoginData({required  userRawData}) async =>
       await _preferences?.setString("user", jsonEncode(userRawData));
 
   static Future setLoginToken(String token) async =>
@@ -46,12 +46,20 @@ class SharedPrefs {
 
       if (userJson != null) {
         Data.app.user = UserModel.fromRawJson(userJson);
+
+        print("Data.app.user");
+        print(Data.app.user?.user?.email);
       }
     }
     return Future.value(Data.app.user);
   }
 
-  static clearUserData() async {
-    await _preferences!.clear();
+  static Future clearUserData() async {
+
+   bool?stat= await _preferences!.clear();
+   Data.app.token=null;
+   Data.app.user=null;
+   print(stat);
+   return stat;
   }
 }

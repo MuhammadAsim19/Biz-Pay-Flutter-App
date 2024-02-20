@@ -6,7 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
+// import 'package:flutter_downloader/flutter_downloader.dart';
 import 'dart:math' as dM;
 import 'Data/AppData/app_preferences.dart';
 import 'Data/DataSource/Resources/imports.dart';
@@ -45,29 +45,42 @@ class DownloadCallBack {
 }
 
 void main() async {
+  try{
   WidgetsFlutterBinding.ensureInitialized();
 
   await SharedPrefs.init();
 
-  await Firebase.initializeApp();
+  await Firebase.initializeApp().whenComplete(() async {
 
-  await NotificationServices().initNotification();
 
-  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+    await NotificationServices().initNotification();
 
-  final RemoteMessage? message =
-      await FirebaseMessaging.instance.getInitialMessage();
-  await ScreenUtil.ensureScreenSize();
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-  await FlutterDownloader.initialize();
-  await FlutterDownloader.registerCallback(
-      DownloadCallBack.downloadCallBackTest);
+    final RemoteMessage? message =
+        await FirebaseMessaging.instance.getInitialMessage();
 
-  runApp(MultiBlocProvider(
-      providers: appProviders,
-      child: MyApp(
-        message: message,
-      )));
+    await ScreenUtil.ensureScreenSize();
+
+    // await FlutterDownloader.initialize();
+    // await FlutterDownloader.registerCallback(
+    //     DownloadCallBack.downloadCallBackTest);
+
+    runApp(MultiBlocProvider(
+        providers: appProviders,
+        child: MyApp(
+          message: message,
+        )));
+  });
+
+
+
+  }
+      catch(e)
+  {
+    print(e);
+    rethrow;
+  }
 }
 
 class MyApp extends StatefulWidget {
@@ -98,6 +111,7 @@ class _MyAppState extends State<MyApp> {
         builder: (context, child) {
           return MaterialApp(
             title: 'BuySellBiz',
+
             theme: ThemeData(
                 appBarTheme: const AppBarTheme(
                     surfaceTintColor: AppColors.whiteColor,
@@ -117,6 +131,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   init(RemoteMessage? message) {
-    NotificationMetaData().messagingInitiation();
+  //  NotificationMetaData().messagingInitiation();
   }
 }
