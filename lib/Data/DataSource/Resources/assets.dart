@@ -55,7 +55,7 @@ class Assets {
   static const String dummyImage5 = 'assets/images/dummyimage5.png';
 
   static const String background = 'assets/images/background.png';
-  static const String logo = 'assets/images/logo.png';
+  static const String logo = 'assets/images/logo.svg';
   static const String splashImage = 'assets/images/splash_image.png';
   static const String threeDots = 'assets/images/dots.svg';
 

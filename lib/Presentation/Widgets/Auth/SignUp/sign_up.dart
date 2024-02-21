@@ -1,5 +1,4 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
-import 'package:buysellbiz/Data/DataSource/Repository/Auth/verify_otp.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/validator.dart';
 import 'package:buysellbiz/Data/Services/firebase_services.dart';
@@ -9,11 +8,8 @@ import 'package:buysellbiz/Presentation/Common/custom_date_picker.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/verify_otp.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/Login/login.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/Controllers/agree_to_privacy.dart';
-import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/Controllers/hide_show_password.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/Controllers/sign_up_cubit.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/BottomNavigation/Controller/BottomNavigationNotifier/bottom_navigation_notifier.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'Components/country_picker.dart';
 import 'Components/terms_condition_row.dart';
 
@@ -69,9 +65,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
           "firstName": firstName.text.trim(),
           "lastName": lastName.text.trim(),
           "email": email.text.trim(),
-          "phone": phone.text.isEmpty?"":"$countryCode${phone.text.trim()}",
+          "phone": phone.text.isEmpty ? "" : "$countryCode${phone.text.trim()}",
           "password": password.text.trim(),
-          "dob":calender.text.isEmpty? "" : calender.text.trim(),
+          "dob": calender.text.isEmpty ? "" : calender.text.trim(),
           "fcm_token": fcmToken,
         };
 

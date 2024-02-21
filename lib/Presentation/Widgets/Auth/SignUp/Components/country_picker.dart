@@ -68,7 +68,7 @@ class _CountryPickerState extends State<CountryPicker> {
                 Flexible(
                   flex: 3,
                   child: CountryCodePicker(
-                    initialSelection: widget.initialSelection ?? "+1",
+                    initialSelection: widget.initialSelection ?? "US",
                     onChanged: (value) {
                       code = value.dialCode ?? "";
                       widget.countrySelect(value.dialCode);
@@ -79,7 +79,7 @@ class _CountryPickerState extends State<CountryPicker> {
                     //   setState(() {});
                     // },
 
-                    // favorite: ['+221', 'SN'],
+                    favorite: const ['+1', 'US'],
                     // dialogTextStyle: Styles.circularStdRegular(context,
                     //     color: FocusScope.of(context).hasFocus
                     //         ? AppColors.blackColor

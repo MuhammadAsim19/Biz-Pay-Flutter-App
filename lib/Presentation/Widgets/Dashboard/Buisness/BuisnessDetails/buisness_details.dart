@@ -82,7 +82,23 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                           leadingWidth: MediaQuery.sizeOf(context).width,
                           leading: Row(
                             children: [
-                              const BackButton(),
+                              Container(
+                                  margin: EdgeInsets.only(left: 10.sp),
+                                  height: 33.sp,
+                                  width: 33.sp,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white,
+                                  ),
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Icon(
+                                      Icons.arrow_back,
+                                      color: Colors.black,
+                                    ),
+                                  )),
                               // GestureDetector(
                               //   onTap: () {
                               //     Navigate.pop(context);
@@ -95,14 +111,22 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                               //   ),
                               // ),
                               const Spacer(),
-                              InkWell(
-                                  onTap: () async {
-                                    const url =
-                                        'https://wa.me/?text=Check out my awesome Flutter app!';
-                                    final encoded = Uri.encodeFull(url);
-                                    await Share.share(encoded);
-                                  },
-                                  child: const Icon(Icons.share)),
+                              Container(
+                                height: 30.sp,
+                                width: 30.sp,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.white,
+                                ),
+                                child: InkWell(
+                                    onTap: () async {
+                                      const url =
+                                          'https://wa.me/?text=Check out my awesome Flutter app!';
+                                      final encoded = Uri.encodeFull(url);
+                                      await Share.share(encoded);
+                                    },
+                                    child: const Icon(Icons.share)),
+                              ),
                               3.x,
                               BlocConsumer<BussinessWishlistApiCubit,
                                   BussinessWishlistApiState>(
@@ -121,31 +145,51 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                 },
                                 builder: (context, state) {
                                   return state is BussinessWishlistApiLoaded
-                                      ? IconButton(
-                                          icon: state.wishliatValue!
-                                              ? SvgPicture.asset(
-                                                  Assets.heartRed)
-                                              : SvgPicture.asset(
-                                                  Assets.heartLight),
-                                          onPressed: () async {
-                                            context
-                                                .read<
-                                                    BussinessWishlistApiCubit>()
-                                                .addBusinessInWishList(
-                                                    widget.id!,
-                                                    state.wishliatValue!);
-                                          },
+                                      ? Container(
+                                          height: 30.sp,
+                                          width: 30.sp,
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.white,
+                                          ),
+                                          child: Center(
+                                            child: IconButton(
+                                              icon: state.wishliatValue!
+                                                  ? SvgPicture.asset(
+                                                      Assets.heartRed,
+                                                    )
+                                                  : SvgPicture.asset(
+                                                      Assets.heartLight,
+                                                    ),
+                                              onPressed: () async {
+                                                context
+                                                    .read<
+                                                        BussinessWishlistApiCubit>()
+                                                    .addBusinessInWishList(
+                                                        widget.id!,
+                                                        state.wishliatValue!);
+                                              },
+                                            ),
+                                          ),
                                         )
-                                      : IconButton(
-                                          icon: SvgPicture.asset(
-                                              Assets.heartLight),
-                                          onPressed: () async {
-                                            context
-                                                .read<
-                                                    BussinessWishlistApiCubit>()
-                                                .addBusinessInWishList(
-                                                    widget.id!, true);
-                                          },
+                                      : Container(
+                                          height: 30.sp,
+                                          width: 30.sp,
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.white,
+                                          ),
+                                          child: IconButton(
+                                            icon: SvgPicture.asset(
+                                                Assets.heartLight),
+                                            onPressed: () async {
+                                              context
+                                                  .read<
+                                                      BussinessWishlistApiCubit>()
+                                                  .addBusinessInWishList(
+                                                      widget.id!, true);
+                                            },
+                                          ),
                                         );
                                 },
                               ),

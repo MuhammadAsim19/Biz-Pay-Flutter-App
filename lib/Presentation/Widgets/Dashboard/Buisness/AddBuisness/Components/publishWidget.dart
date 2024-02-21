@@ -9,6 +9,7 @@ import 'package:buysellbiz/Presentation/Common/add_image_widget.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/dialog.dart';
 import 'package:buysellbiz/Presentation/Common/display_images.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/BottomNavigation/Controller/BottomNavigationNotifier/bottom_navigation_notifier.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Components/add_business_success_diolog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/add_business_controller.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/add_business_cubit.dart';
@@ -58,6 +59,7 @@ class _PublishWidgetState extends State<PublishWidget> {
             CustomDialog.dialog(context, const AddSuccessDialog(),
                 barrierDismissible: false);
             Future.delayed(const Duration(microseconds: 20));
+            BottomNotifier.bottomPageController!.jumpToPage(0);
             Navigator.pop(context);
             Navigator.pop(context);
           }

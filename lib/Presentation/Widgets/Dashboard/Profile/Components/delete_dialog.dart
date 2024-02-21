@@ -1,8 +1,5 @@
 import 'dart:io';
 
-import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
-import 'package:buysellbiz/Data/AppData/app_preferences.dart';
-import 'package:buysellbiz/Data/DataSource/Resources/Extensions/extensions.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/delete_web_view.dart';
@@ -93,19 +90,15 @@ class ConfirmDeleteDialog extends StatelessWidget {
               const Spacer(),
               CustomButton(
                 onTap: () {
-
-                  if(Platform.isIOS){
-                     context.read<DeleteAccountCubit>().deleteAccount();
-
-                  }else
-                    {
-                      Navigator.pushReplacement(context, MaterialPageRoute(
-                        builder: (context) {
-                          return const DeleteWebView();
-                        },
-                      ));
-                    }
-
+                  if (Platform.isIOS) {
+                    context.read<DeleteAccountCubit>().deleteAccount();
+                  } else {
+                    Navigator.pushReplacement(context, MaterialPageRoute(
+                      builder: (context) {
+                        return const DeleteWebView();
+                      },
+                    ));
+                  }
 
                   // SharedPrefs.clearUserData();
                   // Navigate.toReplaceAll(context, const LoginOnboard());

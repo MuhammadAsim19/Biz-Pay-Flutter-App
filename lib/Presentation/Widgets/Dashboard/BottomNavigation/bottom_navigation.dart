@@ -35,10 +35,10 @@ class BottomNavigationScreen extends StatefulWidget {
 class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   //final PageController pageController = PageController(initialPage: 0);
 
+  late final AppLifecycleListener _listener;
+  late AppLifecycleState? _state;
+  final List<String> _states = <String>[];
 
-late final AppLifecycleListener _listener;
-late AppLifecycleState? _state;
-final List<String> _states = <String>[];
   init(BuildContext context) async {
     await AppInitializer.init().whenComplete(() async {
       InboxRepo().initSocket(context, Data().user?.user?.id);
@@ -64,16 +64,11 @@ final List<String> _states = <String>[];
           // specific state transitions.
           onStateChange: _handleStateChange,
         );
-
-
       });
       //InboxRepo().initSocket(context, Data().user?.user?.id);
-
-
     });
-
-
   }
+
   void _handleStateChange(AppLifecycleState state) {
     // setState(() {
     //   _state = state;
@@ -82,33 +77,27 @@ final List<String> _states = <String>[];
     // WidgetFunctions
     //     .instance.snackBar(context,text: state.name,bgColor: AppColors.primaryColor);
   }
+
   void _handleTransition(String name) {
     // setState(() {
     //   _states.add(name);
     // });
     print("state name$name");
-    if(name=="resume")
-    {
-     // InboxRepo().initSocket(context, Data().user!.user!.id);
+    if (name == "resume") {
+      // InboxRepo().initSocket(context, Data().user!.user!.id);
 
       // WidgetFunctions
       //   .instance.snackBar(context,text: name,bgColor: AppColors.primaryColor);
-
     }
-    if(name=='inactive')
-      {
-       // InboxRepo.socket?.disconnect();
-       print('inActive state called');
-
-      }
-
+    if (name == 'inactive') {
+      // InboxRepo.socket?.disconnect();
+      print('inActive state called');
+    }
   }
 
   @override
   void initState() {
-
-    if(SharedPrefs.getUserToken() !=null) {
-
+    if (SharedPrefs.getUserToken() != null) {
       //connection();
       init(context);
       // BottomNotifier.bottomPageController=pageContr oller;
@@ -163,18 +152,13 @@ final List<String> _states = <String>[];
             shape: const CircleBorder(),
             onPressed: () {
               //code to execute on button press
-              if(Data.app?.user?.user?.id!=null) {
+              if (Data.app?.user?.user?.id != null) {
                 AddNotifier.addBusinessNotifier.value = 0;
                 Navigate.to(context, const AddBusiness());
+              } else {
+                CustomDialog.dialog(
+                    barrierDismissible: true, context, const GuestDialog());
               }
-              else
-                {
-                  CustomDialog.dialog(
-                      barrierDismissible: true,
-                      context,
-                      const GuestDialog());
-
-                }
             },
             child: const Icon(
               Icons.add,
@@ -245,22 +229,17 @@ final List<String> _states = <String>[];
                     ///Saved
                     GestureDetector(
                       onTap: () {
-
-                        if(SharedPrefs.getUserToken()!=null)
-                          {
-                        if (state != 1) {
-                          BottomNotifier.bottomPageController!.jumpToPage(1);
-                          BottomNotifier.bottomNavigationNotifier.value = 1;
+                        if (SharedPrefs.getUserToken() != null) {
+                          if (state != 1) {
+                            BottomNotifier.bottomPageController!.jumpToPage(1);
+                            BottomNotifier.bottomNavigationNotifier.value = 1;
+                          }
+                        } else {
+                          CustomDialog.dialog(
+                              barrierDismissible: true,
+                              context,
+                              const GuestDialog());
                         }
-                          }
-                        else
-                          {
-                            CustomDialog.dialog(
-                                barrierDismissible: true,
-                                context,
-                                const GuestDialog());
-
-                          }
                       },
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -282,18 +261,17 @@ final List<String> _states = <String>[];
                     ///Chat
                     GestureDetector(
                       onTap: () {
-                        if(SharedPrefs.getUserToken()!=null){
-                        if (state != 2) {
-                          BottomNotifier.bottomPageController!.jumpToPage(2);
-                          BottomNotifier.bottomNavigationNotifier.value = 2;
-                        }}
-                        else
-                          {
-                            CustomDialog.dialog(
-                                barrierDismissible: true,
-                                context,
-                                const GuestDialog());
+                        if (SharedPrefs.getUserToken() != null) {
+                          if (state != 2) {
+                            BottomNotifier.bottomPageController!.jumpToPage(2);
+                            BottomNotifier.bottomNavigationNotifier.value = 2;
                           }
+                        } else {
+                          CustomDialog.dialog(
+                              barrierDismissible: true,
+                              context,
+                              const GuestDialog());
+                        }
                       },
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -314,20 +292,17 @@ final List<String> _states = <String>[];
                     ///Profile
                     GestureDetector(
                       onTap: () {
-                        if(SharedPrefs.getUserToken()!=null){
-                        if (state != 3) {
-                          BottomNotifier.bottomPageController!.jumpToPage(3);
-                          BottomNotifier.bottomNavigationNotifier.value = 3;
-                        }
-                        }
-                        else
-                          {
-                            CustomDialog.dialog(
-                                barrierDismissible: true,
-                                context,
-                                const GuestDialog());
-
+                        if (SharedPrefs.getUserToken() != null) {
+                          if (state != 3) {
+                            BottomNotifier.bottomPageController!.jumpToPage(3);
+                            BottomNotifier.bottomNavigationNotifier.value = 3;
                           }
+                        } else {
+                          CustomDialog.dialog(
+                              barrierDismissible: true,
+                              context,
+                              const GuestDialog());
+                        }
                       },
                       child: Column(
                         mainAxisSize: MainAxisSize.min,

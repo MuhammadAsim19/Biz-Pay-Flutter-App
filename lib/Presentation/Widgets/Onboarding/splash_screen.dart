@@ -33,6 +33,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     print(token);
   }
+
   connection() async {
     AppConnectivity.connectionChanged(
       onConnected: () {
@@ -43,14 +44,16 @@ class _SplashScreenState extends State<SplashScreen>
       },
     );
   }
+
   @override
   void initState() {
     // init(context);
     super.initState();
     checkToken();
-   if(Platform.isIOS) {}else {
-     connection();
-   }
+    if (Platform.isIOS) {
+    } else {
+      connection();
+    }
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 3),
@@ -65,14 +68,13 @@ class _SplashScreenState extends State<SplashScreen>
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => token != null
-                ? BottomNavigationScreen(
-                    message: widget.message,
-                  )
-                : BottomNavigationScreen(
-              message: widget.message,
-            )
-          ),
+              builder: (context) => token != null
+                  ? BottomNavigationScreen(
+                      message: widget.message,
+                    )
+                  : BottomNavigationScreen(
+                      message: widget.message,
+                    )),
         );
       }
     });
@@ -83,7 +85,11 @@ class _SplashScreenState extends State<SplashScreen>
     return Scaffold(
       body: FadeTransition(
         opacity: _animation,
-        child: AssetImageWidget(url: Assets.logo, height: 1.sh, width: 1.sw),
+        child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 20.sp),
+            height: 1.sh,
+            width: 1.sw,
+            child: Center(child: SvgPicture.asset(Assets.logo))),
       ),
     );
   }
