@@ -253,7 +253,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   5.x,
                   InkWell(
                     onTap: () {
-                      Navigate.to(context, LoginScreen());
+                      Navigate.to(context, const LoginScreen());
                     },
                     child: AppText(AppStrings.login,
                         style: Styles.circularStdBold(context,
