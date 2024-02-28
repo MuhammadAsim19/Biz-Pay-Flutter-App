@@ -1,4 +1,3 @@
-import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Application/Services/PickerServices/picker_services.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/BusinessModel/add_business_model.dart';
@@ -9,7 +8,6 @@ import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/display_images.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/add_business_controller.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Controller/ListBusiness/update_business_cubit.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/YourBusinessList/your_business.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UpdatePriceLocation extends StatefulWidget {
@@ -157,10 +155,11 @@ class _UpdatePriceLocationState extends State<UpdatePriceLocation> {
                           addText: "Uploads photos",
                           onTap: () async {
                             images = await PickFile.pickImage();
+                            setState(() {});
                           },
                         ),
                         10.y,
-                        AppText('At least 8 photos to improve check for sale',
+                        AppText('At least 1 photos to improve check for sale',
                             style: Styles.circularStdRegular(context,
                                 color: const Color(0xFFB0B0B0), fontSize: 14)),
                         AppText('Should be jpg, png, git format only',

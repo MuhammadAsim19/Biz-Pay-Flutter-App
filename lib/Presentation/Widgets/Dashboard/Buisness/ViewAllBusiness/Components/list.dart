@@ -21,63 +21,62 @@ class BusinessListContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 110.h,
-      child: GestureDetector(
-        onTap: () {
-          getData(businessProducts![index!]);
-        },
-        child: Container(
-          width: 338.sp,
-          decoration: ShapeDecoration(
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-              side: const BorderSide(width: 1, color: Color(0xFFEEF1F6)),
-              borderRadius: BorderRadius.circular(10),
-            ),
+    return GestureDetector(
+      onTap: () {
+        getData(businessProducts![index!]);
+      },
+      child: Container(
+        height: 120.sp,
+        width: 338.sp,
+        decoration: ShapeDecoration(
+          color: Colors.white,
+          shape: RoundedRectangleBorder(
+            side: const BorderSide(width: 1, color: Color(0xFFEEF1F6)),
+            borderRadius: BorderRadius.circular(10),
           ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (businessProducts![index!].images != null)
-                CachedImage(
-                  radius: 30.sp,
-                  containerRadius: 10.sp,
-                  isCircle: false,
-                  url:
-                      "${ApiConstant.baseurl}/${businessProducts![index!].images!.first}",
-                  width: 119.sp,
-                  height: 120.h,
-                ),
-              10.x,
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    10.y,
-                    Row(
-                      children: [
-                        Expanded(
-                          child: AppText(businessProducts![index!].address!,
-                              maxLine: 1,
-                              style: Styles.circularStdRegular(context,
-                                  color: AppColors.lightGreyColor)),
-                        ),
-                      ],
-                    ),
-                    5.y,
-                    AppText(
-                      businessProducts![index!].name!,
-                      style:
-                          Styles.circularStdRegular(context, fontSize: 17.sp),
-                      maxLine: 3,
-                    ),
-                    5.y,
-                    AppText("\$ ${businessProducts![index!].salePrice!}",
-                        style: Styles.circularStdBold(context)),
-                    3.y,
-                    Row(
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (businessProducts![index!].images != null)
+              CachedImage(
+                radius: 30.sp,
+                containerRadius: 10.sp,
+                isCircle: false,
+                url:
+                    "${ApiConstant.baseurl}/${businessProducts![index!].images!.first}",
+                width: 119.sp,
+                height: 120.h,
+              ),
+            10.x,
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  10.y,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: AppText(businessProducts![index!].address!,
+                            maxLine: 1,
+                            style: Styles.circularStdRegular(context,
+                                color: AppColors.lightGreyColor)),
+                      ),
+                    ],
+                  ),
+                  5.y,
+                  AppText(
+                    businessProducts![index!].name!,
+                    style: Styles.circularStdRegular(context, fontSize: 17.sp),
+                    maxLine: 1,
+                  ),
+                  5.y,
+                  AppText("\$ ${businessProducts![index!].salePrice!}",
+                      style: Styles.circularStdBold(context)),
+                  3.y,
+                  Expanded(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         SizedBox(
@@ -92,11 +91,11 @@ class BusinessListContainer extends StatelessWidget {
                         10.x,
                       ],
                     ),
-                  ],
-                ),
-              )
-            ],
-          ),
+                  ),
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );

@@ -166,7 +166,7 @@ class _BusinessAddDetailsState extends State<BusinessAddDetails> {
                           value: indurstry,
                           validationText: 'Industry Required',
                           onChanged: (value) {
-                            industryController.text = value.toString();
+                            industryController.text = "$value Industry";
                             indurstry = value;
                           },
                         );
@@ -350,7 +350,6 @@ class _BusinessAddDetailsState extends State<BusinessAddDetails> {
             CustomButton(
               onTap: () {
                 if (_formKey.currentState!.validate()) {
-
                   if (advantages.isNotEmpty) {
                     AddNotifier.addPageController.jumpToPage(1);
                     AddNotifier.addBusinessNotifier.value = 1;
@@ -359,8 +358,8 @@ class _BusinessAddDetailsState extends State<BusinessAddDetails> {
                     uploadFiles = false;
                     setState(() {});
                   } else {
-                    WidgetFunctions.instance.snackBar(context,
-                        text: 'Add at least one advantage');
+                    WidgetFunctions.instance
+                        .snackBar(context, text: 'Add at least one advantage');
                   }
                   // if (upload != null) {
                   //   print(upload!.extension);
@@ -405,7 +404,7 @@ class _BusinessAddDetailsState extends State<BusinessAddDetails> {
       businessHour: businessHour.text.trim(),
       registrationNumber: registrationNumber.text.trim(),
       advantages: advantages,
-      documnets: upload!=null?[upload!.path]:[],
+      documnets: upload != null ? [upload!.path] : [],
     );
   }
 }

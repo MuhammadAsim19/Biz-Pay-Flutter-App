@@ -61,7 +61,7 @@ class ViewAllBrokers extends StatelessWidget {
                             isCircle: true,
                             radius: 40.sp,
                             url:
-                                "${ApiConstant.baseurl}${profileData![index].userInfo!.profilePic}",
+                                "${ApiConstant.baseurl}${profileData![index].userInfo?.profilePic}",
                             height: 120.sp,
                             width: 120.sp,
                           ),
