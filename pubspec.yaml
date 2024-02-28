@@ -104,6 +104,7 @@ dependencies:
   flutter_local_notifications: ^16.3.0
   #firebase_dynamic_links: ^5.4.8
   webview_flutter: ^3.0.4
+  flutter_stripe: ^10.0.0
   #video_compress: ^3.1.2
   #light_compressor: ^2.2.0
 #  cached_video_player: 2.0.4
