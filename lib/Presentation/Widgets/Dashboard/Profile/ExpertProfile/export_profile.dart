@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
+import 'package:buysellbiz/Application/Services/PaymentServices/payment_services.dart';
 import 'package:buysellbiz/Application/Services/PickerServices/picker_services.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
@@ -462,17 +464,30 @@ class _ExportProfileState extends State<ExportProfile> {
   }
 
   void callPublish() {
-    bool countryValidation = _validate(
-        errorText: 'Country Required', key: "country", val: countryName);
-    bool cityValidation =
-        _validate(errorText: 'City Required', key: "city", val: cityName);
-    bool stateValidation =
-        _validate(errorText: 'State Required', key: "state", val: stateName);
-    if (_formKey.currentState!.validate() &&
-        countryValidation == true &&
-        cityValidation == true &&
-        stateValidation == true) {
-      _sendData();
+    try {
+      PaymentServices.performStripeTransfer(
+        payment: 1000,
+        context: context,
+      ).then((value) {
+        if (value == true) {
+          bool countryValidation = _validate(
+              errorText: 'Country Required', key: "country", val: countryName);
+          bool cityValidation =
+              _validate(errorText: 'City Required', key: "city", val: cityName);
+          bool stateValidation = _validate(
+              errorText: 'State Required', key: "state", val: stateName);
+          if (_formKey.currentState!.validate() &&
+              countryValidation == true &&
+              cityValidation == true &&
+              stateValidation == true) {
+            _sendData();
+          }
+        }
+      });
+    } catch (e) {
+      log(e.toString());
+      WidgetFunctions.instance
+          .showErrorSnackBar(context: context, error: e.toString());
     }
   }
 

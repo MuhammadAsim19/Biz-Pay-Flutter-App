@@ -1,0 +1,2 @@
+const stripeKey =
+    'pk_test_51KiiRNDs0edGSqAmL8OvoU596SpjoJKVhMUbikYZM3ScPS2A7U2Loi2g3GTAvTvTek1d6fznTmAZDk6hywJw6dFn003tYT4BES';
