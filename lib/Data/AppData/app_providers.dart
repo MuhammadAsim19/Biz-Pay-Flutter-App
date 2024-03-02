@@ -4,6 +4,7 @@ import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/Controllers/
 import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/Controllers/verify_otp_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/Login/Controllers/login_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/Controllers/sign_up_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Badges/AllBadges/Controller/all_badges_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/add_business_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/business_category_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/add_to_recently_view_cubit.dart';
@@ -71,4 +72,5 @@ List<BlocProvider> appProviders = [
   BlocProvider<BrokerByIdCubit>(create: (context) => BrokerByIdCubit()),
   BlocProvider<UpdateBusinessCubit>(create: (context) => UpdateBusinessCubit()),
   BlocProvider<DeleteBusinessCubit>(create: (context) => DeleteBusinessCubit()),
+  BlocProvider<AllBadgesCubit>(create: (context) => AllBadgesCubit()),
 ];

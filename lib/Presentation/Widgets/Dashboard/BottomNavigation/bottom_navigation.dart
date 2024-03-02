@@ -9,6 +9,7 @@ import 'package:buysellbiz/Data/Services/Notification/notification_meta_data.dar
 import 'package:buysellbiz/Data/Services/Notification/notification_services.dart';
 import 'package:buysellbiz/Presentation/Common/dialog.dart';
 import 'package:buysellbiz/Presentation/Common/no_internet_connection.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Badges/AllBadges/all_badges_screen.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/add_buisness.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/Controller/add_business_conntroller.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Controllers/Repo/inboox_repo.dart';
@@ -154,6 +155,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
               //code to execute on button press
               if (Data.app?.user?.user?.id != null) {
                 AddNotifier.addBusinessNotifier.value = 0;
+                // Navigate.to(context, const AllBBadgesScreen());
                 Navigate.to(context, const AddBusiness());
               } else {
                 CustomDialog.dialog(
