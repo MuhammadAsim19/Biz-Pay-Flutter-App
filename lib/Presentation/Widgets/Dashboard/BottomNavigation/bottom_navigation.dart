@@ -155,8 +155,8 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
               //code to execute on button press
               if (Data.app?.user?.user?.id != null) {
                 AddNotifier.addBusinessNotifier.value = 0;
-                // Navigate.to(context, const AllBBadgesScreen());
-                Navigate.to(context, const AddBusiness());
+                Navigate.to(context, const AllBBadgesScreen());
+                // Navigate.to(context, const AddBusiness());
               } else {
                 CustomDialog.dialog(
                     barrierDismissible: true, context, const GuestDialog());

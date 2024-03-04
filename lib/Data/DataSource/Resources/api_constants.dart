@@ -51,5 +51,5 @@ class ApiConstant {
   static String readNotification = "$baseurl/api/user/readNotification";
   static String updateBusiness = "$baseurl/api/business/update";
   static String deleteBusiness = "$baseurl/api/business/delete";
-  static String appBadges = '$baseurl/api/broker/badge/all';
+  static String allBadges = "$baseurl/api/broker/badge/all";
 }
