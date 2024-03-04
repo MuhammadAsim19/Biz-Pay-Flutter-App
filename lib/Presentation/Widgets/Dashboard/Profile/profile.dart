@@ -3,7 +3,7 @@ import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/dialog.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/AppBadges/app_badges.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Badges/AllBadges/all_badges_screen.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_list_tile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/logout_dialog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/export_profile.dart';
@@ -61,7 +61,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Navigate.to(context, const AppBadgesScreen());
+                            Navigate.to(context, const AllBBadgesScreen());
                           },
                           child: const CustomListTile(
                             title: 'App Badges',

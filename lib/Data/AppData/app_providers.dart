@@ -4,6 +4,7 @@ import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/Controllers/
 import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/Controllers/verify_otp_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/Login/Controllers/login_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/Controllers/sign_up_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Badges/AllBadges/Controller/all_badges_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/add_business_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/business_category_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/add_to_recently_view_cubit.dart';
@@ -18,7 +19,6 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Catego
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/RecentlyView/recently_viewed_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/notification_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/read_notification_cubit.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/AppBadges/Controller/app_budges_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Controller/ChangePassword/change_password_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Controller/CustomerSupport/customer_support_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Controller/ListBusiness/update_business_cubit.dart';
@@ -72,6 +72,6 @@ List<BlocProvider> appProviders = [
   BlocProvider<BrokerByIdCubit>(create: (context) => BrokerByIdCubit()),
   BlocProvider<UpdateBusinessCubit>(create: (context) => UpdateBusinessCubit()),
   BlocProvider<DeleteBusinessCubit>(create: (context) => DeleteBusinessCubit()),
-  BlocProvider<AppBudgesCubit>(create: (context) => AppBudgesCubit()),
+  // BlocProvider<AppBudgesCubit>(create: (context) => AppBudgesCubit()),
   BlocProvider<AllBadgesCubit>(create: (context) => AllBadgesCubit()),
 ];
