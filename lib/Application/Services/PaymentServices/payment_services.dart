@@ -22,7 +22,6 @@ class PaymentServices {
               paymentIntentClientSecret: value['clientSecret'],
             ),
           );
-
           await Stripe.instance.presentPaymentSheet();
           return true;
         } on StripeException catch (e) {

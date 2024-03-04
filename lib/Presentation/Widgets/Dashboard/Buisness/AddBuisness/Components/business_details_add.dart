@@ -166,7 +166,8 @@ class _BusinessAddDetailsState extends State<BusinessAddDetails> {
                           value: indurstry,
                           validationText: 'Industry Required',
                           onChanged: (value) {
-                            industryController.text = "$value Industry";
+                            industryController.text = "$value";
+                            // industryController.text = "$value Industry";
                             indurstry = value;
                           },
                         );

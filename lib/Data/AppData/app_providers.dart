@@ -30,6 +30,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/PrivacyPolicy/Controller/privacy_policy_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/YourBusinessList/DeleteBusiness/Controller/delete_business_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Saved/Controller/saved_listing_cubit.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 List<BlocProvider> appProviders = [
@@ -72,4 +73,5 @@ List<BlocProvider> appProviders = [
   BlocProvider<UpdateBusinessCubit>(create: (context) => UpdateBusinessCubit()),
   BlocProvider<DeleteBusinessCubit>(create: (context) => DeleteBusinessCubit()),
   BlocProvider<AppBudgesCubit>(create: (context) => AppBudgesCubit()),
+  BlocProvider<AllBadgesCubit>(create: (context) => AllBadgesCubit()),
 ];
