@@ -8,7 +8,7 @@ class AppBadges {
   static Future getAppBadges() async {
     final headers = {'authorization': '${Data().token}'};
 
-    return await ApiService.get(ApiConstant.appBadges, headers: headers)
+    return await ApiService.get(ApiConstant.allBadges, headers: headers)
         .then((value) {
       log("Here is Badges $value");
       return value;
