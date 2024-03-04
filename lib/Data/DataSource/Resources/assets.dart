@@ -6,6 +6,8 @@ class Assets {
   static const String chatLight = 'assets/images/chat_light.svg';
   static const String chatBlue = 'assets/images/chat_blue.svg';
   static const String profile = 'assets/images/Profile.svg';
+  static const String appBadges = 'assets/images/badge.svg';
+
   static const String addUser = 'assets/images/add_user.svg';
 
   static const String homeFilled = 'assets/images/HomeFilled.svg';

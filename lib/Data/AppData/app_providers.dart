@@ -18,6 +18,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Catego
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/RecentlyView/recently_viewed_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/notification_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Notifications/Controller/read_notification_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/AppBadges/Controller/app_budges_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Controller/ChangePassword/change_password_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Controller/CustomerSupport/customer_support_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Controller/ListBusiness/update_business_cubit.dart';
@@ -29,7 +30,6 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/PrivacyPolicy/Controller/privacy_policy_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/YourBusinessList/DeleteBusiness/Controller/delete_business_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Saved/Controller/saved_listing_cubit.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 List<BlocProvider> appProviders = [
@@ -71,4 +71,5 @@ List<BlocProvider> appProviders = [
   BlocProvider<BrokerByIdCubit>(create: (context) => BrokerByIdCubit()),
   BlocProvider<UpdateBusinessCubit>(create: (context) => UpdateBusinessCubit()),
   BlocProvider<DeleteBusinessCubit>(create: (context) => DeleteBusinessCubit()),
+  BlocProvider<AppBudgesCubit>(create: (context) => AppBudgesCubit()),
 ];

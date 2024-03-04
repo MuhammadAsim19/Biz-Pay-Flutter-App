@@ -14,11 +14,13 @@ class ApiService {
     log(headers.toString());
 
     try {
-
       http.Response res = await http.get(
         Uri.parse(url),
         headers: headers,
       );
+
+      print(res.statusCode);
+
       if (res.statusCode == 200) {
         Map<String, dynamic> decode = jsonDecode(res.body);
         return decode;

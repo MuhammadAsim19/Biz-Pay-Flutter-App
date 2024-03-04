@@ -3,13 +3,13 @@ import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/dialog.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/AppBadges/app_badges.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_list_tile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/logout_dialog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/export_profile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/change_password.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/customer_support.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/personal_information.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/PrivacyPolicy/privacy_policy.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/terms_and_conditions.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/YourBusinessList/your_business.dart';
 import 'package:share_plus/share_plus.dart';
@@ -61,6 +61,16 @@ class ProfileScreen extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
+                            Navigate.to(context, const AppBadgesScreen());
+                          },
+                          child: const CustomListTile(
+                            title: 'App Badges',
+                            leadingicon: Assets.appBadges,
+                            trailing: Assets.down,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
                             Navigate.to(context, const ExportProfile());
                           },
                           child: const CustomListTile(
@@ -92,7 +102,7 @@ class ProfileScreen extends StatelessWidget {
                         GestureDetector(
                           onTap: () async {
                             const url =
-                                'https://wa.me/?text=Check out my awesome Flutter app!';
+                                'https://play.google.com/store/apps/details?id=com.buysellbiz.application.buysellbiz';
                             final encoded = Uri.encodeFull(url);
                             await Share.share(encoded);
                           },
@@ -102,6 +112,7 @@ class ProfileScreen extends StatelessWidget {
                             trailing: Assets.down,
                           ),
                         ),
+
                         ///Privacy policy
                         // GestureDetector(
                         //   onTap: () {

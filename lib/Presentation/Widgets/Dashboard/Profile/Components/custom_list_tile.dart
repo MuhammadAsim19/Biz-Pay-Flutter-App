@@ -21,7 +21,7 @@ class CustomListTile extends StatelessWidget {
           Expanded(
               child: SvgPicture.asset(
             leadingicon!,
-            height: 18.sp,
+            height: 20.sp,
             width: 20.sp,
           )),
           Expanded(
