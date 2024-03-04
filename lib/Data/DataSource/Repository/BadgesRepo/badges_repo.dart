@@ -8,7 +8,7 @@ class BadgesRepo {
   static Future getBadges() async {
     var headers = {"authorization": " ${Data.app.token}"};
 
-    return await ApiService.get(ApiConstant.appBadges, headers: headers).then(
+    return await ApiService.get(ApiConstant.allBadges, headers: headers).then(
         (value) {
       log(value.toString());
       return value;
