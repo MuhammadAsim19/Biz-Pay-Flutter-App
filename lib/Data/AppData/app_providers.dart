@@ -5,6 +5,8 @@ import 'package:buysellbiz/Presentation/Widgets/Auth/ForgetPassword/Controllers/
 import 'package:buysellbiz/Presentation/Widgets/Auth/Login/Controllers/login_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Auth/SignUp/Controllers/sign_up_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Badges/AllBadges/Controller/all_badges_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Badges/SendBadgeRequest/Controller/send_badge_request_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Badges/ShowExpertProfiles/Controller/show_experts_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/add_business_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/business_category_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/add_to_recently_view_cubit.dart';
@@ -74,4 +76,7 @@ List<BlocProvider> appProviders = [
   BlocProvider<DeleteBusinessCubit>(create: (context) => DeleteBusinessCubit()),
   // BlocProvider<AppBudgesCubit>(create: (context) => AppBudgesCubit()),
   BlocProvider<AllBadgesCubit>(create: (context) => AllBadgesCubit()),
+  BlocProvider<ShowExpertsCubit>(create: (context) => ShowExpertsCubit()),
+  BlocProvider<SendBadgeRequestCubit>(
+      create: (context) => SendBadgeRequestCubit()),
 ];

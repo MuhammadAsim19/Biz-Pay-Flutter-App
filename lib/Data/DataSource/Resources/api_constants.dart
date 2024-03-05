@@ -54,4 +54,6 @@ class ApiConstant {
   static String allBadges = "$baseurl/api/broker/badge/all";
   static String allPackages = "$baseurl/api/broker/packages/all";
   static String verifyPayment = "$baseurl/api/broker/verify_payment";
+  static String getExportFormBadges = "$baseurl/api/broker/filterByBadge/";
+  static String sendBadgeRequest = "$baseurl/api/user/requestABadge";
 }

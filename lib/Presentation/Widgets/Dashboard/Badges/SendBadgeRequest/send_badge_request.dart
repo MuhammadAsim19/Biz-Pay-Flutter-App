@@ -1,12 +1,20 @@
 import 'package:buysellbiz/Application/Services/PickerServices/picker_services.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
+import 'package:buysellbiz/Domain/Badges/badgeModel.dart';
+import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/add_image_widget.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/display_images.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Badges/SendBadgeRequest/Controller/send_badge_request_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Badges/SendBadgeRequest/Controller/send_badge_request_state.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SendBadgeRequest extends StatefulWidget {
-  const SendBadgeRequest({super.key});
+  const SendBadgeRequest({super.key, this.badgeData, this.expertId});
+
+  final BadgeModel? badgeData;
+  final String? expertId;
 
   @override
   State<SendBadgeRequest> createState() => _SendBadgeRequestState();
@@ -16,6 +24,8 @@ class _SendBadgeRequestState extends State<SendBadgeRequest> {
   PlatformFile? upload;
 
   TextEditingController controller = TextEditingController();
+
+  final _key = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -41,42 +51,89 @@ class _SendBadgeRequestState extends State<SendBadgeRequest> {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 18.sp),
-        child: Column(
-          children: [
-            10.y,
-            AddImageWidget(
-              attachFile: Assets.uploadAttachment,
-              onTap: () async {
-                var pickedFile = await PickFile.pickFiles();
-                if (pickedFile != null) {
-                  upload = pickedFile;
-                  setState(() {});
-                }
-              },
-              height: 82,
-              width: 400.w,
-              text: 'Upload Documents',
-            ),
-            upload != null
-                ? DisplayFile(
-                    file: upload,
-                    onDeleteTap: () {
-                      upload = null;
-                      setState(() {});
-                    },
-                    index: 0,
-                  )
-                : 10.x,
-            10.y,
-            CustomTextFieldWithOnTap(
-                maxline: 5,
-                controller: controller,
-                hintText: "Write Description",
-                textInputType: TextInputType.text),
-            20.y,
-            CustomButton(onTap: () {}, text: "Send Request"),
-            20.y,
-          ],
+        child: Form(
+          key: _key,
+          child: Column(
+            children: [
+              10.y,
+              AddImageWidget(
+                attachFile: Assets.uploadAttachment,
+                onTap: () async {
+                  var pickedFile = await PickFile.pickFiles();
+                  if (pickedFile != null) {
+                    upload = pickedFile;
+                    setState(() {});
+                  }
+                },
+                height: 82,
+                width: 400.w,
+                text: 'Upload Documents',
+              ),
+              upload != null
+                  ? DisplayFile(
+                      file: upload,
+                      onDeleteTap: () {
+                        upload = null;
+                        setState(() {});
+                      },
+                      index: 0,
+                    )
+                  : 10.x,
+              10.y,
+              CustomTextFieldWithOnTap(
+                  validateText: 'Description Required',
+                  maxline: 5,
+                  controller: controller,
+                  hintText: "Write Description",
+                  textInputType: TextInputType.text),
+              20.y,
+              BlocConsumer<SendBadgeRequestCubit, SendBadgeRequestState>(
+                listener: (context, state) {
+                  if (state is SendBadgeRequestLoading) {
+                    LoadingDialog.showLoadingDialog(context);
+                  }
+                  if (state is SendBadgeRequestLoaded) {
+                    Navigator.of(context).pop(true);
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  }
+                  if (state is SendBadgeRequestError) {
+                    Navigator.pop(context);
+                    WidgetFunctions.instance
+                        .snackBar(context, text: state.error);
+                  }
+                  // TODO: implement listener
+                },
+                builder: (context, state) {
+                  return CustomButton(
+                      onTap: () {
+                        if (_key.currentState!.validate()) {
+                          if (upload != null) {
+                            var data = {
+                              "expertId": widget.expertId,
+                              "badgeId": widget.badgeData!.id,
+                              "message": controller.text.trim(),
+                              "type": "buyer",
+                              // "bussinessId": ""
+                            };
+                            context
+                                .read<SendBadgeRequestCubit>()
+                                .sendBadgesRequest(
+                                    data: data,
+                                    context: context,
+                                    pathName: upload!.path);
+                          } else {
+                            WidgetFunctions.instance
+                                .snackBar(context, text: "Document required");
+                          }
+                        }
+                      },
+                      text: "Send Request");
+                },
+              ),
+              20.y,
+            ],
+          ),
         ),
       ),
     );
