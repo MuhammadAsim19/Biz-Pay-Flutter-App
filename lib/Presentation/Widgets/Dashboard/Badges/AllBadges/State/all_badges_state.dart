@@ -13,4 +13,8 @@ class AllBadgesLoadingState extends AllBadgesState {}
 
 class AllBadgesSelectionState extends AllBadgesState {}
 
-class AllBadgesLoadedState extends AllBadgesState {}
+class AllBadgesLoadedState extends AllBadgesState {
+  final List<BadgeModel> badges;
+
+  AllBadgesLoadedState({required this.badges});
+}

@@ -96,6 +96,7 @@ class _MultiItemPickerState extends State<MultiItemPicker> {
                             onTap: () {
                               setState(() {
                                 list.removeAt(index);
+                                widget.onChange(list);
                               });
                             },
                             behavior: HitTestBehavior.opaque,
@@ -170,14 +171,21 @@ class _MultiItemPickerForCategState extends State<MultiItemPickerForCateg> {
           value: value,
           validationText: widget.validationText,
           onChanged: (value) {
-            ids = widget.getList!
-                .where((element) =>
-                    element.title == value) // Use '==' for comparison
-                .map((element) =>
-                    element.id) // Extracting the 'id' from filtered elements
-                .toList();
+            // ids = widget.getList!
+            //     .where((element) =>
+            //         element.title == value) // Use '==' for comparison
+            //     .map((element) =>
+            //         element.id) // Extracting the 'id' from filtered elements
+            //     .toList();
 
-            list.contains(value) ? null : list.add(value);
+            list.contains(value)
+                ? null
+                : {
+                    ids.add(widget.getList!
+                        .firstWhere((element) => element.title == value)
+                        .id),
+                    list.add(value)
+                  };
             widget.onChange(list, ids);
             // value = list;
             setState(() {});
@@ -229,6 +237,8 @@ class _MultiItemPickerForCategState extends State<MultiItemPickerForCateg> {
                             onTap: () {
                               setState(() {
                                 list.removeAt(index);
+                                ids.removeAt(index);
+                                widget.onChange(list, ids);
                               });
                             },
                             behavior: HitTestBehavior.opaque,
