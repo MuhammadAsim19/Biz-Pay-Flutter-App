@@ -41,6 +41,7 @@ class AppStrings {
   static String industry = 'Industries serviced';
   static String experice = 'Experience';
   static String education = 'Education ';
+  static String badges = 'Badges';
   static String website = 'WebSite';
 
   static String certificate = 'Certificate';
@@ -105,7 +106,7 @@ class AppStrings {
   static const String cancel = 'Cancel';
   static const String addNewSer = 'Add new service';
   static const String addNewIndus = 'Add new Industry';
-
+  static const String subscription = 'Subscription';
   static const String submit = 'Submit';
 
   static const String privacyPolicyall = '''

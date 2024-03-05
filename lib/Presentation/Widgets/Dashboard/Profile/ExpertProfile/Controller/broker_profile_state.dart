@@ -14,3 +14,17 @@ class BrokerProfileError extends BrokerProfileState {
 
   BrokerProfileError({this.error});
 }
+
+class BrokerPackagesLoadingState extends BrokerProfileState {}
+
+class BrokerPackagesLoadedState extends BrokerProfileState {
+  final List<PackageModel> packages;
+
+  BrokerPackagesLoadedState({required this.packages});
+}
+
+class BrokerPackagesErrorState extends BrokerProfileState {
+  final String? error;
+
+  BrokerPackagesErrorState({this.error});
+}

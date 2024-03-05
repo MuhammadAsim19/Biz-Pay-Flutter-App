@@ -14,10 +14,10 @@ class AllBadgesCubit extends Cubit<AllBadgesState> {
     BadgesRepo.getBadges().then(
       (value) {
         if (value['Success']) {
-          emit(AllBadgesLoadedState());
           badges = (value['body'] as List)
               .map((e) => BadgeModel.fromJson(e))
               .toList();
+          emit(AllBadgesLoadedState(badges: badges));
         } else {
           emit(AllBadgesErrorState(error: value['error']));
         }

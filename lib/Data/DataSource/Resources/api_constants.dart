@@ -52,4 +52,6 @@ class ApiConstant {
   static String updateBusiness = "$baseurl/api/business/update";
   static String deleteBusiness = "$baseurl/api/business/delete";
   static String allBadges = "$baseurl/api/broker/badge/all";
+  static String allPackages = "$baseurl/api/broker/packages/all";
+  static String verifyPayment = "$baseurl/api/broker/verify_payment";
 }

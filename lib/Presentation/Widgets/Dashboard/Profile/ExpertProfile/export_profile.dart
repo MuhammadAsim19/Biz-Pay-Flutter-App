@@ -5,12 +5,17 @@ import 'package:buysellbiz/Application/Services/PaymentServices/payment_services
 import 'package:buysellbiz/Application/Services/PickerServices/picker_services.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
+import 'package:buysellbiz/Domain/Badges/badgeModel.dart';
+import 'package:buysellbiz/Domain/Packages/package_model.dart';
 import 'package:buysellbiz/Domain/User/user_model.dart';
 import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/custom_dropdown.dart';
 import 'package:buysellbiz/Presentation/Common/multi_item_picker.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Badges/AllBadges/Controller/all_badges_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Badges/AllBadges/State/all_badges_state.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/business_category_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/subscription_widget.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/Controller/broker_profile_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/Controller/get_all_country_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,6 +43,8 @@ class _ExportProfileState extends State<ExportProfile> {
   List country = [];
   List stateList = [];
   List cityList = [];
+  PackageModel? selectedPackage;
+  List<PackageModel> packages = [];
 
   List industry = ['Automobile', "Education", 'Finance'];
 
@@ -55,10 +62,12 @@ class _ExportProfileState extends State<ExportProfile> {
     "city": null,
     "state": null,
     "image": null,
+    "badge": null,
   };
 
   List<String?> selectedIndustryItems = [];
   List<String> selectedCertificates = [];
+  List<String> selectedBadges = [];
   List<String> selectedServices = [];
 
   bool industryItemValid = false;
@@ -93,6 +102,8 @@ class _ExportProfileState extends State<ExportProfile> {
     data = Data().user;
     context.read<BusinessCategoryCubit>().getCategory();
     context.read<GetAllCountryCubit>().getCountry();
+    context.read<AllBadgesCubit>().getBadges();
+    context.read<BrokerProfileCubit>().getPackages();
     emailController.text = data?.user?.email! ?? "malik@gmail.com";
     firstNameController.text = data?.user?.firstName ?? "";
     lastNameController.text = data?.user?.lastName ?? "";
@@ -259,6 +270,7 @@ class _ExportProfileState extends State<ExportProfile> {
                           return MultiItemPickerForCateg(
                             validationText: 'Industry Required',
                             onChange: (list, val) {
+                              log('$list $val ONchange');
                               selectedIndustryItems = val;
                               setState(() {});
                             },
@@ -271,6 +283,40 @@ class _ExportProfileState extends State<ExportProfile> {
                         }
                       },
                     ),
+                    20.y,
+
+                    AppText(AppStrings.badges,
+                        style: Styles.circularStdMedium(context,
+                            fontSize: 16.sp, color: AppColors.blackColor)),
+                    15.y,
+                    BlocConsumer<AllBadgesCubit, AllBadgesState>(
+                      listener: (BuildContext context, Object? state) {},
+                      builder: (BuildContext context, state) {
+                        return (state is AllBadgesLoadedState)
+                            ? MultiItemPicker(
+                                validationText:
+                                    "Pick atleast 1 badge, maximum 2 are allowed",
+                                // listLimit: 2,
+                                onChange: (list) {
+                                  log(list.toString());
+                                  selectedBadges.clear();
+                                  for (var i = 0; i < list.length; i++) {
+                                    selectedBadges.add(state.badges
+                                        .firstWhere((element) =>
+                                            element.title == list[i])
+                                        .id!);
+                                  }
+                                  log(selectedBadges.toString());
+                                },
+                                hintText: 'Select 2 Badges',
+                                getList:
+                                    state.badges.map((e) => e.title).toList(),
+                                hMar: 10,
+                              )
+                            : const SizedBox();
+                      },
+                    ),
+                    // 20.y,
 
                     // CustomDropDownWidget(
                     //   isBorderRequired: true,
@@ -403,6 +449,7 @@ class _ExportProfileState extends State<ExportProfile> {
                       hMar: 10,
                     ),
                     20.y,
+
                     AppText(AppStrings.website,
                         style: Styles.circularStdMedium(context,
                             fontSize: 16.sp, color: AppColors.blackColor)),
@@ -422,6 +469,33 @@ class _ExportProfileState extends State<ExportProfile> {
                         controller: description,
                         hintText: 'Description',
                         textInputType: TextInputType.name),
+                    15.y,
+
+                    AppText(AppStrings.subscription,
+                        style: Styles.circularStdMedium(context,
+                            fontSize: 16.sp, color: AppColors.blackColor)),
+                    10.y,
+                    BlocConsumer<BrokerProfileCubit, BrokerProfileState>(
+                      listener: (BuildContext context, state) {
+                        if (state is BrokerPackagesErrorState) {
+                          WidgetFunctions.instance.showErrorSnackBar(
+                              context: context, error: state.error);
+                        }
+                        if (state is BrokerPackagesLoadedState) {
+                          packages = state.packages;
+                        }
+                      },
+                      builder:
+                          (BuildContext context, BrokerProfileState state) =>
+                              SubscriptionSelection(
+                        onChange: (val) {
+                          selectedPackage = val;
+                          setState(() {});
+                        },
+                        selectedVal: selectedPackage?.id ?? '',
+                        packages: packages,
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -464,26 +538,32 @@ class _ExportProfileState extends State<ExportProfile> {
   }
 
   void callPublish() {
+    log(selectedBadges.toString());
     try {
-      PaymentServices.performStripeTransfer(
-        payment: 1000,
-        context: context,
-      ).then((value) {
-        if (value == true) {
-          bool countryValidation = _validate(
-              errorText: 'Country Required', key: "country", val: countryName);
-          bool cityValidation =
-              _validate(errorText: 'City Required', key: "city", val: cityName);
-          bool stateValidation = _validate(
-              errorText: 'State Required', key: "state", val: stateName);
-          if (_formKey.currentState!.validate() &&
-              countryValidation == true &&
-              cityValidation == true &&
-              stateValidation == true) {
-            _sendData();
-          }
-        }
-      });
+      bool countryValidation = _validate(
+          errorText: 'Country Required', key: "country", val: countryName);
+      bool cityValidation =
+          _validate(errorText: 'City Required', key: "city", val: cityName);
+      bool stateValidation =
+          _validate(errorText: 'State Required', key: "state", val: stateName);
+      bool badgesValidation = selectedBadges.length > 2;
+
+      bool packageValidation = selectedPackage != null;
+      log(badgesValidation.toString());
+      if (_formKey.currentState!.validate() &&
+          countryValidation &&
+          cityValidation &&
+          stateValidation &&
+          !badgesValidation &&
+          packageValidation) {
+        _sendData();
+      } else if (badgesValidation) {
+        WidgetFunctions.instance.showErrorSnackBar(
+            context: context, error: 'Maximum 2 badges are allowed');
+      } else if (!packageValidation) {
+        WidgetFunctions.instance.showErrorSnackBar(
+            context: context, error: 'Select subscription to continue');
+      }
     } catch (e) {
       log(e.toString());
       WidgetFunctions.instance
@@ -513,6 +593,8 @@ class _ExportProfileState extends State<ExportProfile> {
       "description": description.text.trim(),
       "website": website.text.trim(),
       "designation": professionVal,
+      "packageId": selectedPackage?.id ?? '',
+      "badges": jsonEncode(selectedBadges),
       "servingArea": jsonEncode(
         {
           "country": countryName,
@@ -531,6 +613,6 @@ class _ExportProfileState extends State<ExportProfile> {
 
     context
         .read<BrokerProfileCubit>()
-        .createBroker(body: dataMap, imagePath: image);
+        .createBroker(body: dataMap, imagePath: image, context: context);
   }
 }
