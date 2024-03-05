@@ -40,7 +40,14 @@ class _SplashScreenState extends State<SplashScreen>
         // Navigator.of(context).pop();
       },
       onDisconnected: () {
-        Navigate.to(context, const NoInternetConnection());
+        if (mounted) {
+          Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+            builder: (context) {
+              return const NoInternetConnection();
+            },
+          ));
+        }
+        // Navigate.to(context, const NoInternetConnection());
       },
     );
   }

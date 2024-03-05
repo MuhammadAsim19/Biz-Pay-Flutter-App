@@ -7,6 +7,7 @@ class AddImageWidget extends StatelessWidget {
   final double? height;
   final double? width;
   final String? text;
+  final String? attachFile;
   final TextStyle? style;
 
   const AddImageWidget({
@@ -17,6 +18,7 @@ class AddImageWidget extends StatelessWidget {
     this.width,
     this.text,
     this.style,
+    this.attachFile,
   });
 
   @override
@@ -47,7 +49,7 @@ class AddImageWidget extends StatelessWidget {
                   children: [
                     10.y,
                     SvgPicture.asset(
-                      Assets.addImageIcon,
+                      attachFile ?? Assets.addImageIcon,
                       height: 20,
                       width: 20,
                     ),

@@ -4,9 +4,11 @@ import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/dialog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Badges/AllBadges/all_badges_screen.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Badges/SendBadgeRequest/send_badge_request.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_list_tile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/logout_dialog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/export_profile.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/export_dashborad.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/change_password.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/customer_support.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/personal_information.dart';
@@ -69,12 +71,23 @@ class ProfileScreen extends StatelessWidget {
                             trailing: Assets.down,
                           ),
                         ),
+
                         GestureDetector(
                           onTap: () {
                             Navigate.to(context, const ExportProfile());
                           },
                           child: const CustomListTile(
                             title: AppStrings.becomeExpert,
+                            leadingicon: Assets.addUser,
+                            trailing: Assets.down,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigate.to(context, ExportDashBoard());
+                          },
+                          child: const CustomListTile(
+                            title: 'Export Dashboard',
                             leadingicon: Assets.addUser,
                             trailing: Assets.down,
                           ),
