@@ -1,19 +1,19 @@
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/BadgesRequests/Controller/get_all_badges_cubit.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Components/ongoing_orders_tile.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Components/pending_requests_tile.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Components/tab_buttons.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Requests/Components/ongoing_orders_tile.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Requests/Components/pending_requests_tile.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Requests/Components/tab_buttons.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Requests/Controller/get_all_badges_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ExportDashBoard extends StatefulWidget {
-  const ExportDashBoard({super.key});
+class RequestsScreen extends StatefulWidget {
+  const RequestsScreen({super.key});
 
   @override
-  State<ExportDashBoard> createState() => _ExportDashBoardState();
+  State<RequestsScreen> createState() => _RequestsScreenState();
 }
 
-class _ExportDashBoardState extends State<ExportDashBoard> {
+class _RequestsScreenState extends State<RequestsScreen> {
   bool pendingRequest = true;
   bool ongoingOrders = false;
 

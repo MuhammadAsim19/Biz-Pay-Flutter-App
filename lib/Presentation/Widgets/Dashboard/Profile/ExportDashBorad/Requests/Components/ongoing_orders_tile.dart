@@ -1,7 +1,7 @@
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/Badges/BadgesRequest/badges_request.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Components/add_delivery.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Requests/Components/add_delivery.dart';
 
 class OngoingOrders extends StatelessWidget {
   const OngoingOrders({super.key, this.badges});

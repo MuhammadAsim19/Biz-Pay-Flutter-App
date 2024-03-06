@@ -7,7 +7,8 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Badges/AllBadges/all_b
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_list_tile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/logout_dialog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/export_profile.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/export_dashborad.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Requests/request_screen.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/expert_dashboard.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/change_password.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/customer_support.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/personal_information.dart';
@@ -87,10 +88,10 @@ class ProfileScreen extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Navigate.to(context, ExportDashBoard());
+                            Navigate.to(context, const ExpertDashboard());
                           },
                           child: const CustomListTile(
-                            title: 'Export Dashboard',
+                            title: 'Expert Dashboard',
                             leadingicon: Assets.addUser,
                             trailing: Assets.down,
                           ),
