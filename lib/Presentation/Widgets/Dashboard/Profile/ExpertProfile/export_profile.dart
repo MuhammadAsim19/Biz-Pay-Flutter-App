@@ -546,7 +546,8 @@ class _ExportProfileState extends State<ExportProfile> {
           _validate(errorText: 'City Required', key: "city", val: cityName);
       bool stateValidation =
           _validate(errorText: 'State Required', key: "state", val: stateName);
-      bool badgesValidation = selectedBadges.length > 2;
+      bool badgesValidation =
+          selectedBadges.length > 2 || selectedBadges.isEmpty;
 
       bool packageValidation = selectedPackage != null;
       log(badgesValidation.toString());
@@ -558,8 +559,13 @@ class _ExportProfileState extends State<ExportProfile> {
           packageValidation) {
         _sendData();
       } else if (badgesValidation) {
-        WidgetFunctions.instance.showErrorSnackBar(
-            context: context, error: 'Maximum 2 badges are allowed');
+        if (selectedBadges.length > 2) {
+          WidgetFunctions.instance.showErrorSnackBar(
+              context: context, error: 'Maximum 2 badges are allowed');
+        } else {
+          WidgetFunctions.instance.showErrorSnackBar(
+              context: context, error: 'Select atleast 1 badget to continue');
+        }
       } else if (!packageValidation) {
         WidgetFunctions.instance.showErrorSnackBar(
             context: context, error: 'Select subscription to continue');

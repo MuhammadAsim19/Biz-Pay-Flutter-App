@@ -45,39 +45,38 @@ class DownloadCallBack {
 }
 
 void main() async {
-  try{
-  WidgetsFlutterBinding.ensureInitialized();
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
 
-  await SharedPrefs.init();
+    await SharedPrefs.init();
 
-  await Firebase.initializeApp().whenComplete(() async {
+    await Firebase.initializeApp().whenComplete(
+      () async {
+        await NotificationServices().initNotification();
 
+        FirebaseMessaging.onBackgroundMessage(
+            firebaseMessagingBackgroundHandler);
 
-    await NotificationServices().initNotification();
+        final RemoteMessage? message =
+            await FirebaseMessaging.instance.getInitialMessage();
 
-    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+        await ScreenUtil.ensureScreenSize();
 
-    final RemoteMessage? message =
-        await FirebaseMessaging.instance.getInitialMessage();
+        // await FlutterDownloader.initialize();
+        // await FlutterDownloader.registerCallback(
+        //     DownloadCallBack.downloadCallBackTest);
 
-    await ScreenUtil.ensureScreenSize();
-
-    // await FlutterDownloader.initialize();
-    // await FlutterDownloader.registerCallback(
-    //     DownloadCallBack.downloadCallBackTest);
-
-    runApp(MultiBlocProvider(
-        providers: appProviders,
-        child: MyApp(
-          message: message,
-        )));
-  });
-
-
-
-  }
-      catch(e)
-  {
+        runApp(
+          MultiBlocProvider(
+            providers: appProviders,
+            child: MyApp(
+              message: message,
+            ),
+          ),
+        );
+      },
+    );
+  } catch (e) {
     print(e);
     rethrow;
   }
@@ -131,6 +130,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   init(RemoteMessage? message) {
-  //  NotificationMetaData().messagingInitiation();
+    //  NotificationMetaData().messagingInitiation();
   }
 }

@@ -26,6 +26,8 @@ class PaymentServices {
       return pi;
     } on StripeException catch (e) {
       log(e.toString());
+      throw Exception(e.error.message);
+    } catch (e) {
       rethrow;
     }
   }
@@ -35,6 +37,19 @@ class PaymentServices {
 
     return await ApiService.post(ApiConstant.verifyPayment, {'intentId': pi},
             header: headers)
+        .then((value) {
+      log("verifyPayment>> $value");
+      return value;
+    }).onError((error, stackTrace) =>
+            {"Success": false, "error": error.toString()});
+  }
+
+  static verifyBoostPayment(
+      {required String pi, required String businessId}) async {
+    var headers = {"authorization": " ${Data.app.token}"};
+
+    return await ApiService.post(ApiConstant.verifyBoostPayment,
+            {'intentId': pi, "businessId": businessId}, header: headers)
         .then((value) {
       log("verifyPayment>> $value");
       return value;

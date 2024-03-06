@@ -22,25 +22,27 @@ class BrokerProfileCubit extends Cubit<BrokerProfileState> {
     emit(BrokerProfileLoading());
 
     try {
-      await BrokersData.switchToBroker(body: body, imagePath: imagePath)
-          .then((value) async {
-        log("Response: $value");
-        if (value['Success']) {
-          // stripe sheet>>
-          final pi = await PaymentServices.performStripeTransfer(
-            clientSecret: value['body'],
-            context: context,
-          );
-          final verficationResults = await PaymentServices.verifyPayment(pi.id);
-          if (verficationResults["Success"]) {
-            emit(BrokerProfileLoaded());
+      await BrokersData.switchToBroker(body: body, imagePath: imagePath).then(
+        (value) async {
+          log("Response: $value");
+          if (value['Success']) {
+            // stripe sheet>>
+            final pi = await PaymentServices.performStripeTransfer(
+              clientSecret: value['body'],
+              context: context,
+            );
+            final verficationResults =
+                await PaymentServices.verifyPayment(pi.id);
+            if (verficationResults["Success"]) {
+              emit(BrokerProfileLoaded());
+            } else {
+              emit(BrokerProfileError(error: value['error']));
+            }
           } else {
             emit(BrokerProfileError(error: value['error']));
           }
-        } else {
-          emit(BrokerProfileError(error: value['error']));
-        }
-      }).catchError((e) {
+        },
+      ).catchError((e) {
         emit(BrokerProfileError(error: e.toString()));
         throw e;
       });

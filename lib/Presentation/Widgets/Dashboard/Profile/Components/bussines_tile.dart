@@ -4,6 +4,7 @@ import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
 import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BoostBusiness/boost_business_screen.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/buisness_details.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_popup_menu.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Controller/ListBusiness/your_business_cubit.dart';
@@ -99,6 +100,13 @@ class BusinessList extends StatelessWidget {
                                       .deleteBusiness(
                                           businessId:
                                               businessProducts![index!].id);
+                                } else if (action == 'boost') {
+                                  Navigate.to(
+                                    context,
+                                    BoostBusinessScreen(
+                                      model: businessProducts![index!],
+                                    ),
+                                  );
                                 }
                               },
                             ),

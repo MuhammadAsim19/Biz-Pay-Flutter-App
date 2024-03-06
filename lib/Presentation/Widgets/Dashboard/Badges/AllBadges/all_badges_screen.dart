@@ -103,8 +103,8 @@ class _AllBBadgesScreenState extends State<AllBBadgesScreen> {
                         .read<AllBadgesCubit>()
                         .checkSelection(data[index].id),
                     onTap: () {
-                      AddNotifier.addPageController.jumpToPage(2);
-                      AddNotifier.addBusinessNotifier.value = 2;
+                      // AddNotifier.addPageController.jumpToPage(2);
+                      // AddNotifier.addBusinessNotifier.value = 2;
                       context
                           .read<AllBadgesCubit>()
                           .toggleSelection(data[index].id);
