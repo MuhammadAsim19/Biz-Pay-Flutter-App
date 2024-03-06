@@ -8,10 +8,10 @@ class AllBadgesCubit extends Cubit<AllBadgesState> {
   List<String> selectedBadgesId = [];
   List<BadgeModel> badges = [];
 
-  void getBadges() async {
+  void getBadges({String? type}) async {
     await Future.delayed(Duration.zero);
     emit(AllBadgesLoadingState());
-    BadgesRepo.getBadges().then(
+    BadgesRepo.getBadges(type: type).then(
       (value) {
         if (value['Success']) {
           badges = (value['body'] as List)

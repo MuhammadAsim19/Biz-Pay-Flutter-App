@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
     context.read<AllBusinessCubit>().getBusiness();
     context.read<RecentlyAddedCubit>().getRecentBusiness();
     context.read<CategoryCubit>().getCategory();
-    if(SharedPrefs.getUserToken()!=null) {
+    if (SharedPrefs.getUserToken() != null) {
       context.read<RecentlyViewedCubit>().getRecentBusiness();
     }
     context.read<OnlineBusinessCubit>().getBusiness();
@@ -132,18 +132,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       const Spacer(),
                       GestureDetector(
                         onTap: () {
-                          if(
-                          SharedPrefs.getUserToken()!=null
-                          ){
-                          Navigate.to(context, const Notifications());}
-                          else
-                            {
-                              CustomDialog.dialog(
-                                  barrierDismissible: true,
-                                  context,
-                                  const GuestDialog());
-
-                            }
+                          if (SharedPrefs.getUserToken() != null) {
+                            Navigate.to(context, const Notifications());
+                          } else {
+                            CustomDialog.dialog(
+                                barrierDismissible: true,
+                                context,
+                                const GuestDialog());
+                          }
                         },
                         child: Container(
                             margin: EdgeInsets.only(right: 23.sp),
@@ -237,53 +233,61 @@ class _HomeScreenState extends State<HomeScreen> {
                       ///recently view
                       ///
                       ,
-                      SharedPrefs.getUserToken()!=null? 10.y:0.y,
+                      SharedPrefs.getUserToken() != null ? 10.y : 0.y,
 
-
-                      SharedPrefs.getUserToken()!=null? Row(
-                        children: [
-                          AppText("Recently Viewed",
-                              style: Styles.circularStdMedium(context,
-                                  fontSize: 18)),
-                          const Spacer(),
-                          _viewAllBusiness(
-                              data: recentlyViewed,
-                              businessType: 'Recently Viewed'),
-                        ],
-                      ):const SizedBox(height: 0,width: 0,),
-                      SharedPrefs.getUserToken()!=null?5.y:0.y,
-                      SharedPrefs.getUserToken()!=null?   BlocConsumer<RecentlyViewedCubit, RecentlyViewedState>(
-                        listener: (context, state) {
-                          if (state is RecentlyViewedLoaded) {
-                            recentlyViewedSearch = state.business;
-                            recentlyViewed = state.business;
-                          }
-                        },
-                        builder: (context, state) {
-                          return state is RecentlyViewedLoaded
-                              ? RecentlyViewWidget(
-                                  businessProducts: recentlyViewedSearch,
-                                  getData: (dto) {
-                                    Navigate.to(
-                                        context,
-                                        BusinessDetails(
-                                          modelData: dto,
-                                          id: dto.id,
-                                        ));
-                                  })
-                              : state is RecentlyViewedLoading
-                                  ? const RecentViewedBusinessLoading()
-                                  : state is RecentlyViewedError
-                                      ? Center(
-                                          child: AppText(
-                                            state.error!,
-                                            style: Styles.circularStdRegular(
-                                                context),
-                                          ),
-                                        )
-                                      : const SizedBox.shrink();
-                        },
-                      ):0.x,
+                      SharedPrefs.getUserToken() != null
+                          ? Row(
+                              children: [
+                                AppText("Recently Viewed",
+                                    style: Styles.circularStdMedium(context,
+                                        fontSize: 18)),
+                                const Spacer(),
+                                _viewAllBusiness(
+                                    data: recentlyViewed,
+                                    businessType: 'Recently Viewed'),
+                              ],
+                            )
+                          : const SizedBox(
+                              height: 0,
+                              width: 0,
+                            ),
+                      SharedPrefs.getUserToken() != null ? 5.y : 0.y,
+                      SharedPrefs.getUserToken() != null
+                          ? BlocConsumer<RecentlyViewedCubit,
+                              RecentlyViewedState>(
+                              listener: (context, state) {
+                                if (state is RecentlyViewedLoaded) {
+                                  recentlyViewedSearch = state.business;
+                                  recentlyViewed = state.business;
+                                }
+                              },
+                              builder: (context, state) {
+                                return state is RecentlyViewedLoaded
+                                    ? RecentlyViewWidget(
+                                        businessProducts: recentlyViewedSearch,
+                                        getData: (dto) {
+                                          Navigate.to(
+                                              context,
+                                              BusinessDetails(
+                                                modelData: dto,
+                                                id: dto.id,
+                                              ));
+                                        })
+                                    : state is RecentlyViewedLoading
+                                        ? const RecentViewedBusinessLoading()
+                                        : state is RecentlyViewedError
+                                            ? Center(
+                                                child: AppText(
+                                                  state.error!,
+                                                  style:
+                                                      Styles.circularStdRegular(
+                                                          context),
+                                                ),
+                                              )
+                                            : const SizedBox.shrink();
+                              },
+                            )
+                          : 0.x,
 
                       ///Recently Added
                       19.y,

@@ -58,4 +58,6 @@ class ApiConstant {
   static String activateBoost = "$baseurl/api/user/businessBoost/activate";
   static String verifyBoostPayment =
       "$baseurl/api/user/businessBoost/verifyPayment";
+  static String getExportFormBadges = "$baseurl/api/broker/filterByBadge/";
+  static String sendBadgeRequest = "$baseurl/api/user/requestABadge";
 }

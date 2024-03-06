@@ -13,7 +13,6 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/BottomNavigation/Contr
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Components/add_business_success_diolog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/add_business_controller.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/add_business_cubit.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PublishWidget extends StatefulWidget {
@@ -55,7 +54,11 @@ class _PublishWidgetState extends State<PublishWidget> {
             Navigator.pop(context);
             CustomDialog.dialog(context, const AddSuccessDialog(),
                 barrierDismissible: false);
-            Navigate.toReplace(context, const AllBBadgesScreen());
+            Navigate.toReplace(
+                context,
+                const AllBBadgesScreen(
+                  type: "seller",
+                ));
             // Future.delayed(const Duration(microseconds: 20));
             // BottomNotifier.bottomPageController!.jumpToPage(0);
             // Navigator.pop(context);
