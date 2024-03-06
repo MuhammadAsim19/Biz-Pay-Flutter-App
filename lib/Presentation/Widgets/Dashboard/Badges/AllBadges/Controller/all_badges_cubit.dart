@@ -36,7 +36,5 @@ class AllBadgesCubit extends Cubit<AllBadgesState> {
     }
   }
 
-  bool checkSelection(String? id) {
-    return selectedBadgesId.contains(id);
-  }
+  bool checkSelection(String? id) => selectedBadgesId.contains(id);
 }
