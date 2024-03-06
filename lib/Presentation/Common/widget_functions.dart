@@ -21,7 +21,7 @@ class WidgetFunctions {
       TextStyle? textStyle}) async {
     return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(
-        text!,
+        text ?? "",
         style: textStyle ??
             Styles.circularStdMedium(context, color: AppColors.whiteColor),
       ),

@@ -7,7 +7,11 @@ class AddBusinessInitial extends AddBusinessState {}
 
 class AddBusinessLoading extends AddBusinessState {}
 
-class AddBusinessLoaded extends AddBusinessState {}
+class AddBusinessLoaded extends AddBusinessState {
+  final String? businessId;
+
+  AddBusinessLoaded({this.businessId});
+}
 
 class AddBusinessError extends AddBusinessState {
   final String? error;

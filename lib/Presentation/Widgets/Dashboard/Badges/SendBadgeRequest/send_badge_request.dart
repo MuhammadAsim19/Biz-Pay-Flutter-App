@@ -11,10 +11,13 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SendBadgeRequest extends StatefulWidget {
-  const SendBadgeRequest({super.key, this.badgeData, this.expertId});
+  const SendBadgeRequest(
+      {super.key, this.badgeData, this.expertId, this.businessId, this.type});
 
   final BadgeModel? badgeData;
   final String? expertId;
+  final String? businessId;
+  final String? type;
 
   @override
   State<SendBadgeRequest> createState() => _SendBadgeRequestState();
@@ -29,6 +32,10 @@ class _SendBadgeRequestState extends State<SendBadgeRequest> {
 
   @override
   Widget build(BuildContext context) {
+    print("Business Id ${widget.businessId}");
+    print("Expert Id ${widget.expertId}");
+    print("Type ${widget.type}");
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -93,9 +100,13 @@ class _SendBadgeRequestState extends State<SendBadgeRequest> {
                     LoadingDialog.showLoadingDialog(context);
                   }
                   if (state is SendBadgeRequestLoaded) {
-                    Navigator.of(context).pop(true);
-                    Navigator.pop(context);
-                    Navigator.pop(context);
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const BottomNavigationScreen(
+                            initialPage: 0,
+                          ),
+                        ));
                   }
                   if (state is SendBadgeRequestError) {
                     Navigator.pop(context);
@@ -109,13 +120,22 @@ class _SendBadgeRequestState extends State<SendBadgeRequest> {
                       onTap: () {
                         if (_key.currentState!.validate()) {
                           if (upload != null) {
-                            var data = {
-                              "expertId": widget.expertId,
-                              "badgeId": widget.badgeData!.id,
-                              "message": controller.text.trim(),
-                              "type": "buyer",
-                              // "bussinessId": ""
-                            };
+                            Map<String, dynamic> data =
+                                widget.businessId != null
+                                    ? {
+                                        "expertId": widget.expertId,
+                                        "badgeId": widget.badgeData!.id,
+                                        "message": controller.text.trim(),
+                                        "type": widget.type,
+                                        "bussinessId": widget.businessId,
+                                      }
+                                    : {
+                                        "expertId": widget.expertId,
+                                        "badgeId": widget.badgeData!.id,
+                                        "message": controller.text.trim(),
+                                        "type": widget.type,
+                                        // "bussinessId":widget.businessId,
+                                      };
                             context
                                 .read<SendBadgeRequestCubit>()
                                 .sendBadgesRequest(

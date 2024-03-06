@@ -16,7 +16,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BusinessAddDetails extends StatefulWidget {
-  const BusinessAddDetails({super.key});
+  final PageController controller;
+
+  const BusinessAddDetails({super.key, required this.controller});
 
   @override
   State<BusinessAddDetails> createState() => _BusinessAddDetailsState();
@@ -96,7 +98,7 @@ class _BusinessAddDetailsState extends State<BusinessAddDetails> {
       //       Align(
       //         child: CustomButton(onTap: () {
       //
-      //           AddNotifier.addPageController.jumpToPage(1);
+      //           widget.pageController.jumpToPage(1);
       //           AddNotifier.addBusinessNotifier.value=1;
       //
       //         },
@@ -352,7 +354,7 @@ class _BusinessAddDetailsState extends State<BusinessAddDetails> {
               onTap: () {
                 if (_formKey.currentState!.validate()) {
                   if (advantages.isNotEmpty) {
-                    AddNotifier.addPageController.jumpToPage(1);
+                    widget.controller.jumpToPage(1);
                     AddNotifier.addBusinessNotifier.value = 1;
                     _addData();
                     log("Here is the data of notifier${AddBusinessController.addBusiness.value.advantages.toString()}");

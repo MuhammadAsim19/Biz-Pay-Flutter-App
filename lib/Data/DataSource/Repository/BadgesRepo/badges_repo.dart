@@ -20,8 +20,7 @@ class BadgesRepo {
   static Future getBrokerOfBadges({String? badgeId}) async {
     var headers = {"authorization": " ${Data.app.token}"};
 
-    return await ApiService.get("${ApiConstant.getExportFormBadges}$badgeId",
-            headers: headers)
+    return await ApiService.get("${ApiConstant.getExportFormBadges}$badgeId")
         .then((value) {
       log(value.toString());
       return value;
@@ -39,5 +38,16 @@ class BadgesRepo {
     }).catchError((e) {
       throw e;
     });
+  }
+
+  static Future getAllBadgesRequests() async {
+    var headers = {"authorization": " ${Data.app.token}"};
+    return await ApiService.get(ApiConstant.getAllBadgesRequest,
+            headers: headers)
+        .then((value) {
+      log(value.toString());
+      return value;
+    }).onError((error, stackTrace) =>
+            {"Success": false, "error": error.toString()});
   }
 }

@@ -16,22 +16,39 @@ class SendBadgeRequestCubit extends Cubit<SendBadgeRequestState> {
     Future.delayed(const Duration(microseconds: 10));
     emit(SendBadgeRequestLoading());
 
-    log(data.toString());
+    log("request data ${data.toString()}");
 
     await BadgesRepo.sendBadgeRequest(data: data, path: pathName)
         .then((value) async {
-      log(value.toString());
+      log("here is the data ${value.toString()}");
 
       if (value['Success']) {
         final pi = await PaymentServices.performStripeTransfer(
           clientSecret: value['body']['client_secret'],
           context: context,
-        );
-        final verficationResults = await PaymentServices.verifyPayment(pi.id);
+        ).catchError((e) {
+          emit(SendBadgeRequestError(error: e.toString()));
+          throw e;
+        });
+
+        var data = {
+          "intentId": pi.id,
+          "badgeReqestId": value['body']['badgeId']
+        };
+
+        log(data.toString());
+
+        final verficationResults =
+            await PaymentServices.verifyBadgePayment(data: data);
+
+        log("verification ${verficationResults.toString()}");
+
         if (verficationResults["Success"]) {
           emit(SendBadgeRequestLoaded());
         } else {
-          emit(SendBadgeRequestError(error: value['error']));
+          log(value.toString());
+          emit(SendBadgeRequestError(
+              error: verficationResults['error'].toString()));
         }
       } else {
         emit(SendBadgeRequestError(error: value['error']));

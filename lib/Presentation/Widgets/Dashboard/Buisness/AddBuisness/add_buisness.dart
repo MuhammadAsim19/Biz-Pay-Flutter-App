@@ -24,22 +24,29 @@ class _AddBusinessState extends State<AddBusiness> {
     super.initState();
   }
 
+  PageController addPageController = PageController();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
       onPopInvoked: (val) async {
-        print(AddNotifier.addBusinessNotifier.value);
         if (AddNotifier.addBusinessNotifier.value == 0) {
           // CustomDialog.dialog(context, const ConfirmDeleteDialog());
-          AddNotifier.addPageController.removeListener(() {});
+          addPageController.removeListener(() {});
         } else if (AddNotifier.addBusinessNotifier.value == 1) {
           CustomDialog.dialog(context, const ConfirmDeleteDialog());
           AddNotifier.addBusinessNotifier.value = 0;
-          AddNotifier.addPageController.jumpToPage(0);
+          addPageController.jumpToPage(0);
         } else {
           AddNotifier.addBusinessNotifier.value = 1;
-          AddNotifier.addPageController.jumpToPage(1);
+          addPageController.jumpToPage(1);
         }
       },
       child: Scaffold(
@@ -64,7 +71,8 @@ class _AddBusinessState extends State<AddBusiness> {
                           color: AppColors.blackColor,
                         ),
                         onPressed: () {
-                          CustomDialog.dialog(context, ConfirmDeleteDialog());
+                          CustomDialog.dialog(
+                              context, const ConfirmDeleteDialog());
                           // Handle icon tap event
                         },
                       )
@@ -89,7 +97,7 @@ class _AddBusinessState extends State<AddBusiness> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          // AddNotifier.addPageController.jumpToPage(0);
+                          // addPageController.jumpToPage(0);
                           // AddNotifier.addBusinessNotifier.value = 0;
                         },
                         child: Container(
@@ -130,7 +138,7 @@ class _AddBusinessState extends State<AddBusiness> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          // AddNotifier.addPageController.jumpToPage(1);
+                          // addPageController.jumpToPage(1);
                           // AddNotifier.addBusinessNotifier.value = 1;
                         },
                         child: Container(
@@ -171,7 +179,7 @@ class _AddBusinessState extends State<AddBusiness> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          // AddNotifier.addPageController.jumpToPage(2);
+                          // addPageController.jumpToPage(2);
                           // AddNotifier.addBusinessNotifier.value = 2;
                         },
                         child: Container(
@@ -237,10 +245,10 @@ class _AddBusinessState extends State<AddBusiness> {
               Expanded(
                   child: PageView(
                 physics: const NeverScrollableScrollPhysics(),
-                controller: AddNotifier.addPageController,
+                controller: addPageController,
                 children: [
-                  const BusinessAddDetails(),
-                  PriceLocation(),
+                  BusinessAddDetails(controller: addPageController),
+                  PriceLocation(pageController: addPageController),
                   const PublishPage()
                 ],
               ))

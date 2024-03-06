@@ -18,6 +18,8 @@ import 'dart:math' as dM;
 class NotificationMetaData {
   static ValueNotifier<String?> remoteMessageCheck = ValueNotifier(null);
   static ValueNotifier<String?> routeNotifier = ValueNotifier(null);
+  static ValueNotifier<RemoteMessage?> remoteMessage = ValueNotifier(null);
+
   static BuildContext? servicesContext;
 
   void setContext(BuildContext context) {
@@ -26,7 +28,7 @@ class NotificationMetaData {
 
   void messagingInitiation() async {
     // String? fcmToken = await FirebaseMessaging.instance.getToken();
-   // await Firebase.initializeApp();
+    // await Firebase.initializeApp();
     await FirebaseMessaging.instance.getNotificationSettings();
     // log('FCM Token:$fcmToken');
   }
@@ -38,12 +40,12 @@ class NotificationMetaData {
       print("OnMessage ${e.notification!.title}");
       log("checking logs for messages on message ${e.messageId}  ${e.category}  ${e.from}  ${e.messageType}   ${e.contentAvailable}  data  ${e.data.entries}  title: ${e.ttl}");
       //print();
-    if(e.data['click_action']=='NEW_MESSEGE_TO_BUSIENSS_CHAT' ||  e.data['click_action']=='NEW_MESSEGE_TO_BROKER_CHAT'){}
-    else
-      {
-      NotificationServices().showNotification(
-          id, e.notification!.title!, e.notification!.body!,
-          payload: jsonEncode(e.data));
+      if (e.data['click_action'] == 'NEW_MESSEGE_TO_BUSIENSS_CHAT' ||
+          e.data['click_action'] == 'NEW_MESSEGE_TO_BROKER_CHAT') {
+      } else {
+        NotificationServices().showNotification(
+            id, e.notification!.title!, e.notification!.body!,
+            payload: jsonEncode(e.data));
       }
     }).onError((error) {
       print("checking logs $error");
@@ -66,8 +68,8 @@ class NotificationMetaData {
   }
 
   ///from terminated state opening
-  void terminatedFromOnTapStateHandler(
-      {BuildContext? context, RemoteMessage? payLoadData}) {
+  void terminatedFromOnTapStateHandler({BuildContext? context}) {
+    var payLoadData = remoteMessage.value;
     if (payLoadData != null) {
       if (payLoadData.notification != null) {
         handleMessage(
@@ -118,7 +120,8 @@ class NotificationMetaData {
     });
   }
 
-  handelNavigation(BuildContext? context, String navigateTo, var info,{bool? isFromTerminated}) {
+  handelNavigation(BuildContext? context, String navigateTo, var info,
+      {bool? isFromTerminated}) {
     print("here is the action${navigateTo}");
 
     // List<Map<String, Widget>> navigationScreen = [
@@ -184,8 +187,7 @@ class NotificationMetaData {
             initialPage: 2,
           );
         case 'NEW_MESSEGE_TO_BROKER_CHAT':
-
-          if(isFromTerminated!=null) {
+          if (isFromTerminated != null) {
             InboxRepo().initSocket(context, Data().user?.user?.id);
           }
           _navigate(
@@ -195,7 +197,7 @@ class NotificationMetaData {
               ));
 
         case 'NEW_MESSEGE_TO_BUSIENSS_CHAT':
-          if(isFromTerminated!=null) {
+          if (isFromTerminated != null) {
             InboxRepo().initSocket(context, Data().user?.user?.id);
           }
 

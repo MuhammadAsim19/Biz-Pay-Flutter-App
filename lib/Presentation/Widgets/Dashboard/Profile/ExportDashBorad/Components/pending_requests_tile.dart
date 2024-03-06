@@ -1,8 +1,11 @@
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
+import 'package:buysellbiz/Domain/Badges/BadgesRequest/badges_request.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 
 class PendingOrders extends StatelessWidget {
-  const PendingOrders({super.key});
+  const PendingOrders({super.key, this.badges});
+
+  final BadgesRequest? badges;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +19,7 @@ class PendingOrders extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AppText('Business Name ',
+          AppText(badges?.businessReff?.name ?? "",
               style: Styles.circularStdMedium(context, fontSize: 16)),
           4.y,
           AppText('Order Number : #11391s302',
@@ -27,7 +30,7 @@ class PendingOrders extends StatelessWidget {
             children: [
               AppText('Order for badge type : ',
                   style: Styles.circularStdMedium(context, fontSize: 14)),
-              AppText('Limousine',
+              AppText(badges?.badgeReff?.title ?? "",
                   style: Styles.circularStdRegular(context,
                       fontSize: 14, color: AppColors.greyTextColor)),
             ],
@@ -37,7 +40,7 @@ class PendingOrders extends StatelessWidget {
             children: [
               AppText('Order time : ',
                   style: Styles.circularStdMedium(context, fontSize: 14)),
-              AppText('2 days Ago',
+              AppText(badges?.status ?? "",
                   style: Styles.circularStdRegular(context,
                       fontSize: 14, color: AppColors.greyTextColor)),
               const Spacer(),

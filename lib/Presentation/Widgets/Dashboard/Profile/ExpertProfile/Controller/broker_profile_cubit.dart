@@ -31,7 +31,8 @@ class BrokerProfileCubit extends Cubit<BrokerProfileState> {
             clientSecret: value['body'],
             context: context,
           );
-          final verficationResults = await PaymentServices.verifyPayment(pi.id);
+          final verficationResults =
+              await PaymentServices.verifySubscreptionPayment(pi.id);
           if (verficationResults["Success"]) {
             emit(BrokerProfileLoaded());
           } else {

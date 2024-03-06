@@ -25,9 +25,8 @@ import 'Controller/BottomNavigationNotifier/bottom_navigation_notifier.dart';
 
 class BottomNavigationScreen extends StatefulWidget {
   final int? initialPage;
-  final RemoteMessage? message;
 
-  const BottomNavigationScreen({super.key, this.initialPage, this.message});
+  const BottomNavigationScreen({super.key, this.initialPage});
 
   @override
   State<BottomNavigationScreen> createState() => _BottomNavigationScreenState();
@@ -50,7 +49,8 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         NotificationMetaData().notificationPayload(context);
         NotificationMetaData().backgroundNotificationOnTapHandler();
         NotificationMetaData().terminatedFromOnTapStateHandler(
-            context: context, payLoadData: widget.message);
+          context: context,
+        );
 
         _state = SchedulerBinding.instance.lifecycleState;
         _listener = AppLifecycleListener(

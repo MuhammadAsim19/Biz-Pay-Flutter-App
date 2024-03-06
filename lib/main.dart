@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 // import 'package:flutter_downloader/flutter_downloader.dart';
 import 'dart:math' as dM;
 import 'Data/AppData/app_preferences.dart';
@@ -45,39 +46,34 @@ class DownloadCallBack {
 }
 
 void main() async {
-  try{
-  WidgetsFlutterBinding.ensureInitialized();
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
 
-  await SharedPrefs.init();
+    await SharedPrefs.init();
 
-  await Firebase.initializeApp().whenComplete(() async {
+    await Firebase.initializeApp().whenComplete(() async {
+      await NotificationServices().initNotification();
 
+      FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-    await NotificationServices().initNotification();
+      final RemoteMessage? message =
+          await FirebaseMessaging.instance.getInitialMessage();
 
-    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+      NotificationMetaData.remoteMessage.value = message;
 
-    final RemoteMessage? message =
-        await FirebaseMessaging.instance.getInitialMessage();
+      await ScreenUtil.ensureScreenSize();
 
-    await ScreenUtil.ensureScreenSize();
+      // await FlutterDownloader.initialize();
+      // await FlutterDownloader.registerCallback(
+      //     DownloadCallBack.downloadCallBackTest);
 
-    // await FlutterDownloader.initialize();
-    // await FlutterDownloader.registerCallback(
-    //     DownloadCallBack.downloadCallBackTest);
-
-    runApp(MultiBlocProvider(
-        providers: appProviders,
-        child: MyApp(
-          message: message,
-        )));
-  });
-
-
-
-  }
-      catch(e)
-  {
+      runApp(MultiBlocProvider(
+          providers: appProviders,
+          child: MyApp(
+            message: message,
+          )));
+    });
+  } catch (e) {
     print(e);
     rethrow;
   }
@@ -131,6 +127,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   init(RemoteMessage? message) {
-  //  NotificationMetaData().messagingInitiation();
+    //  NotificationMetaData().messagingInitiation();
   }
 }

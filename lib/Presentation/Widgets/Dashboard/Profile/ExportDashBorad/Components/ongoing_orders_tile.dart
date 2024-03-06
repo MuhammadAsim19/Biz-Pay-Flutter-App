@@ -1,9 +1,12 @@
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
+import 'package:buysellbiz/Domain/Badges/BadgesRequest/badges_request.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Components/add_delivery.dart';
 
 class OngoingOrders extends StatelessWidget {
-  const OngoingOrders({super.key});
+  const OngoingOrders({super.key, this.badges});
+
+  final BadgesRequest? badges;
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +28,13 @@ class OngoingOrders extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AppText('Business Name ',
+            AppText(
+                badges?.businessReff != null
+                    ? badges?.businessReff?.name ?? ""
+                    : badges?.userReff?.fullName ?? "",
                 style: Styles.circularStdMedium(context, fontSize: 16)),
             4.y,
-            AppText('Order Number : #11391s302',
+            AppText('status : ${badges?.status}',
                 style: Styles.circularStdRegular(context,
                     fontSize: 14, color: AppColors.greyTextColor)),
             4.y,
@@ -36,7 +42,7 @@ class OngoingOrders extends StatelessWidget {
               children: [
                 AppText('Order for badge type : ',
                     style: Styles.circularStdMedium(context, fontSize: 14)),
-                AppText('Limousine',
+                AppText(badges?.badgeReff?.title ?? "",
                     style: Styles.circularStdRegular(context,
                         fontSize: 14, color: AppColors.greyTextColor)),
               ],

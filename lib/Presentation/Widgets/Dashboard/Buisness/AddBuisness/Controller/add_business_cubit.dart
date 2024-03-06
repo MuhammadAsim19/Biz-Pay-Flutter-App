@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:buysellbiz/Data/DataSource/Repository/Business/add_business.dart';
 import 'package:meta/meta.dart';
@@ -18,7 +20,8 @@ class AddBusinessCubit extends Cubit<AddBusinessState> {
           .addBusiness(body: body, attachFiles: files, images: images)
           .then((value) {
         if (value['Success']) {
-          emit(AddBusinessLoaded());
+          log(value.toString());
+          emit(AddBusinessLoaded(businessId: value['body']['_id']));
         } else {
           emit(AddBusinessError(error: value['error']));
         }

@@ -14,10 +14,13 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ShowTheExpertProfiles extends StatefulWidget {
   final BadgeModel? badgesModel;
+  final String? businessId;
+  final String? type;
 
   // final void Function(BrokersListModel val) getData;
 
-  const ShowTheExpertProfiles({super.key, this.badgesModel});
+  const ShowTheExpertProfiles(
+      {super.key, this.badgesModel, this.businessId, this.type});
 
   @override
   State<ShowTheExpertProfiles> createState() => _ShowTheExpertProfilesState();
@@ -83,6 +86,8 @@ class _ShowTheExpertProfilesState extends State<ShowTheExpertProfiles> {
                                   SendBadgeRequest(
                                     badgeData: widget.badgesModel,
                                     expertId: state.profileData![index].id,
+                                    type: widget.type,
+                                    businessId: widget.businessId,
                                   ));
                             },
                             child: Container(

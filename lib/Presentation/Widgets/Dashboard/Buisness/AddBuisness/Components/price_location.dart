@@ -8,7 +8,9 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PriceLocation extends StatefulWidget {
-  PriceLocation({super.key});
+  final PageController pageController;
+
+  const PriceLocation({super.key, required this.pageController});
 
   @override
   State<PriceLocation> createState() => _PriceLocationState();
@@ -58,6 +60,14 @@ class _PriceLocationState extends State<PriceLocation> {
 
     // TODO: implement initState
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    widget.pageController.removeListener(() {});
+    // AddNotifier.addBusinessNotifier.value = 0;
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
@@ -275,7 +285,7 @@ class _PriceLocationState extends State<PriceLocation> {
         cityValidation &&
         countryValidation &&
         stateValidation) {
-      AddNotifier.addPageController.jumpToPage(2);
+      widget.pageController.jumpToPage(2);
       AddNotifier.addBusinessNotifier.value = 2;
       _addData();
     }

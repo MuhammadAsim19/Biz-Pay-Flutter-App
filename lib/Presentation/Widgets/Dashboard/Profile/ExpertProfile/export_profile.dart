@@ -290,7 +290,12 @@ class _ExportProfileState extends State<ExportProfile> {
                             fontSize: 16.sp, color: AppColors.blackColor)),
                     15.y,
                     BlocConsumer<AllBadgesCubit, AllBadgesState>(
-                      listener: (BuildContext context, Object? state) {},
+                      listener: (BuildContext context, Object? state) {
+                        if (state is AllBadgesErrorState) {
+                          WidgetFunctions.instance
+                              .snackBar(context, text: state.error);
+                        }
+                      },
                       builder: (BuildContext context, state) {
                         return (state is AllBadgesLoadedState)
                             ? MultiItemPicker(

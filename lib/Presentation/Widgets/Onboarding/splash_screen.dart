@@ -74,14 +74,7 @@ class _SplashScreenState extends State<SplashScreen>
         // Navigate to another screen (e.g., HomeScreen)
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(
-              builder: (context) => token != null
-                  ? BottomNavigationScreen(
-                      message: widget.message,
-                    )
-                  : BottomNavigationScreen(
-                      message: widget.message,
-                    )),
+          MaterialPageRoute(builder: (context) => BottomNavigationScreen()),
         );
       }
     });

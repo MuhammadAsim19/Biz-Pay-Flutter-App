@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Application/Services/PickerServices/picker_services.dart';
@@ -13,6 +14,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/BottomNavigation/Contr
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Components/add_business_success_diolog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/add_business_controller.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/Controller/add_business_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/Controller/add_business_conntroller.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PublishWidget extends StatefulWidget {
@@ -26,6 +28,13 @@ class _PublishWidgetState extends State<PublishWidget> {
   List<String?>? images;
 
   bool valid = false;
+
+  // @override
+  // void dispose() {
+  //
+  //   // TODO: implement dispose
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -54,18 +63,21 @@ class _PublishWidgetState extends State<PublishWidget> {
             Navigator.pop(context);
             CustomDialog.dialog(context, const AddSuccessDialog(),
                 barrierDismissible: false);
-            Navigate.toReplace(
-                context,
-                const AllBBadgesScreen(
+            Navigator.pushReplacement(context, MaterialPageRoute(
+              builder: (context) {
+                return AllBBadgesScreen(
                   type: "seller",
-                ));
+                  businessId: state.businessId,
+                );
+              },
+            ));
             // Future.delayed(const Duration(microseconds: 20));
             // BottomNotifier.bottomPageController!.jumpToPage(0);
             // Navigator.pop(context);
             // Navigator.pop(context);
           }
           if (state is AddBusinessError) {
-            Navigator.pop(context);
+            // Navigator.pop(context);
             WidgetFunctions.instance
                 .showErrorSnackBar(context: context, error: state.error);
           }
