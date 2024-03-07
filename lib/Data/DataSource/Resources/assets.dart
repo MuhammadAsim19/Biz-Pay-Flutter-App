@@ -78,6 +78,8 @@ class Assets {
   static const String down = 'assets/images/Down.svg';
   static const String unlock = 'assets/images/Unlock.svg';
   static const String plus = 'assets/images/Plus.svg';
+  static const String businessDash = 'assets/images/business_dash.svg';
+
   static const String add = 'assets/images/add.svg';
 
   static const String share = 'assets/images/Share.svg';

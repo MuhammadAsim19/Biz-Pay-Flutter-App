@@ -4,6 +4,7 @@ import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/dialog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Badges/AllBadges/all_badges_screen.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/BusinessDashBoard/business_dashborad.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_list_tile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/logout_dialog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/export_profile.dart';
@@ -103,6 +104,16 @@ class ProfileScreen extends StatelessWidget {
                           child: const CustomListTile(
                             title: AppStrings.ChangePass,
                             leadingicon: Assets.unlock,
+                            trailing: Assets.down,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigate.to(context, const BusinessDashBoard());
+                          },
+                          child: const CustomListTile(
+                            title: 'Business Dashboard',
+                            leadingicon: Assets.businessDash,
                             trailing: Assets.down,
                           ),
                         ),

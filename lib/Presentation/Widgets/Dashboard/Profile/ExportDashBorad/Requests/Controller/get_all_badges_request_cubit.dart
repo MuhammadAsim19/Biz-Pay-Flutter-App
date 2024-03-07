@@ -3,16 +3,16 @@ import 'package:buysellbiz/Data/DataSource/Repository/BadgesRepo/badges_repo.dar
 import 'package:buysellbiz/Domain/Badges/BadgesRequest/badges_request.dart';
 import 'package:meta/meta.dart';
 
-part 'get_all_badges_state.dart';
+part 'get_all_badges_request_state.dart';
 
-class GetAllBadgesCubit extends Cubit<GetAllBadgesState> {
-  GetAllBadgesCubit() : super(GetAllBadgesInitial());
+class AllBadgesRequestCubit extends Cubit<AllBadgesRequestState> {
+  AllBadgesRequestCubit() : super(AllBadgesRequestInitial());
 
-  getBadges() async {
+  getBadgesRequest({bool? isBroker}) async {
     await Future.delayed(const Duration(microseconds: 10));
-    emit(GetAllBadgesLoading());
+    emit(AllBadgesRequestLoading());
     try {
-      await BadgesRepo.getAllBadgesRequests().then((value) {
+      await BadgesRepo.getAllBadgesRequests(isBroker: isBroker).then((value) {
         if (value['Success']) {
           List<BadgesRequest> badgesRequest =
               List.from(value['body'].map((e) => BadgesRequest.fromJson(e)));
@@ -22,16 +22,16 @@ class GetAllBadgesCubit extends Cubit<GetAllBadgesState> {
           List<BadgesRequest> ongoing = badgesRequest
               .where((element) => element.status == "ongoing")
               .toList();
-          emit(GetAllBadgesLoaded(pending: pending, ongoing: ongoing));
+          emit(AllBadgesRequestLoaded(pending: pending, ongoing: ongoing));
         } else {
-          emit(GetAllBadgesError(error: value['Success']));
+          emit(AllBadgesRequestError(error: value['error']));
         }
       }).catchError((e) {
-        emit(GetAllBadgesError(error: e.toString()));
+        emit(AllBadgesRequestError(error: e.toString()));
         throw e;
       });
     } catch (e) {
-      emit(GetAllBadgesError(error: e.toString()));
+      emit(AllBadgesRequestError(error: e.toString()));
       rethrow;
     }
   }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/Badges/BadgesRequest/badges_request.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
@@ -10,6 +12,8 @@ class OngoingOrders extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log("Here is Badges ${badges?.toJson()}");
+
     return InkWell(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(

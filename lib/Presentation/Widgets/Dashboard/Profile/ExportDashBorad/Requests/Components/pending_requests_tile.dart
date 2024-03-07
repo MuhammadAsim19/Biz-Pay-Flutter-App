@@ -3,9 +3,10 @@ import 'package:buysellbiz/Domain/Badges/BadgesRequest/badges_request.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 
 class PendingOrders extends StatelessWidget {
-  const PendingOrders({super.key, this.badges});
+  const PendingOrders({super.key, this.badges, this.isFromBusiness});
 
   final BadgesRequest? badges;
+  final bool? isFromBusiness;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,10 @@ class PendingOrders extends StatelessWidget {
           AppText(badges?.businessReff?.name ?? "",
               style: Styles.circularStdMedium(context, fontSize: 16)),
           4.y,
-          AppText('Order Number : #11391s302',
+          AppText(
+              isFromBusiness != true
+                  ? 'Customer Name : ${badges?.userReff?.fullName}'
+                  : 'Broker Name : ${badges?.expertReff?.fullName}',
               style: Styles.circularStdRegular(context,
                   fontSize: 14, color: AppColors.greyTextColor)),
           4.y,
@@ -38,7 +42,7 @@ class PendingOrders extends StatelessWidget {
           4.y,
           Row(
             children: [
-              AppText('Order time : ',
+              AppText('Status : ',
                   style: Styles.circularStdMedium(context, fontSize: 14)),
               AppText(badges?.status ?? "",
                   style: Styles.circularStdRegular(context,
@@ -47,27 +51,29 @@ class PendingOrders extends StatelessWidget {
             ],
           ),
           10.y,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CustomButton(
-                height: 38,
-                width: 80,
-                onTap: () {},
-                text: "Accept",
-                textSize: 13,
-              ),
-              CustomButton(
-                height: 38,
-                width: 80,
-                bgColor: AppColors.whiteColor,
-                onTap: () {},
-                text: "Cancel",
-                textColor: AppColors.blackColor,
-                textSize: 13,
-              )
-            ],
-          ),
+          isFromBusiness != true
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomButton(
+                      height: 38,
+                      width: 80,
+                      onTap: () {},
+                      text: "Accept",
+                      textSize: 13,
+                    ),
+                    CustomButton(
+                      height: 38,
+                      width: 80,
+                      bgColor: AppColors.whiteColor,
+                      onTap: () {},
+                      text: "Cancel",
+                      textColor: AppColors.blackColor,
+                      textSize: 13,
+                    )
+                  ],
+                )
+              : const SizedBox(),
         ],
       ),
     );

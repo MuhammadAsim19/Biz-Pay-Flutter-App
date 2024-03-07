@@ -3,7 +3,7 @@ import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Requests/Components/ongoing_orders_tile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Requests/Components/pending_requests_tile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Requests/Components/tab_buttons.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Requests/Controller/get_all_badges_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Requests/Controller/get_all_badges_request_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RequestsScreen extends StatefulWidget {
@@ -19,7 +19,7 @@ class _RequestsScreenState extends State<RequestsScreen> {
 
   @override
   void initState() {
-    context.read<GetAllBadgesCubit>().getBadges();
+    context.read<AllBadgesRequestCubit>().getBadgesRequest(isBroker: true);
     // TODO: implement initState
     super.initState();
   }
@@ -33,7 +33,7 @@ class _RequestsScreenState extends State<RequestsScreen> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            AppText("Export DashBoard",
+            AppText("Request",
                 style: Styles.circularStdMedium(context, fontSize: 18.sp)),
             20.x,
           ],
@@ -48,26 +48,30 @@ class _RequestsScreenState extends State<RequestsScreen> {
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 18.0).r,
-        child: BlocConsumer<GetAllBadgesCubit, GetAllBadgesState>(
+        child: BlocConsumer<AllBadgesRequestCubit, AllBadgesRequestState>(
           listener: (context, state) {
             print(state.toString());
 
-            if (state is GetAllBadgesLoading) {
+            if (state is AllBadgesRequestLoading) {
               LoadingDialog.showLoadingDialog(context);
             }
-            if (state is GetAllBadgesLoaded) {
+            if (state is AllBadgesRequestLoaded) {
               Navigator.of(context).pop(true);
             }
-            if (state is GetAllBadgesError) {
+            if (state is AllBadgesRequestError) {
+              Navigator.of(context).pop(true);
               WidgetFunctions.instance.snackBar(context, text: state.error);
             }
             // TODO: implement listener
           },
           builder: (context, state) {
-            return state is GetAllBadgesError
-                ? AppText(state.error ?? '',
-                    style: Styles.circularStdBold(context, fontSize: 14.sp))
-                : state is GetAllBadgesLoaded
+            return state is AllBadgesRequestError
+                ? Center(
+                    child: AppText(state.error ?? '',
+                        style:
+                            Styles.circularStdBold(context, fontSize: 14.sp)),
+                  )
+                : state is AllBadgesRequestLoaded
                     ? Column(
                         children: [
                           20.y,

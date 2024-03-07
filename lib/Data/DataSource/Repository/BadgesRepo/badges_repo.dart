@@ -40,9 +40,12 @@ class BadgesRepo {
     });
   }
 
-  static Future getAllBadgesRequests() async {
+  static Future getAllBadgesRequests({bool? isBroker}) async {
     var headers = {"authorization": " ${Data.app.token}"};
-    return await ApiService.get(ApiConstant.getAllBadgesRequest,
+    return await ApiService.get(
+            isBroker == true
+                ? ApiConstant.getBrokerBadgeRequest
+                : ApiConstant.getUserBadgeRequest,
             headers: headers)
         .then((value) {
       log(value.toString());

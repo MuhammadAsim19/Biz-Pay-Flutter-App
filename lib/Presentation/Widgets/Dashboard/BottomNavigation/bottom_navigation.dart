@@ -39,6 +39,8 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   late AppLifecycleState? _state;
   final List<String> _states = <String>[];
 
+  final PageController pageController = PageController();
+
   init(BuildContext context) async {
     await AppInitializer.init().whenComplete(() async {
       InboxRepo().initSocket(context, Data().user?.user?.id);
@@ -109,8 +111,8 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
       });
       //AppInitializer.init();
     }
-    BottomNotifier.bottomPageController =
-        PageController(initialPage: widget.initialPage ?? 0);
+    // BottomNotifier.bottomPageController =
+    //     PageController(initialPage: widget.initialPage ?? 0);
     //BottomNotifier.bottomNavigationNotifier.value=widget.initialPage??0;
     BottomNotifier.checkExitTimes.value = 2;
     // TODO: implement initState
@@ -121,10 +123,10 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        if (BottomNotifier.bottomPageController!.page != 0) {
+        if (pageController.page != 0) {
           BottomNotifier.bottomNavigationNotifier.value = 0;
           BottomNotifier.checkExitTimes.value = 2;
-          BottomNotifier.bottomPageController!.jumpToPage(0);
+          pageController.jumpToPage(0);
         } else {
           if (BottomNotifier.checkExitTimes.value == 0) {
             exit(0);
@@ -173,7 +175,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
             height: 1.sh,
             width: 1.sw,
             child: PageView(
-              controller: BottomNotifier.bottomPageController,
+              controller: pageController,
               physics: const NeverScrollableScrollPhysics(),
               onPageChanged: (x) {
                 print(x);
@@ -207,7 +209,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
                     GestureDetector(
                       onTap: () {
                         if (state != 0) {
-                          BottomNotifier.bottomPageController!.jumpToPage(0);
+                          pageController.jumpToPage(0);
                           BottomNotifier.bottomNavigationNotifier.value = 0;
                         }
                       },
@@ -233,7 +235,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
                       onTap: () {
                         if (SharedPrefs.getUserToken() != null) {
                           if (state != 1) {
-                            BottomNotifier.bottomPageController!.jumpToPage(1);
+                            pageController.jumpToPage(1);
                             BottomNotifier.bottomNavigationNotifier.value = 1;
                           }
                         } else {
@@ -265,7 +267,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
                       onTap: () {
                         if (SharedPrefs.getUserToken() != null) {
                           if (state != 2) {
-                            BottomNotifier.bottomPageController!.jumpToPage(2);
+                            pageController.jumpToPage(2);
                             BottomNotifier.bottomNavigationNotifier.value = 2;
                           }
                         } else {
@@ -296,7 +298,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
                       onTap: () {
                         if (SharedPrefs.getUserToken() != null) {
                           if (state != 3) {
-                            BottomNotifier.bottomPageController!.jumpToPage(3);
+                            pageController.jumpToPage(3);
                             BottomNotifier.bottomNavigationNotifier.value = 3;
                           }
                         } else {
