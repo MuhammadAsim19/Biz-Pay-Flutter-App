@@ -16,7 +16,7 @@ class AppStrings {
   static String logintoApp = 'Login to app';
   static String forgetPasswordSc1 = 'Forget password';
   static String forgetPasswordSc2 = 'Enter your email to reset your password';
-
+  static String withdrawAmount = "withdraw amount";
   static String email = 'Email';
   static String password = 'Password';
   static String confirmPassword = 'Confirm Password';
@@ -34,7 +34,8 @@ class AppStrings {
   static String codeSendToMail =
       'A 4 digit code sent to aqib.example@gmail.com,\nenter code to continue';
   static String resetPassword = 'Reset password';
-
+  static String withdrawStarted =
+      "Withdraw process for the specified amount has been start, Amount will be deposited soon!";
   static String confirmToReset = 'confirm your new password to get started!';
   static String passwordChanged = 'Password changed';
   static String serviceOffered = 'Service offered';
@@ -43,7 +44,7 @@ class AppStrings {
   static String education = 'Education ';
   static String badges = 'Badges';
   static String website = 'WebSite';
-
+  static String withdraw = 'Withdraw';
   static String certificate = 'Certificate';
   static String passwordChangedSuccess =
       'Password has changed successfully, login\nto your account.';
