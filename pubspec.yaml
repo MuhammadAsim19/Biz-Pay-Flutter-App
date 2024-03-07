@@ -73,8 +73,6 @@ dependencies:
   lottie: ^2.3.2
   flutter_spinkit: ^5.2.0
   shimmer: ^3.0.0
-  #open_file: ^3.2.1
-  webview_flutter_plus: ^0.3.0+2
   badges: ^3.1.2
   number_to_words_english: ^2.0.2
   sqflite: ^2.3.0
@@ -105,6 +103,7 @@ dependencies:
   #firebase_dynamic_links: ^5.4.8
   webview_flutter: ^3.0.4
   flutter_stripe: ^10.0.0
+  webview_flutter_android: ^2.10.4
   #video_compress: ^3.1.2
   #light_compressor: ^2.2.0
 #  cached_video_player: 2.0.4

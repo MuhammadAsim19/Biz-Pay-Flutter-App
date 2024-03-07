@@ -1,5 +1,8 @@
+import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_appbar.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/LinkBank/link_bank_screen.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Withdraw/withdraw_screen.dart';
 import 'package:flutter/material.dart';
 
 class ExpertDashboard extends StatelessWidget {
@@ -26,7 +29,9 @@ class ExpertDashboard extends StatelessWidget {
           ),
           10.y,
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Navigate.to(context, const WithdrawScreen());
+            },
             title: AppText(
               'Withdraw',
               style: Styles.circularStdRegular(context, fontSize: 18),
@@ -36,7 +41,9 @@ class ExpertDashboard extends StatelessWidget {
           ),
           10.y,
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Navigate.to(context, const LinkBankScreen());
+            },
             title: AppText(
               'Link Bank',
               style: Styles.circularStdRegular(context, fontSize: 18),
