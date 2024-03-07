@@ -19,8 +19,8 @@ class CustomPopupMenu extends StatelessWidget {
       constraints: BoxConstraints(
           minWidth: 140.sp,
           maxWidth: 140.sp,
-          minHeight: 150.sp,
-          maxHeight: 160.sp),
+          minHeight: 170.sp,
+          maxHeight: 180.sp),
       enabled: true,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.sp),
@@ -145,6 +145,31 @@ class CustomPopupMenu extends StatelessWidget {
             ],
           ),
         ),
+        PopupMenuItem(
+          value: MenuItem1.badge,
+          padding: EdgeInsets.only(left: 10.sp, top: 10.sp),
+          height: 30.sp,
+          child: Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: SvgPicture.asset(Assets.appBadges),
+              ),
+              4.x,
+              Expanded(
+                flex: 4,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 2.sp),
+                  child: AppText(
+                    'Add Badge',
+                    style: Styles.circularStdMedium(context, fontSize: 16.sp),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -155,4 +180,5 @@ enum MenuItem1 {
   delete,
   share,
   boost,
+  badge,
 }

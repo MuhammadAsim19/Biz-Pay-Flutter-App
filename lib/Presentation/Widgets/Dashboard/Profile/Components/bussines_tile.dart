@@ -4,6 +4,7 @@ import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
 import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Badges/AllBadges/all_badges_screen.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BoostBusiness/boost_business_screen.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/buisness_details.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_popup_menu.dart';
@@ -105,6 +106,14 @@ class BusinessList extends StatelessWidget {
                                     context,
                                     BoostBusinessScreen(
                                       model: businessProducts![index!],
+                                    ),
+                                  );
+                                } else if (action == "badge") {
+                                  Navigate.to(
+                                    context,
+                                    AllBBadgesScreen(
+                                      businessId: businessProducts![index!].id,
+                                      type: "seller",
                                     ),
                                   );
                                 }

@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AllBadgesCubit extends Cubit<AllBadgesState> {
   AllBadgesCubit() : super(AllBadgesInitialState());
   List<String> selectedBadgesId = [];
-  List<BadgeModel> badges = [];
 
   void getBadges({String? type}) async {
     await Future.delayed(Duration.zero);
@@ -14,7 +13,7 @@ class AllBadgesCubit extends Cubit<AllBadgesState> {
     BadgesRepo.getBadges(type: type).then(
       (value) {
         if (value['Success']) {
-          badges = (value['body'] as List)
+          List<BadgeModel> badges = (value['body'] as List)
               .map((e) => BadgeModel.fromJson(e))
               .toList();
           emit(AllBadgesLoadedState(badges: badges));
