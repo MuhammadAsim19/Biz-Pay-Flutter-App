@@ -1,14 +1,12 @@
-import 'dart:developer';
-
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/ConnectAccount/balance_model.dart';
 import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
-import 'package:buysellbiz/Presentation/Common/widget_functions.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/custom_appbar.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Withdraw/Common/available_balance_widget.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Withdraw/Common/numeric_custom_textfield.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Withdraw/Controller/withdraw_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Withdraw/State/withdraw_state.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WithdrawScreen extends StatefulWidget {
@@ -31,7 +29,7 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(leading: true, title: 'Withdraw'),
+      appBar: CustomAppBar(leading: true, title: AppStrings.withdraw),
       body: BlocConsumer<WithdrawCubit, WithdrawState>(
         listener: (BuildContext context, WithdrawState state) {
           if (state is WithdrawLoadingState) {
@@ -54,9 +52,8 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
             Navigator.pop(context);
             Navigator.pop(context);
 
-            WidgetFunctions.instance.snackBar(context,
-                text:
-                    'Withdraw process for the specified amount has been start, Amount will be deposited soon!');
+            WidgetFunctions.instance
+                .snackBar(context, text: AppStrings.withdrawStarted);
           }
         },
         builder: (BuildContext context, WithdrawState state) =>
@@ -64,38 +61,12 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 30,
-                          vertical: 10,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            AppText(
-                              'Available Balance',
-                              style: Styles.circularStdMedium(
-                                context,
-                                fontSize: 16,
-                                color: AppColors.lightGreyColor,
-                              ),
-                            ),
-                            AppText(
-                              '\$${balanceModel?.balance}',
-                              style: Styles.circularStdMedium(
-                                context,
-                                fontSize: 24,
-                                color: AppColors.primaryColor,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      AvailableBalanceWidget(balanceModel: balanceModel),
                       const Divider(thickness: 0.4),
                       20.y,
                       Center(
                         child: AppText(
-                          'Withdraw Amount',
+                          AppStrings.withdrawAmount,
                           style: Styles.circularStdMedium(
                             context,
                             fontSize: 12,
@@ -103,31 +74,7 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                           ),
                         ),
                       ),
-                      TextField(
-                        style: Styles.circularStdRegular(
-                          context,
-                          fontSize: 30,
-                        ),
-                        keyboardType: TextInputType.number,
-                        textInputAction: TextInputAction.done,
-                        textAlign: TextAlign.center,
-                        controller: controller,
-                        decoration: InputDecoration(
-                          hintText: '0.00',
-                          hintStyle: Styles.circularStdRegular(
-                            context,
-                            fontSize: 30,
-                          ),
-                          border: InputBorder.none,
-                        ),
-                        onChanged: (value) {
-                          RegExp regex = RegExp(
-                              r'[^\d.]|(\.)(?=.*\.)|(?<=\.\d{2})\.|(?<=\.\d)\d+');
-                          controller.text =
-                              controller.text.trim().replaceAll(regex, '');
-                          log(controller.text);
-                        },
-                      ),
+                      NumericCustomTextfield(controller: controller),
                       const Spacer(),
                       Padding(
                         padding: const EdgeInsets.symmetric(
@@ -140,7 +87,7 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                                     .triggerWithdraw(amount: controller.text);
                               }
                             },
-                            text: 'Withdraw'),
+                            text: AppStrings.withdraw),
                       )
                     ],
                   )
