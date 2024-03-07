@@ -9,7 +9,7 @@ import 'package:open_file_plus/open_file_plus.dart';
 class DownloadFile {
   static ValueNotifier<String> savedPath = ValueNotifier('');
 
-  static download(String file) async {
+  static download(String file, BuildContext context) async {
     final String fileName = extractFilenameFromUrl(file);
 
     bool? perm = await DioDownloader().checkPermission();
@@ -25,7 +25,12 @@ class DownloadFile {
       await DioDownloader().download(Dio(), '${ApiConstant.baseurl}$file',
           "${saveDirectory.path}$fileName");
 
-      await OpenFile.open(savedPath.value);
+      if (savedPath.value.contains(".pdf")) {
+        await OpenFile.open(savedPath.value);
+      } else {
+        WidgetFunctions.instance
+            .snackBar(context, text: 'file type is not supported');
+      }
       savedPath.notifyListeners();
       // Timer.periodic(Duration(), (timer) { });
       //Timer.periodic(Duration(seconds: ), (timer) { })

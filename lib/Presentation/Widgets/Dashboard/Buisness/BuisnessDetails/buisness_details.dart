@@ -417,7 +417,8 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                       InkWell(
                                           onTap: () async {
                                             await DownloadFile.download(
-                                                model!.attachedFiles![0]);
+                                                model!.attachedFiles![0],
+                                                context);
                                           },
                                           child: SvgPicture.asset(
                                               Assets.downloadIcon))

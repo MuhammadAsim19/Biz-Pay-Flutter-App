@@ -42,7 +42,7 @@ class BalanceModel {
   factory BalanceModel.fromJson(Map<String, dynamic> json) => BalanceModel(
         id: json["_id"],
         walletId: json["walletId"],
-        balance: json["balance"],
+        balance: double.parse(json["balance"].toString()),
         createdAt: json["createdAt"] == null
             ? null
             : DateTime.parse(json["createdAt"]),

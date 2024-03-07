@@ -106,7 +106,7 @@ class _BusinessDashBoardState extends State<BusinessDashBoard> {
                                           : state.ongoing!.length,
                                       itemBuilder: (context, index) {
                                         return pendingRequest == true
-                                            ? PendingOrders(
+                                            ? AcceptedOrders(
                                                 isFromBusiness: true,
                                                 badges: state.pending![index],
                                               )

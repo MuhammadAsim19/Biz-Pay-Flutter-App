@@ -120,28 +120,33 @@ class _SendBadgeRequestState extends State<SendBadgeRequest> {
                       onTap: () {
                         if (_key.currentState!.validate()) {
                           if (upload != null) {
-                            Map<String, dynamic> data =
-                                widget.businessId != null
-                                    ? {
-                                        "expertId": widget.expertId,
-                                        "badgeId": widget.badgeData!.id,
-                                        "message": controller.text.trim(),
-                                        "type": widget.type,
-                                        "bussinessId": widget.businessId,
-                                      }
-                                    : {
-                                        "expertId": widget.expertId,
-                                        "badgeId": widget.badgeData!.id,
-                                        "message": controller.text.trim(),
-                                        "type": widget.type,
-                                        // "bussinessId":widget.businessId,
-                                      };
-                            context
-                                .read<SendBadgeRequestCubit>()
-                                .sendBadgesRequest(
-                                    data: data,
-                                    context: context,
-                                    pathName: upload!.path);
+                            if (upload!.path!.contains(".pdf")) {
+                              Map<String, dynamic> data =
+                                  widget.businessId != null
+                                      ? {
+                                          "expertId": widget.expertId,
+                                          "badgeId": widget.badgeData!.id,
+                                          "message": controller.text.trim(),
+                                          "type": widget.type,
+                                          "bussinessId": widget.businessId,
+                                        }
+                                      : {
+                                          "expertId": widget.expertId,
+                                          "badgeId": widget.badgeData!.id,
+                                          "message": controller.text.trim(),
+                                          "type": widget.type,
+                                          // "bussinessId":widget.businessId,
+                                        };
+                              context
+                                  .read<SendBadgeRequestCubit>()
+                                  .sendBadgesRequest(
+                                      data: data,
+                                      context: context,
+                                      pathName: upload!.path);
+                            } else {
+                              WidgetFunctions.instance.snackBar(context,
+                                  text: "File type not supported");
+                            }
                           } else {
                             WidgetFunctions.instance
                                 .snackBar(context, text: "Document required");

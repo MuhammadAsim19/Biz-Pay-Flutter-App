@@ -14,7 +14,7 @@ class RequestsScreen extends StatefulWidget {
 }
 
 class _RequestsScreenState extends State<RequestsScreen> {
-  bool pendingRequest = true;
+  bool accepted = true;
   bool ongoingOrders = false;
 
   @override
@@ -79,11 +79,11 @@ class _RequestsScreenState extends State<RequestsScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               TabButton(
-                                active: pendingRequest,
-                                title: 'Pending Requests',
+                                active: accepted,
+                                title: 'Accepted Requests',
                                 onTap: () {
-                                  if (pendingRequest != true) {
-                                    pendingRequest = true;
+                                  if (accepted != true) {
+                                    accepted = true;
                                     ongoingOrders = false;
                                     setState(() {});
                                   }
@@ -91,11 +91,11 @@ class _RequestsScreenState extends State<RequestsScreen> {
                               ),
                               TabButton(
                                 active: ongoingOrders,
-                                title: 'Ongoing Orders',
+                                title: 'Delivered Orders',
                                 onTap: () {
                                   if (ongoingOrders != true) {
                                     ongoingOrders = true;
-                                    pendingRequest = false;
+                                    accepted = false;
                                     setState(() {});
                                   }
                                 },
@@ -106,19 +106,18 @@ class _RequestsScreenState extends State<RequestsScreen> {
                           Expanded(
                             child:
                                 ((ongoingOrders && state.ongoing!.isNotEmpty) ||
-                                        (pendingRequest &&
-                                            state.pending!.isNotEmpty))
+                                        (accepted && state.pending!.isNotEmpty))
                                     ? ListView.separated(
                                         padding: EdgeInsets.only(bottom: 10.sp),
                                         separatorBuilder: (context, index) {
                                           return 13.y;
                                         },
-                                        itemCount: pendingRequest
+                                        itemCount: accepted
                                             ? state.pending!.length
                                             : state.ongoing!.length,
                                         itemBuilder: (context, index) {
-                                          return pendingRequest == true
-                                              ? PendingOrders(
+                                          return accepted == true
+                                              ? AcceptedOrders(
                                                   badges: state.pending![index],
                                                 )
                                               : OngoingOrders(

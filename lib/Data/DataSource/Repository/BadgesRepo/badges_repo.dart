@@ -53,4 +53,16 @@ class BadgesRepo {
     }).onError((error, stackTrace) =>
             {"Success": false, "error": error.toString()});
   }
+
+  static Future addBadgeDelivery(
+      {Map<String, dynamic>? data, String? path}) async {
+    var headers = {"authorization": " ${Data.app.token}"};
+    return ApiService.putMultiPart(ApiConstant.addBadgeDelivery, data!, [path],
+            imagePathName: 'attachment', header: headers)
+        .then((value) {
+      return value;
+    }).catchError((e) {
+      throw e;
+    });
+  }
 }

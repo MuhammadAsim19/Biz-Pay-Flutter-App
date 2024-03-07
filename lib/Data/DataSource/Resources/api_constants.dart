@@ -70,4 +70,5 @@ class ApiConstant {
   static String withdrawBalance = "$baseurl/api/broker/payment/withdraw";
   static String getUserBadgeRequest =
       "$baseurl/api/user/badgeRequests/all?type=";
+  static String addBadgeDelivery = "$baseurl/api/broker/badgeRequests/deliver";
 }

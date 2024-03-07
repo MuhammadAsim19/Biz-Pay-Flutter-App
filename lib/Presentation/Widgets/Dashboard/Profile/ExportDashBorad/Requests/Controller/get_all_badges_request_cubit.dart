@@ -20,7 +20,7 @@ class AllBadgesRequestCubit extends Cubit<AllBadgesRequestState> {
               .where((element) => element.status == "pending")
               .toList();
           List<BadgesRequest> ongoing = badgesRequest
-              .where((element) => element.status == "ongoing")
+              .where((element) => element.status == "delivered")
               .toList();
           emit(AllBadgesRequestLoaded(pending: pending, ongoing: ongoing));
         } else {

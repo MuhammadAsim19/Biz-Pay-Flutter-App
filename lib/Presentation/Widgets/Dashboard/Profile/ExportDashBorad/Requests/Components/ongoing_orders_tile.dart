@@ -16,11 +16,11 @@ class OngoingOrders extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(
-          builder: (context) {
-            return const AddDelivery();
-          },
-        ));
+        // Navigator.push(context, MaterialPageRoute(
+        //   builder: (context) {
+        //     return const AddDelivery();
+        //   },
+        // ));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 12.sp),
