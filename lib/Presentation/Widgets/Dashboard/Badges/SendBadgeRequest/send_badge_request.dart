@@ -109,7 +109,7 @@ class _SendBadgeRequestState extends State<SendBadgeRequest> {
                     // Navigator.pop(context);
                     ChatNavigation.initChatWithBroker(
                       context,
-                      widget.businessId ?? widget.expertData!.userInfo!.id!,
+                      widget.expertData!.userInfo!.id!,
                       widget.expertData!.id!,
                     );
                   }

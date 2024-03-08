@@ -6,6 +6,8 @@ import 'package:buysellbiz/Presentation/Common/add_image_widget.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/display_images.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/download_file.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/RequestDetail/Common/badge_general_data_widget.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/RequestDetail/Common/note_attachment_widget.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/RequestDetail/Controller/request_detail_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Requests/Controller/get_all_badges_request_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/RequestDetail/State/request_detail_state.dart';
@@ -75,7 +77,6 @@ class _RequestDetailScreenState extends State<RequestDetailScreen> {
                   maxline: 5,
                 ),
               20.y,
-
               if (!widget.isFromBusiness && widget.badges.status == "accepted")
                 AddImageWidget(
                   attachFile: Assets.uploadAttachment,
@@ -90,7 +91,6 @@ class _RequestDetailScreenState extends State<RequestDetailScreen> {
                   width: 400.w,
                   text: 'Your Uploads Documents',
                 ),
-
               upload != null
                   ? DisplayFile(
                       file: upload,
@@ -102,7 +102,6 @@ class _RequestDetailScreenState extends State<RequestDetailScreen> {
                     )
                   : 10.x,
               20.y,
-
               if (!widget.isFromBusiness && widget.badges.status == "delivered")
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -119,49 +118,49 @@ class _RequestDetailScreenState extends State<RequestDetailScreen> {
                   ],
                 ),
               if (!widget.isFromBusiness)
-              if (!widget.isFromBusiness && widget.badges.status == "accepted")
-                BlocListener<RequestDetailCubit, RequestDetailState>(
-                  listener: (context, state) {
-                    if (state is RequestDetailLoading) {
-                      LoadingDialog.showLoadingDialog(context);
-                    }
-                    if (state is RequestDetailLoaded) {
-                      context
-                          .read<AllBadgesRequestCubit>()
-                          .getBadgesRequest(isBroker: true);
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pop();
-                    }
-                    if (state is RequestDetailError) {
-                      WidgetFunctions.instance
-                          .snackBar(context, text: state.error);
-                    }
-                    // TODO: implement listener
-                  },
-                  child: CustomButton(
-                      onTap: () {
-                        if (_key.currentState!.validate()) {
-                          if (upload != null) {
-                            if (upload!.path!.contains(".pdf")) {
-                              var data = {
-                                "message": controller.text.trim(),
-                                "badgeReqestId": widget.badges!.id,
-                              };
-                              context
-                                  .read<RequestDetailCubit>()
-                                  .addDelivery(path: upload!.path, data: data);
+                if (!widget.isFromBusiness &&
+                    widget.badges.status == "accepted")
+                  BlocListener<RequestDetailCubit, RequestDetailState>(
+                    listener: (context, state) {
+                      if (state is RequestDetailLoading) {
+                        LoadingDialog.showLoadingDialog(context);
+                      }
+                      if (state is RequestDetailLoaded) {
+                        context
+                            .read<AllBadgesRequestCubit>()
+                            .getBadgesRequest(isBroker: true);
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                      }
+                      if (state is RequestDetailError) {
+                        WidgetFunctions.instance
+                            .snackBar(context, text: state.error);
+                      }
+                      // TODO: implement listener
+                    },
+                    child: CustomButton(
+                        onTap: () {
+                          if (_key.currentState!.validate()) {
+                            if (upload != null) {
+                              if (upload!.path!.contains(".pdf")) {
+                                var data = {
+                                  "message": controller.text.trim(),
+                                  "badgeReqestId": widget.badges!.id,
+                                };
+                                context.read<RequestDetailCubit>().addDelivery(
+                                    path: upload!.path, data: data);
+                              } else {
+                                WidgetFunctions.instance.snackBar(context,
+                                    text: 'File type is not correct');
+                              }
                             } else {
-                              WidgetFunctions.instance.snackBar(context,
-                                  text: 'File type is not correct');
+                              WidgetFunctions.instance
+                                  .snackBar(context, text: 'Document Required');
                             }
-                          } else {
-                            WidgetFunctions.instance
-                                .snackBar(context, text: 'Document Required');
                           }
-                        }
-                      },
-                      text: "Add Delivery"),
-                ),
+                        },
+                        text: "Add Delivery"),
+                  ),
               20.y,
             ],
           ),
