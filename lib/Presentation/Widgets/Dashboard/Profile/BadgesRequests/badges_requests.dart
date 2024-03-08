@@ -4,22 +4,24 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBora
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Requests/Components/pending_requests_tile.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Requests/Components/tab_buttons.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Requests/Controller/get_all_badges_request_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/BadgesRequests/Controller/badges_request_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/BadgesRequests/State/badges_request_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class RequestsScreen extends StatefulWidget {
-  const RequestsScreen({super.key});
+class BadgesRequestScreen extends StatefulWidget {
+  const BadgesRequestScreen({super.key});
 
   @override
-  State<RequestsScreen> createState() => _RequestsScreenState();
+  State<BadgesRequestScreen> createState() => _BadgesRequestScreenState();
 }
 
-class _RequestsScreenState extends State<RequestsScreen> {
-  bool isRejected = false;
+class _BadgesRequestScreenState extends State<BadgesRequestScreen> {
+  bool isAccepted = true;
 
   @override
   void initState() {
-    context.read<AllBadgesRequestCubit>().getBadgesRequest(isBroker: true);
-    // TODO: implement initState
+    context.read<BadgesRequestCubit>().getBadgesRequest();
+
     super.initState();
   }
 
@@ -47,49 +49,48 @@ class _RequestsScreenState extends State<RequestsScreen> {
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 18.0).r,
-        child: BlocConsumer<AllBadgesRequestCubit, AllBadgesRequestState>(
+        child: BlocConsumer<BadgesRequestCubit, BadgesRequestState>(
           listener: (context, state) {
-            if (state is AllBadgesRequestLoading) {
+            if (state is BadgesRequestLoading) {
               LoadingDialog.showLoadingDialog(context);
             }
-            if (state is AllBadgesRequestLoaded) {
+            if (state is BadgesRequestLoaded) {
               Navigator.of(context).pop(true);
             }
-            if (state is AllBadgesRequestError) {
+            if (state is BadgesRequestError) {
               Navigator.of(context).pop(true);
               WidgetFunctions.instance.snackBar(context, text: state.error);
             }
-            // TODO: implement listener
           },
           builder: (context, state) {
-            return state is AllBadgesRequestError
+            return state is BadgesRequestError
                 ? Center(
                     child: AppText(state.error ?? '',
                         style:
                             Styles.circularStdBold(context, fontSize: 14.sp)),
                   )
-                : state is AllBadgesRequestLoaded
+                : state is BadgesRequestLoaded
                     ? Column(
                         children: [
                           20.y,
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               TabButton(
-                                active: !isRejected,
-                                title: 'Requests',
+                                active: isAccepted,
+                                title: 'Accepted Requests',
                                 onTap: () {
                                   setState(() {
-                                    isRejected = false;
+                                    isAccepted = true;
                                   });
                                 },
                               ),
                               TabButton(
-                                active: isRejected,
-                                title: 'Rejected',
+                                active: !isAccepted,
+                                title: 'Delivered Orders',
                                 onTap: () {
                                   setState(() {
-                                    isRejected = true;
+                                    isAccepted = false;
                                   });
                                 },
                               ),
@@ -97,25 +98,24 @@ class _RequestsScreenState extends State<RequestsScreen> {
                           ),
                           10.y,
                           Expanded(
-                              child: ListView.separated(
-                            padding: EdgeInsets.only(bottom: 10.sp),
-                            separatorBuilder: (context, index) {
-                              return 13.y;
-                            },
-                            itemCount: !isRejected
-                                ? state.pending!.length
-                                : state.rejected!.length,
-                            itemBuilder: (context, index) {
-                              return !isRejected
-                                  ? AcceptedOrders(
-                                      badgesRequest: state.pending![index],
-                                      isFromBusiness: false,
-                                    )
-                                  : OngoingOrders(
-                                      badges: state.rejected![index],
-                                    );
-                            },
-                          ))
+                            child: ListView.separated(
+                              padding: EdgeInsets.only(bottom: 10.sp),
+                              separatorBuilder: (context, index) {
+                                return 13.y;
+                              },
+                              itemCount: isAccepted
+                                  ? state.accepted.length
+                                  : state.delivered.length,
+                              itemBuilder: (context, index) {
+                                return AcceptedOrders(
+                                  badgesRequest: isAccepted
+                                      ? state.accepted[index]
+                                      : state.delivered[index],
+                                  isFromBusiness: true,
+                                );
+                              },
+                            ),
+                          )
                         ],
                       )
                     : const SizedBox();

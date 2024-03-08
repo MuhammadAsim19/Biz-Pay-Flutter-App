@@ -13,6 +13,7 @@ class BadgesRequest {
   final String? attachment;
   final String? status;
   final int? v;
+  final Delivery? delivery;
 
   BadgesRequest({
     this.payment,
@@ -27,6 +28,7 @@ class BadgesRequest {
     this.attachment,
     this.status,
     this.v,
+    this.delivery,
   });
 
   factory BadgesRequest.fromRawJson(String str) =>
@@ -35,27 +37,28 @@ class BadgesRequest {
   String toRawJson() => json.encode(toJson());
 
   factory BadgesRequest.fromJson(Map<String, dynamic> json) => BadgesRequest(
-        payment:
-            json["payment"] == null ? null : Payment.fromJson(json["payment"]),
-        id: json["_id"],
-        userReff:
-            json["userReff"] == null ? null : Reff.fromJson(json["userReff"]),
-        expertReff: json["expertReff"] == null
-            ? null
-            : Reff.fromJson(json["expertReff"]),
-        businessReff: json["businessReff"] == null
-            ? null
-            : BusinessReff.fromJson(json["businessReff"]),
-        badgeReff: json["badgeReff"] == null
-            ? null
-            : BadgeReff.fromJson(json["badgeReff"]),
-        amount: json["amount"],
-        message: json["message"],
-        type: json["type"],
-        attachment: json["attachment"],
-        status: json["status"],
-        v: json["__v"],
-      );
+      payment:
+          json["payment"] == null ? null : Payment.fromJson(json["payment"]),
+      id: json["_id"],
+      userReff:
+          json["userReff"] == null ? null : Reff.fromJson(json["userReff"]),
+      expertReff:
+          json["expertReff"] == null ? null : Reff.fromJson(json["expertReff"]),
+      businessReff: json["businessReff"] == null
+          ? null
+          : BusinessReff.fromJson(json["businessReff"]),
+      badgeReff: json["badgeReff"] == null
+          ? null
+          : BadgeReff.fromJson(json["badgeReff"]),
+      amount: json["amount"],
+      message: json["message"],
+      type: json["type"],
+      attachment: json["attachment"],
+      status: json["status"],
+      v: json["__v"],
+      delivery: json["delivery"] == null
+          ? null
+          : Delivery.fromJson(json["delivery"]));
 
   Map<String, dynamic> toJson() => {
         "payment": payment?.toJson(),
@@ -213,4 +216,16 @@ class Payment {
         "amount": amount,
         "status": status,
       };
+}
+
+class Delivery {
+  final String? message;
+  final String? attachment;
+
+  Delivery({this.message, this.attachment});
+
+  factory Delivery.fromJson(Map<String, dynamic> json) => Delivery(
+        message: json["message"],
+        attachment: json["attachment"],
+      );
 }

@@ -1,23 +1,28 @@
+import 'dart:developer';
+
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/Badges/BadgesRequest/badges_request.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/download_file.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Requests/Components/add_delivery.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/RequestDetail/request_detail_screen.dart';
 
 class AcceptedOrders extends StatelessWidget {
-  const AcceptedOrders({super.key, this.badges, this.isFromBusiness});
+  const AcceptedOrders(
+      {super.key, required this.badgesRequest, required this.isFromBusiness});
 
-  final BadgesRequest? badges;
-  final bool? isFromBusiness;
+  final BadgesRequest badgesRequest;
+  final bool isFromBusiness;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        log('message');
         Navigator.push(context, MaterialPageRoute(
           builder: (context) {
-            return AddDelivery(
-              badges: badges,
+            return RequestDetailScreen(
+              badges: badgesRequest,
+              isFromBusiness: isFromBusiness,
             );
           },
         ));
@@ -32,13 +37,13 @@ class AcceptedOrders extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AppText(badges?.businessReff?.name ?? "",
+            AppText(badgesRequest.businessReff?.name ?? "",
                 style: Styles.circularStdMedium(context, fontSize: 16)),
             4.y,
             AppText(
                 isFromBusiness != true
-                    ? 'Customer Name : ${badges?.userReff?.fullName}'
-                    : 'Broker Name : ${badges?.expertReff?.fullName}',
+                    ? 'Customer Name : ${badgesRequest.userReff?.fullName}'
+                    : 'Expert Name : ${badgesRequest.expertReff?.fullName}',
                 style: Styles.circularStdRegular(context,
                     fontSize: 14, color: AppColors.greyTextColor)),
             4.y,
@@ -46,7 +51,7 @@ class AcceptedOrders extends StatelessWidget {
               children: [
                 AppText('Order for badge type : ',
                     style: Styles.circularStdMedium(context, fontSize: 14)),
-                AppText(badges?.badgeReff?.title ?? "",
+                AppText(badgesRequest?.badgeReff?.title ?? "",
                     style: Styles.circularStdRegular(context,
                         fontSize: 14, color: AppColors.greyTextColor)),
               ],
@@ -56,47 +61,48 @@ class AcceptedOrders extends StatelessWidget {
               children: [
                 AppText('Status : ',
                     style: Styles.circularStdMedium(context, fontSize: 14)),
-                AppText(badges?.status ?? "",
+                AppText(badgesRequest?.status ?? "",
                     style: Styles.circularStdRegular(context,
                         fontSize: 14, color: AppColors.greyTextColor)),
                 const Spacer(),
               ],
             ),
-            10.y,
-            Row(
-              children: [
-                SvgPicture.asset(
-                  Assets.pdfIcon,
-                  width: 30,
-                  height: 30,
-                ),
-                10.x,
-                Expanded(
-                  flex: 3,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AppText(
-                          badges?.attachment != null
-                              ? badges!.attachment!.split('/').last
-                              : "",
-                          maxLine: 2,
-                          style: Styles.circularStdMedium(context,
-                              fontSize: 13.sp)),
-                    ],
-                  ),
-                ),
-                const Spacer(),
-                InkWell(
-                    onTap: () async {
-                      badges?.attachment != null
-                          ? await DownloadFile.download(
-                              badges!.attachment!, context)
-                          : null;
-                    },
-                    child: SvgPicture.asset(Assets.downloadIcon))
-              ],
-            ),
+            // 10.y,
+            // Row(
+            //   children: [
+            //     SvgPicture.asset(
+            //       Assets.pdfIcon,
+            //       width: 30,
+            //       height: 30,
+            //     ),
+            //     10.x,
+            //     Expanded(
+            //       flex: 3,
+            //       child: Column(
+            //         crossAxisAlignment: CrossAxisAlignment.start,
+            //         children: [
+            //           AppText(
+            //               badgesRequest?.attachment != null
+            //                   ? badgesRequest!.attachment!.split('/').last
+            //                   : "",
+            //               maxLine: 2,
+            //               style: Styles.circularStdMedium(context,
+            //                   fontSize: 13.sp)),
+            //         ],
+            //       ),
+            //     ),
+            //     const Spacer(),
+            //     InkWell(
+            //         onTap: () async {
+            //           badgesRequest?.attachment != null
+            //               ? await DownloadFile.download(
+            //                   badgesRequest!.attachment!, context)
+            //               : null;
+            //         },
+            //         child: SvgPicture.asset(Assets.downloadIcon))
+            //   ],
+            // ),
+
             // isFromBusiness != true
             //     ? Row(
             //         mainAxisAlignment: MainAxisAlignment.spaceBetween,

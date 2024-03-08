@@ -8,10 +8,10 @@ class AllBadgesRequestInitial extends AllBadgesRequestState {}
 class AllBadgesRequestLoading extends AllBadgesRequestState {}
 
 class AllBadgesRequestLoaded extends AllBadgesRequestState {
-  final List<BadgesRequest>? pending;
-  final List<BadgesRequest>? ongoing;
+  final List<BadgesRequest> pending;
+  final List<BadgesRequest> rejected;
 
-  AllBadgesRequestLoaded({this.pending, this.ongoing});
+  AllBadgesRequestLoaded({required this.pending, required this.rejected});
 }
 
 class AllBadgesRequestError extends AllBadgesRequestState {

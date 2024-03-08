@@ -204,8 +204,6 @@ PODS:
   - StripePayments (23.18.3):
     - StripeCore (= 23.18.3)
     - StripePayments/Stripe3DS2 (= 23.18.3)
-  - StripePayments/Stripe3DS2 (23.18.3):
-    - StripeCore (= 23.18.3)
   - StripePaymentSheet (23.18.3):
     - StripeApplePay (= 23.18.3)
     - StripeCore (= 23.18.3)
@@ -422,6 +420,6 @@ SPEC CHECKSUMS:
   wakelock_plus: 8b09852c8876491e4b6d179e17dfe2a0b5f60d47
   webview_flutter_wkwebview: b7e70ef1ddded7e69c796c7390ee74180182971f
 
-PODFILE CHECKSUM: a57f30d18f102dd3ce366b1d62a55ecbef2158e5
+PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
 
 COCOAPODS: 1.14.3

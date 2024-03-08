@@ -1,27 +1,25 @@
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
 import 'package:buysellbiz/Data/DataSource/Repository/BadgesRepo/badges_repo.dart';
-import 'package:meta/meta.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/RequestDetail/State/request_detail_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'add_delivery_state.dart';
-
-class AddDeliveryCubit extends Cubit<AddDeliveryState> {
-  AddDeliveryCubit() : super(AddDeliveryInitial());
+class RequestDetailCubit extends Cubit<RequestDetailState> {
+  RequestDetailCubit() : super(RequestDetailInitial());
 
   addDelivery({Map<String, dynamic>? data, String? path}) async {
     await Future.delayed(const Duration(microseconds: 10));
-    emit(AddDeliveryLoading());
+    emit(RequestDetailLoading());
     await BadgesRepo.addBadgeDelivery(data: data, path: path).then((value) {
       if (value['Success']) {
         log("here is value ${value.toString()}");
 
-        emit(AddDeliveryLoaded());
+        emit(RequestDetailLoaded());
       } else {
-        emit(AddDeliveryError(error: value['error']));
+        emit(RequestDetailError(error: value['error']));
       }
     }).catchError((e) {
-      emit(AddDeliveryError(error: e.toString()));
+      emit(RequestDetailError(error: e.toString()));
       throw e;
     });
   }

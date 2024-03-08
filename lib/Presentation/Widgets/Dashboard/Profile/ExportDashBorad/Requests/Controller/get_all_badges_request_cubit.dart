@@ -17,22 +17,21 @@ class AllBadgesRequestCubit extends Cubit<AllBadgesRequestState> {
           List<BadgesRequest> badgesRequest =
               List.from(value['body'].map((e) => BadgesRequest.fromJson(e)));
           List<BadgesRequest> pending = badgesRequest
-              .where((element) => element.status == "pending")
+              .where((element) =>
+                  element.status == "accepted" || element.status == "delivered")
               .toList();
-          List<BadgesRequest> ongoing = badgesRequest
-              .where((element) => element.status == "delivered")
+          List<BadgesRequest> rejected = badgesRequest
+              .where((element) => element.status == "rejected")
               .toList();
-          emit(AllBadgesRequestLoaded(pending: pending, ongoing: ongoing));
+          emit(AllBadgesRequestLoaded(pending: pending, rejected: rejected));
         } else {
           emit(AllBadgesRequestError(error: value['error']));
         }
       }).catchError((e) {
         emit(AllBadgesRequestError(error: e.toString()));
-        throw e;
       });
     } catch (e) {
       emit(AllBadgesRequestError(error: e.toString()));
-      rethrow;
     }
   }
 }

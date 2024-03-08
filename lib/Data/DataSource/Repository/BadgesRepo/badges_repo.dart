@@ -50,8 +50,10 @@ class BadgesRepo {
         .then((value) {
       log(value.toString());
       return value;
-    }).onError((error, stackTrace) =>
-            {"Success": false, "error": error.toString()});
+    }).onError((error, stackTrace) {
+      log(error.toString());
+      return {"Success": false, "error": error.toString()};
+    });
   }
 
   static Future addBadgeDelivery(
