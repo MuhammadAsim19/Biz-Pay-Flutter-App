@@ -67,4 +67,14 @@ class BadgesRepo {
       throw e;
     });
   }
+
+  static Future acceptORRejectRequest() async {
+    var headers = {"authorization": " ${Data.app.token}"};
+    return ApiService.get(ApiConstant.addBadgeDelivery, headers: headers)
+        .then((value) {
+      return value;
+    }).catchError((e) {
+      throw e;
+    });
+  }
 }

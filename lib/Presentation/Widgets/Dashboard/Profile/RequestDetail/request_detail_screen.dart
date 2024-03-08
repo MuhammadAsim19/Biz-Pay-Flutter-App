@@ -247,6 +247,21 @@ class _RequestDetailScreenState extends State<RequestDetailScreen> {
                   : 10.x,
               20.y,
 
+              if (!widget.isFromBusiness && widget.badges.status == "delivered")
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomButton(
+                        horizontalPadding: 20.sp, onTap: () {}, text: "Accept"),
+                    CustomButton(
+                        horizontalPadding: 20.sp,
+                        bgColor: AppColors.whiteColor,
+                        borderColor: AppColors.blackColor,
+                        textColor: AppColors.blackColor,
+                        onTap: () {},
+                        text: "Reject"),
+                  ],
+                ),
               if (!widget.isFromBusiness)
                 BlocListener<RequestDetailCubit, RequestDetailState>(
                   listener: (context, state) {

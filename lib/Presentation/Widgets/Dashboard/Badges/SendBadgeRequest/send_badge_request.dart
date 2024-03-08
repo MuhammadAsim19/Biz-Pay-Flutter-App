@@ -39,7 +39,6 @@ class _SendBadgeRequestState extends State<SendBadgeRequest> {
   @override
   Widget build(BuildContext context) {
     print("Business Id ${widget.businessId}");
-    print("Expert Id ${widget.expertData}");
     print("Type ${widget.type}");
 
     return Scaffold(

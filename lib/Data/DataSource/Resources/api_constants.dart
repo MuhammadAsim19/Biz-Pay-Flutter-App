@@ -71,4 +71,6 @@ class ApiConstant {
   static String getUserBadgeRequest =
       "$baseurl/api/user/badgeRequests/all?type=";
   static String addBadgeDelivery = "$baseurl/api/broker/badgeRequests/deliver";
+  static String acceptRejectDelivery =
+      "$baseurl/api/user/badgeRequests/accept/";
 }
