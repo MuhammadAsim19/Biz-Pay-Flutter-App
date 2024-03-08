@@ -7,14 +7,14 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBora
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Requests/Controller/get_all_badges_request_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class BusinessDashBoard extends StatefulWidget {
-  const BusinessDashBoard({super.key});
+class Request extends StatefulWidget {
+  const Request({super.key});
 
   @override
-  State<BusinessDashBoard> createState() => _BusinessDashBoardState();
+  State<Request> createState() => _RequestState();
 }
 
-class _BusinessDashBoardState extends State<BusinessDashBoard> {
+class _RequestState extends State<Request> {
   bool pendingRequest = true;
 
   bool ongoingOrders = false;
