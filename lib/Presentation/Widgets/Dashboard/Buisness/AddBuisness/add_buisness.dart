@@ -44,7 +44,7 @@ class _AddBusinessState extends State<AddBusiness> {
           CustomDialog.dialog(context, const ConfirmDeleteDialog());
           AddNotifier.addBusinessNotifier.value = 0;
           addPageController.jumpToPage(0);
-        } else {
+        } else if (AddNotifier.addBusinessNotifier.value == 2) {
           AddNotifier.addBusinessNotifier.value = 1;
           addPageController.jumpToPage(1);
         }

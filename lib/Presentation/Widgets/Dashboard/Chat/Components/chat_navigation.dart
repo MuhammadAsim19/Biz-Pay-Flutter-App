@@ -19,9 +19,7 @@ class ChatNavigation {
     //
     // }
 
-    if(SharedPrefs.getUserToken()!=null){
-
-
+    if (SharedPrefs.getUserToken() != null) {
       if (InboxRepo.isConnected.value == false) {
         print("in  here");
         InboxRepo().initSocket(context, Data().user?.user?.id);
@@ -42,7 +40,7 @@ class ChatNavigation {
         print(value);
         if (value['Success']) {
           ChatTileApiModel chatTileApiModel =
-          ChatTileApiModel.fromJson(value['body']);
+              ChatTileApiModel.fromJson(value['body']);
           Navigate.to(
               context,
               ChatDetailsScreen(
@@ -55,17 +53,10 @@ class ChatNavigation {
         // Navigate.to(context, ChatDetailsScreen(chatDto: chatTileApiModel,));
       });
       print("user id${Data().user!.user!.id}");
+    } else {
+      CustomDialog.dialog(
+          barrierDismissible: true, context, const GuestDialog());
     }
-    else
-      {
-
-        CustomDialog.dialog(
-            barrierDismissible: true,
-            context,
-            const GuestDialog());
-
-      }
-
 
 // InboxRepo.socket.onConnect((s){
 // print("here in on connect");
@@ -93,13 +84,15 @@ class ChatNavigation {
   }
 
   static initChatWithBroker(
-      BuildContext context, String createdFor, String brokerId) async {
+    BuildContext context,
+    String createdFor,
+    String brokerId,
+  ) async {
     print(InboxRepo.socket != null);
     // if(InboxRepo.socket.connected==false) {
     //
     // }
-    if(SharedPrefs.getUserToken()!=null){
-
+    if (SharedPrefs.getUserToken() != null) {
       if (InboxRepo.isConnected.value == false) {
         print("in  hereee");
         InboxRepo().initSocket(context, Data().user?.user?.id);
@@ -118,7 +111,7 @@ class ChatNavigation {
         print(value);
         if (value['Success']) {
           ChatTileApiModel chatTileApiModel =
-          ChatTileApiModel.fromJson(value['body']);
+              ChatTileApiModel.fromJson(value['body']);
 
           print("here is chat details ${chatTileApiModel.toJson()}");
 
@@ -126,22 +119,16 @@ class ChatNavigation {
               context,
               BrokerChatDetailsScreen(
                 chatDto: chatTileApiModel,
+                isFirstTime: true,
               ));
         } else {
           WidgetFunctions.instance.snackBar(context, text: value['error']);
         }
         // Navigate.to(context, ChatDetailsScreen(chatDto: chatTileApiModel,));
       });
-
-    }
-    else
-    {
-
+    } else {
       CustomDialog.dialog(
-          barrierDismissible: true,
-          context,
-          const GuestDialog());
-
+          barrierDismissible: true, context, const GuestDialog());
     }
 
 // InboxRepo.socket.onConnect((s){

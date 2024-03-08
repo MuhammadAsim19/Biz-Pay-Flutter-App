@@ -18,7 +18,9 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/Controller/ad
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PublishWidget extends StatefulWidget {
-  const PublishWidget({super.key});
+  final PageController? controller;
+
+  const PublishWidget({super.key, this.controller});
 
   @override
   State<PublishWidget> createState() => _PublishWidgetState();
@@ -39,19 +41,19 @@ class _PublishWidgetState extends State<PublishWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-//       bottomNavigationBar: CustomButton(
-//         onTap: () async {
-//
-//
-// CustomDialog.dialog(context, const AddSuccessDialog(),barrierDismissible: false);
-// await Future.delayed(const Duration(seconds: 3));
-//         Navigate.pop(context);
-//         Navigate.pop(context);
-//
-//       },
-//         borderRadius: 30,
-//         height: 56,
-//         text: 'Publish' ,),
+      //       bottomNavigationBar: CustomButton(
+      //         onTap: () async {
+      //
+      //
+      // CustomDialog.dialog(context, const AddSuccessDialog(),barrierDismissible: false);
+      // await Future.delayed(const Duration(seconds: 3));
+      //         Navigate.pop(context);
+      //         Navigate.pop(context);
+      //
+      //       },
+      //         borderRadius: 30,
+      //         height: 56,
+      //         text: 'Publish' ,),
       body: BlocConsumer<AddBusinessCubit, AddBusinessState>(
         listener: (context, state) {
           print(state.toString());
@@ -63,14 +65,12 @@ class _PublishWidgetState extends State<PublishWidget> {
             Navigator.pop(context);
             CustomDialog.dialog(context, const AddSuccessDialog(),
                 barrierDismissible: false);
-            Navigator.pushReplacement(context, MaterialPageRoute(
-              builder: (context) {
-                return AllBBadgesScreen(
+            Navigate.toReplace(
+                context,
+                AllBBadgesScreen(
                   type: "seller",
                   businessId: state.businessId,
-                );
-              },
-            ));
+                ));
             // Future.delayed(const Duration(microseconds: 20));
             // BottomNotifier.bottomPageController!.jumpToPage(0);
             // Navigator.pop(context);

@@ -81,11 +81,11 @@ class _ShowTheExpertProfilesState extends State<ShowTheExpertProfiles> {
                           return GestureDetector(
                             onTap: () {
                               // getData(profileData![index]);
-                              Navigate.to(
+                              Navigate.toReplace(
                                   context,
                                   SendBadgeRequest(
                                     badgeData: widget.badgesModel,
-                                    expertId: state.profileData![index].id,
+                                    expertData: state.profileData![index],
                                     type: widget.type,
                                     businessId: widget.businessId,
                                   ));

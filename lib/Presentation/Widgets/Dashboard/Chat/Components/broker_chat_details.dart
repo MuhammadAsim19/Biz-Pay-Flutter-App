@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Application/Services/PickerServices/picker_services.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
@@ -23,9 +24,11 @@ class BrokerChatDetailsScreen extends StatefulWidget with ChangeNotifier {
   BrokerChatDetailsScreen({
     super.key,
     this.chatDto,
+    this.isFirstTime,
   });
 
   final ChatTileApiModel? chatDto;
+  final bool? isFirstTime;
 
   @override
   State<BrokerChatDetailsScreen> createState() =>
@@ -119,13 +122,13 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
             InboxControllers.chatDetailData.value.receiver.toString()) {
           SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
             InboxControllers.blockedString.value =
-            "Can not Chat You Have been Blocked by this User";
+                "Can not Chat You Have been Blocked by this User";
             InboxControllers.blockedString.notifyListeners();
             InboxControllers.blockedStatus.notifyListeners();
           });
         } else {
           InboxControllers.blockedString.value =
-          "Can not Chat You Have Blocked this User";
+              "Can not Chat You Have Blocked this User";
 
           // InboxControllers.blockedStatus.value = false;
           InboxControllers.blockedString.notifyListeners();
@@ -158,34 +161,32 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
       ChatTileApiModel chTo = ChatTileApiModel.fromJson(data);
       InboxControllers.chatDetailData.value = chTo;
       InboxControllers.chatDetailData.notifyListeners();
-      if(chTo.blockedUser!=null)
-      {
-
+      if (chTo.blockedUser != null) {
         if (InboxControllers.chatDetailData.value.blockedUser ==
             Data().user?.user?.id) {
           SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
             InboxControllers.blockedStatus.value = true;
             InboxControllers.blockedString.value =
-            "Can not Chat You have been Blocked by this User";
+                "Can not Chat You have been Blocked by this User";
             InboxControllers.blockedString.notifyListeners();
             InboxControllers.blockedStatus.notifyListeners();
           });
         } else {
           InboxControllers.blockedStatus.value = true;
           InboxControllers.blockedString.value =
-          "Can not Chat You have  Blocked  this User";
+              "Can not Chat You have  Blocked  this User";
           //   InboxControllers.blockedStatus.value = false;
         }
-      }
-      else
-      {
-
+      } else {
         InboxControllers.blockedStatus.value = false;
       }
 
       InboxControllers.blockedString.notifyListeners();
       InboxControllers.blockedStatus.notifyListeners();
     });
+
+    /// the details chat screen is call form the send request page first time when user send the request
+    /// need to send one message to the expert so thetas why we are sending this
 
     ///new message to  chat
     InboxRepo.socket?.on("newMessageToBroker", (data) {
@@ -197,7 +198,7 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
       // InboxControllers.chatDetailData.value.messages?.clear();
       // await  Future.delayed(const Duration(milliseconds: 20));
       InboxControllers.chatDetailData.value = dto;
-     // InboxControllers.scrollDownNotifier.value = true;
+      // InboxControllers.scrollDownNotifier.value = true;
       InboxControllers.chatDetailData.notifyListeners();
       // int scrollMax = (_scrollController.position.maxScrollExtent.toInt());
       // int scrollOff = (_scrollController.offset.toInt());
@@ -206,8 +207,9 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
       //   {
       //     InboxControllers.scrollDownNotifier.value = true;
       //   }
-      if(InboxControllers.chatDetailData.value.messages!.length>6)
-      {InboxControllers.scrollDownNotifier.value = true;}
+      if (InboxControllers.chatDetailData.value.messages!.length > 6) {
+        InboxControllers.scrollDownNotifier.value = true;
+      }
       //_scrollController.jumpTo(_scrollController.position.maxScrollExtent+80);
       //print("scroll offset");
       //print(_scrollController.position.minScrollExtent );
@@ -261,12 +263,12 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
   @override
   void dispose() {
     // TODO: implement dispose
-   // InboxRepo.socket?.off("newMessageToBroker");
+    // InboxRepo.socket?.off("newMessageToBroker");
     InboxRepo.socket?.off("newMessageToBroker");
     InboxControllers.typingStatus.value = false;
     focusNode.dispose();
     _scrollController.dispose();
-    InboxControllers.blockedStatus.value=false;
+    InboxControllers.blockedStatus.value = false;
     InboxControllers.chatDetailData.value = ChatTileApiModel();
     InboxControllers.scrollDownNotifier.value = false;
     //InboxRepo.socket.clearListeners();
@@ -410,8 +412,8 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
                                         // physics: const CustomScrollPhysics(),
                                         elements: elements,
                                         groupBy: (element) => _formatDate(
-                                            DateTime.parse(
-                                                element['createdAt']).toLocal()),
+                                            DateTime.parse(element['createdAt'])
+                                                .toLocal()),
                                         // groupComparator: (value1, value2) =>
                                         //     value2.compareTo(value1),
 
@@ -582,11 +584,10 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
                                         color: Colors.transparent,
 
                                         child: SvgPicture.asset(
-                                            'assets/images/send.svg',
-                                        height: 30,
+                                          'assets/images/send.svg',
+                                          height: 30,
                                           width: 30,
                                         ),
-
                                       ),
                                     ),
                                   ),
@@ -651,9 +652,11 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
                             child: Container(
                               height: 30,
                               width: 30,
-                              decoration:  BoxDecoration(
+                              decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  border: Border.all(color: AppColors.primaryColor,width: 1.3),
+                                  border: Border.all(
+                                      color: AppColors.primaryColor,
+                                      width: 1.3),
                                   color: AppColors.whiteColor),
                               child: const Center(
                                   child: Icon(
@@ -966,7 +969,7 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
     //   }
     // ]
 
-    if (allFiles.isEmpty && message.text.isNotEmpty) {
+    if (allFiles.isEmpty && messageContent.isNotEmpty) {
       InboxControllers.chatDetailData.value.messages?.add(Message(
           id: widget.chatDto?.id,
           sender: Data().user?.user?.id,
@@ -977,8 +980,8 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
           content: message.text,
           createdAt: DateTime.now().toUtc()));
       InboxControllers.chatDetailData.notifyListeners();
-     // print("viewporttttt");
-     // print( _scrollController.position.viewportDimension );
+      // print("viewporttttt");
+      // print( _scrollController.position.viewportDimension );
 
       // int scrollMax = (_scrollController.position.maxScrollExtent.toInt());
       // int scrollOff = (_scrollController.offset.toInt());
@@ -987,8 +990,9 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
       // {
       //   InboxControllers.scrollDownNotifier.value = true;
       // }
-      if(InboxControllers.chatDetailData.value.messages!.length>6)
-      {InboxControllers.scrollDownNotifier.value = true;}
+      if (InboxControllers.chatDetailData.value.messages!.length > 6) {
+        InboxControllers.scrollDownNotifier.value = true;
+      }
       InboxRepo.socket?.emit('sendMessageToBroker', messageToSend);
     } else if (allFiles.isNotEmpty || message.text.isNotEmpty) {
       InboxRepo.socket?.emit('sendMessageToBroker', messageToSend);
@@ -996,14 +1000,14 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
       WidgetFunctions.instance.snackBar(context, text: "Can not be Empty");
     }
 
-    message.text="";
+    message.text = "";
     message.clear();
-    images=[];
-    videos=[];
-    docs=[];
+    images = [];
+    videos = [];
+    docs = [];
     // allFiles.clear();
-    allFiles=[];
-    actualFiles=[];
+    allFiles = [];
+    actualFiles = [];
     // actualFiles.clear();
     setState(() {});
   }
@@ -1059,7 +1063,6 @@ class _BrokerChatDetailsScreenState extends State<BrokerChatDetailsScreen> {
         ); //immediate scroll
         initValue = 0;
       }
-
     }
   }
 }
