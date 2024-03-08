@@ -106,14 +106,12 @@ class _RequestsScreenState extends State<RequestsScreen> {
                                 ? state.pending!.length
                                 : state.rejected!.length,
                             itemBuilder: (context, index) {
-                              return !isRejected
-                                  ? AcceptedOrders(
-                                      badgesRequest: state.pending![index],
-                                      isFromBusiness: false,
-                                    )
-                                  : OngoingOrders(
-                                      badges: state.rejected![index],
-                                    );
+                              return RequestTile(
+                                badgesRequest: !isRejected
+                                    ? state.pending![index]
+                                    : state.rejected![index],
+                                isFromBusiness: false,
+                              );
                             },
                           ))
                         ],

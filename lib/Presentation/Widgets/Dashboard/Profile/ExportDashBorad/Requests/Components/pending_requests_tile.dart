@@ -1,13 +1,9 @@
-import 'dart:developer';
-
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/Badges/BadgesRequest/badges_request.dart';
-import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
-import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/download_file.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/RequestDetail/request_detail_screen.dart';
 
-class AcceptedOrders extends StatelessWidget {
-  const AcceptedOrders(
+class RequestTile extends StatelessWidget {
+  const RequestTile(
       {super.key, required this.badgesRequest, required this.isFromBusiness});
 
   final BadgesRequest badgesRequest;
@@ -17,15 +13,16 @@ class AcceptedOrders extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        log('message');
-        Navigator.push(context, MaterialPageRoute(
-          builder: (context) {
-            return RequestDetailScreen(
-              badges: badgesRequest,
-              isFromBusiness: isFromBusiness,
-            );
-          },
-        ));
+        if (badgesRequest.status != "rejected") {
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) {
+              return RequestDetailScreen(
+                badges: badgesRequest,
+                isFromBusiness: isFromBusiness,
+              );
+            },
+          ));
+        }
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 12.sp),
