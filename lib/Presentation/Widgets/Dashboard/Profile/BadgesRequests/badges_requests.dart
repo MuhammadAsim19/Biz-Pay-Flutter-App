@@ -107,7 +107,7 @@ class _BadgesRequestScreenState extends State<BadgesRequestScreen> {
                                   ? state.accepted.length
                                   : state.delivered.length,
                               itemBuilder: (context, index) {
-                                return AcceptedOrders(
+                                return RequestTile(
                                   badgesRequest: isAccepted
                                       ? state.accepted[index]
                                       : state.delivered[index],
