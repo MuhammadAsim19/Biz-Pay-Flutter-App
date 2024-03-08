@@ -193,6 +193,7 @@ class NotificationMetaData {
           _navigate(
               context,
               BrokerChatDetailsScreen(
+                isFirstTime: true,
                 chatDto: ChatTileApiModel.fromRawJson(info),
               ));
 

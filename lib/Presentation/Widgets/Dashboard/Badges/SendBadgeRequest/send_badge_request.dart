@@ -1,21 +1,25 @@
 import 'package:buysellbiz/Application/Services/PickerServices/picker_services.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/Badges/badgeModel.dart';
+import 'package:buysellbiz/Domain/Brokers/broker_list_model.dart';
 import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/add_image_widget.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/display_images.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Badges/SendBadgeRequest/Controller/send_badge_request_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Badges/SendBadgeRequest/Controller/send_badge_request_state.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_details.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_navigation.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SendBadgeRequest extends StatefulWidget {
   const SendBadgeRequest(
-      {super.key, this.badgeData, this.expertId, this.businessId, this.type});
+      {super.key, this.badgeData, this.expertData, this.businessId, this.type});
 
   final BadgeModel? badgeData;
-  final String? expertId;
+  final BrokersListModel? expertData;
+
   final String? businessId;
   final String? type;
 
@@ -28,12 +32,14 @@ class _SendBadgeRequestState extends State<SendBadgeRequest> {
 
   TextEditingController controller = TextEditingController();
 
+  String? requestMessage;
+
   final _key = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     print("Business Id ${widget.businessId}");
-    print("Expert Id ${widget.expertId}");
+    print("Expert Id ${widget.expertData}");
     print("Type ${widget.type}");
 
     return Scaffold(
@@ -100,13 +106,13 @@ class _SendBadgeRequestState extends State<SendBadgeRequest> {
                     LoadingDialog.showLoadingDialog(context);
                   }
                   if (state is SendBadgeRequestLoaded) {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const BottomNavigationScreen(
-                            initialPage: 0,
-                          ),
-                        ));
+                    Navigator.pop(context);
+                    // Navigator.pop(context);
+                    ChatNavigation.initChatWithBroker(
+                      context,
+                      widget.businessId ?? widget.expertData!.userInfo!.id!,
+                      widget.expertData!.id!,
+                    );
                   }
                   if (state is SendBadgeRequestError) {
                     Navigator.pop(context);
@@ -124,19 +130,25 @@ class _SendBadgeRequestState extends State<SendBadgeRequest> {
                               Map<String, dynamic> data =
                                   widget.businessId != null
                                       ? {
-                                          "expertId": widget.expertId,
+                                          "expertId": widget.expertData!.id,
                                           "badgeId": widget.badgeData!.id,
                                           "message": controller.text.trim(),
                                           "type": widget.type,
                                           "bussinessId": widget.businessId,
                                         }
                                       : {
-                                          "expertId": widget.expertId,
+                                          "expertId": widget.expertData!.id,
                                           "badgeId": widget.badgeData!.id,
                                           "message": controller.text.trim(),
                                           "type": widget.type,
                                           // "bussinessId":widget.businessId,
                                         };
+
+                              requestMessage =
+                                  "Badge Name:${widget.badgeData?.title}\n BadgePrice:${widget.badgeData?.price}\n Document:${upload?.path}\n Message:${controller.text.trim()}";
+
+                              setState(() {});
+
                               context
                                   .read<SendBadgeRequestCubit>()
                                   .sendBadgesRequest(

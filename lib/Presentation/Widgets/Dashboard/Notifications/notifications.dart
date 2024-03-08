@@ -177,6 +177,7 @@ class _NotificationsState extends State<Notifications> {
         navigate(
             context,
             BrokerChatDetailsScreen(
+              isFirstTime: true,
               chatDto: ChatTileApiModel.fromRawJson(info),
             ));
 

@@ -12,6 +12,7 @@ import 'package:buysellbiz/Presentation/Common/no_internet_connection.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Badges/AllBadges/all_badges_screen.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/add_buisness.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/Controller/add_business_conntroller.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_details.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Controllers/Repo/inboox_repo.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/chat.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/home.dart';
@@ -115,6 +116,9 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
     //     PageController(initialPage: widget.initialPage ?? 0);
     //BottomNotifier.bottomNavigationNotifier.value=widget.initialPage??0;
     BottomNotifier.checkExitTimes.value = 2;
+    // widget.initialPage != null
+    //     ? pageController.jumpToPage(widget.initialPage!)
+    //     : null;
     // TODO: implement initState
     super.initState();
   }
