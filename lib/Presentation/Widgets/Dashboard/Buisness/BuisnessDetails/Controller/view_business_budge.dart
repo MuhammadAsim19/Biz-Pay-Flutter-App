@@ -6,11 +6,18 @@ class ViewBusinessBadges extends Cubit<ViewBusinessBadgeState> {
   ViewBusinessBadges() : super(ViewBusinessBadgeInitial());
 
   getBadgeData({String? badgeId}) async {
+    await Future.delayed(const Duration(microseconds: 10));
+    emit(ViewBusinessBadgeLoading());
     BadgesRepo.viewBusinessBadge(badgeId: badgeId).then((value) {
       if (value['Success']) {
-        emit(ViewBusinessBadgeLoaded());
+        var data = value["badgeDetails"];
+
+        emit(ViewBusinessBadgeLoaded(
+            isPaid: data['paid'],
+            note: data['message'],
+            attachemt: data["attachment"]));
       } else {
-        emit(ViewBusinessBadgeError(error: value['error']['msg']));
+        emit(ViewBusinessBadgeError(error: value['error']));
       }
     }).catchError((e) {
       emit(ViewBusinessBadgeError(error: e.toString()));

@@ -12,6 +12,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/AddBuisness/C
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BoostBusiness/Controller/business_boost_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/add_to_recently_view_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/bussiness_wishlist_api_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/pay_for_business_badge.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/view_business_budge.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Category/Controller/category_business_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Home/Controller/Brokers/broker_by_id_cubit.dart';
@@ -95,4 +96,5 @@ List<BlocProvider> appProviders = [
   BlocProvider<AcceptAndRejectRequestCubit>(
       create: (context) => AcceptAndRejectRequestCubit()),
   BlocProvider<ViewBusinessBadges>(create: (context) => ViewBusinessBadges()),
+  BlocProvider<PayForBusinessBadge>(create: (context) => PayForBusinessBadge()),
 ];

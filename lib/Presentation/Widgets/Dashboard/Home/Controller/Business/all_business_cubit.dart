@@ -66,35 +66,4 @@ class AllBusinessCubit extends Cubit<AllBusinessState> {
       rethrow;
     }
   }
-
-  requestBagdeView(
-      {required String badgeId, required BuildContext context}) async {
-    emit(RequestbadgeViewLoading());
-    await BadgesRepo.requestBadgeView(badgeId: badgeId).then(
-      (value) async {
-        log(value.toString());
-        if (value["Success"]) {
-          final pi = await PaymentServices.performStripeTransfer(
-            clientSecret: value['body']['client_secret'],
-            context: context,
-          );
-
-          final verficationResults =
-              await PaymentServices.verifyBadgeViewPayment(data: {
-            "intentId": pi.id,
-            "badgeId": badgeId,
-          });
-          if (verficationResults["Success"]) {
-            emit(RequestbadgeViewLoaded());
-          } else {
-            log(value.toString());
-            emit(RequestbadgeViewError(
-                error: verficationResults['error'].toString()));
-          }
-        } else {
-          emit(RequestbadgeViewError(error: value["error"]));
-        }
-      },
-    );
-  }
 }

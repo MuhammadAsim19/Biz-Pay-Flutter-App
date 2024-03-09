@@ -34,8 +34,10 @@ class RequestTile extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AppText(badgesRequest.businessReff?.name ?? "",
-                style: Styles.circularStdMedium(context, fontSize: 16)),
+            badgesRequest.businessReff?.name != null
+                ? AppText(badgesRequest.businessReff?.name ?? "",
+                    style: Styles.circularStdMedium(context, fontSize: 16))
+                : 1.y,
             4.y,
             AppText(
                 isFromBusiness != true

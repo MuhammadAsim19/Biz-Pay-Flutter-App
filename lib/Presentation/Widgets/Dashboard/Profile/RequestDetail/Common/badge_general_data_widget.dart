@@ -8,8 +8,10 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/RequestDetail/
 class RequestGeneralDataWidget extends StatelessWidget {
   const RequestGeneralDataWidget(
       {super.key, required this.badgesRequest, required this.showChat});
+
   final BadgesRequest badgesRequest;
   final bool showChat;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -17,18 +19,21 @@ class RequestGeneralDataWidget extends StatelessWidget {
       children: [
         6.y,
         AppText(
-          'Business Name: ${badgesRequest.businessReff?.name}',
+          '${badgesRequest.businessReff?.name ?? badgesRequest.expertReff?.fullName}',
           style: Styles.circularStdMedium(context, fontSize: 18),
-          maxLine: 3,
+          maxLine: 4,
         ),
         20.y,
         Row(
           children: [
             AppText('Order for badge type: ',
                 style: Styles.circularStdMedium(context, fontSize: 16)),
-            AppText(badgesRequest.badgeReff?.title ?? '',
-                style: Styles.circularStdRegular(context,
-                    fontSize: 16, color: AppColors.greyTextColor)),
+            Expanded(
+              child: AppText(badgesRequest.badgeReff?.title ?? '',
+                  maxLine: 2,
+                  style: Styles.circularStdRegular(context,
+                      fontSize: 16, color: AppColors.greyTextColor)),
+            ),
           ],
         ),
         4.y,
@@ -36,26 +41,30 @@ class RequestGeneralDataWidget extends StatelessWidget {
           children: [
             AppText('Amount: ',
                 style: Styles.circularStdMedium(context, fontSize: 16)),
-            AppText('\$${badgesRequest.amount}',
-                style: Styles.circularStdRegular(context,
-                    fontSize: 16, color: AppColors.greyTextColor)),
+            Expanded(
+              child: AppText('\$${badgesRequest.amount}',
+                  style: Styles.circularStdRegular(context,
+                      fontSize: 16, color: AppColors.greyTextColor)),
+            ),
             const Spacer(),
             if (showChat)
-              CustomButton(
-                  height: 38,
-                  width: 70,
-                  onTap: () {
-                    if (badgesRequest.expertReff?.id != null &&
-                        badgesRequest.expertReff?.userInfo != null) {
-                      ChatNavigation.initChatWithBroker(
-                          context,
-                          badgesRequest.expertReff!.userInfo!,
-                          badgesRequest.expertReff!.id!);
-                    }
-                  },
-                  text: 'Chat',
-                  borderRadius: 25,
-                  textSize: 13),
+              Flexible(
+                child: CustomButton(
+                    height: 38,
+                    width: 70,
+                    onTap: () {
+                      if (badgesRequest.expertReff?.id != null &&
+                          badgesRequest.expertReff?.userInfo != null) {
+                        ChatNavigation.initChatWithBroker(
+                            context,
+                            badgesRequest.expertReff!.userInfo!,
+                            badgesRequest.expertReff!.id!);
+                      }
+                    },
+                    text: 'Chat',
+                    borderRadius: 25,
+                    textSize: 13),
+              ),
           ],
         ),
         20.y,
