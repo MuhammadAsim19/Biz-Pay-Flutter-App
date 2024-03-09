@@ -94,5 +94,18 @@ class BadgesRepo {
     });
   }
 
-  //
+  static Future viewBusinessBadge({String? badgeId}) async {
+    var headers = {"authorization": " ${Data.app.token}"};
+    return await ApiService.get("${ApiConstant.viewBusinessBudge}$badgeId",
+            headers: headers)
+        .then((value) {
+      log(value.toString());
+      return value;
+    }).onError((error, stackTrace) {
+      log(error.toString());
+      return {"Success": false, "error": error.toString()};
+    });
+  }
+
+//
 }

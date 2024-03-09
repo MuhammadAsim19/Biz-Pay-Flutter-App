@@ -8,6 +8,7 @@ import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/business_shimmer.
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/chip_widget.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Components/chart_revenue.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Components/show_business_badges.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/add_to_recently_view_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/bussiness_wishlist_api_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/download_file.dart';
@@ -292,21 +293,21 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                 ),
                                 5.y,
                                 Wrap(
-                                  children: value!.badges!.map((e) {
-                                    return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        CachedImage(
-                                          radius: 20.sp,
-                                          isCircle: true,
-                                          url:
-                                              "${ApiConstant.baseurl}${e.badgeReff?.icon}",
-                                        ),
-                                        AppText(e.badgeReff!.title ?? "",
-                                            style: Styles.circularStdRegular(
-                                                context))
-                                      ],
+                                  children: value.badges!.map((e) {
+                                    return InkWell(
+                                      onTap: () {
+                                        Navigate.to(
+                                            context,
+                                            ShowBusinessBadge(
+                                              badge: e,
+                                            ));
+                                      },
+                                      child: CachedImage(
+                                        radius: 20.sp,
+                                        isCircle: true,
+                                        url:
+                                            "${ApiConstant.baseurl}${e.badgeReff?.icon}",
+                                      ),
                                     );
                                   }).toList(),
                                 ),
