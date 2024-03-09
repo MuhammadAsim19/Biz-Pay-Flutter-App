@@ -1,7 +1,10 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:buysellbiz/Application/Services/PaymentServices/payment_services.dart';
+import 'package:buysellbiz/Data/DataSource/Repository/BadgesRepo/badges_repo.dart';
 import 'package:buysellbiz/Data/DataSource/Repository/Business/all_business_repo.dart';
+import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
 import 'package:meta/meta.dart';
 
@@ -61,5 +64,36 @@ class AllBusinessCubit extends Cubit<AllBusinessState> {
       emit(AllBusinessError(error: e.toString()));
       rethrow;
     }
+  }
+
+  requestBagdeView(
+      {required String badgeId, required BuildContext context}) async {
+    emit(RequestbadgeViewLoading());
+    await BadgesRepo.requestBadgeView(badgeId: badgeId).then(
+      (value) async {
+        log(value.toString());
+        if (value["Success"]) {
+          final pi = await PaymentServices.performStripeTransfer(
+            clientSecret: value['body']['client_secret'],
+            context: context,
+          );
+
+          final verficationResults =
+              await PaymentServices.verifyBadgeViewPayment(data: {
+            "intentId": pi.id,
+            "badgeId": badgeId,
+          });
+          if (verficationResults["Success"]) {
+            emit(RequestbadgeViewLoaded());
+          } else {
+            log(value.toString());
+            emit(RequestbadgeViewError(
+                error: verficationResults['error'].toString()));
+          }
+        } else {
+          emit(RequestbadgeViewError(error: value["error"]));
+        }
+      },
+    );
   }
 }

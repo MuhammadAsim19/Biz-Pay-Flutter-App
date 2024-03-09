@@ -24,3 +24,13 @@ class AllBusinessError extends AllBusinessState {
 
   AllBusinessError({this.error});
 }
+
+class RequestbadgeViewLoading extends AllBusinessState {}
+
+class RequestbadgeViewLoaded extends AllBusinessState {}
+
+class RequestbadgeViewError extends AllBusinessState {
+  final String? error;
+
+  RequestbadgeViewError({required this.error});
+}

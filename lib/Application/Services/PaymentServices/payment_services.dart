@@ -56,6 +56,18 @@ class PaymentServices {
             {"Success": false, "error": error.toString()});
   }
 
+  static verifyBadgeViewPayment({Map<String, dynamic>? data}) async {
+    var headers = {"authorization": " ${Data.app.token}"};
+
+    return await ApiService.post(ApiConstant.verifyBadgeviewPayment, data!,
+            header: headers)
+        .then((value) {
+      log("verifyPayment>> $value");
+      return value;
+    }).onError((error, stackTrace) =>
+            {"Success": false, "error": error.toString()});
+  }
+
 // static Future performStripeTransfer({
 //   required context,
 //   required int payment,

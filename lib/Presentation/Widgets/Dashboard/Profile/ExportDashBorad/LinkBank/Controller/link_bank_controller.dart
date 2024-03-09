@@ -11,6 +11,7 @@ class LinkBankController {
   String? onboardingLink;
   getOnboardingUrl({required BuildContext context}) async {
     ConnectAccountRepo.getOnboardingUrl().then((value) {
+      log(value.toString());
       if (value["Success"]) {
         onboardingLink = value["body"];
 
@@ -20,7 +21,8 @@ class LinkBankController {
         Navigate.pop(context);
         WidgetFunctions.instance.showErrorSnackBar(
             context: context,
-            error: value["error"]["msg"] ?? "Error Happened, Try again later");
+            error:
+                value?["error"]?["msg"] ?? "Error Happened, Try again later");
       }
     });
   }

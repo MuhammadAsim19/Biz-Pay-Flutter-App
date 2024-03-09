@@ -1,4 +1,5 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
+import 'package:buysellbiz/Data/DataSource/Repository/BadgesRepo/badges_repo.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
@@ -451,6 +452,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                       //              BottomNotifier.bottomNavigationNotifier.value=2;
                                       //
                                       // Navigate.toReplace(context, const BottomNavigationScreen(initialPage: 2,));
+
                                       print(value.createdBy?.toJson());
                                       if (value.createdBy != null) {
                                         ChatNavigation.getToChatDetails(context,

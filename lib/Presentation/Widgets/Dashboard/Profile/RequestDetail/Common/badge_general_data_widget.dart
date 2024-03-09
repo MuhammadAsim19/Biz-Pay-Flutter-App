@@ -1,11 +1,15 @@
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/Badges/BadgesRequest/badges_request.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_navigation.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Controllers/Repo/inboox_repo.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/RequestDetail/Common/note_attachment_widget.dart';
 
 class RequestGeneralDataWidget extends StatelessWidget {
-  const RequestGeneralDataWidget({super.key, required this.badgesRequest});
+  const RequestGeneralDataWidget(
+      {super.key, required this.badgesRequest, required this.showChat});
   final BadgesRequest badgesRequest;
+  final bool showChat;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -36,13 +40,22 @@ class RequestGeneralDataWidget extends StatelessWidget {
                 style: Styles.circularStdRegular(context,
                     fontSize: 16, color: AppColors.greyTextColor)),
             const Spacer(),
-            CustomButton(
-                height: 38,
-                width: 70,
-                onTap: () {},
-                text: 'Chat',
-                borderRadius: 25,
-                textSize: 13),
+            if (showChat)
+              CustomButton(
+                  height: 38,
+                  width: 70,
+                  onTap: () {
+                    if (badgesRequest.expertReff?.id != null &&
+                        badgesRequest.expertReff?.userInfo != null) {
+                      ChatNavigation.initChatWithBroker(
+                          context,
+                          badgesRequest.expertReff!.userInfo!,
+                          badgesRequest.expertReff!.id!);
+                    }
+                  },
+                  text: 'Chat',
+                  borderRadius: 25,
+                  textSize: 13),
           ],
         ),
         20.y,

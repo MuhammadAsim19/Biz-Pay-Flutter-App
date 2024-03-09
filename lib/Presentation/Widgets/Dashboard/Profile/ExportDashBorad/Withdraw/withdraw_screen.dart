@@ -58,8 +58,8 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
         },
         builder: (BuildContext context, WithdrawState state) =>
             (balanceModel != null)
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                ? ListView(
+                    // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AvailableBalanceWidget(balanceModel: balanceModel),
                       const Divider(thickness: 0.4),
@@ -75,7 +75,8 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                         ),
                       ),
                       NumericCustomTextfield(controller: controller),
-                      const Spacer(),
+                      // const Spacer(),
+                      20.y,
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 10),

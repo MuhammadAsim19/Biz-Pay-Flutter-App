@@ -80,4 +80,19 @@ class BadgesRepo {
       throw e;
     });
   }
+
+  static Future requestBadgeView({required String badgeId}) async {
+    var headers = {"authorization": " ${Data.app.token}"};
+    return await ApiService.get("${ApiConstant.requestBadgeView}/$badgeId",
+            headers: headers)
+        .then((value) {
+      log(value.toString());
+      return value;
+    }).onError((error, stackTrace) {
+      log(error.toString());
+      return {"Success": false, "error": error.toString()};
+    });
+  }
+
+  //
 }

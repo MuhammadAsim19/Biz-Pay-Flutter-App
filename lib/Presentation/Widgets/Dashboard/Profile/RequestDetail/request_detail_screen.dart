@@ -63,12 +63,15 @@ class _RequestDetailScreenState extends State<RequestDetailScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              RequestGeneralDataWidget(badgesRequest: widget.badges),
+              RequestGeneralDataWidget(
+                badgesRequest: widget.badges,
+                showChat: widget.isFromBusiness,
+              ),
               12.y,
               if (widget.badges.status == "delivered")
                 NoteAndAttachmentWidget(
                     noteTitle: 'Expert note',
-                    note: widget.badges.message ?? '',
+                    note: widget.badges.delivery?.message ?? '',
                     attachmentTitle: 'Expert Delivery',
                     attachment: widget.badges.delivery?.attachment),
               12.y,

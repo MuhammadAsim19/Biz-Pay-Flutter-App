@@ -160,6 +160,7 @@ class Reff {
   final String? profileImage;
   final String? email;
   final String? profilePic;
+  final String? userInfo;
 
   Reff({
     this.id,
@@ -167,6 +168,7 @@ class Reff {
     this.profileImage,
     this.email,
     this.profilePic,
+    this.userInfo,
   });
 
   factory Reff.fromRawJson(String str) => Reff.fromJson(json.decode(str));
@@ -179,6 +181,7 @@ class Reff {
         profileImage: json["profileImage"],
         email: json["email"],
         profilePic: json["profilePic"],
+        userInfo: json["userInfo"],
       );
 
   Map<String, dynamic> toJson() => {
