@@ -23,6 +23,7 @@ class NoteAndAttachmentWidget extends StatelessWidget {
         AppText(noteTitle,
             style: Styles.circularStdMedium(context, fontSize: 16)),
         AppText(note,
+            maxLine: 1000,
             style: Styles.circularStdRegular(context,
                 fontSize: 16, color: AppColors.greyTextColor)),
         10.y,
