@@ -20,7 +20,8 @@ class BadgesRepo {
   static Future getBrokerOfBadges({String? badgeId}) async {
     var headers = {"authorization": " ${Data.app.token}"};
 
-    return await ApiService.get("${ApiConstant.getExportFormBadges}$badgeId")
+    return await ApiService.get("${ApiConstant.getExportFormBadges}$badgeId",
+            headers: headers)
         .then((value) {
       log(value.toString());
       return value;
