@@ -97,25 +97,29 @@ class _BadgesRequestScreenState extends State<BadgesRequestScreen> {
                             ],
                           ),
                           10.y,
-                          Expanded(
-                            child: ListView.separated(
-                              padding: EdgeInsets.only(bottom: 10.sp),
-                              separatorBuilder: (context, index) {
-                                return 13.y;
-                              },
-                              itemCount: isAccepted
-                                  ? state.accepted.length
-                                  : state.delivered.length,
-                              itemBuilder: (context, index) {
-                                return RequestTile(
-                                  badgesRequest: isAccepted
-                                      ? state.accepted[index]
-                                      : state.delivered[index],
-                                  isFromBusiness: true,
-                                );
-                              },
-                            ),
-                          )
+                          ((isAccepted && state.accepted.isNotEmpty) ||
+                                  (!isAccepted && state.delivered.isNotEmpty))
+                              ? Expanded(
+                                  child: ListView.separated(
+                                    padding: EdgeInsets.only(bottom: 10.sp),
+                                    separatorBuilder: (context, index) {
+                                      return 13.y;
+                                    },
+                                    itemCount: isAccepted
+                                        ? state.accepted.length
+                                        : state.delivered.length,
+                                    itemBuilder: (context, index) {
+                                      return RequestTile(
+                                        badgesRequest: isAccepted
+                                            ? state.accepted[index]
+                                            : state.delivered[index],
+                                        isFromBusiness: true,
+                                      );
+                                    },
+                                  ),
+                                )
+                              : AppText('No Data Available',
+                                  style: Styles.circularStdMedium(context))
                         ],
                       )
                     : const SizedBox();

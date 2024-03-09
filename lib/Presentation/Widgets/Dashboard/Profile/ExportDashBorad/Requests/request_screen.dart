@@ -96,24 +96,28 @@ class _RequestsScreenState extends State<RequestsScreen> {
                             ],
                           ),
                           10.y,
-                          Expanded(
-                              child: ListView.separated(
-                            padding: EdgeInsets.only(bottom: 10.sp),
-                            separatorBuilder: (context, index) {
-                              return 13.y;
-                            },
-                            itemCount: !isRejected
-                                ? state.pending!.length
-                                : state.rejected!.length,
-                            itemBuilder: (context, index) {
-                              return RequestTile(
-                                badgesRequest: !isRejected
-                                    ? state.pending![index]
-                                    : state.rejected![index],
-                                isFromBusiness: false,
-                              );
-                            },
-                          ))
+                          ((!isRejected && state.pending.isNotEmpty) ||
+                                  (isRejected && state.rejected.isNotEmpty))
+                              ? Expanded(
+                                  child: ListView.separated(
+                                  padding: EdgeInsets.only(bottom: 10.sp),
+                                  separatorBuilder: (context, index) {
+                                    return 13.y;
+                                  },
+                                  itemCount: !isRejected
+                                      ? state.pending!.length
+                                      : state.rejected!.length,
+                                  itemBuilder: (context, index) {
+                                    return RequestTile(
+                                      badgesRequest: !isRejected
+                                          ? state.pending[index]
+                                          : state.rejected[index],
+                                      isFromBusiness: false,
+                                    );
+                                  },
+                                ))
+                              : AppText('No Data Available',
+                                  style: Styles.circularStdMedium(context))
                         ],
                       )
                     : const SizedBox();
