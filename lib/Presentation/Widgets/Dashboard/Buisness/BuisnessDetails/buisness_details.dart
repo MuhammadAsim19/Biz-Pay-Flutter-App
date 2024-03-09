@@ -53,7 +53,9 @@ class _BusinessDetailsState extends State<BusinessDetails> {
           if (state is AllBusinessLoading) {
             LoadingDialog.showLoadingDialog(context);
           }
+
           if (state is AllBusinessError) {
+            Navigator.of(context).pop(true);
             WidgetsBinding.instance.addPostFrameCallback((_) {
               WidgetFunctions.instance.snackBar(context,
                   text: state.error,
@@ -64,6 +66,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
           }
 
           if (state is BusinessByIdLoaded) {
+            print(state.business!.toJson());
             Navigator.pop(context);
             model = state.business;
           }
@@ -471,8 +474,10 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                   }),
                 )
               : state is AllBusinessError
-                  ? AppText(state.error!,
-                      style: Styles.circularStdRegular(context))
+                  ? Center(
+                      child: AppText(state.error!,
+                          style: Styles.circularStdRegular(context)),
+                    )
                   : 10.x;
         },
       ),

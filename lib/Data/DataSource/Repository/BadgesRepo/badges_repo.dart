@@ -68,9 +68,12 @@ class BadgesRepo {
     });
   }
 
-  static Future acceptORRejectRequest() async {
+  static Future acceptORRejectRequest(
+      {String? status, String? requestID}) async {
     var headers = {"authorization": " ${Data.app.token}"};
-    return ApiService.get(ApiConstant.addBadgeDelivery, headers: headers)
+    return ApiService.get(
+            "${ApiConstant.acceptRejectDelivery}$status/$requestID",
+            headers: headers)
         .then((value) {
       return value;
     }).catchError((e) {

@@ -20,6 +20,8 @@ class AllBusinessCubit extends Cubit<AllBusinessState> {
     try {
       await AllBusiness.getBusiness(id: id).then((value) {
         if (value['Success']) {
+          log("here is value ${value.toString()}");
+
           List<BusinessModel> business =
               List.from(value["body"].map((e) => BusinessModel.fromJson(e)));
           emit(AllBusinessLoaded(business: business));

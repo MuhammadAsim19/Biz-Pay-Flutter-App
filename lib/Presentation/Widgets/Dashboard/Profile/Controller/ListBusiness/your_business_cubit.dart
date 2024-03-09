@@ -18,7 +18,7 @@ class YourBusinessCubit extends Cubit<YourBusinessState> {
     try {
       await AllBusiness.yourBusinessList().then((value) {
         if (value['Success']) {
-          log(value.toString());
+          log("here is value ${value.toString()}");
 
           //
           List<BusinessModel> business =

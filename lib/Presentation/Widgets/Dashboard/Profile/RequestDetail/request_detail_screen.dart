@@ -8,11 +8,14 @@ import 'package:buysellbiz/Presentation/Common/display_images.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/download_file.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/RequestDetail/Common/badge_general_data_widget.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/RequestDetail/Common/note_attachment_widget.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/RequestDetail/Controller/acceptAndRejectRequest.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/RequestDetail/Controller/request_detail_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Requests/Controller/get_all_badges_request_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/RequestDetail/State/request_detail_state.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'State/acceptAndRejectRequest_state.dart';
 
 class RequestDetailScreen extends StatefulWidget {
   final BadgesRequest badges;
@@ -102,20 +105,54 @@ class _RequestDetailScreenState extends State<RequestDetailScreen> {
                     )
                   : 10.x,
               20.y,
-              if (!widget.isFromBusiness && widget.badges.status == "delivered")
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CustomButton(
-                        horizontalPadding: 20.sp, onTap: () {}, text: "Accept"),
-                    CustomButton(
-                        horizontalPadding: 20.sp,
-                        bgColor: AppColors.whiteColor,
-                        borderColor: AppColors.blackColor,
-                        textColor: AppColors.blackColor,
-                        onTap: () {},
-                        text: "Reject"),
-                  ],
+              if (widget.isFromBusiness && widget.badges.status == "delivered")
+                BlocListener<AcceptAndRejectRequestCubit,
+                    AcceptAndRejectRequestState>(
+                  listener: (context, state) {
+                    if (state is AcceptAndRejectRequestStateLoading) {
+                      LoadingDialog.showLoadingDialog(context);
+                    }
+                    if (state is AcceptAndRejectRequestStateLoaded) {
+                      Navigator.of(context).pop(true);
+                      Navigator.of(context).pop(true);
+                      context
+                          .read<AllBadgesRequestCubit>()
+                          .getBadgesRequest(isBroker: !widget.isFromBusiness);
+                    }
+                    if (state is AcceptAndRejectRequestStateError) {
+                      WidgetFunctions.instance
+                          .snackBar(context, text: state.error);
+                    }
+                    // TODO: implement listener
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomButton(
+                          horizontalPadding: 20.sp,
+                          onTap: () {
+                            context
+                                .read<AcceptAndRejectRequestCubit>()
+                                .acceptRequest(
+                                    status: "accept",
+                                    requestId: widget.badges.id);
+                          },
+                          text: "Accept"),
+                      CustomButton(
+                          horizontalPadding: 20.sp,
+                          bgColor: AppColors.whiteColor,
+                          borderColor: AppColors.blackColor,
+                          textColor: AppColors.blackColor,
+                          onTap: () {
+                            context
+                                .read<AcceptAndRejectRequestCubit>()
+                                .acceptRequest(
+                                    status: "reject",
+                                    requestId: widget.badges.id);
+                          },
+                          text: "Reject"),
+                    ],
+                  ),
                 ),
               if (!widget.isFromBusiness)
                 if (!widget.isFromBusiness &&

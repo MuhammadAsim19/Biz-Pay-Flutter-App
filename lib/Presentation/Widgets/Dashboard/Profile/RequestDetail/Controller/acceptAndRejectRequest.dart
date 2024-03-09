@@ -3,10 +3,14 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/RequestDetail/
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AcceptAndRejectRequestCubit extends Cubit<AcceptAndRejectRequestState> {
-  AcceptAndRejectRequestCubit(super.initialState);
+  AcceptAndRejectRequestCubit() : super(AcceptAndRejectRequestStateInitial());
 
-  acceptRequest() async {
-    await BadgesRepo.acceptORRejectRequest().then((value) {
+  acceptRequest({String? status, String? requestId}) async {
+    await Future.delayed(const Duration(microseconds: 10));
+    emit(AcceptAndRejectRequestStateLoading());
+
+    await BadgesRepo.acceptORRejectRequest(status: status, requestID: requestId)
+        .then((value) {
       if (value['Success']) {
         emit(AcceptAndRejectRequestStateLoaded());
       } else {

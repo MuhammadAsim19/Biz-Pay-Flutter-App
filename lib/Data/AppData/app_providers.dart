@@ -30,6 +30,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Controller/Upd
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/DeleteAccount/delete_account_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/Controller/broker_profile_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExpertProfile/Controller/get_all_country_cubit.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/RequestDetail/Controller/acceptAndRejectRequest.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/RequestDetail/Controller/request_detail_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Requests/Controller/get_all_badges_request_cubit.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/ExportDashBorad/Withdraw/Controller/withdraw_cubit.dart';
@@ -90,4 +91,8 @@ List<BlocProvider> appProviders = [
   BlocProvider<WithdrawCubit>(create: (context) => WithdrawCubit()),
   BlocProvider<RequestDetailCubit>(create: (context) => RequestDetailCubit()),
   BlocProvider<BadgesRequestCubit>(create: (context) => BadgesRequestCubit()),
+  BlocProvider<AcceptAndRejectRequestCubit>(
+      create: (context) => AcceptAndRejectRequestCubit()),
+
+
 ];
