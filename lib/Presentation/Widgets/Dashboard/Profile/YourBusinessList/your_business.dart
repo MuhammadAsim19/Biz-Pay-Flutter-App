@@ -1,7 +1,6 @@
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Domain/BusinessModel/buisiness_model.dart';
-import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/saved_loading.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/buisness_details.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/bussines_tile.dart';
@@ -10,29 +9,6 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Controller/Lis
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class YourBusiness extends StatefulWidget {
-  // List<BusinessProductModel> businessProducts = [
-  //   BusinessProductModel(
-  //       businessImage: Assets.businessimage1,
-  //       businessName: 'Drop shipping website & E-commerce business',
-  //       price: '\$40k USD',
-  //       location: "San Francisco, USA"),
-  //   BusinessProductModel(
-  //       businessImage: Assets.businessimage2,
-  //       businessName: 'Drop shipping website & E-commerce business',
-  //       price: '\$40k USD',
-  //       location: "San Francisco, USA"),
-  //   BusinessProductModel(
-  //       businessImage: Assets.businessimage3,
-  //       businessName: 'Drop shipping website & E-commerce business',
-  //       price: '\$40k USD',
-  //       location: "San Francisco, USA"),
-  //   BusinessProductModel(
-  //       businessImage: Assets.businessimage2,
-  //       businessName: 'Drop shipping website & E-commerce business',
-  //       price: '\$40k USD',
-  //       location: "San Francisco, USA"),
-  // ];
-
   const YourBusiness({super.key});
 
   @override

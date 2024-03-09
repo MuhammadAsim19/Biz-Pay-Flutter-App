@@ -94,7 +94,7 @@ class ChatNavigation {
     // }
     if (SharedPrefs.getUserToken() != null) {
       if (InboxRepo.isConnected.value == false) {
-        print("in  hereee");
+        print("in  here");
         InboxRepo().initSocket(context, Data().user?.user?.id);
       }
       print("user id${Data().user!.user!.id}");

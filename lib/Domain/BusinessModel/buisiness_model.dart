@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:buysellbiz/Domain/Badges/badgeModel.dart';
+
 class BusinessProductModel {
   final String? businessName;
   final String? businessDescription;
@@ -53,6 +55,7 @@ class BusinessModel {
   final String? businessDescription;
   final List<String>? images;
   final List<String>? attachedFiles;
+  final List<BusinessBadge>? badges;
   final List<String>? advantages;
   final int? salePrice;
   final List<FinancialDetail>? financialDetails;
@@ -90,6 +93,7 @@ class BusinessModel {
     this.industry,
     this.subIndustry,
     this.status,
+    this.badges,
   });
 
   factory BusinessModel.fromRawJson(String str) =>
@@ -98,6 +102,8 @@ class BusinessModel {
   String toRawJson() => json.encode(toJson());
 
   factory BusinessModel.fromJson(Map<String, dynamic> json) => BusinessModel(
+      badges: List<BusinessBadge>.from(
+          json["badges"]!.map((x) => BusinessBadge.fromJson(x))),
       privence: json['state'],
       id: json["_id"],
       name: json["name"],
@@ -141,6 +147,9 @@ class BusinessModel {
         "numberOfOwners": numberOfOwners,
         "numberOfEmployes": numberOfEmployes,
         "businessDescription": businessDescription,
+        "badges": badges == null
+            ? []
+            : List<BusinessBadge>.from(badges!.map((x) => x)),
         "images":
             images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
         "attached_files": attachedFiles == null
@@ -221,6 +230,90 @@ class BusinessCategory {
   Map<String, dynamic> toJson() => {
         "_id": id,
         "title": title,
+      };
+}
+
+class BusinessBadge {
+  final String? id;
+  final BadgeReff? badgeReff;
+
+  BusinessBadge({
+    this.id,
+    this.badgeReff,
+  });
+
+  factory BusinessBadge.fromRawJson(String str) =>
+      BusinessBadge.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory BusinessBadge.fromJson(Map<String, dynamic> json) => BusinessBadge(
+        id: json["_id"],
+        badgeReff: json["badgeReff"] == null
+            ? null
+            : BadgeReff.fromJson(json["badgeReff"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "_id": id,
+        "badgeReff": badgeReff?.toJson(),
+      };
+}
+
+class BadgeReff {
+  final String? icon;
+  final String? id;
+  final String? title;
+  final int? price;
+  final String? paymentType;
+  final String? type;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final int? v;
+
+  BadgeReff({
+    this.icon,
+    this.id,
+    this.title,
+    this.price,
+    this.paymentType,
+    this.type,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
+  });
+
+  factory BadgeReff.fromRawJson(String str) =>
+      BadgeReff.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory BadgeReff.fromJson(Map<String, dynamic> json) => BadgeReff(
+        icon: json["icon"],
+        id: json["_id"],
+        title: json["title"],
+        price: json["price"],
+        paymentType: json["paymentType"],
+        type: json["type"],
+        createdAt: json["createdAt"] == null
+            ? null
+            : DateTime.parse(json["createdAt"]),
+        updatedAt: json["updatedAt"] == null
+            ? null
+            : DateTime.parse(json["updatedAt"]),
+        v: json["__v"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "icon": icon,
+        "_id": id,
+        "title": title,
+        "price": price,
+        "paymentType": paymentType,
+        "type": type,
+        "createdAt": createdAt?.toIso8601String(),
+        "updatedAt": updatedAt?.toIso8601String(),
+        "__v": v,
       };
 }
 

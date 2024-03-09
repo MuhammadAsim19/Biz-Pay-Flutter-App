@@ -77,7 +77,7 @@ class _PublishWidgetState extends State<PublishWidget> {
             // Navigator.pop(context);
           }
           if (state is AddBusinessError) {
-            // Navigator.pop(context);
+            Navigator.pop(context);
             WidgetFunctions.instance
                 .showErrorSnackBar(context: context, error: state.error);
           }

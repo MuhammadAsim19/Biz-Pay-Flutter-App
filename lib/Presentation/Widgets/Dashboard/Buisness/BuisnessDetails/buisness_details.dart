@@ -265,18 +265,51 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                   ],
                                 ),
                                 5.y,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    AppText(
+                                      value.name!,
+                                      style: Styles.circularStdMedium(context,
+                                          fontSize: 22),
+                                      maxLine: 3,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    AppText("\$ ${value.salePrice!} USD",
+                                        style: Styles.circularStdMedium(context,
+                                            fontSize: 16.sp,
+                                            color: AppColors.primaryColor)),
+                                  ],
+                                ),
+                                10.y,
                                 AppText(
-                                  value.name!,
+                                  "Business Badges",
                                   style: Styles.circularStdMedium(context,
-                                      fontSize: 22),
+                                      fontSize: 16),
                                   maxLine: 3,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                                10.y,
-                                AppText("\$ ${value.salePrice!} USD",
-                                    style: Styles.circularStdMedium(context,
-                                        fontSize: 16.sp,
-                                        color: AppColors.primaryColor)),
+                                5.y,
+                                Wrap(
+                                  children: value!.badges!.map((e) {
+                                    return Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        CachedImage(
+                                          radius: 20.sp,
+                                          isCircle: true,
+                                          url:
+                                              "${ApiConstant.baseurl}${e.badgeReff?.icon}",
+                                        ),
+                                        AppText(e.badgeReff!.title ?? "",
+                                            style: Styles.circularStdRegular(
+                                                context))
+                                      ],
+                                    );
+                                  }).toList(),
+                                ),
                                 10.y,
                                 AppText(
                                   value.businessDescription!,
