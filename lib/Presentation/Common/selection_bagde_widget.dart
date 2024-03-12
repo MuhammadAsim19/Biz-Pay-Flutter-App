@@ -9,16 +9,20 @@ class BadgeSelectionWidget extends StatelessWidget {
     required this.isSelected,
     required this.onTap,
   });
+
   final BadgeModel model;
   final bool isSelected;
   final VoidCallback onTap;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         border: isSelected ? Border.all(color: AppColors.primaryColor) : null,
-        color: AppColors.lightBlue,
+        color: model.alreadyRequested != true
+            ? AppColors.lightBlue
+            : AppColors.chipColor,
         borderRadius: BorderRadius.circular(8),
       ),
       child: InkWell(

@@ -11,6 +11,7 @@ class BadgeModel {
   final int? price;
   final String? paymentType;
   final String? type;
+  final bool? alreadyRequested;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final int? v;
@@ -21,6 +22,7 @@ class BadgeModel {
     this.price,
     this.paymentType,
     this.type,
+    this.alreadyRequested,
     this.createdAt,
     this.updatedAt,
     this.v,
@@ -30,6 +32,7 @@ class BadgeModel {
     String? id,
     String? title,
     int? price,
+    bool? alreadyRequested,
     String? paymentType,
     String? type,
     DateTime? createdAt,
@@ -37,6 +40,7 @@ class BadgeModel {
     int? v,
   }) =>
       BadgeModel(
+        alreadyRequested: alreadyRequested ?? this.alreadyRequested,
         id: id ?? this.id,
         title: title ?? this.title,
         price: price ?? this.price,
@@ -48,6 +52,7 @@ class BadgeModel {
       );
 
   factory BadgeModel.fromJson(Map<String, dynamic> json) => BadgeModel(
+        alreadyRequested: json['alreadyRequested'],
         id: json["_id"],
         title: json["title"],
         price: json["price"],
@@ -63,6 +68,7 @@ class BadgeModel {
       );
 
   Map<String, dynamic> toJson() => {
+        "alreadyRequested": alreadyRequested,
         "_id": id,
         "title": title,
         "price": price,

@@ -48,8 +48,10 @@ class ChatTile extends StatelessWidget {
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                           ),
-                          child: SvgPicture.network(
-                            "${ApiConstant.baseurl}/${tileData!.badges![i].icon}",
+                          child: CachedImage(
+                            radius: 20.sp,
+                            url:
+                                "${ApiConstant.baseurl}/${tileData!.badges![i].icon}",
                           ),
                         ),
                     ],

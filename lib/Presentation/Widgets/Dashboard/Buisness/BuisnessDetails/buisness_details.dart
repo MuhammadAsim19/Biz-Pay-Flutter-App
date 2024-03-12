@@ -312,8 +312,10 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                               const GuestDialog());
                                         }
                                       },
-                                      child: SvgPicture.network(
-                                        "${ApiConstant.baseurl}${e.badgeReff!.icon}",
+                                      child: CachedImage(
+                                        radius: 15.sp,
+                                        url:
+                                            "${ApiConstant.baseurl}${e.badgeReff!.icon}",
                                       ),
                                     );
                                   }).toList(),
