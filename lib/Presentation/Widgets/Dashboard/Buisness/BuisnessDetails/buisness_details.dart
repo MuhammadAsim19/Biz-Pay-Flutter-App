@@ -7,6 +7,7 @@ import 'package:buysellbiz/Presentation/Common/Dialogs/loading_dialog.dart';
 import 'package:buysellbiz/Presentation/Common/Shimmer/Widgets/business_shimmer.dart';
 import 'package:buysellbiz/Presentation/Common/app_buttons.dart';
 import 'package:buysellbiz/Presentation/Common/chip_widget.dart';
+import 'package:buysellbiz/Presentation/Common/dialog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Components/chart_revenue.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Components/show_business_badges.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/Controller/add_to_recently_view_cubit.dart';
@@ -15,6 +16,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetai
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/State/business_wishlistapi_state.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_navigation.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/chat.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/logout_dialog.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Saved/Controller/saved_listing_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:share_plus/share_plus.dart';
@@ -296,17 +298,22 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                   children: value.badges!.map((e) {
                                     return InkWell(
                                       onTap: () {
-                                        Navigate.to(
-                                            context,
-                                            ShowBusinessBadge(
-                                              badge: e,
-                                            ));
+                                        if (Data.app.user?.user?.id != null) {
+                                          Navigate.to(
+                                              context,
+                                              ShowBusinessBadge(
+                                                badge: e,
+                                              ));
+                                          // Navigate.to(context, const AddBusiness());
+                                        } else {
+                                          CustomDialog.dialog(
+                                              barrierDismissible: true,
+                                              context,
+                                              const GuestDialog());
+                                        }
                                       },
-                                      child: CachedImage(
-                                        radius: 20.sp,
-                                        isCircle: true,
-                                        url:
-                                            "${ApiConstant.baseurl}${e.badgeReff?.icon}",
+                                      child: SvgPicture.network(
+                                        "${ApiConstant.baseurl}${e.badgeReff!.icon}",
                                       ),
                                     );
                                   }).toList(),
@@ -478,31 +485,43 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                             ),
                           ),
                           value.createdBy?.id != Data.app.user?.user?.id
-                              ? Positioned(
-                                  bottom: 10,
-                                  left: 10,
-                                  child: CustomButton(
-                                    onTap: () async {
-                                      //              BottomNotifier.bottomNavigationNotifier.value=2;
-                                      //
-                                      // Navigate.toReplace(context, const BottomNavigationScreen(initialPage: 2,));
+                              ? ValueListenableBuilder(
+                                  valueListenable:
+                                      ChatNavigation.chatCreationLoading,
+                                  builder: (context, val, _) {
+                                    return Positioned(
+                                        bottom: 10,
+                                        left: val == 1 ? 150 : 10,
+                                        child: val == 1
+                                            ? const Center(
+                                                child:
+                                                    CircularProgressIndicator())
+                                            : CustomButton(
+                                                onTap: () async {
+                                                  //              BottomNotifier.bottomNavigationNotifier.value=2;
+                                                  //
+                                                  // Navigate.toReplace(context, const BottomNavigationScreen(initialPage: 2,));
 
-                                      print(value.createdBy?.toJson());
-                                      if (value.createdBy != null) {
-                                        ChatNavigation.getToChatDetails(context,
-                                            value.createdBy!.id!, value.id!);
-                                      }
-                                    },
-                                    leadingIcon: Assets.messageWhiteIcon,
-                                    leadingSvgIcon: true,
-                                    imageWidth: 18.sp,
-                                    textFontWeight: FontWeight.w500,
-                                    borderRadius: 30,
-                                    height: 56,
-                                    width: 1.sw / 1.25,
-                                    text: 'Chat',
-                                  ),
-                                )
+                                                  if (value.createdBy != null) {
+                                                    ChatNavigation
+                                                        .getToChatDetails(
+                                                            context,
+                                                            value
+                                                                .createdBy!.id!,
+                                                            value.id!);
+                                                  }
+                                                },
+                                                leadingIcon:
+                                                    Assets.messageWhiteIcon,
+                                                leadingSvgIcon: true,
+                                                imageWidth: 18.sp,
+                                                textFontWeight: FontWeight.w500,
+                                                borderRadius: 30,
+                                                height: 56,
+                                                width: 1.sw / 1.25,
+                                                text: 'Chat',
+                                              ));
+                                  })
                               : const SizedBox(),
                         ],
                       ),

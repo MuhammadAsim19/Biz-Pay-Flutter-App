@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:buysellbiz/Data/DataSource/Repository/BadgesRepo/badges_repo.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Buisness/BuisnessDetails/State/view_business_badge_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,15 +10,14 @@ class ViewBusinessBadges extends Cubit<ViewBusinessBadgeState> {
   getBadgeData({String? badgeId}) async {
     await Future.delayed(const Duration(microseconds: 10));
     emit(ViewBusinessBadgeLoading());
-    BadgesRepo.viewBusinessBadge(badgeId: badgeId).then((value) {
-      print(value.toString());
+    await BadgesRepo.viewBusinessBadge(badgeId: badgeId).then((value) {
       if (value['Success']) {
-        var data = value["badgeDetails"];
+        // log("hshasidaoisdaaspkdadkjaaskpdma${value.toString()}");
 
         emit(ViewBusinessBadgeLoaded(
-            isPaid: data['paid'],
-            note: data['message'],
-            attachemt: data["attachment"]));
+            isPaid: value['paid'],
+            note: value['message'],
+            attachemt: value["attachment"]));
       } else {
         emit(ViewBusinessBadgeError(error: value['error']));
       }

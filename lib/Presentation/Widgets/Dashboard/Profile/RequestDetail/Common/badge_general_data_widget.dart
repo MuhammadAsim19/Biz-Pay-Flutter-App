@@ -49,21 +49,30 @@ class RequestGeneralDataWidget extends StatelessWidget {
             const Spacer(),
             if (showChat)
               Flexible(
-                child: CustomButton(
-                    height: 38,
-                    width: 70,
-                    onTap: () {
-                      if (badgesRequest.expertReff?.id != null &&
-                          badgesRequest.expertReff?.userInfo != null) {
-                        ChatNavigation.initChatWithBroker(
-                            context,
-                            badgesRequest.expertReff!.userInfo!,
-                            badgesRequest.expertReff!.id!);
-                      }
-                    },
-                    text: 'Chat',
-                    borderRadius: 25,
-                    textSize: 13),
+                child: ValueListenableBuilder(
+                  valueListenable: ChatNavigation.brokerChatLoading,
+                  builder: (context, value, child) {
+                    return value == 1
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : CustomButton(
+                            height: 38,
+                            width: 70,
+                            onTap: () {
+                              if (badgesRequest.expertReff?.id != null &&
+                                  badgesRequest.expertReff?.userInfo != null) {
+                                ChatNavigation.initChatWithBroker(
+                                    context,
+                                    badgesRequest.expertReff!.userInfo!,
+                                    badgesRequest.expertReff!.id!);
+                              }
+                            },
+                            text: 'Chat',
+                            borderRadius: 25,
+                            textSize: 13);
+                  },
+                ),
               ),
           ],
         ),

@@ -29,13 +29,11 @@ class _AllBBadgesScreenState extends State<AllBBadgesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.businessId);
-
     return PopScope(
-      canPop: widget.businessId != null ? false : true,
+      canPop: widget.type == "seller" ? false : true,
       onPopInvoked: (didPop) {
-        widget.businessId != null
-            ? Navigate.toReplace(
+        widget.type == "seller"
+            ? Navigate.toReplaceAll(
                 context,
                 const BottomNavigationScreen(
                   initialPage: 1,
@@ -130,7 +128,7 @@ class _AllBBadgesScreenState extends State<AllBBadgesScreen> {
                                       .read<AllBadgesCubit>()
                                       .checkSelection(state.badges[index].id),
                                   onTap: () {
-                                    Navigate.toReplace(
+                                    Navigate.to(
                                         context,
                                         ShowTheExpertProfiles(
                                           badgesModel: state.badges[index],

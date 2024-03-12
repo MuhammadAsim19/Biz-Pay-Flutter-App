@@ -10,6 +10,7 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Badges/SendBadgeReques
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Badges/SendBadgeRequest/Controller/send_badge_request_state.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_details.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/chat_navigation.dart';
+import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/YourBusinessList/UpdateBusiness/Components/update_business_details.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -121,50 +122,66 @@ class _SendBadgeRequestState extends State<SendBadgeRequest> {
                   // TODO: implement listener
                 },
                 builder: (context, state) {
-                  return CustomButton(
-                      onTap: () {
-                        if (_key.currentState!.validate()) {
-                          if (upload != null) {
-                            if (upload!.path!.contains(".pdf")) {
-                              Map<String, dynamic> data =
-                                  widget.businessId != null
-                                      ? {
-                                          "expertId": widget.expertData!.id,
-                                          "badgeId": widget.badgeData!.id,
-                                          "message": controller.text.trim(),
-                                          "type": widget.type,
-                                          "bussinessId": widget.businessId,
-                                        }
-                                      : {
-                                          "expertId": widget.expertData!.id,
-                                          "badgeId": widget.badgeData!.id,
-                                          "message": controller.text.trim(),
-                                          "type": widget.type,
-                                          // "bussinessId":widget.businessId,
-                                        };
+                  return ValueListenableBuilder(
+                      valueListenable: ChatNavigation.brokerChatLoading,
+                      builder: (context, state, _) {
+                        return state == 1
+                            ? const Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : CustomButton(
+                                onTap: () {
+                                  if (_key.currentState!.validate()) {
+                                    if (upload != null) {
+                                      if (upload!.path!.contains(".pdf")) {
+                                        Map<String, dynamic> data =
+                                            widget.businessId != null
+                                                ? {
+                                                    "expertId":
+                                                        widget.expertData!.id,
+                                                    "badgeId":
+                                                        widget.badgeData!.id,
+                                                    "message":
+                                                        controller.text.trim(),
+                                                    "type": widget.type,
+                                                    "bussinessId":
+                                                        widget.businessId,
+                                                  }
+                                                : {
+                                                    "expertId":
+                                                        widget.expertData!.id,
+                                                    "badgeId":
+                                                        widget.badgeData!.id,
+                                                    "message":
+                                                        controller.text.trim(),
+                                                    "type": widget.type,
+                                                    // "bussinessId":widget.businessId,
+                                                  };
 
-                              requestMessage =
-                                  "Badge Name:${widget.badgeData?.title}\n BadgePrice:${widget.badgeData?.price}\n Document:${upload?.path}\n Message:${controller.text.trim()}";
+                                        requestMessage =
+                                            "Badge Name:${widget.badgeData?.title}\n BadgePrice:${widget.badgeData?.price}\n Document:${upload?.path}\n Message:${controller.text.trim()}";
 
-                              setState(() {});
+                                        setState(() {});
 
-                              context
-                                  .read<SendBadgeRequestCubit>()
-                                  .sendBadgesRequest(
-                                      data: data,
-                                      context: context,
-                                      pathName: upload!.path);
-                            } else {
-                              WidgetFunctions.instance.snackBar(context,
-                                  text: "File type not supported");
-                            }
-                          } else {
-                            WidgetFunctions.instance
-                                .snackBar(context, text: "Document required");
-                          }
-                        }
-                      },
-                      text: "Send Request");
+                                        context
+                                            .read<SendBadgeRequestCubit>()
+                                            .sendBadgesRequest(
+                                                data: data,
+                                                context: context,
+                                                pathName: upload!.path);
+                                      } else {
+                                        WidgetFunctions.instance.snackBar(
+                                            context,
+                                            text: "File type not supported");
+                                      }
+                                    } else {
+                                      WidgetFunctions.instance.snackBar(context,
+                                          text: "Document required");
+                                    }
+                                  }
+                                },
+                                text: "Send Request");
+                      });
                 },
               ),
               20.y,

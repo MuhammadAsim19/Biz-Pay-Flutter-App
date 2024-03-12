@@ -1,17 +1,7 @@
-import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
+import 'dart:developer';
 import 'package:buysellbiz/Data/DataSource/Resources/api_constants.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Controllers/inboxmodel.dart';
-import 'package:flutter/material.dart';
-
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-
-import 'ChatModel/chat_tile_model.dart';
-import 'chat_details.dart';
 
 class ChatTile extends StatelessWidget {
   const ChatTile({super.key, this.tileData});
@@ -21,7 +11,7 @@ class ChatTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(tileData!.profilePic);
+    print("${tileData!.badges!.toList()}");
 
     return Container(
       padding: EdgeInsets.all(13.sp),
@@ -48,6 +38,23 @@ class ChatTile extends StatelessWidget {
                 AppText(tileData?.username ?? "",
                     style: Styles.circularStdBold(context,
                         fontSize: 16.sp, fontWeight: FontWeight.w500)),
+                SingleChildScrollView(
+                  child: Row(
+                    children: [
+                      for (int i = 0; i < tileData!.badges!.length; i++)
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 3.sp),
+                          padding: EdgeInsets.all(5.sp),
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                          ),
+                          child: SvgPicture.network(
+                            "${ApiConstant.baseurl}/${tileData!.badges![i].icon}",
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
                 2.y,
                 AppText(tileData?.businessReff?.name ?? "",
                     style: Styles.circularStdRegular(context,
