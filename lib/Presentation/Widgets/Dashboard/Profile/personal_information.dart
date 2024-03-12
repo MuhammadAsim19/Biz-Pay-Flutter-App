@@ -68,6 +68,8 @@ class _PersonalInformationState extends State<PersonalInformation> {
 
   @override
   Widget build(BuildContext context) {
+    print("${ApiConstant.baseurl}${userData!.user!.profilePic}");
+
     return Scaffold(
       appBar: const CustomAppBar(
         title: AppStrings.personalLinfo,
@@ -102,13 +104,9 @@ class _PersonalInformationState extends State<PersonalInformation> {
                                   radius: 60,
                                   isCircle: true,
                                   url:
-                                      "${ApiConstant.baseurl}/${userData!.user!.profilePic}"),
+                                      "${ApiConstant.baseurl}${userData!.user!.profilePic}"),
                             )
-                          : const AssetImageWidget(
-                              url: Assets.dummyImage2,
-                              radius: 60,
-                              isCircle: true,
-                            ),
+                          : const SizedBox(),
                   Positioned(
                       top: 83.sp,
                       left: 82.sp,

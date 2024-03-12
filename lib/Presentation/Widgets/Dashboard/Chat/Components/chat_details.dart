@@ -134,8 +134,8 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
     InboxRepo.socket?.emit('getBusinessChatDetails', dataGet);
 
     InboxRepo.socket?.on('error', (data) {
-      // print("There is error ");
-      WidgetFunctions.instance.snackBar(context, text: data.toString());
+      print("There is error $data");
+      // WidgetFunctions.instance.snackBar(context, text: data.toString());
       //print(data);
     });
 

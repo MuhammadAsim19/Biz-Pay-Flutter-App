@@ -10,9 +10,14 @@ import 'package:buysellbiz/Presentation/Widgets/Dashboard/Profile/Components/log
 import 'package:socket_io_client/socket_io_client.dart';
 
 class ChatNavigation {
+  static ValueNotifier<int> chatCreationLoading = ValueNotifier(0);
+  static ValueNotifier<int> brokerChatLoading = ValueNotifier(0);
+
   /// chat creating with business
-  static getToChatDetails(
+  static Future getToChatDetails(
       BuildContext context, String createdFor, String businessId) async {
+    chatCreationLoading.value = 1;
+    chatCreationLoading.notifyListeners();
     print("socket value ");
     print(InboxRepo.socket != null);
     // if(InboxRepo.socket.connected==false) {
@@ -33,11 +38,10 @@ class ChatNavigation {
         "createdFor": createdFor, //"6579f21c00996aa38f7c7a2b"
         "businessReff": businessId //"6579ed17d76f7a30f94f5c9c"
       };
-      print("alldata");
-      print(data);
-      await InboxRepo().createBusiness(body: data).then((value) {
-        print("valueeeeeeeeeeeeee");
-        print(value);
+
+      return await InboxRepo().createBusiness(body: data).then((value) {
+        chatCreationLoading.value = 2;
+        chatCreationLoading.notifyListeners();
         if (value['Success']) {
           ChatTileApiModel chatTileApiModel =
               ChatTileApiModel.fromJson(value['body']);
@@ -52,10 +56,12 @@ class ChatNavigation {
 
         // Navigate.to(context, ChatDetailsScreen(chatDto: chatTileApiModel,));
       });
-      print("user id${Data().user!.user!.id}");
     } else {
       CustomDialog.dialog(
           barrierDismissible: true, context, const GuestDialog());
+      return {
+        "Success": false,
+      };
     }
 
 // InboxRepo.socket.onConnect((s){
@@ -88,6 +94,9 @@ class ChatNavigation {
     String createdFor,
     String brokerId,
   ) async {
+    brokerChatLoading.value = 1;
+    brokerChatLoading.notifyListeners();
+
     print(InboxRepo.socket != null);
     // if(InboxRepo.socket.connected==false) {
     //
@@ -107,6 +116,8 @@ class ChatNavigation {
       print(data);
 
       await InboxRepo().createBrokerChat(body: data).then((value) {
+        brokerChatLoading.value = 2;
+        brokerChatLoading.notifyListeners();
         print("valueeeeeeeeeeeeee");
         print(value);
         if (value['Success']) {
@@ -115,7 +126,7 @@ class ChatNavigation {
 
           print("here is chat details ${chatTileApiModel.toJson()}");
 
-          Navigate.to(
+          Navigate.toReplace(
               context,
               BrokerChatDetailsScreen(
                 chatDto: chatTileApiModel,

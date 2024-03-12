@@ -238,36 +238,43 @@ class _BrokerProfileState extends State<BrokerProfile> {
                           ),
                         ),
                         model?.userInfo?.id != Data.app.user?.user?.id
-                            ? Positioned(
-                                bottom: 16.sp,
-                                left: 10.sp,
-                                right: 10.sp,
-                                child: CustomButton(
-                                    width: 300.w,
-                                    height: 40.h,
-                                    onTap: () {
-                                      print(model?.toJson());
-                                      print(
-                                          '${model?.userInfo?.id}${model?.id}');
-                                      ChatNavigation.initChatWithBroker(
-                                          context,
-                                          model?.userInfo?.id ?? "",
-                                          model?.id ?? "");
-                                      // Navigate.to(
-                                      //     context,
-                                      //     ChatDetailsScreen(
-                                      //       model: ChatTileModel(
-                                      //           message: 'Thank You',
-                                      //           messageLength: '1',
-                                      //           name: 'Gabriel Tasse',
-                                      //           pr0fileImage: 'assets/images/chat1.png',
-                                      //           time: '03:30 PM',
-                                      //           title: ';dlas;jdaskdj'),
-                                      //     ));
-                                    },
-                                    text: 'Chat with ${model?.firstName}',
-                                    borderRadius: 40.sp),
-                              )
+                            ? ValueListenableBuilder(
+                                valueListenable:
+                                    ChatNavigation.brokerChatLoading,
+                                builder: (context, val, child) {
+                                  return Positioned(
+                                    bottom: 16.sp,
+                                    left: 10.sp,
+                                    right: 10.sp,
+                                    child: val == 1
+                                        ? const Center(
+                                            child: CircularProgressIndicator(),
+                                          )
+                                        : CustomButton(
+                                            width: 300.w,
+                                            height: 40.h,
+                                            onTap: () {
+                                              ChatNavigation.initChatWithBroker(
+                                                  context,
+                                                  model?.userInfo?.id ?? "",
+                                                  model?.id ?? "");
+                                              // Navigate.to(
+                                              //     context,
+                                              //     ChatDetailsScreen(
+                                              //       model: ChatTileModel(
+                                              //           message: 'Thank You',
+                                              //           messageLength: '1',
+                                              //           name: 'Gabriel Tasse',
+                                              //           pr0fileImage: 'assets/images/chat1.png',
+                                              //           time: '03:30 PM',
+                                              //           title: ';dlas;jdaskdj'),
+                                              //     ));
+                                            },
+                                            text:
+                                                'Chat with ${model?.firstName}',
+                                            borderRadius: 40.sp),
+                                  );
+                                })
                             : const SizedBox(),
                       ],
                     ),

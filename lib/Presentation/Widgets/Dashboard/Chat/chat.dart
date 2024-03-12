@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:buysellbiz/Application/Services/Navigation/navigation.dart';
 import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
 import 'package:buysellbiz/Presentation/Widgets/Dashboard/Chat/Components/broker_chat_details.dart';
@@ -33,10 +35,10 @@ class _ChatScreenState extends State<ChatScreen> {
     // };
     print('here is check');
     print(InboxRepo.isConnected.value);
-    InboxRepo.socket?.emit("getAllBusinessConversations", {'userId':Data().user!.user!.id!});
+    InboxRepo.socket?.emit(
+        "getAllBusinessConversations", {'userId': Data().user!.user!.id!});
     InboxRepo.socket?.on("allBusinessConversations", (data) {
-      print('here is check');
-
+      log('here is Chat $data');
       InboxControllers.businessChatLoading.value = 1;
       InboxControllers.businessChatLoading.notifyListeners();
 
@@ -46,12 +48,18 @@ class _ChatScreenState extends State<ChatScreen> {
       List<ChatTileApiModel> chatsData = List<ChatTileApiModel>.from(
           data.map((x) => ChatTileApiModel.fromJson(x)));
       InboxControllers.businessChatTile.value = chatsData;
+
+      log("Da Chat Data ${chatsData[0].toJson()}");
+
       InboxControllers.businessSearchChatTile.value = chatsData;
       InboxControllers.businessChatTile.notifyListeners();
       InboxControllers.businessSearchChatTile.notifyListeners();
     });
-    InboxRepo.socket?.emit("getAllBrokerConversations", {'userId':Data().user!.user!.id!});
+    InboxRepo.socket
+        ?.emit("getAllBrokerConversations", {'userId': Data().user!.user!.id!});
     InboxRepo.socket?.on("allBrokerConversations", (data) {
+      log('here is broker data ${data}');
+
       print('Event trigger ');
 
       // print("chatTileData");
@@ -77,7 +85,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void dispose() {
     // print("called");
-  //  InboxRepo.socket?.disconnect();
+    //  InboxRepo.socket?.disconnect();
 
     ///does not work on ios
     //InboxRepo.socket?.dispose();
