@@ -49,8 +49,6 @@ class _ChatScreenState extends State<ChatScreen> {
           data.map((x) => ChatTileApiModel.fromJson(x)));
       InboxControllers.businessChatTile.value = chatsData;
 
-      log("Da Chat Data ${chatsData[0].toJson()}");
-
       InboxControllers.businessSearchChatTile.value = chatsData;
       InboxControllers.businessChatTile.notifyListeners();
       InboxControllers.businessSearchChatTile.notifyListeners();

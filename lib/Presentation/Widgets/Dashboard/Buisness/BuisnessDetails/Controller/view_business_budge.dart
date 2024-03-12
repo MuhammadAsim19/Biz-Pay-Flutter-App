@@ -12,12 +12,14 @@ class ViewBusinessBadges extends Cubit<ViewBusinessBadgeState> {
     emit(ViewBusinessBadgeLoading());
     await BadgesRepo.viewBusinessBadge(badgeId: badgeId).then((value) {
       if (value['Success']) {
-        // log("hshasidaoisdaaspkdadkjaaskpdma${value.toString()}");
+        log("here ${value.toString()}");
 
         emit(ViewBusinessBadgeLoaded(
             isPaid: value['paid'],
-            note: value['message'],
-            attachemt: value["attachment"]));
+            note: value['paid'] == true ? value['badgeDetails']['message'] : "",
+            attachemt: value['paid'] == true
+                ? value['badgeDetails']["attachment"]
+                : ""));
       } else {
         emit(ViewBusinessBadgeError(error: value['error']));
       }

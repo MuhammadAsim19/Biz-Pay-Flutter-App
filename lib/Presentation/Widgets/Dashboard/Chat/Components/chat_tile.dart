@@ -49,9 +49,9 @@ class ChatTile extends StatelessWidget {
                             shape: BoxShape.circle,
                           ),
                           child: CachedImage(
-                            radius: 20.sp,
+                            radius: 15.sp,
                             url:
-                                "${ApiConstant.baseurl}/${tileData!.badges![i].icon}",
+                                "${ApiConstant.baseurl}${tileData!.badges![i].icon}",
                           ),
                         ),
                     ],
