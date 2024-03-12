@@ -128,13 +128,15 @@ class _AllBBadgesScreenState extends State<AllBBadgesScreen> {
                                       .read<AllBadgesCubit>()
                                       .checkSelection(state.badges[index].id),
                                   onTap: () {
-                                    Navigate.to(
-                                        context,
-                                        ShowTheExpertProfiles(
-                                          badgesModel: state.badges[index],
-                                          businessId: widget.businessId,
-                                          type: widget.type,
-                                        ));
+                                    state.badges[index].alreadyRequested != true
+                                        ? Navigate.to(
+                                            context,
+                                            ShowTheExpertProfiles(
+                                              badgesModel: state.badges[index],
+                                              businessId: widget.businessId,
+                                              type: widget.type,
+                                            ))
+                                        : null;
 
                                     // context
                                     //     .read<AllBadgesCubit>()
